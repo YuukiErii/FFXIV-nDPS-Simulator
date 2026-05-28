@@ -1,6 +1,6 @@
 # Simulator Calibration Matrix
 
-Last updated: 2026-05-27
+Last updated: 2026-05-28
 
 This matrix tracks the current evidence level for each DPS job. It is intentionally conservative: a CSV that imports and simulates successfully is not treated as numerical validation until it has an external skill-level comparison.
 
@@ -22,6 +22,7 @@ Current summary:
 - SAM / NIN / RPR / PCT / BLM have historical long-axis samples, but they still need a normalized external damage comparison before they can be marked `log_validated`.
 - MNK / DRG / VPR / BRD / MCH / DNC / SMN / RDM now have manual xivintheshell long-axis candidates, matching xivintheshell damage exports, and per-skill comparison tables under `results/calibration`. These are stronger regression assets than short smoke openers, but still not FFLogs / AMAS numerical validation artifacts.
 - Task J warning-only resource ledgers now exist for all 13 DPS job state classes. The compared long-axis jobs also emit `results/calibration/*_resource_warnings.csv` with `row_no`, time, skill, code, severity, and message.
+- Repository organization, release packaging, and GitHub sync are complete as of commit `ccaabaf` on `main`; this does not change the evidence levels below, which remain intentionally conservative.
 
 ## Job Matrix
 

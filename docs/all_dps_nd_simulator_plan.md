@@ -979,6 +979,14 @@ MNK/DRG/VPR/BRD/MCH/DNC/SMN/RDM 的真实副本长轴与日志/AMAS 对照
   - PyInstaller 包内验证通过：`game.txt`、`stat_fns.txt`、`damage_cal.txt`、技能映射、图标、`examples/skill_lines` 样本和 `ama_xiv_combat_sim` 均可在 `_MEIPASS` 环境加载。
   - 新增 `releases/windows/ffxiv_personal_ndps_readme.md`，记录输入 CSV、可选 JSON/TXT 目标列表、个人 nDPS/RD 定义、已知边界和重建命令。
   - 验证：源码 `--self-test` 通过；EXE `--self-test` 通过；启动 EXE 后进程保持运行并可打开 GUI；`python -m unittest discover -s tests` 通过（21 tests）；`scripts/smoke_damage_formula.py` 通过；`scripts/scan_skill_coverage.py examples/skill_lines --issues-only --show-skills` 无问题输出。
+- 2026-05-28 repository organization and GitHub sync completed:
+  - Workspace was reorganized into release/reproducibility layers: `src/`, `scripts/`, `data/`, `examples/skill_lines/`, `docs/`, `results/`, `releases/windows/`, and `artifacts/specs/`.
+  - Legacy names and paths were normalized to English snake_case where practical; the detailed old-to-new mapping is recorded in `docs/filename_migration_2026_05_28.md`.
+  - Remaining runtime/build references to old `Simulator`, `Skill_line`, `release`, and dotted skill-map paths were updated to the current structure.
+  - Both distributable executables were rebuilt and verified at `releases/windows/ffxiv_personal_ndps.exe` and `releases/windows/xiv_shell_tts.exe`.
+  - `.gitignore` now keeps local-only surfaces out of Git: `.venv`, `.idea`, PyInstaller build/cache output, reference checkouts, duplicate binaries, and legacy SAM binaries.
+  - Initial Git commit `ccaabaf` was pushed to `https://github.com/YuukiErii/FFXIV-nDPS-Simulator` on branch `main`.
+  - Final verification before push: `compileall`, `python -m unittest discover -s tests`, formula smoke, source `--self-test`, coverage scan, packaged simulator `--self-test`, and packaged TTS sample conversion all passed.
 
 ### Task M：高级 nDPS 与队友收益（二阶段）
 
