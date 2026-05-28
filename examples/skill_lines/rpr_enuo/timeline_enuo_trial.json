@@ -1,0 +1,1831 @@
+{
+  "fileType": "MarkerTracksCombined",
+  "tracks": [
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": -1,
+      "markers": [
+        {
+          "time": 154.74,
+          "markerType": "Info",
+          "duration": 20.232,
+          "description": "不可选中",
+          "color": "#b7b7b7",
+          "showText": true
+        },
+        {
+          "time": 233.109,
+          "markerType": "Info",
+          "duration": 20.542,
+          "description": "不可选中",
+          "color": "#b7b7b7",
+          "showText": true
+        },
+        {
+          "time": 513.125,
+          "markerType": "Info",
+          "duration": 0.053,
+          "description": "不可选中",
+          "color": "#b7b7b7",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 0,
+      "markers": [
+        {
+          "time": 9.131,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "流星雨",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 21.47,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 29.492,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 35.631,
+          "markerType": "Info",
+          "duration": 1.7,
+          "description": "无之活性",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 39.726,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 44.724,
+          "markerType": "Info",
+          "duration": 4.2,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 50.24,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 52.304,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "扩散波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 57.278,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扩散波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 59.73,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 67.746,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 77.151,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 84.539,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 85.74,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 86.943,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 93.482,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 94.602,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 99.818,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 101.154,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 107.301,
+          "markerType": "Info",
+          "duration": 1.7,
+          "description": "无之漩涡",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 111.486,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "奔流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 117.653,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "集束波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 122.682,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "集束波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 127.8,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "深度冻结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 135.949,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "流星雨",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 149.577,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "无之领域",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 168.87,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "虚无大冲击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 177.024,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "虚无冲击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 186.244,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "疫病诅咒",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 193.329,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "高压波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 202.464,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "虚无冲击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 211.688,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "恶魔之瞳",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 238.456,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 244.507,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 253.73,
+          "markerType": "Info",
+          "duration": 9.7,
+          "description": "无光的世界",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 264.733,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无光的世界",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 265.76,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无光的世界",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 267.233,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无光的世界",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 273.916,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "至高无上",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 284.737,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 292.755,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 298.898,
+          "markerType": "Info",
+          "duration": 1.7,
+          "description": "无之活性",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 301.926,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 314.308,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 325.271,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暗影神圣",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 333.775,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 341.791,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 347.945,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "零次元",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 354.809,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "零次元",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 356.191,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "零次元",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 363.901,
+          "markerType": "Info",
+          "duration": 1.7,
+          "description": "无之漩涡",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 367.999,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 372.989,
+          "markerType": "Info",
+          "duration": 4.2,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 378.515,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 385.24,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 392.636,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 393.84,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 395.042,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 401.503,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 402.526,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 407.604,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 419.415,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "至高无上",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 432.818,
+          "markerType": "Info",
+          "duration": 1.7,
+          "description": "无之活性",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 436.963,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "无之追踪",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 444.005,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 445.472,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 446.855,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 448.234,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 449.618,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 450.991,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 452.374,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 453.754,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 455.133,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 456.512,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 457.89,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 459.271,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 460.652,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 465.242,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 466.26,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "集束波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 471.248,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "集束波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 476.502,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "无之追踪",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 483.546,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 485.01,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 486.393,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 487.774,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 489.154,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 490.535,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 491.916,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 493.296,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 494.683,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 496.062,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 497.442,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 498.825,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 500.207,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 504.797,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 505.816,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "集束波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 510.808,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "集束波动",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 1,
+      "markers": [
+        {
+          "time": 14.113,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "流星雨",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 21.514,
+          "markerType": "Info",
+          "duration": 7.7,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 30.383,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "回归重波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 37.608,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之活性",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 43.697,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 44.767,
+          "markerType": "Info",
+          "duration": 5.2,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 56.26,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扩散波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 59.77,
+          "markerType": "Info",
+          "duration": 7.7,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 77.551,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 85.34,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 86.541,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 87.744,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 93.664,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 100.006,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 109.262,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之漩涡",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 115.459,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "奔流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 121.613,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "集束波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 132.787,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "深度冻结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 140.938,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "流星雨",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 154.562,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之领域",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 173.87,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "虚无大冲击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 177.112,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "无之涡流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 184.018,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "虚无冲击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 186.244,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "吸血触",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 202.641,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "无之涡流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 209.468,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "虚无冲击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 216.683,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "恶魔之瞳",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 241.437,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 244.518,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 263.717,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无光的世界",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 265.269,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无光的世界",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 266.743,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无光的世界",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 278.911,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "至高无上",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 284.782,
+          "markerType": "Info",
+          "duration": 7.7,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 293.515,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "回归重波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 300.863,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之活性",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 302.992,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 320.283,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "暗影神圣",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 326.264,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暗影神圣",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 333.818,
+          "markerType": "Info",
+          "duration": 7.7,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 342.639,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "回归波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 352.936,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "零次元",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 365.861,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之漩涡",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 368.045,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "奔流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 373.033,
+          "markerType": "Info",
+          "duration": 5.2,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 385.641,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 393.438,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 394.642,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 395.845,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 402.081,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "强爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 408.361,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "强爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 424.4,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "至高无上",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 434.783,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之活性",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 438.034,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 444.803,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 446.187,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 447.567,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 448.946,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 450.324,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 451.706,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 453.086,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 454.466,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 455.846,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 457.224,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 458.248,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 470.232,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "集束波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 477.569,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 484.342,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 485.725,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 487.108,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 488.486,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 489.868,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 491.249,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 492.627,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 494.011,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 495.393,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 496.774,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 497.8,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 509.783,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "集束波动",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 2,
+      "markers": [
+        {
+          "time": 28.469,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 49.225,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 66.738,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 68.413,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "回归波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 77.953,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 86.141,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 87.344,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 94.065,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "强爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 100.441,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "强爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 183.09,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之涡流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 184.374,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之涡流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 208.613,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之涡流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 209.908,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之涡流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 241.527,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 266.251,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无光的世界",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 291.738,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 308.921,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 320.293,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "聚能波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 340.766,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之膨胀",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 353.426,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "零次元",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 371.975,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 377.49,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "核心熔毁",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 386.041,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 394.239,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 395.443,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 402.703,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 408.583,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 438.077,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 458.603,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 459.983,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 477.614,
+          "markerType": "Info",
+          "duration": 5.7,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 498.159,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 499.539,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 3,
+      "markers": [
+        {
+          "time": 78.354,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 372.019,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "奔流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 386.441,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 442.942,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之追踪",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 444.046,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 482.473,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之追踪",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 483.584,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "追尾波动",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 4,
+      "markers": [
+        {
+          "time": 78.754,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 386.843,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 5,
+      "markers": [
+        {
+          "time": 79.155,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 387.244,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "混沌激流",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    }
+  ]
+}

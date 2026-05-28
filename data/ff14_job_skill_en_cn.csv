@@ -1,0 +1,1154 @@
+﻿cn_name,en_name,action_category_cn,action_category_en,job_abbrs,job_names_cn,job_names_en,levels,action_ids,source_sheets,is_role_action,is_pvp
+宝石兽召唤,Summon Carbuncle,魔法,Spell,ACN,秘术师,Arcanist,2,25798,Action,False,False
+以太蓄能,Aethercharge,魔法,Spell,ACN,秘术师,Arcanist,6,25800,Action,False,False
+宝石耀,Gemshine,魔法,Spell,ACN,秘术师,Arcanist,6,25883,Action,False,False
+红宝石召唤,Summon Ruby,魔法,Spell,ACN,秘术师,Arcanist,6,25802,Action,False,False
+溃烂爆发,Fester,能力,Ability,ACN,秘术师,Arcanist,10,181,Action,False,False
+复生,Resurrection,魔法,Spell,ACN,秘术师,Arcanist,12,173,Action,False,False
+黄宝石召唤,Summon Topaz,魔法,Spell,ACN,秘术师,Arcanist,15,25803,Action,False,False
+绿宝石召唤,Summon Emerald,魔法,Spell,ACN,秘术师,Arcanist,22,25804,Action,False,False
+迸裂,Outburst,魔法,Spell,ACN,秘术师,Arcanist,26,16511,Action,False,False
+宝石辉,Precious Brilliance,魔法,Spell,ACN,秘术师,Arcanist,26,25884,Action,False,False
+闪躲,Dodge,能力,Ability,ACN;ALC;ARC;ARM;AST;BLM;BLU;BRD;BSM;BTN;CNJ;CRP;CUL;DNC;DRG;DRK;FSH;GLA;GNB;GSM;LNC;LTW;MCH;MIN;MNK;MRD;NIN;PCT;PGL;PLD;RDM;ROG;RPR;SAM;SCH;SGE;SMN;THM;VPR;WAR;WHM;WVR,制革匠;刻木匠;剑术师;占星术士;双剑师;召唤师;吟游诗人;咒术师;园艺工;学者;幻术师;弓箭手;忍者;战士;捕鱼人;斧术师;暗黑骑士;机工士;枪术师;格斗家;武僧;武士;炼金术士;烹调师;白魔法师;秘术师;绘灵法师;绝枪战士;舞者;蝰蛇剑士;裁衣匠;贤者;赤魔法师;采矿工;钐镰客;铸甲匠;锻铁匠;雕金匠;青魔法师;骑士;黑魔法师;龙骑士,Alchemist;Arcanist;Archer;Armorer;Astrologian;Bard;Black Mage;Blacksmith;Blue Mage;Botanist;Carpenter;Conjurer;Culinarian;Dancer;Dark Knight;Dragoon;Fisher;Gladiator;Goldsmith;Gunbreaker;Lancer;Leatherworker;Machinist;Marauder;Miner;Monk;Ninja;Paladin;Pictomancer;Pugilist;Reaper;Red Mage;Rogue;Sage;Samurai;Scholar;Summoner;Thaumaturge;Viper;Warrior;Weaver;White Mage,1,33987;33988;33989;33990;33997,Action,False,False
+精准强击,Precision Strike,能力,Ability,ACN;ALC;ARC;ARM;AST;BLM;BLU;BRD;BSM;BTN;CNJ;CRP;CUL;DNC;DRG;DRK;FSH;GLA;GNB;GSM;LNC;LTW;MCH;MIN;MNK;MRD;NIN;PCT;PGL;PLD;RDM;ROG;RPR;SAM;SCH;SGE;SMN;THM;VPR;WAR;WHM;WVR,制革匠;刻木匠;剑术师;占星术士;双剑师;召唤师;吟游诗人;咒术师;园艺工;学者;幻术师;弓箭手;忍者;战士;捕鱼人;斧术师;暗黑骑士;机工士;枪术师;格斗家;武僧;武士;炼金术士;烹调师;白魔法师;秘术师;绘灵法师;绝枪战士;舞者;蝰蛇剑士;裁衣匠;贤者;赤魔法师;采矿工;钐镰客;铸甲匠;锻铁匠;雕金匠;青魔法师;骑士;黑魔法师;龙骑士,Alchemist;Arcanist;Archer;Armorer;Astrologian;Bard;Black Mage;Blacksmith;Blue Mage;Botanist;Carpenter;Conjurer;Culinarian;Dancer;Dark Knight;Dragoon;Fisher;Gladiator;Goldsmith;Gunbreaker;Lancer;Leatherworker;Machinist;Marauder;Miner;Monk;Ninja;Paladin;Pictomancer;Pugilist;Reaper;Red Mage;Rogue;Sage;Samurai;Scholar;Summoner;Thaumaturge;Viper;Warrior;Weaver;White Mage,1,34515,Action,False,False
+升腾火焰,Rising Flames,能力,Ability,ACN;ALC;ARC;ARM;AST;BLM;BLU;BRD;BSM;BTN;CNJ;CRP;CUL;DNC;DRG;DRK;FSH;GLA;GNB;GSM;LNC;LTW;MCH;MIN;MNK;MRD;NIN;PCT;PGL;PLD;RDM;ROG;RPR;SAM;SCH;SGE;SMN;THM;VPR;WAR;WHM;WVR,制革匠;刻木匠;剑术师;占星术士;双剑师;召唤师;吟游诗人;咒术师;园艺工;学者;幻术师;弓箭手;忍者;战士;捕鱼人;斧术师;暗黑骑士;机工士;枪术师;格斗家;武僧;武士;炼金术士;烹调师;白魔法师;秘术师;绘灵法师;绝枪战士;舞者;蝰蛇剑士;裁衣匠;贤者;赤魔法师;采矿工;钐镰客;铸甲匠;锻铁匠;雕金匠;青魔法师;骑士;黑魔法师;龙骑士,Alchemist;Arcanist;Archer;Armorer;Astrologian;Bard;Black Mage;Blacksmith;Blue Mage;Botanist;Carpenter;Conjurer;Culinarian;Dancer;Dark Knight;Dragoon;Fisher;Gladiator;Goldsmith;Gunbreaker;Lancer;Leatherworker;Machinist;Marauder;Miner;Monk;Ninja;Paladin;Pictomancer;Pugilist;Reaper;Red Mage;Rogue;Sage;Samurai;Scholar;Summoner;Thaumaturge;Viper;Warrior;Weaver;White Mage,1,34790,Action,False,False
+醒梦,Lucid Dreaming,能力,Ability,ACN;AST;BLM;BLU;CNJ;PCT;RDM;SCH;SGE;SMN;THM;WHM,占星术士;召唤师;咒术师;学者;幻术师;白魔法师;秘术师;绘灵法师;贤者;赤魔法师;青魔法师;黑魔法师,Arcanist;Astrologian;Black Mage;Blue Mage;Conjurer;Pictomancer;Red Mage;Sage;Scholar;Summoner;Thaumaturge;White Mage,14,7562,Action,True,False
+即刻咏唱,Swiftcast,能力,Ability,ACN;AST;BLM;BLU;CNJ;PCT;RDM;SCH;SGE;SMN;THM;WHM,占星术士;召唤师;咒术师;学者;幻术师;白魔法师;秘术师;绘灵法师;贤者;赤魔法师;青魔法师;黑魔法师,Arcanist;Astrologian;Black Mage;Blue Mage;Conjurer;Pictomancer;Red Mage;Sage;Scholar;Summoner;Thaumaturge;White Mage,18,7561,Action,True,False
+沉稳咏唱,Surecast,能力,Ability,ACN;AST;BLM;BLU;CNJ;PCT;RDM;SCH;SGE;SMN;THM;WHM,占星术士;召唤师;咒术师;学者;幻术师;白魔法师;秘术师;绘灵法师;贤者;赤魔法师;青魔法师;黑魔法师,Arcanist;Astrologian;Black Mage;Blue Mage;Conjurer;Pictomancer;Red Mage;Sage;Scholar;Summoner;Thaumaturge;White Mage,44,7559,Action,True,False
+昏乱,Addle,能力,Ability,ACN;BLM;BLU;PCT;RDM;SMN;THM,召唤师;咒术师;秘术师;绘灵法师;赤魔法师;青魔法师;黑魔法师,Arcanist;Black Mage;Blue Mage;Pictomancer;Red Mage;Summoner;Thaumaturge,8,7560,Action,True,False
+催眠,Sleep,魔法,Spell,ACN;BLM;BLU;PCT;RDM;SMN;THM,召唤师;咒术师;秘术师;绘灵法师;赤魔法师;青魔法师;黑魔法师,Arcanist;Black Mage;Blue Mage;Pictomancer;Red Mage;Summoner;Thaumaturge,10,25880,Action,True,False
+毁灭,Ruin,魔法,Spell,ACN;SCH,学者;秘术师,Arcanist;Scholar,1,163;17869,Action,False,False
+医术,Physick,魔法,Spell,ACN;SCH,学者;秘术师,Arcanist;Scholar,4,16230;190,Action,False,False
+能量吸收,Energy Drain,能力,Ability,ACN;SCH,学者;秘术师,Arcanist;Scholar,10;45,16508;167,Action,False,False
+毁坏,Ruin II,魔法,Spell,ACN;SCH,学者;秘术师,Arcanist;Scholar,30;38,172;17870,Action,False,False
+守护之光,Radiant Aegis,能力,Ability,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,2,25799;25841,Action,False,False
+红宝石之辉,Glittering Ruby,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,6,25843,Action,False,False
+红宝石毁灭,Ruby Ruin,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,6,25808,Action,False,False
+黄宝石之辉,Glittering Topaz,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,15,25844,Action,False,False
+黄宝石毁灭,Topaz Ruin,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,15,25809,Action,False,False
+绿宝石毁灭,Emerald Ruin,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,22,25810,Action,False,False
+绿宝石之辉,Glittering Emerald,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,22,25845,Action,False,False
+绿宝石迸裂,Emerald Outburst,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,26,25816,Action,False,False
+红宝石迸裂,Ruby Outburst,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,26,25814,Action,False,False
+黄宝石迸裂,Topaz Outburst,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,26,25815,Action,False,False
+绿宝石毁坏,Emerald Ruin II,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,30,25813,Action,False,False
+红宝石毁坏,Ruby Ruin II,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,30,25811,Action,False,False
+黄宝石毁坏,Topaz Ruin II,魔法,Spell,ACN;SMN,召唤师;秘术师,Arcanist;Summoner,30,25812,Action,False,False
+奇迹之材,Material Miracle,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,0,41269,Action,False,False
+宇宙稳手,Stellar Steady Hand,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,0,46843,Action,False,False
+制作,Basic Synthesis,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,1,100001;100015;100030;100075;100045;100060;100090;100105,CraftAction,False,False
+收尾,Finishing Touches,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,1,100177,CraftAction,False,False
+加工,Basic Touch,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,5,100002;100016;100031;100076;100046;100061;100091;100106,CraftAction,False,False
+精修,Master's Mend,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,7,100003;100017;100032;100077;100047;100062;100092;100107,CraftAction,False,False
+仓促,Hasty Touch,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,9,100355;100356;100357;100358;100359;100360;100361;100362,CraftAction,False,False
+高速制作,Rapid Synthesis,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,9,100363;100364;100365;100366;100367;100368;100369;100370,CraftAction,False,False
+观察,Observe,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,13,100010;100023;100040;100082;100053;100070;100099;100113,CraftAction,False,False
+秘诀,Tricks of the Trade,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,13,100371;100372;100373;100374;100375;100376;100377;100378,CraftAction,False,False
+崇敬,Veneration,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,15,19297;19298;19299;19300;19301;19302;19303;19304,Action,False,False
+俭约,Waste Not,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,15,4631;4632;4633;4634;4635;4636;4637;4638,Action,False,False
+中级加工,Standard Touch,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,18,100004;100018;100034;100078;100048;100064;100093;100109,CraftAction,False,False
+阔步,Great Strides,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,21,260;261;262;263;265;264;266;267,Action,False,False
+改革,Innovation,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,26,19004;19005;19006;19007;19008;19009;19010;19011,Action,False,False
+最终确认,Final Appraisal,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,42,19012;19013;19014;19015;19016;19017;19018;19019,Action,False,False
+长期俭约,Waste Not II,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,47,4639;4640;4641;4642;4643;4644;19002;19003,Action,False,False
+比尔格的祝福,Byregot's Blessing,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,50,100339;100340;100341;100342;100343;100344;100345;100346,CraftAction,False,False
+集中加工,Precise Touch,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,53,100128;100129;100130;100131;100132;100133;100134;100135,CraftAction,False,False
+坚信,Muscle Memory,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,54,100379;100380;100381;100382;100383;100384;100385;100386,CraftAction,False,False
+设计变动,Careful Observation,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,55,100395;100396;100397;100398;100399;100400;100401;100402,CraftAction,False,False
+模范制作,Careful Synthesis,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,62,100203;100204;100205;100206;100207;100208;100209;100210,CraftAction,False,False
+掌握,Manipulation,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,65,4574;4575;4576;4577;4578;4579;4580;4581,Action,False,False
+俭约加工,Prudent Touch,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,66,100227;100228;100229;100230;100231;100232;100233;100234,CraftAction,False,False
+上级加工,Advanced Touch,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,68,100411;100412;100413;100414;100415;100416;100417;100418,CraftAction,False,False
+闲静,Reflect,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,69,100387;100388;100389;100390;100391;100392;100393;100394,CraftAction,False,False
+坯料加工,Preparatory Touch,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,71,100299;100300;100301;100302;100303;100304;100305;100306,CraftAction,False,False
+坯料制作,Groundwork,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,72,100403;100404;100405;100406;100407;100408;100409;100410,CraftAction,False,False
+精密制作,Delicate Synthesis,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,76,100323;100324;100325;100326;100327;100328;100329;100330,CraftAction,False,False
+集中制作,Intensive Synthesis,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,78,100315;100316;100317;100318;100319;100320;100321;100322,CraftAction,False,False
+工匠的神速技巧,Trained Eye,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,80,100283;100284;100285;100286;100287;100288;100289;100290,CraftAction,False,False
+专心致志,Heart and Soul,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,86,100419;100420;100421;100422;100423;100424;100425;100426,CraftAction,False,False
+俭约制作,Prudent Synthesis,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,88,100427;100428;100429;100430;100431;100432;100433;100434,CraftAction,False,False
+工匠的神技,Trained Finesse,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,90,100435;100436;100437;100438;100439;100440;100441;100442,CraftAction,False,False
+精炼加工,Refined Touch,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,92,100443;100444;100445;100446;100447;100448;100449;100450,CraftAction,False,False
+冒进,Daring Touch,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,96,100451;100452;100453;100454;100455;100456;100457;100458,CraftAction,False,False
+快速改革,Quick Innovation,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,96,100459;100460;100461;100462;100463;100464;100465;100466,CraftAction,False,False
+巧夺天工,Immaculate Mend,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,98,100467;100468;100469;100470;100471;100472;100473;100474,CraftAction,False,False
+工匠的绝技,Trained Perfection,制作能力,DoH Ability,ALC;ARM;BSM;CRP;CUL;GSM;LTW;WVR,制革匠;刻木匠;炼金术士;烹调师;裁衣匠;铸甲匠;锻铁匠;雕金匠,Alchemist;Armorer;Blacksmith;Carpenter;Culinarian;Goldsmith;Leatherworker;Weaver,100,100475;100476;100477;100478;100479;100480;100481;100482,CraftAction,False,False
+强力射击,Heavy Shot,战技,Weaponskill,ARC,弓箭手,Archer,1,97,Action,False,False
+直线射击,Straight Shot,战技,Weaponskill,ARC,弓箭手,Archer,2,98,Action,False,False
+猛者强击,Raging Strikes,能力,Ability,ARC,弓箭手,Archer,4,101,Action,False,False
+毒咬箭,Venomous Bite,战技,Weaponskill,ARC,弓箭手,Archer,6,100,Action,False,False
+失血箭,Bloodletter,能力,Ability,ARC,弓箭手,Archer,12,110,Action,False,False
+后跃射击,Repelling Shot,能力,Ability,ARC,弓箭手,Archer,15,112,Action,False,False
+连珠箭,Quick Nock,战技,Weaponskill,ARC,弓箭手,Archer,18,106,Action,False,False
+广域群射,Wide Volley,战技,Weaponskill,ARC,弓箭手,Archer,25,36974,Action,False,False
+风蚀箭,Windbite,战技,Weaponskill,ARC,弓箭手,Archer,30,113,Action,False,False
+纷乱箭,Barrage,能力,Ability,ARC,弓箭手,Archer,38,107,Action,False,False
+亲疏自行,Arm's Length,能力,Ability,ARC;BRD;DNC;DRG;DRK;GLA;GNB;LNC;MCH;MNK;MRD;NIN;PGL;PLD;ROG;RPR;SAM;VPR;WAR,剑术师;双剑师;吟游诗人;弓箭手;忍者;战士;斧术师;暗黑骑士;机工士;枪术师;格斗家;武僧;武士;绝枪战士;舞者;蝰蛇剑士;钐镰客;骑士;龙骑士,Archer;Bard;Dancer;Dark Knight;Dragoon;Gladiator;Gunbreaker;Lancer;Machinist;Marauder;Monk;Ninja;Paladin;Pugilist;Reaper;Rogue;Samurai;Viper;Warrior,32,7548,Action,True,False
+内丹,Second Wind,能力,Ability,ARC;BRD;DNC;DRG;LNC;MCH;MNK;NIN;PGL;ROG;RPR;SAM;VPR,双剑师;吟游诗人;弓箭手;忍者;机工士;枪术师;格斗家;武僧;武士;舞者;蝰蛇剑士;钐镰客;龙骑士,Archer;Bard;Dancer;Dragoon;Lancer;Machinist;Monk;Ninja;Pugilist;Reaper;Rogue;Samurai;Viper,8,7541,Action,True,False
+伤腿,Leg Graze,能力,Ability,ARC;BRD;DNC;MCH,吟游诗人;弓箭手;机工士;舞者,Archer;Bard;Dancer;Machinist,6,7554,Action,True,False
+伤足,Foot Graze,能力,Ability,ARC;BRD;DNC;MCH,吟游诗人;弓箭手;机工士;舞者,Archer;Bard;Dancer;Machinist,10,7553,Action,True,False
+速行,Peloton,能力,Ability,ARC;BRD;DNC;MCH,吟游诗人;弓箭手;机工士;舞者,Archer;Bard;Dancer;Machinist,20,7557,Action,True,False
+伤头,Head Graze,能力,Ability,ARC;BRD;DNC;MCH,吟游诗人;弓箭手;机工士;舞者,Archer;Bard;Dancer;Machinist,24,7551,Action,True,False
+凶星,Malefic,魔法,Spell,AST,占星术士,Astrologian,1,3596,Action,False,False
+吉星,Benefic,魔法,Spell,AST,占星术士,Astrologian,2,3594,Action,False,False
+烧灼,Combust,魔法,Spell,AST,占星术士,Astrologian,4,3599,Action,False,False
+光速,Lightspeed,能力,Ability,AST,占星术士,Astrologian,6,3606,Action,False,False
+阳星,Helios,魔法,Spell,AST,占星术士,Astrologian,10,3600,Action,False,False
+生辰,Ascend,魔法,Spell,AST,占星术士,Astrologian,12,3603,Action,False,False
+先天禀赋,Essential Dignity,能力,Ability,AST,占星术士,Astrologian,15,3614,Action,False,False
+福星,Benefic II,魔法,Spell,AST,占星术士,Astrologian,26,3610,Action,False,False
+星极抽卡,Astral Draw,能力,Ability,AST,占星术士,Astrologian,30,37017,Action,False,False
+出卡I,Play I,能力,Ability,AST,占星术士,Astrologian,30,37019,Action,False,False
+出卡II,Play II,能力,Ability,AST,占星术士,Astrologian,30,37020,Action,False,False
+出卡III,Play III,能力,Ability,AST,占星术士,Astrologian,30,37021,Action,False,False
+灵极抽卡,Umbral Draw,能力,Ability,AST,占星术士,Astrologian,30,37018,Action,False,False
+放浪神之箭,the Arrow,能力,Ability,AST,占星术士,Astrologian,30,37024,Action,False,False
+太阳神之衡,the Balance,能力,Ability,AST,占星术士,Astrologian,30,37023,Action,False,False
+世界树之干,the Bole,能力,Ability,AST,占星术士,Astrologian,30,37027,Action,False,False
+河流神之瓶,the Ewer,能力,Ability,AST,占星术士,Astrologian,30,37028,Action,False,False
+战争神之枪,the Spear,能力,Ability,AST,占星术士,Astrologian,30,37026,Action,False,False
+建筑神之塔,the Spire,能力,Ability,AST,占星术士,Astrologian,30,37025,Action,False,False
+吉星相位,Aspected Benefic,魔法,Spell,AST,占星术士,Astrologian,34,3595,Action,False,False
+阳星相位,Aspected Helios,魔法,Spell,AST,占星术士,Astrologian,40,3601,Action,False,False
+重力,Gravity,魔法,Spell,AST,占星术士,Astrologian,45,3615,Action,False,False
+炽灼,Combust II,魔法,Spell,AST,占星术士,Astrologian,46,3608,Action,False,False
+占卜,Divination,能力,Ability,AST,占星术士,Astrologian,50,16552,Action,False,False
+星位合图,Synastry,能力,Ability,AST,占星术士,Astrologian,50,3612,Action,False,False
+灾星,Malefic II,魔法,Spell,AST,占星术士,Astrologian,54,3598,Action,False,False
+命运之轮,Collective Unconscious,能力,Ability,AST,占星术士,Astrologian,58,3613,Action,False,False
+天星冲日,Celestial Opposition,能力,Ability,AST,占星术士,Astrologian,60,16553,Action,False,False
+地星,Earthly Star,能力,Ability,AST,占星术士,Astrologian,62,7439,Action,False,False
+星体爆轰,Stellar Detonation,能力,Ability,AST,占星术士,Astrologian,62,8324,Action,False,False
+祸星,Malefic III,魔法,Spell,AST,占星术士,Astrologian,64,7442,Action,False,False
+王冠之贵妇,Lady of Crowns,能力,Ability,AST,占星术士,Astrologian,70,7445,Action,False,False
+王冠之领主,Lord of Crowns,能力,Ability,AST,占星术士,Astrologian,70,7444,Action,False,False
+小奥秘卡,Minor Arcana,能力,Ability,AST,占星术士,Astrologian,70,37022,Action,False,False
+焚灼,Combust III,魔法,Spell,AST,占星术士,Astrologian,72,16554,Action,False,False
+煞星,Malefic IV,魔法,Spell,AST,占星术士,Astrologian,72,16555,Action,False,False
+天星交错,Celestial Intersection,能力,Ability,AST,占星术士,Astrologian,74,16556,Action,False,False
+天宫图,Horoscope,能力,Ability,AST,占星术士,Astrologian,76,16557;16558,Action,False,False
+中间学派,Neutral Sect,能力,Ability,AST,占星术士,Astrologian,80,16559,Action,False,False
+落陷凶星,Fall Malefic,魔法,Spell,AST,占星术士,Astrologian,82,25871,Action,False,False
+中重力,Gravity II,魔法,Spell,AST,占星术士,Astrologian,82,25872,Action,False,False
+擢升,Exaltation,能力,Ability,AST,占星术士,Astrologian,86,25873,Action,False,False
+大宇宙,Macrocosmos,魔法,Spell,AST,占星术士,Astrologian,90,25874,Action,False,False
+小宇宙,Microcosmos,能力,Ability,AST,占星术士,Astrologian,90,25875,Action,False,False
+神谕,Oracle,能力,Ability,AST,占星术士,Astrologian,92,37029,Action,False,False
+阳星合相,Helios Conjunction,魔法,Spell,AST,占星术士,Astrologian,96,37030,Action,False,False
+太阳星座,Sun Sign,能力,Ability,AST,占星术士,Astrologian,100,37031,Action,False,False
+沉静,Repose,魔法,Spell,AST;CNJ;SCH;SGE;WHM,占星术士;学者;幻术师;白魔法师;贤者,Astrologian;Conjurer;Sage;Scholar;White Mage,8,16560,Action,True,False
+康复,Esuna,魔法,Spell,AST;CNJ;SCH;SGE;WHM,占星术士;学者;幻术师;白魔法师;贤者,Astrologian;Conjurer;Sage;Scholar;White Mage,10,7568,Action,True,False
+营救,Rescue,能力,Ability,AST;CNJ;SCH;SGE;WHM,占星术士;学者;幻术师;白魔法师;贤者,Astrologian;Conjurer;Sage;Scholar;White Mage,48,7571,Action,True,False
+净化,Purify,能力,Ability,AST;SCH;SGE;WHM,占星术士;学者;白魔法师;贤者,Astrologian;Sage;Scholar;White Mage,0,1584,Action,False,False
+魔泉,Manafont,能力,Ability,BLM,黑魔法师,Black Mage,30,158,Action,False,False
+冰封,Blizzard III,魔法,Spell,BLM,黑魔法师,Black Mage,35,154,Action,False,False
+灵极魂,Umbral Soul,魔法,Spell,BLM,黑魔法师,Black Mage,35,16506,Action,False,False
+玄冰,Freeze,魔法,Spell,BLM,黑魔法师,Black Mage,40,159,Action,False,False
+暴雷,Thunder III,魔法,Spell,BLM,黑魔法师,Black Mage,45,153,Action,False,False
+核爆,Flare,魔法,Spell,BLM,黑魔法师,Black Mage,50,162,Action,False,False
+黑魔纹,Ley Lines,能力,Ability,BLM,黑魔法师,Black Mage,52,3573,Action,False,False
+冰澈,Blizzard IV,魔法,Spell,BLM,黑魔法师,Black Mage,58,3576,Action,False,False
+炽炎,Fire IV,魔法,Spell,BLM,黑魔法师,Black Mage,60,3577,Action,False,False
+魔纹步,Between the Lines,能力,Ability,BLM,黑魔法师,Black Mage,62,7419,Action,False,False
+霹雷,Thunder IV,魔法,Spell,BLM,黑魔法师,Black Mage,64,7420,Action,False,False
+三连咏唱,Triplecast,能力,Ability,BLM,黑魔法师,Black Mage,66,7421,Action,False,False
+秽浊,Foul,魔法,Spell,BLM,黑魔法师,Black Mage,70,7422,Action,False,False
+绝望,Despair,魔法,Spell,BLM,黑魔法师,Black Mage,72,16505,Action,False,False
+异言,Xenoglossy,魔法,Spell,BLM,黑魔法师,Black Mage,80,16507,Action,False,False
+高冰冻,High Blizzard II,魔法,Spell,BLM,黑魔法师,Black Mage,82,25795,Action,False,False
+高烈炎,High Fire II,魔法,Spell,BLM,黑魔法师,Black Mage,82,25794,Action,False,False
+详述,Amplifier,能力,Ability,BLM,黑魔法师,Black Mage,86,25796,Action,False,False
+悖论,Paradox,魔法,Spell,BLM,黑魔法师,Black Mage,90,25797,Action,False,False
+高闪雷,High Thunder,魔法,Spell,BLM,黑魔法师,Black Mage,92,36986,Action,False,False
+高震雷,High Thunder II,魔法,Spell,BLM,黑魔法师,Black Mage,92,36987,Action,False,False
+魔纹重置,Retrace,能力,Ability,BLM,黑魔法师,Black Mage,96,36988,Action,False,False
+耀星,Flare Star,魔法,Spell,BLM,黑魔法师,Black Mage,100,36989,Action,False,False
+千针刺,1000 Needles,魔法,Spell,BLU,青魔法师,Blue Mage,1,11397,Action,False,False
+4星吨,4-tonze Weight,魔法,Spell,BLU,青魔法师,Blue Mage,1,11384,Action,False,False
+深渊贯穿,Abyssal Transfixion,魔法,Spell,BLU,青魔法师,Blue Mage,1,18300,Action,False,False
+橡果炸弹,Acorn Bomb,魔法,Spell,BLU,青魔法师,Blue Mage,1,11392,Action,False,False
+以太火花,Aetherial Spark,魔法,Spell,BLU,青魔法师,Blue Mage,1,23281,Action,False,False
+以太复制,Aetheric Mimicry,魔法,Spell,BLU,青魔法师,Blue Mage,1,18322;19238;19239;19240,Action,False,False
+高山气流,Alpine Draft,魔法,Spell,BLU,青魔法师,Blue Mage,1,18295,Action,False,False
+天使低语,Angel Whisper,魔法,Spell,BLU,青魔法师,Blue Mage,1,18317,Action,False,False
+天使的点心,Angel's Snack,魔法,Spell,BLU,青魔法师,Blue Mage,1,23272,Action,False,False
+启示录,Apokalypsis,能力,Ability,BLU,青魔法师,Blue Mage,1,34581,Action,False,False
+水流吐息,Aqua Breath,魔法,Spell,BLU,青魔法师,Blue Mage,1,11390,Action,False,False
+防御指示,Avail,魔法,Spell,BLU,青魔法师,Blue Mage,1,18306,Action,False,False
+臭气,Bad Breath,魔法,Spell,BLU,青魔法师,Blue Mage,1,11388,Action,False,False
+斗争本能,Basic Instinct,魔法,Spell,BLU,青魔法师,Blue Mage,1,23276,Action,False,False
+终有一死,Being Mortal,能力,Ability,BLU,青魔法师,Blue Mage,1,34582,Action,False,False
+黑骑士之旅,Black Knight's Tour,魔法,Spell,BLU,青魔法师,Blue Mage,1,18311,Action,False,False
+冰焰,Blaze,魔法,Spell,BLU,青魔法师,Blue Mage,1,23278,Action,False,False
+吸血,Blood Drain,魔法,Spell,BLU,青魔法师,Blue Mage,1,11395,Action,False,False
+投弹,Bomb Toss,魔法,Spell,BLU,青魔法师,Blue Mage,1,11396,Action,False,False
+如意大旋风,Both Ends,能力,Ability,BLU,青魔法师,Blue Mage,1,23287,Action,False,False
+魔法吐息,Breath of Magic,魔法,Spell,BLU,青魔法师,Blue Mage,1,34567,Action,False,False
+怒发冲冠,Bristle,魔法,Spell,BLU,青魔法师,Blue Mage,1,11393,Action,False,False
+仙人盾,Cactguard,魔法,Spell,BLU,青魔法师,Blue Mage,1,18315,Action,False,False
+糖果手杖,Candy Cane,魔法,Spell,BLU,青魔法师,Blue Mage,1,34578,Action,False,False
+玄结界,Chelonian Gate,魔法,Spell,BLU,青魔法师,Blue Mage,1,23273,Action,False,False
+唧唧咋咋,Chirp,魔法,Spell,BLU,青魔法师,Blue Mage,1,18301,Action,False,False
+陆行鸟陨石,Choco Meteor,魔法,Spell,BLU,青魔法师,Blue Mage,1,23284,Action,False,False
+彻骨雾寒,Cold Fog,魔法,Spell,BLU,青魔法师,Blue Mage,1,23267,Action,False,False
+小侦测,Condensed Libra,魔法,Spell,BLU,青魔法师,Blue Mage,1,18321,Action,False,False
+加强信音,Conviction Marcato,魔法,Spell,BLU,青魔法师,Blue Mage,1,34574,Action,False,False
+大扫除,Deep Clean,魔法,Spell,BLU,青魔法师,Blue Mage,1,34570,Action,False,False
+捕食,Devour,魔法,Spell,BLU,青魔法师,Blue Mage,1,18320,Action,False,False
+超硬化,Diamondback,魔法,Spell,BLU,青魔法师,Blue Mage,1,11424,Action,False,False
+空间转换,Dimensional Shift,魔法,Spell,BLU,青魔法师,Blue Mage,1,34573,Action,False,False
+魔之符文,Divination Rune,魔法,Spell,BLU,青魔法师,Blue Mage,1,34572,Action,False,False
+玄天武水壁,Divine Cataract,魔法,Spell,BLU,青魔法师,Blue Mage,1,23274,Action,False,False
+死亡宣告,Doom,魔法,Spell,BLU,青魔法师,Blue Mage,1,11416,Action,False,False
+龙之力,Dragon Force,魔法,Spell,BLU,青魔法师,Blue Mage,1,23280,Action,False,False
+钻头炮,Drill Cannons,魔法,Spell,BLU,青魔法师,Blue Mage,1,11398,Action,False,False
+怪音波,Eerie Soundwave,魔法,Spell,BLU,青魔法师,Blue Mage,1,18302,Action,False,False
+生物电,Electrogenesis,魔法,Spell,BLU,青魔法师,Blue Mage,1,18298,Action,False,False
+地火喷发,Eruption,能力,Ability,BLU,青魔法师,Blue Mage,1,11427,Action,False,False
+蜕皮,Exuviation,魔法,Spell,BLU,青魔法师,Blue Mage,1,18318,Action,False,False
+拍掌,Faze,魔法,Spell,BLU,青魔法师,Blue Mage,1,11403,Action,False,False
+飞翎雨,Feather Rain,能力,Ability,BLU,青魔法师,Blue Mage,1,11426,Action,False,False
+污泥泼洒,Feculent Flood,魔法,Spell,BLU,青魔法师,Blue Mage,1,23271,Action,False,False
+终极针,Final Sting,魔法,Spell,BLU,青魔法师,Blue Mage,1,11407,Action,False,False
+火投枪,Fire Angon,魔法,Spell,BLU,青魔法师,Blue Mage,1,11425,Action,False,False
+火炎放射,Flame Thrower,魔法,Spell,BLU,青魔法师,Blue Mage,1,11402,Action,False,False
+狂乱,Flying Frenzy,魔法,Spell,BLU,青魔法师,Blue Mage,1,11389,Action,False,False
+投掷沙丁鱼,Flying Sardine,魔法,Spell,BLU,青魔法师,Blue Mage,1,11423,Action,False,False
+力场,Force Field,魔法,Spell,BLU,青魔法师,Blue Mage,1,34575,Action,False,False
+蛙腿,Frog Legs,魔法,Spell,BLU,青魔法师,Blue Mage,1,18307,Action,False,False
+冰雪乱舞,Glass Dance,能力,Ability,BLU,青魔法师,Blue Mage,1,11430,Action,False,False
+怒视,Glower,魔法,Spell,BLU,青魔法师,Blue Mage,1,11404,Action,False,False
+哥布林乱拳,Goblin Punch,魔法,Spell,BLU,青魔法师,Blue Mage,1,34563,Action,False,False
+哥布防御,Gobskin,魔法,Spell,BLU,青魔法师,Blue Mage,1,18304,Action,False,False
+高压电流,High Voltage,魔法,Spell,BLU,青魔法师,Blue Mage,1,11387,Action,False,False
+水力吸引,Hydro Pull,魔法,Spell,BLU,青魔法师,Blue Mage,1,23282,Action,False,False
+冰棘屏障,Ice Spikes,魔法,Spell,BLU,青魔法师,Blue Mage,1,11418,Action,False,False
+喷墨,Ink Jet,魔法,Spell,BLU,青魔法师,Blue Mage,1,11422,Action,False,False
+正义飞踢,J Kick,能力,Ability,BLU,青魔法师,Blue Mage,1,18325,Action,False,False
+寒光,Kaltstrahl,魔法,Spell,BLU,青魔法师,Blue Mage,1,18299,Action,False,False
+激射眼,Laser Eye,魔法,Spell,BLU,青魔法师,Blue Mage,1,34577,Action,False,False
+火箭炮,Launcher,魔法,Spell,BLU,青魔法师,Blue Mage,1,18313,Action,False,False
+5级即死,Level 5 Death,魔法,Spell,BLU,青魔法师,Blue Mage,1,18312,Action,False,False
+5级石化,Level 5 Petrify,魔法,Spell,BLU,青魔法师,Blue Mage,1,11414,Action,False,False
+若隐若现,Loom,魔法,Spell,BLU,青魔法师,Blue Mage,1,11401,Action,False,False
+魔法锤,Magic Hammer,魔法,Spell,BLU,青魔法师,Blue Mage,1,18305,Action,False,False
+水脉诅咒,Malediction of Water,魔法,Spell,BLU,青魔法师,Blue Mage,1,23283,Action,False,False
+马特拉魔术,Matra Magic,魔法,Spell,BLU,青魔法师,Blue Mage,1,23285,Action,False,False
+强力守护,Mighty Guard,魔法,Spell,BLU,青魔法师,Blue Mage,1,11417,Action,False,False
+精神冲击,Mind Blast,魔法,Spell,BLU,青魔法师,Blue Mage,1,11394,Action,False,False
+导弹,Missile,魔法,Spell,BLU,青魔法师,Blue Mage,1,11405,Action,False,False
+月之笛,Moon Flute,魔法,Spell,BLU,青魔法师,Blue Mage,1,11415,Action,False,False
+必灭之炎,Mortal Flame,魔法,Spell,BLU,青魔法师,Blue Mage,1,34579,Action,False,False
+芥末爆弹,Mustard Bomb,魔法,Spell,BLU,青魔法师,Blue Mage,1,23279,Action,False,False
+月下彼岸花,Nightbloom,能力,Ability,BLU,青魔法师,Blue Mage,1,23290,Action,False,False
+狂风暴雪,Northerlies,魔法,Spell,BLU,青魔法师,Blue Mage,1,18297,Action,False,False
+破防,Off-guard,魔法,Spell,BLU,青魔法师,Blue Mage,1,11411,Action,False,False
+玩泥球,Peat Pelt,魔法,Spell,BLU,青魔法师,Blue Mage,1,34569,Action,False,False
+惊奇光,Peculiar Light,魔法,Spell,BLU,青魔法师,Blue Mage,1,11421,Action,False,False
+生成外设,Peripheral Synthesis,魔法,Spell,BLU,青魔法师,Blue Mage,1,23286,Action,False,False
+永恒射线,Perpetual Ray,魔法,Spell,BLU,青魔法师,Blue Mage,1,18314,Action,False,False
+鬼宿脚,Phantom Flurry,能力,Ability,BLU,青魔法师,Blue Mage,1,23288;23289,Action,False,False
+平原震裂,Plaincracker,魔法,Spell,BLU,青魔法师,Blue Mage,1,11391,Action,False,False
+绒绒治疗,Pom Cure,魔法,Spell,BLU,青魔法师,Blue Mage,1,18303,Action,False,False
+万变水波,Protean Wave,魔法,Spell,BLU,青魔法师,Blue Mage,1,18296,Action,False,False
+类星体,Quasar,能力,Ability,BLU,青魔法师,Blue Mage,1,18324,Action,False,False
+逆流,Reflux,魔法,Spell,BLU,青魔法师,Blue Mage,1,18319,Action,False,False
+补水,Rehydration,魔法,Spell,BLU,青魔法师,Blue Mage,1,34566,Action,False,False
+复仇冲击,Revenge Blast,魔法,Spell,BLU,青魔法师,Blue Mage,1,18316,Action,False,False
+大回旋,Right Round,魔法,Spell,BLU,青魔法师,Blue Mage,1,34564,Action,False,False
+红宝石电圈,Ruby Dynamics,魔法,Spell,BLU,青魔法师,Blue Mage,1,34571,Action,False,False
+圣光射线,Saintly Beam,魔法,Spell,BLU,青魔法师,Blue Mage,1,23270,Action,False,False
+刺阵,Schiltron,魔法,Spell,BLU,青魔法师,Blue Mage,1,34565,Action,False,False
+咕噜咕噜,Sea Shanty,能力,Ability,BLU,青魔法师,Blue Mage,1,34580,Action,False,False
+自爆,Self-destruct,魔法,Spell,BLU,青魔法师,Blue Mage,1,11408,Action,False,False
+锋利菜刀,Sharpened Knife,魔法,Spell,BLU,青魔法师,Blue Mage,1,11400,Action,False,False
+轰雷,Shock Strike,能力,Ability,BLU,青魔法师,Blue Mage,1,11429,Action,False,False
+鼻息,Snort,魔法,Spell,BLU,青魔法师,Blue Mage,1,11383,Action,False,False
+苦闷之歌,Song of Torment,魔法,Spell,BLU,青魔法师,Blue Mage,1,11386,Action,False,False
+音爆,Sonic Boom,魔法,Spell,BLU,青魔法师,Blue Mage,1,18308,Action,False,False
+滑舌,Sticky Tongue,魔法,Spell,BLU,青魔法师,Blue Mage,1,11412,Action,False,False
+赞歌,Stotram,魔法,Spell,BLU,青魔法师,Blue Mage,1,23269;23416,Action,False,False
+穿甲散弹,Surpanakha,能力,Ability,BLU,青魔法师,Blue Mage,1,18323,Action,False,False
+螺旋尾,Tail Screw,魔法,Spell,BLU,青魔法师,Blue Mage,1,11413,Action,False,False
+掀地板之术,Tatami-gaeshi,魔法,Spell,BLU,青魔法师,Blue Mage,1,23266,Action,False,False
+斗灵弹,The Rose of Destruction,魔法,Spell,BLU,青魔法师,Blue Mage,1,23275,Action,False,False
+哔哩哔哩,Tingle,魔法,Spell,BLU,青魔法师,Blue Mage,1,23265,Action,False,False
+油性分泌物,Toad Oil,魔法,Spell,BLU,青魔法师,Blue Mage,1,11410,Action,False,False
+融合,Transfusion,魔法,Spell,BLU,青魔法师,Blue Mage,1,11409,Action,False,False
+渔叉三段,Triple Trident,魔法,Spell,BLU,青魔法师,Blue Mage,1,23264,Action,False,False
+超振动,Ultravibration,魔法,Spell,BLU,青魔法师,Blue Mage,1,23277,Action,False,False
+水神的面纱,Veil of the Whorl,能力,Ability,BLU,青魔法师,Blue Mage,1,11431,Action,False,False
+水炮,Water Cannon,魔法,Spell,BLU,青魔法师,Blue Mage,1,11385,Action,False,False
+口笛,Whistle,魔法,Spell,BLU,青魔法师,Blue Mage,1,18309,Action,False,False
+冰雾,White Death,魔法,Spell,BLU,青魔法师,Blue Mage,1,23268,Action,False,False
+白骑士之旅,White Knight's Tour,魔法,Spell,BLU,青魔法师,Blue Mage,1,18310,Action,False,False
+白风,White Wind,魔法,Spell,BLU,青魔法师,Blue Mage,1,11406,Action,False,False
+兽魂的愤怒,Wild Rage,魔法,Spell,BLU,青魔法师,Blue Mage,1,34568,Action,False,False
+断罪飞翔,Winged Reprobation,魔法,Spell,BLU,青魔法师,Blue Mage,1,34576,Action,False,False
+雷电咆哮,the Dragon's Voice,魔法,Spell,BLU,青魔法师,Blue Mage,1,11420,Action,False,False
+诡异视线,the Look,魔法,Spell,BLU,青魔法师,Blue Mage,1,11399,Action,False,False
+寒冰咆哮,the Ram's Voice,魔法,Spell,BLU,青魔法师,Blue Mage,1,11419,Action,False,False
+山崩,Mountain Buster,能力,Ability,BLU;SMN,召唤师;青魔法师,Blue Mage;Summoner,1;86,25836;11428,Action,False,False
+贤者的叙事谣,Mage's Ballad,能力,Ability,BRD,吟游诗人,Bard,30,114,Action,False,False
+光阴神的礼赞凯歌,the Warden's Paean,能力,Ability,BRD,吟游诗人,Bard,35,3561,Action,False,False
+军神的赞美歌,Army's Paeon,能力,Ability,BRD,吟游诗人,Bard,40,116,Action,False,False
+死亡箭雨,Rain of Death,能力,Ability,BRD,吟游诗人,Bard,45,117,Action,False,False
+战斗之声,Battle Voice,能力,Ability,BRD,吟游诗人,Bard,50,118,Action,False,False
+完美音调,Pitch Perfect,能力,Ability,BRD,吟游诗人,Bard,52,7404,Action,False,False
+放浪神的小步舞曲,the Wanderer's Minuet,能力,Ability,BRD,吟游诗人,Bard,52,3559,Action,False,False
+九天连箭,Empyreal Arrow,能力,Ability,BRD,吟游诗人,Bard,54,3558,Action,False,False
+伶牙俐齿,Iron Jaws,战技,Weaponskill,BRD,吟游诗人,Bard,56,3560,Action,False,False
+侧风诱导箭,Sidewinder,能力,Ability,BRD,吟游诗人,Bard,60,3562,Action,False,False
+行吟,Troubadour,能力,Ability,BRD,吟游诗人,Bard,62,7405,Action,False,False
+烈毒咬箭,Caustic Bite,战技,Weaponskill,BRD,吟游诗人,Bard,64,7406,Action,False,False
+狂风蚀箭,Stormbite,战技,Weaponskill,BRD,吟游诗人,Bard,64,7407,Action,False,False
+大地神的抒情恋歌,Nature's Minne,能力,Ability,BRD,吟游诗人,Bard,66,7408,Action,False,False
+辉煌箭,Refulgent Arrow,战技,Weaponskill,BRD,吟游诗人,Bard,70,7409,Action,False,False
+影噬箭,Shadowbite,战技,Weaponskill,BRD,吟游诗人,Bard,72,16494,Action,False,False
+爆发射击,Burst Shot,战技,Weaponskill,BRD,吟游诗人,Bard,76,16495,Action,False,False
+绝峰箭,Apex Arrow,战技,Weaponskill,BRD,吟游诗人,Bard,80,16496,Action,False,False
+百首龙牙箭,Ladonsbite,战技,Weaponskill,BRD,吟游诗人,Bard,82,25783,Action,False,False
+爆破箭,Blast Arrow,战技,Weaponskill,BRD,吟游诗人,Bard,86,25784,Action,False,False
+光明神的最终乐章,Radiant Finale,能力,Ability,BRD,吟游诗人,Bard,90,25785,Action,False,False
+碎心箭,Heartbreak Shot,能力,Ability,BRD,吟游诗人,Bard,92,36975,Action,False,False
+共鸣箭,Resonant Arrow,战技,Weaponskill,BRD,吟游诗人,Bard,96,36976,Action,False,False
+光明神的返场余音,Radiant Encore,战技,Weaponskill,BRD,吟游诗人,Bard,100,36977,Action,False,False
+三角测量,Triangulate,能力,Ability,BTN,园艺工,Botanist,1,210,Action,True,False
+树木之声,Arbor Call,能力,Ability,BTN,园艺工,Botanist,3,211,Action,True,False
+环境探知,Field Mastery,采集能力,DoL Ability,BTN,园艺工,Botanist,4,218,Action,False,False
+树木之声II,Arbor Call II,能力,Ability,BTN,园艺工,Botanist,5,290,Action,True,False
+环境探知II,Field Mastery II,采集能力,DoL Ability,BTN,园艺工,Botanist,5,220,Action,False,False
+环境探知III,Field Mastery III,采集能力,DoL Ability,BTN,园艺工,Botanist,10,294,Action,False,False
+沃土的馈赠I,Pioneer's Gift I,采集能力,DoL Ability,BTN,园艺工,Botanist,15,21178,Action,False,False
+植被专精,Flora Mastery,采集能力,DoL Ability,BTN,园艺工,Botanist,23,4086,Action,False,False
+丰收,Bountiful Harvest,采集能力,DoL Ability,BTN,园艺工,Botanist,24,4087,Action,False,False
+农夫之智,Ageless Words,采集能力,DoL Ability,BTN,园艺工,Botanist,25,215,Action,False,False
+天赐收成,Blessed Harvest,采集能力,DoL Ability,BTN,园艺工,Botanist,30,222,Action,False,False
+天赐收成II,Blessed Harvest II,采集能力,DoL Ability,BTN,园艺工,Botanist,40,224,Action,False,False
+丛林之相,Truth of Forests,能力,Ability,BTN,园艺工,Botanist,46,221,Action,True,False
+大胆提纯,Brazen Woodsman,采集能力,DoL Ability,BTN,园艺工,Botanist,50,22187,Action,False,False
+慎重提纯,Meticulous Woodsman,采集能力,DoL Ability,BTN,园艺工,Botanist,50,22188,Action,False,False
+沃土的馈赠II,Pioneer's Gift II,采集能力,DoL Ability,BTN,园艺工,Botanist,50,25590,Action,False,False
+开拓者的眼力,Luck of the Pioneer,采集能力,DoL Ability,BTN,园艺工,Botanist,55,4095,Action,False,False
+丰收II,Bountiful Harvest II,采集能力,DoL Ability,BTN,园艺工,Botanist,68,273,Action,False,False
+诺菲卡福音,Nophica's Tidings,采集能力,DoL Ability,BTN,园艺工,Botanist,81,21204,Action,False,False
+隐行,Sneak,能力,Ability,BTN;FSH;MIN,园艺工;捕鱼人;采矿工,Botanist;Fisher;Miner,8,303;304;305,Action,False,False
+极致强化洞察,Collector's Stellar Standard,采集能力,DoL Ability,BTN;MIN,园艺工;采矿工,Botanist;Miner,0,41307,Action,False,False
+十二神加护,the Twelve's Bounty,采集能力,DoL Ability,BTN;MIN,园艺工;采矿工,Botanist;Miner,20,280;282,Action,False,False
+收藏品采集,Collect,采集能力,DoL Ability,BTN;MIN,园艺工;采矿工,Botanist;Miner,50,240;815,Action,False,False
+提纯,Scour,采集能力,DoL Ability,BTN;MIN,园艺工;采矿工,Botanist;Miner,50,22182;22186,Action,False,False
+集中检查,Scrutiny,采集能力,DoL Ability,BTN;MIN,园艺工;采矿工,Botanist;Miner,50,22185;22189,Action,False,False
+大地的恩惠,The Giving Land,采集能力,DoL Ability,BTN;MIN,园艺工;采矿工,Botanist;Miner,74,4589;4590,Action,False,False
+价值瞩目,Collector's Focus,采集能力,DoL Ability,BTN;MIN,园艺工;采矿工,Botanist;Miner,85,21205;21206,Action,False,False
+理智同兴,Wise to the World,采集能力,DoL Ability,BTN;MIN,园艺工;采矿工,Botanist;Miner,90,26521;26522,Action,False,False
+预备碰触,Priming Touch,采集能力,DoL Ability,BTN;MIN,园艺工;采矿工,Botanist;Miner,95,34871;34872,Action,False,False
+飞石,Stone,魔法,Spell,CNJ,幻术师,Conjurer,1,119,Action,False,False
+治疗,Cure,魔法,Spell,CNJ,幻术师,Conjurer,2,120,Action,False,False
+疾风,Aero,魔法,Spell,CNJ,幻术师,Conjurer,4,121,Action,False,False
+医治,Medica,魔法,Spell,CNJ,幻术师,Conjurer,10,124,Action,False,False
+复活,Raise,魔法,Spell,CNJ,幻术师,Conjurer,12,125,Action,False,False
+坚石,Stone II,魔法,Spell,CNJ,幻术师,Conjurer,18,127,Action,False,False
+救疗,Cure II,魔法,Spell,CNJ,幻术师,Conjurer,30,135,Action,False,False
+烈风,Aero II,魔法,Spell,CNJ,幻术师,Conjurer,46,132,Action,False,False
+医济,Medica II,魔法,Spell,CNJ,幻术师,Conjurer,50,133,Action,False,False
+瀑泻,Cascade,战技,Weaponskill,DNC,舞者,Dancer,1,15989,Action,False,False
+喷泉,Fountain,战技,Weaponskill,DNC,舞者,Dancer,2,15990,Action,False,False
+双色标准舞步结束,Double Standard Finish,战技,Weaponskill,DNC,舞者,Dancer,15,16192,Action,False,False
+蔷薇曲脚步,Emboite,战技,Weaponskill,DNC,舞者,Dancer,15,15999,Action,False,False
+小鸟交叠跳,Entrechat,战技,Weaponskill,DNC,舞者,Dancer,15,16000,Action,False,False
+绿叶小踢腿,Jete,战技,Weaponskill,DNC,舞者,Dancer,15,16001,Action,False,False
+金冠趾尖转,Pirouette,战技,Weaponskill,DNC,舞者,Dancer,15,16002,Action,False,False
+单色标准舞步结束,Single Standard Finish,战技,Weaponskill,DNC,舞者,Dancer,15,16191,Action,False,False
+标准舞步结束,Standard Finish,战技,Weaponskill,DNC,舞者,Dancer,15,16003,Action,False,False
+标准舞步,Standard Step,战技,Weaponskill,DNC,舞者,Dancer,15,15997,Action,False,False
+风车,Windmill,战技,Weaponskill,DNC,舞者,Dancer,15,15993,Action,False,False
+逆瀑泻,Reverse Cascade,战技,Weaponskill,DNC,舞者,Dancer,20,15991,Action,False,False
+落刃雨,Bladeshower,战技,Weaponskill,DNC,舞者,Dancer,25,15994,Action,False,False
+扇舞·序,Fan Dance,能力,Ability,DNC,舞者,Dancer,30,16007,Action,False,False
+升风车,Rising Windmill,战技,Weaponskill,DNC,舞者,Dancer,35,15995,Action,False,False
+坠喷泉,Fountainfall,战技,Weaponskill,DNC,舞者,Dancer,40,15992,Action,False,False
+落血雨,Bloodshower,战技,Weaponskill,DNC,舞者,Dancer,45,15996,Action,False,False
+前冲步,En Avant,能力,Ability,DNC,舞者,Dancer,50,16010,Action,False,False
+扇舞·破,Fan Dance II,能力,Ability,DNC,舞者,Dancer,50,16008,Action,False,False
+治疗之华尔兹,Curing Waltz,能力,Ability,DNC,舞者,Dancer,52,16015,Action,False,False
+防守之桑巴,Shield Samba,能力,Ability,DNC,舞者,Dancer,56,16012,Action,False,False
+闭式舞姿,Closed Position,能力,Ability,DNC,舞者,Dancer,60,16006,Action,False,False
+解除闭式舞姿,Ending,能力,Ability,DNC,舞者,Dancer,60,18073,Action,False,False
+进攻之探戈,Devilment,能力,Ability,DNC,舞者,Dancer,62,16011,Action,False,False
+扇舞·急,Fan Dance III,能力,Ability,DNC,舞者,Dancer,66,16009,Action,False,False
+双色技巧舞步结束,Double Technical Finish,战技,Weaponskill,DNC,舞者,Dancer,70,16194,Action,False,False
+四色技巧舞步结束,Quadruple Technical Finish,战技,Weaponskill,DNC,舞者,Dancer,70,16196,Action,False,False
+单色技巧舞步结束,Single Technical Finish,战技,Weaponskill,DNC,舞者,Dancer,70,16193,Action,False,False
+技巧舞步结束,Technical Finish,战技,Weaponskill,DNC,舞者,Dancer,70,16004,Action,False,False
+技巧舞步,Technical Step,战技,Weaponskill,DNC,舞者,Dancer,70,15998,Action,False,False
+三色技巧舞步结束,Triple Technical Finish,战技,Weaponskill,DNC,舞者,Dancer,70,16195,Action,False,False
+百花争艳,Flourish,能力,Ability,DNC,舞者,Dancer,72,16013,Action,False,False
+剑舞,Saber Dance,战技,Weaponskill,DNC,舞者,Dancer,76,16005,Action,False,False
+即兴表演,Improvisation,能力,Ability,DNC,舞者,Dancer,80,16014,Action,False,False
+即兴表演结束,Improvised Finish,能力,Ability,DNC,舞者,Dancer,80,25789,Action,False,False
+提拉纳,Tillana,战技,Weaponskill,DNC,舞者,Dancer,82,25790,Action,False,False
+扇舞·终,Fan Dance IV,能力,Ability,DNC,舞者,Dancer,86,25791,Action,False,False
+流星舞,Starfall Dance,战技,Weaponskill,DNC,舞者,Dancer,90,25792,Action,False,False
+落幕舞,Last Dance,战技,Weaponskill,DNC,舞者,Dancer,92,36983,Action,False,False
+结束动作,Finishing Move,战技,Weaponskill,DNC,舞者,Dancer,96,36984,Action,False,False
+拂晓舞,Dance of the Dawn,战技,Weaponskill,DNC,舞者,Dancer,100,36985,Action,False,False
+跳跃,Jump,能力,Ability,DRG,龙骑士,Dragoon,30,92,Action,False,False
+回避跳跃,Elusive Jump,能力,Ability,DRG,龙骑士,Dragoon,35,94,Action,False,False
+死天枪,Doom Spike,战技,Weaponskill,DRG,龙骑士,Dragoon,40,86,Action,False,False
+龙翼滑翔,Winged Glide,能力,Ability,DRG,龙骑士,Dragoon,45,36951,Action,False,False
+龙炎冲,Dragonfire Dive,能力,Ability,DRG,龙骑士,Dragoon,50,96,Action,False,False
+战斗连祷,Battle Litany,能力,Ability,DRG,龙骑士,Dragoon,52,3557,Action,False,False
+龙牙龙爪,Fang and Claw,战技,Weaponskill,DRG,龙骑士,Dragoon,56,3554,Action,False,False
+龙尾大回旋,Wheeling Thrust,战技,Weaponskill,DRG,龙骑士,Dragoon,58,3556,Action,False,False
+武神枪,Geirskogul,能力,Ability,DRG,龙骑士,Dragoon,60,3555,Action,False,False
+音速刺,Sonic Thrust,战技,Weaponskill,DRG,龙骑士,Dragoon,62,7397,Action,False,False
+云蒸龙变,Drakesbane,战技,Weaponskill,DRG,龙骑士,Dragoon,64,36952,Action,False,False
+幻象冲,Mirage Dive,能力,Ability,DRG,龙骑士,Dragoon,68,7399,Action,False,False
+死者之岸,Nastrond,能力,Ability,DRG,龙骑士,Dragoon,70,7400,Action,False,False
+山境酷刑,Coerthan Torment,战技,Weaponskill,DRG,龙骑士,Dragoon,72,16477,Action,False,False
+高跳,High Jump,能力,Ability,DRG,龙骑士,Dragoon,74,16478,Action,False,False
+龙眼雷电,Raiden Thrust,战技,Weaponskill,DRG,龙骑士,Dragoon,76,16479,Action,False,False
+坠星冲,Stardiver,能力,Ability,DRG,龙骑士,Dragoon,80,16480,Action,False,False
+龙眼苍穹,Draconian Fury,战技,Weaponskill,DRG,龙骑士,Dragoon,82,25770,Action,False,False
+樱花缭乱,Chaotic Spring,战技,Weaponskill,DRG,龙骑士,Dragoon,86,25772,Action,False,False
+苍穹刺,Heavens' Thrust,战技,Weaponskill,DRG,龙骑士,Dragoon,86,25771,Action,False,False
+天龙点睛,Wyrmwind Thrust,能力,Ability,DRG,龙骑士,Dragoon,90,25773,Action,False,False
+龙炎升,Rise of the Dragon,能力,Ability,DRG,龙骑士,Dragoon,92,36953,Action,False,False
+前冲刺,Lance Barrage,战技,Weaponskill,DRG,龙骑士,Dragoon,96,36954,Action,False,False
+螺旋击,Spiral Blow,战技,Weaponskill,DRG,龙骑士,Dragoon,96,36955,Action,False,False
+渡星冲,Starcross,能力,Ability,DRG,龙骑士,Dragoon,100,36956,Action,False,False
+扫腿,Leg Sweep,能力,Ability,DRG;LNC;MNK;NIN;PGL;ROG;RPR;SAM;VPR,双剑师;忍者;枪术师;格斗家;武僧;武士;蝰蛇剑士;钐镰客;龙骑士,Dragoon;Lancer;Monk;Ninja;Pugilist;Reaper;Rogue;Samurai;Viper,10,7863,Action,True,False
+浴血,Bloodbath,能力,Ability,DRG;LNC;MNK;NIN;PGL;ROG;RPR;SAM;VPR,双剑师;忍者;枪术师;格斗家;武僧;武士;蝰蛇剑士;钐镰客;龙骑士,Dragoon;Lancer;Monk;Ninja;Pugilist;Reaper;Rogue;Samurai;Viper,12,7542,Action,True,False
+牵制,Feint,能力,Ability,DRG;LNC;MNK;NIN;PGL;ROG;RPR;SAM;VPR,双剑师;忍者;枪术师;格斗家;武僧;武士;蝰蛇剑士;钐镰客;龙骑士,Dragoon;Lancer;Monk;Ninja;Pugilist;Reaper;Rogue;Samurai;Viper,22,7549,Action,True,False
+真北,True North,能力,Ability,DRG;LNC;MNK;NIN;PGL;ROG;RPR;SAM;VPR,双剑师;忍者;枪术师;格斗家;武僧;武士;蝰蛇剑士;钐镰客;龙骑士,Dragoon;Lancer;Monk;Ninja;Pugilist;Reaper;Rogue;Samurai;Viper,50,7546,Action,True,False
+重斩,Hard Slash,战技,Weaponskill,DRK,暗黑骑士,Dark Knight,1,3617,Action,False,False
+吸收斩,Syphon Strike,战技,Weaponskill,DRK,暗黑骑士,Dark Knight,2,3623,Action,False,False
+释放,Unleash,魔法,Spell,DRK,暗黑骑士,Dark Knight,6,3621,Action,False,False
+深恶痛绝,Grit,能力,Ability,DRK,暗黑骑士,Dark Knight,10,3629,Action,False,False
+解除深恶痛绝,Release Grit,能力,Ability,DRK,暗黑骑士,Dark Knight,10,32067,Action,False,False
+伤残,Unmend,魔法,Spell,DRK,暗黑骑士,Dark Knight,15,3624,Action,False,False
+噬魂斩,Souleater,战技,Weaponskill,DRK,暗黑骑士,Dark Knight,26,3632,Action,False,False
+暗黑波动,Flood of Darkness,能力,Ability,DRK,暗黑骑士,Dark Knight,30,16466,Action,False,False
+嗜血,Blood Weapon,能力,Ability,DRK,暗黑骑士,Dark Knight,35,3625,Action,False,False
+暗影墙,Shadow Wall,能力,Ability,DRK,暗黑骑士,Dark Knight,38,3636,Action,False,False
+暗黑锋,Edge of Darkness,能力,Ability,DRK,暗黑骑士,Dark Knight,40,16467,Action,False,False
+刚魂,Stalwart Soul,魔法,Spell,DRK,暗黑骑士,Dark Knight,40,16468,Action,False,False
+弃明投暗,Dark Mind,能力,Ability,DRK,暗黑骑士,Dark Knight,45,3634,Action,False,False
+行尸走肉,Living Dead,能力,Ability,DRK,暗黑骑士,Dark Knight,50,3638,Action,False,False
+腐秽大地,Salted Earth,能力,Ability,DRK,暗黑骑士,Dark Knight,52,3639,Action,False,False
+暗影步,Shadowstride,能力,Ability,DRK,暗黑骑士,Dark Knight,54,36926,Action,False,False
+吸血深渊,Abyssal Drain,能力,Ability,DRK,暗黑骑士,Dark Knight,56,3641,Action,False,False
+精雕怒斩,Carve and Spit,能力,Ability,DRK,暗黑骑士,Dark Knight,60,3643,Action,False,False
+血溅,Bloodspiller,战技,Weaponskill,DRK,暗黑骑士,Dark Knight,62,7392,Action,False,False
+寂灭,Quietus,战技,Weaponskill,DRK,暗黑骑士,Dark Knight,64,7391,Action,False,False
+暗黑布道,Dark Missionary,能力,Ability,DRK,暗黑骑士,Dark Knight,66,16471,Action,False,False
+血乱,Delirium,能力,Ability,DRK,暗黑骑士,Dark Knight,68,7390,Action,False,False
+至黑之夜,The Blackest Night,能力,Ability,DRK,暗黑骑士,Dark Knight,70,7393,Action,False,False
+暗影锋,Edge of Shadow,能力,Ability,DRK,暗黑骑士,Dark Knight,74,16470,Action,False,False
+暗影波动,Flood of Shadow,能力,Ability,DRK,暗黑骑士,Dark Knight,74,16469,Action,False,False
+掠影示现,Living Shadow,能力,Ability,DRK,暗黑骑士,Dark Knight,80,16472,Action,False,False
+献奉,Oblation,能力,Ability,DRK,暗黑骑士,Dark Knight,82,25754,Action,False,False
+腐秽黑暗,Salt and Darkness,能力,Ability,DRK,暗黑骑士,Dark Knight,86,25755;25756,Action,False,False
+暗影使者,Shadowbringer,能力,Ability,DRK,暗黑骑士,Dark Knight,90,25757,Action,False,False
+暗影卫,Shadowed Vigil,能力,Ability,DRK,暗黑骑士,Dark Knight,92,36927,Action,False,False
+报应,Comeuppance,战技,Weaponskill,DRK,暗黑骑士,Dark Knight,96,36929,Action,False,False
+刺穿,Impalement,战技,Weaponskill,DRK,暗黑骑士,Dark Knight,96,36931,Action,False,False
+血红乱,Scarlet Delirium,战技,Weaponskill,DRK,暗黑骑士,Dark Knight,96,36928,Action,False,False
+戮山,Torcleaver,战技,Weaponskill,DRK,暗黑骑士,Dark Knight,96,36930,Action,False,False
+掠影的蔑视,Disesteem,战技,Weaponskill,DRK,暗黑骑士,Dark Knight,100,36932,Action,False,False
+铁壁,Rampart,能力,Ability,DRK;GLA;GNB;MRD;PLD;WAR,剑术师;战士;斧术师;暗黑骑士;绝枪战士;骑士,Dark Knight;Gladiator;Gunbreaker;Marauder;Paladin;Warrior,8,7531,Action,True,False
+下踢,Low Blow,能力,Ability,DRK;GLA;GNB;MRD;PLD;WAR,剑术师;战士;斧术师;暗黑骑士;绝枪战士;骑士,Dark Knight;Gladiator;Gunbreaker;Marauder;Paladin;Warrior,12,7540,Action,True,False
+挑衅,Provoke,能力,Ability,DRK;GLA;GNB;MRD;PLD;WAR,剑术师;战士;斧术师;暗黑骑士;绝枪战士;骑士,Dark Knight;Gladiator;Gunbreaker;Marauder;Paladin;Warrior,15,7533,Action,True,False
+插言,Interject,能力,Ability,DRK;GLA;GNB;MRD;PLD;WAR,剑术师;战士;斧术师;暗黑骑士;绝枪战士;骑士,Dark Knight;Gladiator;Gunbreaker;Marauder;Paladin;Warrior,18,7538,Action,True,False
+雪仇,Reprisal,能力,Ability,DRK;GLA;GNB;MRD;PLD;WAR,剑术师;战士;斧术师;暗黑骑士;绝枪战士;骑士,Dark Knight;Gladiator;Gunbreaker;Marauder;Paladin;Warrior,22,7535,Action,True,False
+退避,Shirk,能力,Ability,DRK;GLA;GNB;MRD;PLD;WAR,剑术师;战士;斧术师;暗黑骑士;绝枪战士;骑士,Dark Knight;Gladiator;Gunbreaker;Marauder;Paladin;Warrior,48,7537,Action,True,False
+加钩,Multihook,采集能力,DoL Ability,FSH,捕鱼人,Fisher,0,42059,Action,False,False
+华丽提钩,Stellar Hookset,采集能力,DoL Ability,FSH,捕鱼人,Fisher,0,41278,Action,False,False
+选饵,Bait,采集能力,DoL Ability,FSH,捕鱼人,Fisher,1,288,Action,False,False
+抛竿,Cast,采集能力,DoL Ability,FSH,捕鱼人,Fisher,1,289,Action,False,False
+垂钓之光,Cast Light,采集能力,DoL Ability,FSH,捕鱼人,Fisher,1,2135,Action,False,False
+提钩,Hook,采集能力,DoL Ability,FSH,捕鱼人,Fisher,1,296,Action,False,False
+中断,Quit,采集能力,DoL Ability,FSH,捕鱼人,Fisher,1,299,Action,False,False
+歇竿,Rest,采集能力,DoL Ability,FSH,捕鱼人,Fisher,1,37047,Action,False,False
+撒饵,Chum,采集能力,DoL Ability,FSH,捕鱼人,Fisher,5,4104,Action,False,False
+耐心,Patience,采集能力,DoL Ability,FSH,捕鱼人,Fisher,15,4102,Action,False,False
+强力提钩,Powerful Hookset,采集能力,DoL Ability,FSH,捕鱼人,Fisher,15,4103,Action,False,False
+精准提钩,Precision Hookset,采集能力,DoL Ability,FSH,捕鱼人,Fisher,15,4179,Action,False,False
+沙利亚克的恩宠,Thaliak's Favor,采集能力,DoL Ability,FSH,捕鱼人,Fisher,15,26804,Action,False,False
+放生,Release,采集能力,DoL Ability,FSH,捕鱼人,Fisher,22,300,Action,False,False
+放生列表,Release List,采集能力,DoL Ability,FSH,捕鱼人,Fisher,22,19264,Action,False,False
+以小钓大,Mooch,采集能力,DoL Ability,FSH,捕鱼人,Fisher,25,297,Action,False,False
+钓组,Snagging,采集能力,DoL Ability,FSH,捕鱼人,Fisher,36,4100,Action,False,False
+熟练渔技,Makeshift Bait,采集能力,DoL Ability,FSH,捕鱼人,Fisher,48,26805,Action,False,False
+收藏品采集,Collect,能力,Ability,FSH,捕鱼人,Fisher,50,4101,Action,False,False
+鱼眼,Fish Eyes,采集能力,DoL Ability,FSH,捕鱼人,Fisher,57,4105,Action,False,False
+耐心II,Patience II,采集能力,DoL Ability,FSH,捕鱼人,Fisher,60,4106,Action,False,False
+鱼群测定,Fathom,能力,Ability,FSH,捕鱼人,Fisher,61,7903,Action,True,False
+刺鱼,Gig,采集能力,DoL Ability,FSH,捕鱼人,Fisher,61,7632,Action,False,False
+鲨鱼之眼,Shark Eye,能力,Ability,FSH,捕鱼人,Fisher,61,7904,Action,True,False
+以小钓大II,Mooch II,采集能力,DoL Ability,FSH,捕鱼人,Fisher,63,268,Action,False,False
+熟练技巧,Veteran Trade,采集能力,DoL Ability,FSH,捕鱼人,Fisher,63,7906,Action,False,False
+聚精鱼眼,Vital Sight,采集能力,DoL Ability,FSH,捕鱼人,Fisher,64,26870,Action,False,False
+双重提钩,Double Hook,采集能力,DoL Ability,FSH,捕鱼人,Fisher,65,269,Action,False,False
+鲨鱼之眼II,Shark Eye II,能力,Ability,FSH,捕鱼人,Fisher,65,7905,Action,True,False
+海洋之相,Truth of Oceans,能力,Ability,FSH,捕鱼人,Fisher,65,7911,Action,True,False
+打捞,Salvage,能力,Ability,FSH,捕鱼人,Fisher,67,7910,Action,False,False
+嘉惠,Nature's Bounty,采集能力,DoL Ability,FSH,捕鱼人,Fisher,69,7909,Action,False,False
+拍击水面,Surface Slap,采集能力,DoL Ability,FSH,捕鱼人,Fisher,71,4595,Action,False,False
+闭气,Baited Breath,采集能力,DoL Ability,FSH,捕鱼人,Fisher,75,26871,Action,False,False
+专一垂钓,Identical Cast,采集能力,DoL Ability,FSH,捕鱼人,Fisher,79,4596,Action,False,False
+大鱼猎手,Prize Catch,采集能力,DoL Ability,FSH,捕鱼人,Fisher,81,26806,Action,False,False
+电水流,Electric Current,采集能力,DoL Ability,FSH,捕鱼人,Fisher,85,26872,Action,False,False
+三重提钩,Triple Hook,采集能力,DoL Ability,FSH,捕鱼人,Fisher,90,27523,Action,False,False
+熟练妙招,Spareful Hand,采集能力,DoL Ability,FSH,捕鱼人,Fisher,91,37045,Action,False,False
+大鱼的知识,Big-game Fishing,采集能力,DoL Ability,FSH,捕鱼人,Fisher,95,37046,Action,False,False
+雄心之饵,Ambitious Lure,采集能力,DoL Ability,FSH,捕鱼人,Fisher,100,37594,Action,False,False
+谦逊之饵,Modest Lure,采集能力,DoL Ability,FSH,捕鱼人,Fisher,100,37595,Action,False,False
+先锋剑,Fast Blade,战技,Weaponskill,GLA,剑术师,Gladiator,1,9,Action,False,False
+战逃反应,Fight or Flight,能力,Ability,GLA,剑术师,Gladiator,2,20,Action,False,False
+暴乱剑,Riot Blade,战技,Weaponskill,GLA,剑术师,Gladiator,4,15,Action,False,False
+全蚀斩,Total Eclipse,战技,Weaponskill,GLA,剑术师,Gladiator,6,7381,Action,False,False
+钢铁信念,Iron Will,能力,Ability,GLA,剑术师,Gladiator,10,28,Action,False,False
+盾牌猛击,Shield Bash,战技,Weaponskill,GLA,剑术师,Gladiator,10,16,Action,False,False
+投盾,Shield Lob,战技,Weaponskill,GLA,剑术师,Gladiator,15,24,Action,False,False
+战女神之怒,Rage of Halone,战技,Weaponskill,GLA,剑术师,Gladiator,26,21,Action,False,False
+预警,Sentinel,能力,Ability,GLA,剑术师,Gladiator,38,17,Action,False,False
+厄运流转,Circle of Scorn,能力,Ability,GLA,剑术师,Gladiator,50,23,Action,False,False
+解除钢铁信念,Release Iron Will,能力,Ability,GLA;PLD,剑术师;骑士,Gladiator;Paladin,10,32065,Action,False,False
+利刃斩,Keen Edge,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,1,16137,Action,False,False
+无情,No Mercy,能力,Ability,GNB,绝枪战士,Gunbreaker,2,16138,Action,False,False
+残暴弹,Brutal Shell,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,4,16139,Action,False,False
+伪装,Camouflage,能力,Ability,GNB,绝枪战士,Gunbreaker,6,16140,Action,False,False
+恶魔切,Demon Slice,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,10,16141,Action,False,False
+解除王室亲卫,Release Royal Guard,能力,Ability,GNB,绝枪战士,Gunbreaker,10,32068,Action,False,False
+王室亲卫,Royal Guard,能力,Ability,GNB,绝枪战士,Gunbreaker,10,16142,Action,False,False
+闪雷弹,Lightning Shot,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,15,16143,Action,False,False
+危险领域,Danger Zone,能力,Ability,GNB,绝枪战士,Gunbreaker,18,16144,Action,False,False
+迅连斩,Solid Barrel,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,26,16145,Action,False,False
+爆发击,Burst Strike,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,30,16162,Action,False,False
+星云,Nebula,能力,Ability,GNB,绝枪战士,Gunbreaker,38,16148,Action,False,False
+恶魔杀,Demon Slaughter,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,40,16149,Action,False,False
+极光,Aurora,能力,Ability,GNB,绝枪战士,Gunbreaker,45,16151,Action,False,False
+超火流星,Superbolide,能力,Ability,GNB,绝枪战士,Gunbreaker,50,16152,Action,False,False
+音速破,Sonic Break,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,54,16153,Action,False,False
+弹道,Trajectory,能力,Ability,GNB,绝枪战士,Gunbreaker,56,36934,Action,False,False
+烈牙,Gnashing Fang,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,60,16146,Action,False,False
+猛兽爪,Savage Claw,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,60,16147,Action,False,False
+凶禽爪,Wicked Talon,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,60,16150,Action,False,False
+弓形冲波,Bow Shock,能力,Ability,GNB,绝枪战士,Gunbreaker,62,16159,Action,False,False
+光之心,Heart of Light,能力,Ability,GNB,绝枪战士,Gunbreaker,64,16160,Action,False,False
+石之心,Heart of Stone,能力,Ability,GNB,绝枪战士,Gunbreaker,68,16161,Action,False,False
+裂膛,Abdomen Tear,能力,Ability,GNB,绝枪战士,Gunbreaker,70,16157,Action,False,False
+续剑,Continuation,能力,Ability,GNB,绝枪战士,Gunbreaker,70,16155,Action,False,False
+穿目,Eye Gouge,能力,Ability,GNB,绝枪战士,Gunbreaker,70,16158,Action,False,False
+撕喉,Jugular Rip,能力,Ability,GNB,绝枪战士,Gunbreaker,70,16156,Action,False,False
+命运之环,Fated Circle,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,72,16163,Action,False,False
+血壤,Bloodfest,能力,Ability,GNB,绝枪战士,Gunbreaker,76,16164,Action,False,False
+爆破领域,Blasting Zone,能力,Ability,GNB,绝枪战士,Gunbreaker,80,16165,Action,False,False
+刚玉之心,Heart of Corundum,能力,Ability,GNB,绝枪战士,Gunbreaker,82,25758,Action,False,False
+超高速,Hypervelocity,能力,Ability,GNB,绝枪战士,Gunbreaker,86,25759,Action,False,False
+倍攻,Double Down,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,90,25760,Action,False,False
+大星云,Great Nebula,能力,Ability,GNB,绝枪战士,Gunbreaker,92,36935,Action,False,False
+命运之印,Fated Brand,能力,Ability,GNB,绝枪战士,Gunbreaker,96,36936,Action,False,False
+终结之心,Lion Heart,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,100,36939,Action,False,False
+支配之心,Noble Blood,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,100,36938,Action,False,False
+崛起之心,Reign of Beasts,战技,Weaponskill,GNB,绝枪战士,Gunbreaker,100,36937,Action,False,False
+精准刺,True Thrust,战技,Weaponskill,LNC,枪术师,Lancer,1,75,Action,False,False
+贯通刺,Vorpal Thrust,战技,Weaponskill,LNC,枪术师,Lancer,4,78,Action,False,False
+龙剑,Life Surge,能力,Ability,LNC,枪术师,Lancer,6,83,Action,False,False
+贯穿尖,Piercing Talon,战技,Weaponskill,LNC,枪术师,Lancer,15,90,Action,False,False
+开膛枪,Disembowel,战技,Weaponskill,LNC,枪术师,Lancer,18,87,Action,False,False
+直刺,Full Thrust,战技,Weaponskill,LNC,枪术师,Lancer,26,84,Action,False,False
+猛枪,Lance Charge,能力,Ability,LNC,枪术师,Lancer,30,85,Action,False,False
+樱花怒放,Chaos Thrust,战技,Weaponskill,LNC,枪术师,Lancer,50,88,Action,False,False
+分裂弹,Split Shot,战技,Weaponskill,MCH,机工士,Machinist,1,2866,Action,False,False
+独头弹,Slug Shot,战技,Weaponskill,MCH,机工士,Machinist,2,2868,Action,False,False
+热弹,Hot Shot,战技,Weaponskill,MCH,机工士,Machinist,4,2872,Action,False,False
+整备,Reassemble,能力,Ability,MCH,机工士,Machinist,10,2876,Action,False,False
+虹吸弹,Gauss Round,能力,Ability,MCH,机工士,Machinist,15,2874,Action,False,False
+散射,Spread Shot,战技,Weaponskill,MCH,机工士,Machinist,18,2870,Action,False,False
+狙击弹,Clean Shot,战技,Weaponskill,MCH,机工士,Machinist,26,2873,Action,False,False
+超荷,Hypercharge,能力,Ability,MCH,机工士,Machinist,30,17209,Action,False,False
+热冲击,Heat Blast,战技,Weaponskill,MCH,机工士,Machinist,35,7410,Action,False,False
+车式浮空炮塔,Rook Autoturret,能力,Ability,MCH,机工士,Machinist,40,2864,Action,False,False
+超档车式炮塔,Rook Overdrive,能力,Ability,MCH,机工士,Machinist,40,7415,Action,False,False
+超负荷车式炮塔,Rook Overload,能力,Ability,MCH,机工士,Machinist,40,7416,Action,False,False
+起爆,Detonator,能力,Ability,MCH,机工士,Machinist,45,16766,Action,False,False
+野火,Wildfire,能力,Ability,MCH,机工士,Machinist,45,2878,Action,False,False
+弹射,Ricochet,能力,Ability,MCH,机工士,Machinist,50,2890,Action,False,False
+自动弩,Auto Crossbow,战技,Weaponskill,MCH,机工士,Machinist,52,16497,Action,False,False
+热分裂弹,Heated Split Shot,战技,Weaponskill,MCH,机工士,Machinist,54,7411,Action,False,False
+策动,Tactician,能力,Ability,MCH,机工士,Machinist,56,16889,Action,False,False
+钻头,Drill,战技,Weaponskill,MCH,机工士,Machinist,58,16498,Action,False,False
+热独头弹,Heated Slug Shot,战技,Weaponskill,MCH,机工士,Machinist,60,7412,Action,False,False
+武装解除,Dismantle,能力,Ability,MCH,机工士,Machinist,62,2887,Action,False,False
+热狙击弹,Heated Clean Shot,战技,Weaponskill,MCH,机工士,Machinist,64,7413,Action,False,False
+枪管加热,Barrel Stabilizer,能力,Ability,MCH,机工士,Machinist,66,7414,Action,False,False
+烈焰弹,Blazing Shot,战技,Weaponskill,MCH,机工士,Machinist,68,36978,Action,False,False
+火焰喷射器,Flamethrower,能力,Ability,MCH,机工士,Machinist,70,7418,Action,False,False
+毒菌冲击,Bioblaster,战技,Weaponskill,MCH,机工士,Machinist,72,16499,Action,False,False
+空气锚,Air Anchor,战技,Weaponskill,MCH,机工士,Machinist,76,16500,Action,False,False
+铁臂拳,Arm Punch,战技,Weaponskill,MCH,机工士,Machinist,80,16504,Action,False,False
+后式自走人偶,Automaton Queen,能力,Ability,MCH,机工士,Machinist,80,16501,Action,False,False
+打桩枪,Pile Bunker,能力,Ability,MCH,机工士,Machinist,80,16503,Action,False,False
+超档后式人偶,Queen Overdrive,能力,Ability,MCH,机工士,Machinist,80,16502,Action,False,False
+滚轮冲,Roller Dash,战技,Weaponskill,MCH,机工士,Machinist,80,17206,Action,False,False
+霰弹枪,Scattergun,战技,Weaponskill,MCH,机工士,Machinist,82,25786,Action,False,False
+王室对撞机,Crowned Collider,能力,Ability,MCH,机工士,Machinist,86,25787,Action,False,False
+回转飞锯,Chain Saw,战技,Weaponskill,MCH,机工士,Machinist,90,25788,Action,False,False
+将死,Checkmate,能力,Ability,MCH,机工士,Machinist,92,36980,Action,False,False
+双将,Double Check,能力,Ability,MCH,机工士,Machinist,92,36979,Action,False,False
+掘地飞轮,Excavator,战技,Weaponskill,MCH,机工士,Machinist,96,36981,Action,False,False
+全金属爆发,Full Metal Field,战技,Weaponskill,MCH,机工士,Machinist,100,36982,Action,False,False
+矿脉勘探,Prospect,能力,Ability,MIN,采矿工,Miner,1,227,Action,True,False
+大地勘察,Lay of the Land,能力,Ability,MIN,采矿工,Miner,3,228,Action,True,False
+敏锐视野,Sharp Vision,采集能力,DoL Ability,MIN,采矿工,Miner,4,235,Action,False,False
+大地勘察II,Lay of the Land II,能力,Ability,MIN,采矿工,Miner,5,291,Action,True,False
+敏锐视野II,Sharp Vision II,采集能力,DoL Ability,MIN,采矿工,Miner,5,237,Action,False,False
+敏锐视野III,Sharp Vision III,采集能力,DoL Ability,MIN,采矿工,Miner,10,295,Action,False,False
+富矿的馈赠I,Mountaineer's Gift I,采集能力,DoL Ability,MIN,采矿工,Miner,15,21177,Action,False,False
+明晰视野,Clear Vision,采集能力,DoL Ability,MIN,采矿工,Miner,23,4072,Action,False,False
+高产,Bountiful Yield,采集能力,DoL Ability,MIN,采矿工,Miner,24,4073,Action,False,False
+石工之理,Solid Reason,采集能力,DoL Ability,MIN,采矿工,Miner,25,232,Action,False,False
+莫非王土,King's Yield,采集能力,DoL Ability,MIN,采矿工,Miner,30,239,Action,False,False
+莫非王土II,King's Yield II,采集能力,DoL Ability,MIN,采矿工,Miner,40,241,Action,False,False
+山岳之相,Truth of Mountains,能力,Ability,MIN,采矿工,Miner,46,238,Action,True,False
+大胆提纯,Brazen Prospector,采集能力,DoL Ability,MIN,采矿工,Miner,50,22183,Action,False,False
+慎重提纯,Meticulous Prospector,采集能力,DoL Ability,MIN,采矿工,Miner,50,22184,Action,False,False
+富矿的馈赠II,Mountaineer's Gift II,采集能力,DoL Ability,MIN,采矿工,Miner,50,25589,Action,False,False
+登山者的眼力,Luck of the Mountaineer,采集能力,DoL Ability,MIN,采矿工,Miner,55,4081,Action,False,False
+高产II,Bountiful Yield II,采集能力,DoL Ability,MIN,采矿工,Miner,68,272,Action,False,False
+纳尔札尔福音,Nald'thal's Tidings,采集能力,DoL Ability,MIN,采矿工,Miner,81,21203,Action,False,False
+地烈劲,Rockbreaker,战技,Weaponskill,MNK,武僧,Monk,30,70,Action,False,False
+轻身步法,Thunderclap,能力,Ability,MNK,武僧,Monk,35,25762,Action,False,False
+空鸣拳,Howling Fist,能力,Ability,MNK,武僧,Monk,40,25763,Action,False,False
+空鸣斗气,Inspirited Meditation,能力,Ability,MNK,武僧,Monk,40,36941,Action,False,False
+四面脚,Four-point Fury,战技,Weaponskill,MNK,武僧,Monk,45,16473,Action,False,False
+震脚,Perfect Balance,能力,Ability,MNK,武僧,Monk,50,69,Action,False,False
+演武,Form Shift,战技,Weaponskill,MNK,武僧,Monk,52,4262,Action,False,False
+阴阳斗气,Forbidden Meditation,能力,Ability,MNK,武僧,Monk,54,36942,Action,False,False
+阴阳斗气斩,the Forbidden Chakra,能力,Ability,MNK,武僧,Monk,54,3547,Action,False,False
+翻天脚,Celestial Revolution,战技,Weaponskill,MNK,武僧,Monk,60,25765,Action,False,False
+苍气炮,Elixir Field,战技,Weaponskill,MNK,武僧,Monk,60,3545,Action,False,False
+爆裂脚,Flint Strike,战技,Weaponskill,MNK,武僧,Monk,60,25882,Action,False,False
+必杀技,Masterful Blitz,战技,Weaponskill,MNK,武僧,Monk,60,25764,Action,False,False
+斗魂旋风脚,Tornado Kick,战技,Weaponskill,MNK,武僧,Monk,60,3543,Action,False,False
+金刚周天,Earth's Reply,能力,Ability,MNK,武僧,Monk,64,36944,Action,False,False
+金刚极意,Riddle of Earth,能力,Ability,MNK,武僧,Monk,64,7394,Action,False,False
+红莲极意,Riddle of Fire,能力,Ability,MNK,武僧,Monk,68,7395,Action,False,False
+义结金兰,Brotherhood,能力,Ability,MNK,武僧,Monk,70,7396,Action,False,False
+疾风极意,Riddle of Wind,能力,Ability,MNK,武僧,Monk,72,25766,Action,False,False
+万象斗气,Enlightened Meditation,能力,Ability,MNK,武僧,Monk,74,36943,Action,False,False
+万象斗气圈,Enlightenment,能力,Ability,MNK,武僧,Monk,74,16474,Action,False,False
+六合星导脚,Six-sided Star,战技,Weaponskill,MNK,武僧,Monk,80,16476,Action,False,False
+破坏神脚,Shadow of the Destroyer,战技,Weaponskill,MNK,武僧,Monk,82,25767,Action,False,False
+凤凰舞,Rising Phoenix,战技,Weaponskill,MNK,武僧,Monk,86,25768,Action,False,False
+梦幻斗舞,Phantom Rush,战技,Weaponskill,MNK,武僧,Monk,90,25769,Action,False,False
+真空波,Elixir Burst,战技,Weaponskill,MNK,武僧,Monk,92,36948,Action,False,False
+猿舞连击,Leaping Opo,战技,Weaponskill,MNK,武僧,Monk,92,36945,Action,False,False
+豹袭崩拳,Pouncing Coeurl,战技,Weaponskill,MNK,武僧,Monk,92,36947,Action,False,False
+龙颚正拳,Rising Raptor,战技,Weaponskill,MNK,武僧,Monk,92,36946,Action,False,False
+绝空拳,Wind's Reply,战技,Weaponskill,MNK,武僧,Monk,96,36949,Action,False,False
+乾坤斗气弹,Fire's Reply,战技,Weaponskill,MNK,武僧,Monk,100,36950,Action,False,False
+重劈,Heavy Swing,战技,Weaponskill,MRD,斧术师,Marauder,1,31,Action,False,False
+凶残裂,Maim,战技,Weaponskill,MRD,斧术师,Marauder,4,37,Action,False,False
+狂暴,Berserk,能力,Ability,MRD,斧术师,Marauder,6,38,Action,False,False
+守护,Defiance,能力,Ability,MRD,斧术师,Marauder,10,48,Action,False,False
+超压斧,Overpower,战技,Weaponskill,MRD,斧术师,Marauder,10,41,Action,False,False
+飞斧,Tomahawk,战技,Weaponskill,MRD,斧术师,Marauder,15,46,Action,False,False
+暴风斩,Storm's Path,战技,Weaponskill,MRD,斧术师,Marauder,26,42,Action,False,False
+战栗,Thrill of Battle,能力,Ability,MRD,斧术师,Marauder,30,40,Action,False,False
+复仇,Vengeance,能力,Ability,MRD,斧术师,Marauder,38,44,Action,False,False
+死斗,Holmgang,能力,Ability,MRD,斧术师,Marauder,42,43,Action,False,False
+暴风碎,Storm's Eye,战技,Weaponskill,MRD,斧术师,Marauder,50,45,Action,False,False
+解除守护,Release Defiance,能力,Ability,MRD;WAR,战士;斧术师,Marauder;Warrior,10,32066,Action,False,False
+风魔手里剑,Fuma Shuriken,能力,Ability,NIN,忍者,Ninja,30,2265;18873;18874;18875,Action,False,False
+忍术,Ninjutsu,能力,Ability,NIN,忍者,Ninja,30,2260,Action,False,False
+通灵之术,Rabbit Medium,能力,Ability,NIN,忍者,Ninja,30,2272,Action,False,False
+天之印,Ten,能力,Ability,NIN,忍者,Ninja,30,2259;18805,Action,False,False
+地之印,Chi,能力,Ability,NIN,忍者,Ninja,35,2261;18806,Action,False,False
+火遁之术,Katon,能力,Ability,NIN,忍者,Ninja,35,2266;18876,Action,False,False
+雷遁之术,Raiton,能力,Ability,NIN,忍者,Ninja,35,2267;18877,Action,False,False
+断绝,Assassinate,能力,Ability,NIN,忍者,Ninja,40,2246,Action,False,False
+缩地,Shukuchi,能力,Ability,NIN,忍者,Ninja,40,2262,Action,False,False
+土遁之术,Doton,能力,Ability,NIN,忍者,Ninja,45,2270;18880,Action,False,False
+风遁之术,Huton,能力,Ability,NIN,忍者,Ninja,45,2269;18879,Action,False,False
+冰遁之术,Hyoton,能力,Ability,NIN,忍者,Ninja,45,2268;18878,Action,False,False
+人之印,Jin,能力,Ability,NIN,忍者,Ninja,45,2263;18807,Action,False,False
+水遁之术,Suiton,能力,Ability,NIN,忍者,Ninja,45,2271;18881,Action,False,False
+生杀予夺,Kassatsu,能力,Ability,NIN,忍者,Ninja,50,2264,Action,False,False
+八卦无刃杀,Hakke Mujinsatsu,战技,Weaponskill,NIN,忍者,Ninja,52;80,16488;17420,Action,False,False
+强甲破点突,Armor Crush,战技,Weaponskill,NIN,忍者,Ninja,54;80,3563;17417,Action,False,False
+梦幻三段,Dream Within a Dream,能力,Ability,NIN,忍者,Ninja,56,3566,Action,False,False
+通灵之术·大虾蟆,Hellfrog Medium,能力,Ability,NIN,忍者,Ninja,62,7401,Action,False,False
+介毒之术,Dokumori,能力,Ability,NIN,忍者,Ninja,66,36957,Action,False,False
+六道轮回,Bhavacakra,能力,Ability,NIN,忍者,Ninja,68,7402,Action,False,False
+天地人,Ten Chi Jin,能力,Ability,NIN,忍者,Ninja,70,7403,Action,False,False
+命水,Meisui,能力,Ability,NIN,忍者,Ninja,72,16489,Action,False,False
+劫火灭却之术,Goka Mekkyaku,能力,Ability,NIN,忍者,Ninja,76,16491,Action,False,False
+冰晶乱流之术,Hyosho Ranryu,能力,Ability,NIN,忍者,Ninja,76,16492,Action,False,False
+分身之术,Bunshin,能力,Ability,NIN,忍者,Ninja,80,16493,Action,False,False
+残影镰鼬,Phantom Kamaitachi,战技,Weaponskill,NIN,忍者,Ninja,82,25774;25775,Action,False,False
+幻影野槌,Hollow Nozuchi,能力,Ability,NIN,忍者,Ninja,86,25776,Action,False,False
+月影雷兽牙,Fleeting Raiju,战技,Weaponskill,NIN,忍者,Ninja,90,25778;25879,Action,False,False
+月影雷兽爪,Forked Raiju,战技,Weaponskill,NIN,忍者,Ninja,90,25777;25878,Action,False,False
+百雷铳,Kunai's Bane,能力,Ability,NIN,忍者,Ninja,92,36958,Action,False,False
+通灵之术·虾蟆仙,Deathfrog Medium,能力,Ability,NIN,忍者,Ninja,96,36959,Action,False,False
+是生灭法,Zesho Meppo,能力,Ability,NIN,忍者,Ninja,96,36960,Action,False,False
+天理人道,Tenri Jindo,能力,Ability,NIN,忍者,Ninja,100,36961,Action,False,False
+双刃旋,Spinning Edge,战技,Weaponskill,NIN;ROG,双剑师;忍者,Ninja;Rogue,1;80,2240;17413,Action,False,False
+绝风,Gust Slash,战技,Weaponskill,NIN;ROG,双剑师;忍者,Ninja;Rogue,4;80,2242;17414,Action,False,False
+飞刀,Throwing Dagger,战技,Weaponskill,NIN;ROG,双剑师;忍者,Ninja;Rogue,15;80,2247;17418,Action,False,False
+旋风刃,Aeolian Edge,战技,Weaponskill,NIN;ROG,双剑师;忍者,Ninja;Rogue,26;80,2255;17415,Action,False,False
+血雨飞花,Death Blossom,战技,Weaponskill,NIN;ROG,双剑师;忍者,Ninja;Rogue,38;80,2254;17419,Action,False,False
+火炎之红,Fire in Red,魔法,Spell,PCT,绘灵法师,Pictomancer,1,34650,Action,False,False
+疾风之绿,Aero in Green,魔法,Spell,PCT,绘灵法师,Pictomancer,5,34651,Action,False,False
+坦培拉涂层,Tempera Coat,能力,Ability,PCT,绘灵法师,Pictomancer,10,34685,Action,False,False
+流水之蓝,Water in Blue,魔法,Spell,PCT,绘灵法师,Pictomancer,15,34652,Action,False,False
+速涂,Smudge,能力,Ability,PCT,绘灵法师,Pictomancer,20,34684,Action,False,False
+烈炎之红,Fire II in Red,魔法,Spell,PCT,绘灵法师,Pictomancer,25,34656,Action,False,False
+动物彩绘,Creature Motif,魔法,Spell,PCT,绘灵法师,Pictomancer,30,34689,Action,False,False
+动物构想,Living Muse,能力,Ability,PCT,绘灵法师,Pictomancer,30,35347,Action,False,False
+莫古力激流,Mog of the Ages,能力,Ability,PCT,绘灵法师,Pictomancer,30,34676,Action,False,False
+绒球彩绘,Pom Motif,魔法,Spell,PCT,绘灵法师,Pictomancer,30,34664,Action,False,False
+绒球构想,Pom Muse,能力,Ability,PCT,绘灵法师,Pictomancer,30,34670,Action,False,False
+翅膀彩绘,Wing Motif,魔法,Spell,PCT,绘灵法师,Pictomancer,30,34665,Action,False,False
+翅膀构想,Winged Muse,能力,Ability,PCT,绘灵法师,Pictomancer,30,34671,Action,False,False
+烈风之绿,Aero II in Green,魔法,Spell,PCT,绘灵法师,Pictomancer,35,34657,Action,False,False
+激水之蓝,Water II in Blue,魔法,Spell,PCT,绘灵法师,Pictomancer,45,34658,Action,False,False
+重锤彩绘,Hammer Motif,魔法,Spell,PCT,绘灵法师,Pictomancer,50,34668,Action,False,False
+重锤敲章,Hammer Stamp,魔法,Spell,PCT,绘灵法师,Pictomancer,50,34678,Action,False,False
+武器构想,Steel Muse,能力,Ability,PCT,绘灵法师,Pictomancer,50,35348,Action,False,False
+重锤构想,Striking Muse,能力,Ability,PCT,绘灵法师,Pictomancer,50,34674,Action,False,False
+武器彩绘,Weapon Motif,魔法,Spell,PCT,绘灵法师,Pictomancer,50,34690,Action,False,False
+冰冻之蓝青,Blizzard II in Cyan,魔法,Spell,PCT,绘灵法师,Pictomancer,60,34659,Action,False,False
+冰结之蓝青,Blizzard in Cyan,魔法,Spell,PCT,绘灵法师,Pictomancer,60,34653,Action,False,False
+坚石之纯黄,Stone II in Yellow,魔法,Spell,PCT,绘灵法师,Pictomancer,60,34660,Action,False,False
+飞石之纯黄,Stone in Yellow,魔法,Spell,PCT,绘灵法师,Pictomancer,60,34654,Action,False,False
+减色混合,Subtractive Palette,能力,Ability,PCT,绘灵法师,Pictomancer,60,34683,Action,False,False
+震雷之品红,Thunder II in Magenta,魔法,Spell,PCT,绘灵法师,Pictomancer,60,34661,Action,False,False
+闪雷之品红,Thunder in Magenta,魔法,Spell,PCT,绘灵法师,Pictomancer,60,34655,Action,False,False
+风景彩绘,Landscape Motif,魔法,Spell,PCT,绘灵法师,Pictomancer,70,34691,Action,False,False
+风景构想,Scenic Muse,能力,Ability,PCT,绘灵法师,Pictomancer,70,35349,Action,False,False
+星空构想,Starry Muse,能力,Ability,PCT,绘灵法师,Pictomancer,70,34675,Action,False,False
+星空彩绘,Starry Sky Motif,魔法,Spell,PCT,绘灵法师,Pictomancer,70,34669,Action,False,False
+神圣之白,Holy in White,魔法,Spell,PCT,绘灵法师,Pictomancer,80,34662,Action,False,False
+重锤掠刷,Hammer Brush,魔法,Spell,PCT,绘灵法师,Pictomancer,86,34679,Action,False,False
+重锤抛光,Polishing Hammer,魔法,Spell,PCT,绘灵法师,Pictomancer,86,34680,Action,False,False
+油性坦培拉涂层,Tempera Grassa,能力,Ability,PCT,绘灵法师,Pictomancer,88,34686,Action,False,False
+彗星之黑,Comet in Black,魔法,Spell,PCT,绘灵法师,Pictomancer,90,34663,Action,False,False
+彩虹点滴,Rainbow Drip,魔法,Spell,PCT,绘灵法师,Pictomancer,92,34688,Action,False,False
+兽爪彩绘,Claw Motif,魔法,Spell,PCT,绘灵法师,Pictomancer,96,34666,Action,False,False
+兽爪构想,Clawed Muse,能力,Ability,PCT,绘灵法师,Pictomancer,96,34672,Action,False,False
+尖牙构想,Fanged Muse,能力,Ability,PCT,绘灵法师,Pictomancer,96,34673,Action,False,False
+尖牙彩绘,Maw Motif,魔法,Spell,PCT,绘灵法师,Pictomancer,96,34667,Action,False,False
+马蒂恩惩罚,Retribution of the Madeen,能力,Ability,PCT,绘灵法师,Pictomancer,96,34677,Action,False,False
+天星棱光,Star Prism,魔法,Spell,PCT,绘灵法师,Pictomancer,100,34681;34682,Action,False,False
+连击,Bootshine,战技,Weaponskill,PGL,格斗家,Pugilist,1,53,Action,False,False
+正拳,True Strike,战技,Weaponskill,PGL,格斗家,Pugilist,4,54,Action,False,False
+崩拳,Snap Punch,战技,Weaponskill,PGL,格斗家,Pugilist,6,56,Action,False,False
+铁山靠,Steel Peak,能力,Ability,PGL,格斗家,Pugilist,15,25761,Action,False,False
+铁山斗气,Steeled Meditation,能力,Ability,PGL,格斗家,Pugilist,15,36940,Action,False,False
+双掌打,Twin Snakes,战技,Weaponskill,PGL,格斗家,Pugilist,18,61,Action,False,False
+破坏神冲,Arm of the Destroyer,战技,Weaponskill,PGL,格斗家,Pugilist,26,62,Action,False,False
+破碎拳,Demolish,战技,Weaponskill,PGL,格斗家,Pugilist,30,66,Action,False,False
+真言,Mantra,能力,Ability,PGL,格斗家,Pugilist,42,65,Action,False,False
+双龙脚,Dragon Kick,战技,Weaponskill,PGL,格斗家,Pugilist,50,74,Action,False,False
+深奥之灵,Spirits Within,能力,Ability,PLD,骑士,Paladin,30,29,Action,False,False
+盾阵,Sheltron,能力,Ability,PLD,骑士,Paladin,35,3542,Action,False,False
+日珥斩,Prominence,战技,Weaponskill,PLD,骑士,Paladin,40,16457,Action,False,False
+保护,Cover,能力,Ability,PLD,骑士,Paladin,45,27,Action,False,False
+神圣领域,Hallowed Ground,能力,Ability,PLD,骑士,Paladin,50,30,Action,False,False
+壁垒,Bulwark,能力,Ability,PLD,骑士,Paladin,52,22,Action,False,False
+沥血剑,Goring Blade,战技,Weaponskill,PLD,骑士,Paladin,54,3538,Action,False,False
+圣光幕帘,Divine Veil,能力,Ability,PLD,骑士,Paladin,56,3540,Action,False,False
+深仁厚泽,Clemency,魔法,Spell,PLD,骑士,Paladin,58,3541,Action,False,False
+王权剑,Royal Authority,战技,Weaponskill,PLD,骑士,Paladin,60,3539,Action,False,False
+干预,Intervention,能力,Ability,PLD,骑士,Paladin,62,7382,Action,False,False
+圣灵,Holy Spirit,魔法,Spell,PLD,骑士,Paladin,64,7384,Action,False,False
+调停,Intervene,能力,Ability,PLD,骑士,Paladin,66,16461,Action,False,False
+安魂祈祷,Requiescat,能力,Ability,PLD,骑士,Paladin,68,7383,Action,False,False
+武装戍卫,Passage of Arms,能力,Ability,PLD,骑士,Paladin,70,7385,Action,False,False
+圣环,Holy Circle,魔法,Spell,PLD,骑士,Paladin,72,16458,Action,False,False
+赎罪剑,Atonement,战技,Weaponskill,PLD,骑士,Paladin,76,16460,Action,False,False
+葬送剑,Sepulchre,战技,Weaponskill,PLD,骑士,Paladin,76,36919,Action,False,False
+祈告剑,Supplication,战技,Weaponskill,PLD,骑士,Paladin,76,36918,Action,False,False
+悔罪,Confiteor,魔法,Spell,PLD,骑士,Paladin,80,16459,Action,False,False
+圣盾阵,Holy Sheltron,能力,Ability,PLD,骑士,Paladin,82,25746,Action,False,False
+偿赎剑,Expiacion,能力,Ability,PLD,骑士,Paladin,86,25747,Action,False,False
+信念之剑,Blade of Faith,魔法,Spell,PLD,骑士,Paladin,90,25748,Action,False,False
+真理之剑,Blade of Truth,魔法,Spell,PLD,骑士,Paladin,90,25749,Action,False,False
+英勇之剑,Blade of Valor,魔法,Spell,PLD,骑士,Paladin,90,25750,Action,False,False
+极致防御,Guardian,能力,Ability,PLD,骑士,Paladin,92,36920,Action,False,False
+绝对统治,Imperator,能力,Ability,PLD,骑士,Paladin,96,36921,Action,False,False
+荣耀之剑,Blade of Honor,能力,Ability,PLD,骑士,Paladin,100,36922,Action,False,False
+魔回刺,Enchanted Riposte,战技,Weaponskill,RDM,赤魔法师,Red Mage,1,7527;45960,Action,False,False
+回刺,Riposte,战技,Weaponskill,RDM,赤魔法师,Red Mage,1,7504,Action,False,False
+摇荡,Jolt,魔法,Spell,RDM,赤魔法师,Red Mage,2,7503,Action,False,False
+赤闪雷,Verthunder,魔法,Spell,RDM,赤魔法师,Red Mage,4,7505,Action,False,False
+短兵相接,Corps-a-corps,能力,Ability,RDM,赤魔法师,Red Mage,6,7506,Action,False,False
+赤疾风,Veraero,魔法,Spell,RDM,赤魔法师,Red Mage,10,7507,Action,False,False
+散碎,Scatter,魔法,Spell,RDM,赤魔法师,Red Mage,15,7509,Action,False,False
+赤震雷,Verthunder II,魔法,Spell,RDM,赤魔法师,Red Mage,18,16524,Action,False,False
+赤烈风,Veraero II,魔法,Spell,RDM,赤魔法师,Red Mage,22,16525,Action,False,False
+赤火炎,Verfire,魔法,Spell,RDM,赤魔法师,Red Mage,26,7510,Action,False,False
+赤飞石,Verstone,魔法,Spell,RDM,赤魔法师,Red Mage,30,7511,Action,False,False
+魔交击斩,Enchanted Zwerchhau,战技,Weaponskill,RDM,赤魔法师,Red Mage,35,7528;45961,Action,False,False
+交击斩,Zwerchhau,战技,Weaponskill,RDM,赤魔法师,Red Mage,35,7512,Action,False,False
+移转,Displacement,能力,Ability,RDM,赤魔法师,Red Mage,40,7515,Action,False,False
+交剑,Engagement,能力,Ability,RDM,赤魔法师,Red Mage,40,16527,Action,False,False
+飞刺,Fleche,能力,Ability,RDM,赤魔法师,Red Mage,45,7517,Action,False,False
+促进,Acceleration,能力,Ability,RDM,赤魔法师,Red Mage,50,7518,Action,False,False
+魔连攻,Enchanted Redoublement,战技,Weaponskill,RDM,赤魔法师,Red Mage,50,7529;45962,Action,False,False
+连攻,Redoublement,战技,Weaponskill,RDM,赤魔法师,Red Mage,50,7516,Action,False,False
+魔划圆斩·一段,Enchanted Moulinet,战技,Weaponskill,RDM,赤魔法师,Red Mage,52,7530,Action,False,False
+魔划圆斩·二段,Enchanted Moulinet Deux,战技,Weaponskill,RDM,赤魔法师,Red Mage,52,37002,Action,False,False
+魔划圆斩·三段,Enchanted Moulinet Trois,战技,Weaponskill,RDM,赤魔法师,Red Mage,52,37003,Action,False,False
+划圆斩,Moulinet,战技,Weaponskill,RDM,赤魔法师,Red Mage,52,7513,Action,False,False
+赤治疗,Vercure,魔法,Spell,RDM,赤魔法师,Red Mage,54,7514,Action,False,False
+六分反击,Contre Sixte,能力,Ability,RDM,赤魔法师,Red Mage,56,7519,Action,False,False
+鼓励,Embolden,能力,Ability,RDM,赤魔法师,Red Mage,58,7520,Action,False,False
+魔元化,Manafication,能力,Ability,RDM,赤魔法师,Red Mage,60,7521,Action,False,False
+震荡,Jolt II,魔法,Spell,RDM,赤魔法师,Red Mage,62,7524,Action,False,False
+赤复活,Verraise,魔法,Spell,RDM,赤魔法师,Red Mage,64,7523,Action,False,False
+冲击,Impact,魔法,Spell,RDM,赤魔法师,Red Mage,66,16526,Action,False,False
+赤核爆,Verflare,魔法,Spell,RDM,赤魔法师,Red Mage,68,7525,Action,False,False
+赤神圣,Verholy,魔法,Spell,RDM,赤魔法师,Red Mage,70,7526,Action,False,False
+魔续斩,Enchanted Reprise,战技,Weaponskill,RDM,赤魔法师,Red Mage,76,16528,Action,False,False
+续斩,Reprise,战技,Weaponskill,RDM,赤魔法师,Red Mage,76,16529,Action,False,False
+焦热,Scorch,魔法,Spell,RDM,赤魔法师,Red Mage,80,16530,Action,False,False
+赤暴风,Veraero III,魔法,Spell,RDM,赤魔法师,Red Mage,82,25856,Action,False,False
+赤暴雷,Verthunder III,魔法,Spell,RDM,赤魔法师,Red Mage,82,25855,Action,False,False
+激荡,Jolt III,魔法,Spell,RDM,赤魔法师,Red Mage,84,37004,Action,False,False
+抗死,Magick Barrier,能力,Ability,RDM,赤魔法师,Red Mage,86,25857,Action,False,False
+决断,Resolution,魔法,Spell,RDM,赤魔法师,Red Mage,90,25858,Action,False,False
+荆棘环绕,Vice of Thorns,能力,Ability,RDM,赤魔法师,Red Mage,92,37005,Action,False,False
+显贵冲击,Grand Impact,魔法,Spell,RDM,赤魔法师,Red Mage,96,37006,Action,False,False
+光芒四射,Prefulgence,能力,Ability,RDM,赤魔法师,Red Mage,100,37007,Action,False,False
+残影,Shade Shift,能力,Ability,ROG,双剑师,Rogue,2,2241,Action,False,False
+隐遁,Hide,能力,Ability,ROG,双剑师,Rogue,10,2245,Action,False,False
+夺取,Mug,能力,Ability,ROG,双剑师,Rogue,15,2248,Action,False,False
+攻其不备,Trick Attack,能力,Ability,ROG,双剑师,Rogue,18,2258,Action,False,False
+切割,Slice,战技,Weaponskill,RPR,钐镰客,Reaper,1,24373,Action,False,False
+增盈切割,Waxing Slice,战技,Weaponskill,RPR,钐镰客,Reaper,5,24374,Action,False,False
+死亡之影,Shadow of Death,战技,Weaponskill,RPR,钐镰客,Reaper,10,24378,Action,False,False
+勾刃,Harpe,魔法,Spell,RPR,钐镰客,Reaper,15,24386,Action,False,False
+地狱出境,Hell's Egress,能力,Ability,RPR,钐镰客,Reaper,20,24402,Action,False,False
+地狱入境,Hell's Ingress,能力,Ability,RPR,钐镰客,Reaper,20,24401,Action,False,False
+旋转钐割,Spinning Scythe,战技,Weaponskill,RPR,钐镰客,Reaper,25,24376,Action,False,False
+地狱切割,Infernal Slice,战技,Weaponskill,RPR,钐镰客,Reaper,30,24375,Action,False,False
+死亡之涡,Whorl of Death,战技,Weaponskill,RPR,钐镰客,Reaper,35,24379,Action,False,False
+神秘纹,Arcane Crest,能力,Ability,RPR,钐镰客,Reaper,40,24404,Action,False,False
+噩梦钐割,Nightmare Scythe,战技,Weaponskill,RPR,钐镰客,Reaper,45,24377,Action,False,False
+隐匿挥割,Blood Stalk,能力,Ability,RPR,钐镰客,Reaper,50,24389,Action,False,False
+束缚挥割,Grim Swathe,能力,Ability,RPR,钐镰客,Reaper,55,24392,Action,False,False
+灵魂切割,Soul Slice,战技,Weaponskill,RPR,钐镰客,Reaper,60,24380,Action,False,False
+灵魂钐割,Soul Scythe,战技,Weaponskill,RPR,钐镰客,Reaper,65,24381,Action,False,False
+缢杀,Gallows,战技,Weaponskill,RPR,钐镰客,Reaper,70,24383,Action,False,False
+绞决,Gibbet,战技,Weaponskill,RPR,钐镰客,Reaper,70,24382,Action,False,False
+断首,Guillotine,战技,Weaponskill,RPR,钐镰客,Reaper,70,24384,Action,False,False
+缢杀爪,Unveiled Gallows,能力,Ability,RPR,钐镰客,Reaper,70,24391,Action,False,False
+绞决爪,Unveiled Gibbet,能力,Ability,RPR,钐镰客,Reaper,70,24390,Action,False,False
+神秘环,Arcane Circle,能力,Ability,RPR,钐镰客,Reaper,72,24405,Action,False,False
+回退,Regress,能力,Ability,RPR,钐镰客,Reaper,74,24403,Action,False,False
+暴食,Gluttony,能力,Ability,RPR,钐镰客,Reaper,76,24393,Action,False,False
+交错收割,Cross Reaping,战技,Weaponskill,RPR,钐镰客,Reaper,80,24396,Action,False,False
+夜游魂衣,Enshroud,能力,Ability,RPR,钐镰客,Reaper,80,24394,Action,False,False
+阴冷收割,Grim Reaping,战技,Weaponskill,RPR,钐镰客,Reaper,80,24397,Action,False,False
+虚无收割,Void Reaping,战技,Weaponskill,RPR,钐镰客,Reaper,80,24395,Action,False,False
+收获月,Harvest Moon,魔法,Spell,RPR,钐镰客,Reaper,82,24388,Action,False,False
+播魂种,Soulsow,魔法,Spell,RPR,钐镰客,Reaper,82,24387,Action,False,False
+夜游魂钐割,Lemure's Scythe,能力,Ability,RPR,钐镰客,Reaper,86,24400,Action,False,False
+夜游魂切割,Lemure's Slice,能力,Ability,RPR,钐镰客,Reaper,86,24399,Action,False,False
+大丰收,Plentiful Harvest,战技,Weaponskill,RPR,钐镰客,Reaper,88,24385,Action,False,False
+团契,Communio,魔法,Spell,RPR,钐镰客,Reaper,90,24398,Action,False,False
+祭牲,Sacrificium,能力,Ability,RPR,钐镰客,Reaper,92,36969,Action,False,False
+缢杀处刑,Executioner's Gallows,战技,Weaponskill,RPR,钐镰客,Reaper,96,36971,Action,False,False
+绞决处刑,Executioner's Gibbet,战技,Weaponskill,RPR,钐镰客,Reaper,96,36970,Action,False,False
+断首处刑,Executioner's Guillotine,战技,Weaponskill,RPR,钐镰客,Reaper,96,36972,Action,False,False
+完人,Perfectio,战技,Weaponskill,RPR,钐镰客,Reaper,100,36973,Action,False,False
+刃风,Hakaze,战技,Weaponskill,SAM,武士,Samurai,1,7477,Action,False,False
+阵风,Jinpu,战技,Weaponskill,SAM,武士,Samurai,4,7478,Action,False,False
+心眼,Third Eye,能力,Ability,SAM,武士,Samurai,6,7498,Action,False,False
+燕飞,Enpi,战技,Weaponskill,SAM,武士,Samurai,15,7486,Action,False,False
+士风,Shifu,战技,Weaponskill,SAM,武士,Samurai,18,7479,Action,False,False
+风雅,Fuga,战技,Weaponskill,SAM,武士,Samurai,26,7483,Action,False,False
+月光,Gekko,战技,Weaponskill,SAM,武士,Samurai,30,7481,Action,False,False
+彼岸花,Higanbana,战技,Weaponskill,SAM,武士,Samurai,30,7489,Action,False,False
+居合术,Iaijutsu,战技,Weaponskill,SAM,武士,Samurai,30,7867,Action,False,False
+满月,Mangetsu,战技,Weaponskill,SAM,武士,Samurai,35,7484,Action,False,False
+花车,Kasha,战技,Weaponskill,SAM,武士,Samurai,40,7482,Action,False,False
+天下五剑,Tenka Goken,战技,Weaponskill,SAM,武士,Samurai,40,7488,Action,False,False
+樱花,Oka,战技,Weaponskill,SAM,武士,Samurai,45,7485,Action,False,False
+明镜止水,Meikyo Shisui,能力,Ability,SAM,武士,Samurai,50,7499,Action,False,False
+纷乱雪月花,Midare Setsugekka,战技,Weaponskill,SAM,武士,Samurai,50,7487,Action,False,False
+雪风,Yukikaze,战技,Weaponskill,SAM,武士,Samurai,50,7480,Action,False,False
+必杀剑·震天,Hissatsu: Shinten,能力,Ability,SAM,武士,Samurai,52,7490,Action,False,False
+必杀剑·晓天,Hissatsu: Gyoten,能力,Ability,SAM,武士,Samurai,54,7492,Action,False,False
+必杀剑·夜天,Hissatsu: Yaten,能力,Ability,SAM,武士,Samurai,56,7493,Action,False,False
+默想,Meditate,能力,Ability,SAM,武士,Samurai,60,7497,Action,False,False
+必杀剑·九天,Hissatsu: Kyuten,能力,Ability,SAM,武士,Samurai,62,7491,Action,False,False
+叶隐,Hagakure,能力,Ability,SAM,武士,Samurai,68,7495,Action,False,False
+意气冲天,Ikishoten,能力,Ability,SAM,武士,Samurai,68,16482,Action,False,False
+必杀剑·红莲,Hissatsu: Guren,能力,Ability,SAM,武士,Samurai,70,7496,Action,False,False
+必杀剑·闪影,Hissatsu: Senei,能力,Ability,SAM,武士,Samurai,72,16481,Action,False,False
+回返五剑,Kaeshi: Goken,战技,Weaponskill,SAM,武士,Samurai,74,16485,Action,False,False
+回返雪月花,Kaeshi: Setsugekka,战技,Weaponskill,SAM,武士,Samurai,74,16486,Action,False,False
+燕回返,Tsubame-gaeshi,战技,Weaponskill,SAM,武士,Samurai,74,16483,Action,False,False
+照破,Shoha,能力,Ability,SAM,武士,Samurai,80,16487,Action,False,False
+天眼通,Tengentsu,能力,Ability,SAM,武士,Samurai,82,36962,Action,False,False
+风光,Fuko,战技,Weaponskill,SAM,武士,Samurai,86,25780,Action,False,False
+回返斩浪,Kaeshi: Namikiri,战技,Weaponskill,SAM,武士,Samurai,90,25782,Action,False,False
+奥义斩浪,Ogi Namikiri,战技,Weaponskill,SAM,武士,Samurai,90,25781,Action,False,False
+晓风,Gyofu,战技,Weaponskill,SAM,武士,Samurai,92,36963,Action,False,False
+残心,Zanshin,能力,Ability,SAM,武士,Samurai,96,36964,Action,False,False
+天道五剑,Tendo Goken,战技,Weaponskill,SAM,武士,Samurai,100,36965,Action,False,False
+天道回返五剑,Tendo Kaeshi Goken,战技,Weaponskill,SAM,武士,Samurai,100,36967,Action,False,False
+天道回返雪月花,Tendo Kaeshi Setsugekka,战技,Weaponskill,SAM,武士,Samurai,100,36968,Action,False,False
+天道雪月花,Tendo Setsugekka,战技,Weaponskill,SAM,武士,Samurai,100,36966,Action,False,False
+仙光的拥抱,Embrace,魔法,Spell,SCH,学者,Scholar,1,802,Action,False,False
+毒菌,Bio,魔法,Spell,SCH,学者,Scholar,2,17864,Action,False,False
+朝日召唤,Summon Eos,魔法,Spell,SCH,学者,Scholar,4,17215,Action,False,False
+仙光的低语,Whispering Dawn,能力,Ability,SCH,学者,Scholar,20,803;16537,Action,False,False
+猛毒菌,Bio II,魔法,Spell,SCH,学者,Scholar,26,17865,Action,False,False
+鼓舞激励之策,Adloquium,魔法,Spell,SCH,学者,Scholar,30,185,Action,False,False
+士气高扬之策,Succor,魔法,Spell,SCH,学者,Scholar,35,186,Action,False,False
+异想的幻光,Fey Illumination,能力,Ability,SCH,学者,Scholar,40,805;16538,Action,False,False
+以太超流,Aetherflow,能力,Ability,SCH,学者,Scholar,45,166,Action,False,False
+生命活性法,Lustrate,能力,Ability,SCH,学者,Scholar,45,189,Action,False,False
+破阵法,Art of War,魔法,Spell,SCH,学者,Scholar,46,16539,Action,False,False
+野战治疗阵,Sacred Soil,能力,Ability,SCH,学者,Scholar,50,188,Action,False,False
+不屈不挠之策,Indomitability,能力,Ability,SCH,学者,Scholar,52,3583,Action,False,False
+气炎法,Broil,魔法,Spell,SCH,学者,Scholar,54,3584,Action,False,False
+展开战术,Deployment Tactics,能力,Ability,SCH,学者,Scholar,56,3585,Action,False,False
+应急战术,Emergency Tactics,能力,Ability,SCH,学者,Scholar,58;100,3586;37037,Action,False,False
+转化,Dissipation,能力,Ability,SCH,学者,Scholar,60,3587,Action,False,False
+深谋远虑之策,Excogitation,能力,Ability,SCH,学者,Scholar,62,7434,Action,False,False
+魔炎法,Broil II,魔法,Spell,SCH,学者,Scholar,64,7435,Action,False,False
+连环计,Chain Stratagem,能力,Ability,SCH,学者,Scholar,66,7436,Action,False,False
+以太契约,Aetherpact,能力,Ability,SCH,学者,Scholar,70,7437,Action,False,False
+融光解除,Dissolve Union,能力,Ability,SCH,学者,Scholar,70,7869,Action,False,False
+异想的融光,Fey Union,能力,Ability,SCH,学者,Scholar,70,7438,Action,False,False
+蛊毒法,Biolysis,魔法,Spell,SCH,学者,Scholar,72,16540,Action,False,False
+死炎法,Broil III,魔法,Spell,SCH,学者,Scholar,72,16541,Action,False,False
+秘策,Recitation,能力,Ability,SCH,学者,Scholar,74,16542,Action,False,False
+异想的祥光,Fey Blessing,能力,Ability,SCH,学者,Scholar,76,16543;16544,Action,False,False
+天使的低语,Angel's Whisper,能力,Ability,SCH,学者,Scholar,80,16550,Action,False,False
+慰藉,Consolation,能力,Ability,SCH,学者,Scholar,80,16546;16547,Action,False,False
+炽天的幻光,Seraphic Illumination,能力,Ability,SCH,学者,Scholar,80,16551,Action,False,False
+炽天的幕帘,Seraphic Veil,魔法,Spell,SCH,学者,Scholar,80,16548,Action,False,False
+炽天召唤,Summon Seraph,能力,Ability,SCH,学者,Scholar,80,16545,Action,False,False
+裂阵法,Art of War II,魔法,Spell,SCH,学者,Scholar,82,25866,Action,False,False
+极炎法,Broil IV,魔法,Spell,SCH,学者,Scholar,82,25865,Action,False,False
+生命回生法,Protraction,能力,Ability,SCH,学者,Scholar,86,25867,Action,False,False
+疾风怒涛之计,Expedient,能力,Ability,SCH,学者,Scholar,90,25868,Action,False,False
+埋伏之毒,Baneful Impaction,能力,Ability,SCH,学者,Scholar,92,37012,Action,False,False
+意气轩昂之策,Concitation,魔法,Spell,SCH,学者,Scholar,96,37013,Action,False,False
+降临之章,Accession,魔法,Spell,SCH,学者,Scholar,100,37016,Action,False,False
+显灵之章,Manifestation,魔法,Spell,SCH,学者,Scholar,100,37015,Action,False,False
+炽天附体,Seraphism,能力,Ability,SCH,学者,Scholar,100,37014,Action,False,False
+注药,Dosis,魔法,Spell,SGE,贤者,Sage,1,24283,Action,False,False
+诊断,Diagnosis,魔法,Spell,SGE,贤者,Sage,2,24284,Action,False,False
+心关,Kardia,能力,Ability,SGE,贤者,Sage,4,24285;28119,Action,False,False
+预后,Prognosis,魔法,Spell,SGE,贤者,Sage,10,24286,Action,False,False
+复苏,Egeiro,魔法,Spell,SGE,贤者,Sage,12,24287,Action,False,False
+自生,Physis,能力,Ability,SGE,贤者,Sage,20,24288,Action,False,False
+发炎,Phlegma,魔法,Spell,SGE,贤者,Sage,26,24289,Action,False,False
+均衡,Eukrasia,魔法,Spell,SGE,贤者,Sage,30,24290,Action,False,False
+均衡诊断,Eukrasian Diagnosis,魔法,Spell,SGE,贤者,Sage,30,24291,Action,False,False
+均衡注药,Eukrasian Dosis,魔法,Spell,SGE,贤者,Sage,30,24293,Action,False,False
+均衡预后,Eukrasian Prognosis,魔法,Spell,SGE,贤者,Sage,30,24292,Action,False,False
+拯救,Soteria,能力,Ability,SGE,贤者,Sage,35,24294,Action,False,False
+神翼,Icarus,能力,Ability,SGE,贤者,Sage,40,24295,Action,False,False
+灵橡清汁,Druochole,能力,Ability,SGE,贤者,Sage,45,24296,Action,False,False
+失衡,Dyskrasia,魔法,Spell,SGE,贤者,Sage,46,24297,Action,False,False
+坚角清汁,Kerachole,能力,Ability,SGE,贤者,Sage,50,24298,Action,False,False
+寄生清汁,Ixochole,能力,Ability,SGE,贤者,Sage,52,24299,Action,False,False
+活化,Zoe,能力,Ability,SGE,贤者,Sage,56,24300,Action,False,False
+消化,Pepsis,能力,Ability,SGE,贤者,Sage,58,24301,Action,False,False
+自生II,Physis II,能力,Ability,SGE,贤者,Sage,60,24302,Action,False,False
+白牛清汁,Taurochole,能力,Ability,SGE,贤者,Sage,62,24303,Action,False,False
+箭毒,Toxikon,魔法,Spell,SGE,贤者,Sage,66,24304,Action,False,False
+输血,Haima,能力,Ability,SGE,贤者,Sage,70,24305,Action,False,False
+注药II,Dosis II,魔法,Spell,SGE,贤者,Sage,72,24306,Action,False,False
+均衡注药II,Eukrasian Dosis II,魔法,Spell,SGE,贤者,Sage,72,24308,Action,False,False
+发炎II,Phlegma II,魔法,Spell,SGE,贤者,Sage,72,24307,Action,False,False
+根素,Rhizomata,能力,Ability,SGE,贤者,Sage,74,24309,Action,False,False
+整体论,Holos,能力,Ability,SGE,贤者,Sage,76,24310,Action,False,False
+泛输血,Panhaima,能力,Ability,SGE,贤者,Sage,80,24311,Action,False,False
+注药III,Dosis III,魔法,Spell,SGE,贤者,Sage,82,24312,Action,False,False
+失衡II,Dyskrasia II,魔法,Spell,SGE,贤者,Sage,82,24315,Action,False,False
+均衡注药III,Eukrasian Dosis III,魔法,Spell,SGE,贤者,Sage,82,24314,Action,False,False
+均衡失衡,Eukrasian Dyskrasia,魔法,Spell,SGE,贤者,Sage,82,37032,Action,False,False
+发炎III,Phlegma III,魔法,Spell,SGE,贤者,Sage,82,24313,Action,False,False
+箭毒II,Toxikon II,魔法,Spell,SGE,贤者,Sage,82,24316,Action,False,False
+混合,Krasis,能力,Ability,SGE,贤者,Sage,86,24317,Action,False,False
+魂灵风息,Pneuma,魔法,Spell,SGE,贤者,Sage,90,24318;27524,Action,False,False
+心神风息,Psyche,能力,Ability,SGE,贤者,Sage,92,37033,Action,False,False
+均衡预后II,Eukrasian Prognosis II,魔法,Spell,SGE,贤者,Sage,96,37034,Action,False,False
+幸福,Eudaimonia,能力,Ability,SGE,贤者,Sage,100,37036,Action,False,False
+智慧之爱,Philosophia,能力,Ability,SGE,贤者,Sage,100,37035,Action,False,False
+燃火强袭,Burning Strike,魔法,Spell,SMN,召唤师,Summoner,30,25846,Action,False,False
+火神召唤,Summon Ifrit,魔法,Spell,SMN,召唤师,Summoner,30,25805,Action,False,False
+碎岩,Rock Buster,魔法,Spell,SMN,召唤师,Summoner,35,25847,Action,False,False
+土神召唤,Summon Titan,魔法,Spell,SMN,召唤师,Summoner,35,25806,Action,False,False
+痛苦核爆,Painflare,能力,Ability,SMN,召唤师,Summoner,40,3578,Action,False,False
+大气风斩,Aerial Slash,魔法,Spell,SMN,召唤师,Summoner,45,25848,Action,False,False
+风神召唤,Summon Garuda,魔法,Spell,SMN,召唤师,Summoner,45,25807,Action,False,False
+大气爆发,Aerial Blast,魔法,Spell,SMN,召唤师,Summoner,50;90,25851;25854,Action,False,False
+大地之怒,Earthen Fury,魔法,Spell,SMN,召唤师,Summoner,50;90,25850;25853,Action,False,False
+地狱之火炎,Inferno,魔法,Spell,SMN,召唤师,Summoner,50;90,25849;25852,Action,False,False
+能量抽取,Energy Siphon,能力,Ability,SMN,召唤师,Summoner,52,16510,Action,False,False
+绿宝石毁荡,Emerald Ruin III,魔法,Spell,SMN,召唤师,Summoner,54,25819,Action,False,False
+红宝石毁荡,Ruby Ruin III,魔法,Spell,SMN,召唤师,Summoner,54,25817,Action,False,False
+毁荡,Ruin III,魔法,Spell,SMN,召唤师,Summoner,54,3579,Action,False,False
+黄宝石毁荡,Topaz Ruin III,魔法,Spell,SMN,召唤师,Summoner,54,25818,Action,False,False
+星极核爆,Astral Flare,魔法,Spell,SMN,召唤师,Summoner,58,25821,Action,False,False
+星极脉冲,Astral Impulse,魔法,Spell,SMN,召唤师,Summoner,58,25820,Action,False,False
+龙神附体,Dreadwyrm Trance,魔法,Spell,SMN,召唤师,Summoner,58,3581,Action,False,False
+星极超流,Astral Flow,魔法,Spell,SMN,召唤师,Summoner,60,25822,Action,False,False
+死星核爆,Deathflare,能力,Ability,SMN,召唤师,Summoner,60,3582,Action,False,False
+毁绝,Ruin IV,魔法,Spell,SMN,召唤师,Summoner,62,7426,Action,False,False
+灼热之光,Searing Light,能力,Ability,SMN,召唤师,Summoner,66,25801,Action,False,False
+死亡轮回,Akh Morn,能力,Ability,SMN,召唤师,Summoner,70,7449,Action,False,False
+龙神迸发,Enkindle Bahamut,能力,Ability,SMN,召唤师,Summoner,70,7429,Action,False,False
+龙神召唤,Summon Bahamut,魔法,Spell,SMN,召唤师,Summoner,70,7427,Action,False,False
+真龙波,Wyrmwave,魔法,Spell,SMN,召唤师,Summoner,70,7428,Action,False,False
+绿宝石之仪,Emerald Rite,魔法,Spell,SMN,召唤师,Summoner,72,25825,Action,False,False
+红宝石之仪,Ruby Rite,魔法,Spell,SMN,召唤师,Summoner,72,25823,Action,False,False
+黄宝石之仪,Topaz Rite,魔法,Spell,SMN,召唤师,Summoner,72,25824,Action,False,False
+绿宝石灾祸,Emerald Disaster,魔法,Spell,SMN,召唤师,Summoner,74,25829,Action,False,False
+红宝石灾祸,Ruby Disaster,魔法,Spell,SMN,召唤师,Summoner,74,25827,Action,False,False
+黄宝石灾祸,Topaz Disaster,魔法,Spell,SMN,召唤师,Summoner,74,25828,Action,False,False
+三重灾祸,Tri-disaster,魔法,Spell,SMN,召唤师,Summoner,74,25826,Action,False,False
+炼狱之炎,Brand of Purgatory,魔法,Spell,SMN,召唤师,Summoner,80,16515,Action,False,False
+不死鸟迸发,Enkindle Phoenix,能力,Ability,SMN,召唤师,Summoner,80,16516,Action,False,False
+不死鸟之翼,Everlasting Flight,能力,Ability,SMN,召唤师,Summoner,80,16517,Action,False,False
+灵泉之炎,Fountain of Fire,魔法,Spell,SMN,召唤师,Summoner,80,16514,Action,False,False
+苏生之炎,Rekindle,能力,Ability,SMN,召唤师,Summoner,80,25830,Action,False,False
+天启,Revelation,能力,Ability,SMN,召唤师,Summoner,80,16518,Action,False,False
+赤焰,Scarlet Flame,魔法,Spell,SMN,召唤师,Summoner,80,16519,Action,False,False
+不死鸟召唤,Summon Phoenix,魔法,Spell,SMN,召唤师,Summoner,80,25831,Action,False,False
+绿宝石灾变,Emerald Catastrophe,魔法,Spell,SMN,召唤师,Summoner,82,25834,Action,False,False
+红宝石灾变,Ruby Catastrophe,魔法,Spell,SMN,召唤师,Summoner,82,25832,Action,False,False
+黄宝石灾变,Topaz Catastrophe,魔法,Spell,SMN,召唤师,Summoner,82,25833,Action,False,False
+深红旋风,Crimson Cyclone,魔法,Spell,SMN,召唤师,Summoner,86,25835,Action,False,False
+深红强袭,Crimson Strike,魔法,Spell,SMN,召唤师,Summoner,86,25885,Action,False,False
+螺旋气流,Slipstream,魔法,Spell,SMN,召唤师,Summoner,86,25837,Action,False,False
+风神召唤II,Summon Garuda II,魔法,Spell,SMN,召唤师,Summoner,90,25840,Action,False,False
+火神召唤II,Summon Ifrit II,魔法,Spell,SMN,召唤师,Summoner,90,25838,Action,False,False
+土神召唤II,Summon Titan II,魔法,Spell,SMN,召唤师,Summoner,90,25839,Action,False,False
+坏死爆发,Necrotize,能力,Ability,SMN,召唤师,Summoner,92,36990,Action,False,False
+灼热之闪,Searing Flash,能力,Ability,SMN,召唤师,Summoner,96,36991,Action,False,False
+烈日龙神迸发,Enkindle Solar Bahamut,能力,Ability,SMN,召唤师,Summoner,100,36998,Action,False,False
+众生离绝,Exodus,能力,Ability,SMN,召唤师,Summoner,100,36999,Action,False,False
+日光普照,Lux Solaris,能力,Ability,SMN,召唤师,Summoner,100,36997,Action,False,False
+光芒,Luxwave,魔法,Spell,SMN,召唤师,Summoner,100,36993,Action,False,False
+烈日龙神召唤,Summon Solar Bahamut,魔法,Spell,SMN,召唤师,Summoner,100,36992,Action,False,False
+烈日核爆,Sunflare,能力,Ability,SMN,召唤师,Summoner,100,36996,Action,False,False
+灵极核爆,Umbral Flare,魔法,Spell,SMN,召唤师,Summoner,100,36995,Action,False,False
+灵极脉冲,Umbral Impulse,魔法,Spell,SMN,召唤师,Summoner,100,36994,Action,False,False
+冰结,Blizzard,魔法,Spell,THM,咒术师,Thaumaturge,1,142,Action,False,False
+火炎,Fire,魔法,Spell,THM,咒术师,Thaumaturge,2,141,Action,False,False
+星灵移位,Transpose,能力,Ability,THM,咒术师,Thaumaturge,4,149,Action,False,False
+闪雷,Thunder,魔法,Spell,THM,咒术师,Thaumaturge,6,144,Action,False,False
+冰冻,Blizzard II,魔法,Spell,THM,咒术师,Thaumaturge,12,25793,Action,False,False
+崩溃,Scathe,魔法,Spell,THM,咒术师,Thaumaturge,15,156,Action,False,False
+烈炎,Fire II,魔法,Spell,THM,咒术师,Thaumaturge,18,147,Action,False,False
+震雷,Thunder II,魔法,Spell,THM,咒术师,Thaumaturge,26,7447,Action,False,False
+魔罩,Manaward,能力,Ability,THM,咒术师,Thaumaturge,30,157,Action,False,False
+爆炎,Fire III,魔法,Spell,THM,咒术师,Thaumaturge,35,152,Action,False,False
+以太步,Aetherial Manipulation,能力,Ability,THM,咒术师,Thaumaturge,50,155,Action,False,False
+咬噬尖齿,Steel Fangs,战技,Weaponskill,VPR,蝰蛇剑士,Viper,1,34606,Action,False,False
+猛袭利齿,Hunter's Sting,战技,Weaponskill,VPR,蝰蛇剑士,Viper,5,34608,Action,False,False
+穿裂尖齿,Reaving Fangs,战技,Weaponskill,VPR,蝰蛇剑士,Viper,10,34607,Action,False,False
+飞蛇之牙,Writhing Snap,战技,Weaponskill,VPR,蝰蛇剑士,Viper,15,34632,Action,False,False
+疾速利齿,Swiftskin's Sting,战技,Weaponskill,VPR,蝰蛇剑士,Viper,20,34609,Action,False,False
+咬噬尖牙,Steel Maw,战技,Weaponskill,VPR,蝰蛇剑士,Viper,25,34614,Action,False,False
+侧裂獠齿,Flanksbane Fang,战技,Weaponskill,VPR,蝰蛇剑士,Viper,30,34611,Action,False,False
+侧击獠齿,Flanksting Strike,战技,Weaponskill,VPR,蝰蛇剑士,Viper,30,34610,Action,False,False
+背裂獠齿,Hindsbane Fang,战技,Weaponskill,VPR,蝰蛇剑士,Viper,30,34613,Action,False,False
+背击獠齿,Hindsting Strike,战技,Weaponskill,VPR,蝰蛇剑士,Viper,30,34612,Action,False,False
+穿裂尖牙,Reaving Maw,战技,Weaponskill,VPR,蝰蛇剑士,Viper,35,34615,Action,False,False
+猛袭利牙,Hunter's Bite,战技,Weaponskill,VPR,蝰蛇剑士,Viper,40,34616,Action,False,False
+蛇行,Slither,能力,Ability,VPR,蝰蛇剑士,Viper,40,34646,Action,False,False
+疾速利牙,Swiftskin's Bite,战技,Weaponskill,VPR,蝰蛇剑士,Viper,45,34617,Action,False,False
+乱裂獠牙,Bloodied Maw,战技,Weaponskill,VPR,蝰蛇剑士,Viper,50,34619,Action,False,False
+乱击獠牙,Jagged Maw,战技,Weaponskill,VPR,蝰蛇剑士,Viper,50,34618,Action,False,False
+蛇尾击,Death Rattle,能力,Ability,VPR,蝰蛇剑士,Viper,55,34634,Action,False,False
+蛇尾术,Serpent's Tail,能力,Ability,VPR,蝰蛇剑士,Viper,55,35920,Action,False,False
+蛇尾闪,Last Lash,能力,Ability,VPR,蝰蛇剑士,Viper,60,34635,Action,False,False
+猛袭盘蛇,Hunter's Coil,战技,Weaponskill,VPR,蝰蛇剑士,Viper,65,34621,Action,False,False
+疾速盘蛇,Swiftskin's Coil,战技,Weaponskill,VPR,蝰蛇剑士,Viper,65,34622,Action,False,False
+强碎灵蛇,Vicewinder,战技,Weaponskill,VPR,蝰蛇剑士,Viper,65,34620,Action,False,False
+猛袭盘蝰,Hunter's Den,战技,Weaponskill,VPR,蝰蛇剑士,Viper,70,34624,Action,False,False
+疾速盘蝰,Swiftskin's Den,战技,Weaponskill,VPR,蝰蛇剑士,Viper,70,34625,Action,False,False
+强碎灵蝰,Vicepit,战技,Weaponskill,VPR,蝰蛇剑士,Viper,70,34623,Action,False,False
+双牙乱术,Twinblood,能力,Ability,VPR,蝰蛇剑士,Viper,75,35922,Action,False,False
+双牙乱击,Twinblood Bite,能力,Ability,VPR,蝰蛇剑士,Viper,75,34637,Action,False,False
+双牙连术,Twinfang,能力,Ability,VPR,蝰蛇剑士,Viper,75,35921,Action,False,False
+双牙连击,Twinfang Bite,能力,Ability,VPR,蝰蛇剑士,Viper,75,34636,Action,False,False
+双牙乱闪,Twinblood Thresh,能力,Ability,VPR,蝰蛇剑士,Viper,80,34639,Action,False,False
+双牙连闪,Twinfang Thresh,能力,Ability,VPR,蝰蛇剑士,Viper,80,34638,Action,False,False
+飞蛇之尾,Uncoiled Fury,战技,Weaponskill,VPR,蝰蛇剑士,Viper,82,34633,Action,False,False
+蛇灵气,Serpent's Ire,能力,Ability,VPR,蝰蛇剑士,Viper,86,34647,Action,False,False
+祖灵之牙一式,First Generation,战技,Weaponskill,VPR,蝰蛇剑士,Viper,90,34627,Action,False,False
+祖灵之牙四式,Fourth Generation,战技,Weaponskill,VPR,蝰蛇剑士,Viper,90,34630,Action,False,False
+祖灵降临,Reawaken,战技,Weaponskill,VPR,蝰蛇剑士,Viper,90,34626,Action,False,False
+祖灵之牙二式,Second Generation,战技,Weaponskill,VPR,蝰蛇剑士,Viper,90,34628,Action,False,False
+祖灵之牙三式,Third Generation,战技,Weaponskill,VPR,蝰蛇剑士,Viper,90,34629,Action,False,False
+飞蛇乱尾击,Uncoiled Twinblood,能力,Ability,VPR,蝰蛇剑士,Viper,92,34645,Action,False,False
+飞蛇连尾击,Uncoiled Twinfang,能力,Ability,VPR,蝰蛇剑士,Viper,92,34644,Action,False,False
+祖灵大蛇牙,Ouroboros,战技,Weaponskill,VPR,蝰蛇剑士,Viper,96,34631,Action,False,False
+祖灵之蛇一式,First Legacy,能力,Ability,VPR,蝰蛇剑士,Viper,100,34640,Action,False,False
+祖灵之蛇四式,Fourth Legacy,能力,Ability,VPR,蝰蛇剑士,Viper,100,34643,Action,False,False
+祖灵之蛇二式,Second Legacy,能力,Ability,VPR,蝰蛇剑士,Viper,100,34641,Action,False,False
+祖灵之蛇三式,Third Legacy,能力,Ability,VPR,蝰蛇剑士,Viper,100,34642,Action,False,False
+原初之魂,Inner Beast,战技,Weaponskill,WAR,战士,Warrior,35,49,Action,False,False
+秘银暴风,Mythril Tempest,战技,Weaponskill,WAR,战士,Warrior,40,16462,Action,False,False
+钢铁旋风,Steel Cyclone,战技,Weaponskill,WAR,战士,Warrior,45,51,Action,False,False
+战嚎,Infuriate,能力,Ability,WAR,战士,Warrior,50,52,Action,False,False
+裂石飞环,Fell Cleave,战技,Weaponskill,WAR,战士,Warrior,54,3549,Action,False,False
+原初的直觉,Raw Intuition,能力,Ability,WAR,战士,Warrior,56,3551,Action,False,False
+泰然自若,Equilibrium,能力,Ability,WAR,战士,Warrior,58,3552,Action,False,False
+地毁人亡,Decimate,战技,Weaponskill,WAR,战士,Warrior,60,3550,Action,False,False
+猛攻,Onslaught,能力,Ability,WAR,战士,Warrior,62,7386,Action,False,False
+动乱,Upheaval,能力,Ability,WAR,战士,Warrior,64,7387,Action,False,False
+摆脱,Shake It Off,能力,Ability,WAR,战士,Warrior,68,7388,Action,False,False
+原初的解放,Inner Release,能力,Ability,WAR,战士,Warrior,70,7389,Action,False,False
+混沌旋风,Chaotic Cyclone,战技,Weaponskill,WAR,战士,Warrior,72,16463,Action,False,False
+原初的勇猛,Nascent Flash,能力,Ability,WAR,战士,Warrior,76,16464,Action,False,False
+狂魂,Inner Chaos,战技,Weaponskill,WAR,战士,Warrior,80,16465,Action,False,False
+原初的血气,Bloodwhetting,能力,Ability,WAR,战士,Warrior,82,25751,Action,False,False
+群山隆起,Orogeny,能力,Ability,WAR,战士,Warrior,86,25752,Action,False,False
+蛮荒崩裂,Primal Rend,战技,Weaponskill,WAR,战士,Warrior,90,25753,Action,False,False
+戮罪,Damnation,能力,Ability,WAR,战士,Warrior,92,36923,Action,False,False
+原初的怒震,Primal Wrath,能力,Ability,WAR,战士,Warrior,96,36924,Action,False,False
+尽毁,Primal Ruination,战技,Weaponskill,WAR,战士,Warrior,100,36925,Action,False,False
+神速咏唱,Presence of Mind,能力,Ability,WHM,白魔法师,White Mage,30,136,Action,False,False
+再生,Regen,魔法,Spell,WHM,白魔法师,White Mage,35,137,Action,False,False
+以太变移,Aetherial Shift,能力,Ability,WHM,白魔法师,White Mage,40,37008,Action,False,False
+愈疗,Cure III,魔法,Spell,WHM,白魔法师,White Mage,40,131,Action,False,False
+神圣,Holy,魔法,Spell,WHM,白魔法师,White Mage,45,139,Action,False,False
+天赐祝福,Benediction,能力,Ability,WHM,白魔法师,White Mage,50,140,Action,False,False
+安慰之心,Afflatus Solace,魔法,Spell,WHM,白魔法师,White Mage,52,16531,Action,False,False
+庇护所,Asylum,能力,Ability,WHM,白魔法师,White Mage,52,3569,Action,False,False
+垒石,Stone III,魔法,Spell,WHM,白魔法师,White Mage,54,3568,Action,False,False
+法令,Assize,能力,Ability,WHM,白魔法师,White Mage,56,3571,Action,False,False
+无中生有,Thin Air,能力,Ability,WHM,白魔法师,White Mage,58,7430,Action,False,False
+神名,Tetragrammaton,能力,Ability,WHM,白魔法师,White Mage,60,3570,Action,False,False
+崩石,Stone IV,魔法,Spell,WHM,白魔法师,White Mage,64,7431,Action,False,False
+神祝祷,Divine Benison,能力,Ability,WHM,白魔法师,White Mage,66,7432,Action,False,False
+全大赦,Plenary Indulgence,能力,Ability,WHM,白魔法师,White Mage,70,7433,Action,False,False
+天辉,Dia,魔法,Spell,WHM,白魔法师,White Mage,72,16532,Action,False,False
+闪耀,Glare,魔法,Spell,WHM,白魔法师,White Mage,72,16533,Action,False,False
+苦难之心,Afflatus Misery,魔法,Spell,WHM,白魔法师,White Mage,74,16535,Action,False,False
+狂喜之心,Afflatus Rapture,魔法,Spell,WHM,白魔法师,White Mage,76,16534,Action,False,False
+节制,Temperance,能力,Ability,WHM,白魔法师,White Mage,80,16536,Action,False,False
+闪灼,Glare III,魔法,Spell,WHM,白魔法师,White Mage,82,25859,Action,False,False
+豪圣,Holy III,魔法,Spell,WHM,白魔法师,White Mage,82,25860,Action,False,False
+水流幕,Aquaveil,能力,Ability,WHM,白魔法师,White Mage,86,25861,Action,False,False
+礼仪之铃,Liturgy of the Bell,能力,Ability,WHM,白魔法师,White Mage,90,25862;28509,Action,False,False
+闪飒,Glare IV,魔法,Spell,WHM,白魔法师,White Mage,92,37009,Action,False,False
+医养,Medica III,魔法,Spell,WHM,白魔法师,White Mage,96,37010,Action,False,False
+神爱抚,Divine Caress,能力,Ability,WHM,白魔法师,White Mage,100,37011,Action,False,False

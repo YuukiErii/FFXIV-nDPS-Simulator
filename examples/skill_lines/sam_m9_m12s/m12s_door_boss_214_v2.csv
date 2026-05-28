@@ -1,0 +1,289 @@
+time,action,isGCD,castTime
+-12.5,Meikyo Shisui,0,0
+-0.76,Gekko,1,0
+3.55E-15,Ikishoten,0,0
+1.715,Higanbana,1,1.3
+4.19,Kasha,1,0
+4.74,Feint,0,0
+6.665,Gekko,1,0
+8.80875,Gyofu,1,0
+10.9525,Yukikaze,1,0
+11.5025,Tengentsu,0,0
+12.0525,Hissatsu: Shinten,0,0
+13.09625,Tendo Setsugekka,1,1.3
+14.50875,Pop Tengentsu,0,0
+15.24,Gyofu,1,0
+15.79,Hissatsu: Shinten,0,0
+17.38375,Yukikaze,1,0
+19.5275,Gyofu,1,0
+21.67125,Shifu,1,0
+23.815,Kasha,1,0
+24.365,Meikyo Shisui,0,0
+25.215,Tincture,0,0
+25.95875,Tendo Kaeshi Setsugekka,1,0
+26.50875,Hissatsu: Senei,0,0
+28.1025,Ogi Namikiri,1,1.3
+29.515,Zanshin,0,0
+30.24625,Kaeshi: Namikiri,1,0
+30.79625,Shoha,0,0
+32.39,Gekko,1,0
+32.94,Hissatsu: Shinten,0,0
+34.53375,Tendo Setsugekka,1,1.3
+36.6775,Tendo Kaeshi Setsugekka,1,0
+37.2275,Hissatsu: Gyoten,0,0
+38.82125,Gekko,1,0
+40.965,Kasha,1,0
+41.515,Tengentsu,0,0
+43.10875,Gyofu,1,0
+43.65875,Pop Tengentsu,0,0
+45.2525,Yukikaze,1,0
+45.8025,Meikyo Shisui,0,0
+47.39625,Tendo Setsugekka,1,1.3
+48.80875,Hissatsu: Shinten,0,0
+49.54,Tendo Kaeshi Setsugekka,1,0
+50.09,Hissatsu: Shinten,0,0
+51.68375,Gekko,1,0
+52.23375,Hissatsu: Gyoten,0,0
+53.8275,Higanbana,1,1.3
+55.24,Shoha,0,0
+55.97125,Gekko,1,0
+58.115,Kasha,1,0
+60.25875,Gyofu,1,0
+62.4025,Yukikaze,1,0
+64.54625,Midare Setsugekka,1,1.3
+66.69,Gyofu,1,0
+68.83375,Yukikaze,1,0
+69.38375,Hissatsu: Shinten,0,0
+70.9775,Gyofu,1,0
+73.12125,Shifu,1,0
+75.265,Kasha,1,0
+77.40875,Gyofu,1,0
+79.5525,Jinpu,1,0
+81.69625,Gekko,1,0
+82.24625,Hissatsu: Shinten,0,0
+83.84,Kaeshi: Setsugekka,1,0
+84.39,Tengentsu,0,0
+85.98375,Gyofu,1,0
+86.53375,Hissatsu: Senei,0,0
+87.08375,Pop Tengentsu,0,0
+88.1275,Jinpu,1,0
+88.6775,Hissatsu: Gyoten,0,0
+90.27125,Midare Setsugekka,1,1.3
+92.415,Gekko,1,0
+94.55875,Gyofu,1,0
+96.7025,Kaeshi: Setsugekka,1,0
+97.8525,Hissatsu: Gyoten,0,0
+98.84625,Shifu,1,0
+100.99,Kasha,1,0
+103.13375,Gyofu,1,0
+103.68375,Tengentsu,0,0
+105.2775,Yukikaze,1,0
+105.8275,Pop Tengentsu,0,0
+107.42125,Midare Setsugekka,1,1.3
+108.83375,Shoha,0,0
+109.565,Gyofu,1,0
+110.115,Hissatsu: Shinten,0,0
+111.70875,Yukikaze,1,0
+113.8525,Higanbana,1,1.3
+115.99625,Gyofu,1,0
+118.14,Yukikaze,1,0
+118.69,Meikyo Shisui,0,0
+119.24,Hissatsu: Shinten,0,0
+120.28375,Kasha,1,0
+122.4275,Gekko,1,0
+124.57125,Kaeshi: Setsugekka,1,0
+125.12125,Hissatsu: Shinten,0,0
+126.715,Tendo Setsugekka,1,1.3
+128.1275,Hissatsu: Shinten,0,0
+128.85875,Tendo Kaeshi Setsugekka,1,0
+129.40875,Ikishoten,0,0
+131.0025,Ogi Namikiri,1,1.3
+132.415,Zanshin,0,0
+133.14625,Kaeshi: Namikiri,1,0
+133.69625,Shoha,0,0
+135.29,Gekko,1,0
+135.84,Hissatsu: Shinten,0,0
+137.43375,Gyofu,1,0
+139.5775,Yukikaze,1,0
+141.72125,Gyofu,1,0
+143.865,Shifu,1,0
+146.00875,Kasha,1,0
+146.55875,Hissatsu: Senei,0,0
+148.1525,Midare Setsugekka,1,1.3
+150.29625,Kaeshi: Setsugekka,1,0
+150.84625,Tengentsu,0,0
+151.39625,Pop Tengentsu,0,0
+152.44,Gyofu,1,0
+154.58375,Yukikaze,1,0
+156.7275,Gyofu,1,0
+157.2775,Hissatsu: Shinten,0,0
+158.87125,Shifu,1,0
+161.015,Kasha,1,0
+163.15875,Gyofu,1,0
+165.3025,Jinpu,1,0
+165.8525,Tengentsu,0,0
+166.4025,Pop Tengentsu,0,0
+167.44625,Gekko,1,0
+169.59,Midare Setsugekka,1,1.3
+171.0025,Hissatsu: Shinten,0,0
+171.73375,Gyofu,1,0
+173.8775,Yukikaze,1,0
+176.02125,Gyofu,1,0
+178.165,Kaeshi: Setsugekka,1,0
+178.715,Hissatsu: Shinten,0,0
+180.30875,Higanbana,1,1.3
+181.72125,Shoha,0,0
+182.4525,Yukikaze,1,0
+183.0025,Tengentsu,0,0
+183.5525,Hissatsu: Shinten,0,0
+184.59625,Gyofu,1,0
+185.14625,Pop Tengentsu,0,0
+186.74,Shifu,1,0
+188.88375,Kasha,1,0
+191.0275,Gyofu,1,0
+191.5775,Hissatsu: Shinten,0,0
+193.17125,Jinpu,1,0
+195.315,Gekko,1,0
+195.865,Hissatsu: Shinten,0,0
+197.45875,Midare Setsugekka,1,1.3
+199.6025,Gyofu,1,0
+201.74625,Yukikaze,1,0
+202.29625,Hissatsu: Shinten,0,0
+203.89,Gyofu,1,0
+206.03375,Shifu,1,0
+206.58375,Hissatsu: Senei,0,0
+208.1775,Kasha,1,0
+210.7275,Meikyo Shisui,0,0
+213.2775,Meditate,1,0
+221.343,Kaeshi: Setsugekka,1,0
+221.893,Shoha,0,0
+223.48675,Gekko,1,0
+224.03675,Hissatsu: Shinten,0,0
+225.6305,Tendo Setsugekka,1,1.3
+227.77425,Gekko,1,0
+228.32425,Tengentsu,0,0
+228.87425,Pop Tengentsu,0,0
+229.918,Kasha,1,0
+232.06175,Gyofu,1,0
+232.61175,Hissatsu: Shinten,0,0
+234.2055,Yukikaze,1,0
+234.7555,Hissatsu: Shinten,0,0
+236.34925,Tendo Kaeshi Setsugekka,1,0
+238.493,Midare Setsugekka,1,1.3
+240.63675,Gyofu,1,0
+241.18675,Hissatsu: Shinten,0,0
+242.7805,Yukikaze,1,0
+243.3305,Hissatsu: Shinten,0,0
+244.92425,Higanbana,1,1.3
+246.33675,Shoha,0,0
+247.068,Kaeshi: Setsugekka,1,0
+249.21175,Gyofu,1,0
+249.76175,Ikishoten,0,0
+251.3555,Ogi Namikiri,1,1.3
+252.768,Zanshin,0,0
+253.49925,Kaeshi: Namikiri,1,0
+255.643,Yukikaze,1,0
+256.193,Meikyo Shisui,0,0
+257.78675,Kasha,1,0
+259.9305,Gekko,1,0
+262.07425,Tendo Setsugekka,1,1.3
+264.218,Tendo Kaeshi Setsugekka,1,0
+264.768,Tengentsu,0,0
+265.318,Pop Tengentsu,0,0
+266.36175,Gekko,1,0
+266.91175,Hissatsu: Senei,0,0
+268.5055,Gyofu,1,0
+270.64925,Yukikaze,1,0
+271.19925,Hissatsu: Shinten,0,0
+272.793,Gyofu,1,0
+274.93675,Shifu,1,0
+277.0805,Kasha,1,0
+279.22425,Gyofu,1,0
+279.77425,Hissatsu: Shinten,0,0
+281.368,Midare Setsugekka,1,1.3
+283.51175,Kaeshi: Setsugekka,1,0
+284.06175,Shoha,0,0
+285.6555,Yukikaze,1,0
+286.2055,Tengentsu,0,0
+286.7555,Pop Tengentsu,0,0
+287.79925,Gyofu,1,0
+289.943,Shifu,1,0
+290.493,Hissatsu: Shinten,0,0
+292.08675,Higanbana,1,1.3
+294.2305,Kasha,1,0
+296.37425,Gyofu,1,0
+296.92425,Hissatsu: Shinten,0,0
+298.518,Yukikaze,1,0
+299.068,Meikyo Shisui,0,0
+300.66175,Gekko,1,0
+302.8055,Tendo Setsugekka,1,1.3
+304.94925,Tendo Kaeshi Setsugekka,1,0
+307.093,Gekko,1,0
+307.643,Hissatsu: Shinten,0,0
+309.23675,Kasha,1,0
+311.3805,Gyofu,1,0
+311.9305,Hissatsu: Shinten,0,0
+313.52425,Yukikaze,1,0
+314.07425,Tengentsu,0,0
+314.62425,Pop Tengentsu,0,0
+315.668,Midare Setsugekka,1,1.3
+317.0805,Shoha,0,0
+317.81175,Kaeshi: Setsugekka,1,0
+318.36175,Hissatsu: Shinten,0,0
+319.9555,Gyofu,1,0
+322.09925,Yukikaze,1,0
+324.243,Gyofu,1,0
+326.38675,Shifu,1,0
+326.93675,Hissatsu: Senei,0,0
+328.5305,Kasha,1,0
+330.67425,Gyofu,1,0
+332.818,Jinpu,1,0
+334.96175,Gekko,1,0
+335.51175,Hissatsu: Shinten,0,0
+337.1055,Midare Setsugekka,1,1.3
+338.518,Tengentsu,0,0
+339.24925,Kaeshi: Setsugekka,1,0
+339.79925,Pop Tengentsu,0,0
+341.393,Gyofu,1,0
+341.943,Hissatsu: Shinten,0,0
+343.53675,Yukikaze,1,0
+345.6805,Higanbana,1,1.3
+347.82425,Gyofu,1,0
+349.968,Yukikaze,1,0
+350.518,Hissatsu: Shinten,0,0
+352.11175,Gyofu,1,0
+354.2555,Shifu,1,0
+356.39925,Kasha,1,0
+356.94925,Meikyo Shisui,0,0
+358.543,Gekko,1,0
+360.103,Tincture,0,0
+360.68675,Tendo Setsugekka,1,1.3
+362.09925,Shoha,0,0
+362.8305,Tendo Kaeshi Setsugekka,1,0
+363.3805,Hissatsu: Shinten,0,0
+364.97425,Gekko,1,0
+365.52425,Hissatsu: Shinten,0,0
+366.07425,Tengentsu,0,0
+367.118,Kasha,1,0
+367.668,Hissatsu: Shinten,0,0
+368.218,Hissatsu: Gyoten,0,0
+369.018,Pop Tengentsu,0,0
+369.26175,Gyofu,1,0
+369.81175,Ikishoten,0,0
+371.4055,Ogi Namikiri,1,1.3
+372.818,Zanshin,0,0
+373.54925,Kaeshi: Namikiri,1,0
+374.09925,Hissatsu: Shinten,0,0
+375.693,Yukikaze,1,0
+376.243,Meikyo Shisui,0,0
+377.83675,Tendo Setsugekka,1,1.3
+379.9805,Tendo Kaeshi Setsugekka,1,0
+380.5305,Hissatsu: Shinten,0,0
+382.12425,Gekko,1,0
+382.67425,Hissatsu: Shinten,0,0
+384.268,Kasha,1,0
+386.41175,Yukikaze,1,0
+386.96175,Hissatsu: Senei,0,0
+388.5555,Midare Setsugekka,1,1.3
+389.968,Shoha,0,0
+390.69925,Kaeshi: Setsugekka,1,0

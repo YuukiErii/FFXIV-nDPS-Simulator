@@ -1,0 +1,22 @@
+job,skill_key,display_name,axis_action_count,sim_count,sim_target_sum,sim_damage_one_run,xiv_damage_events,xiv_total_potency,first_axis_time,last_axis_time,first_xiv_damage_time,last_xiv_damage_time,note
+BRD,apexarrow,Apex Arrow,3,3,3,238090.085,2,1407.0,11.86666666666667,251.4500000000001,74.33666666666666,252.5200000000001,sim count differs from external damage event count; external damage event count differs from axis action count
+BRD,armyspaeon,Army's Paeon,1,1,1,0.0,0,0.0,90.00000000000003,90.00000000000003,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+BRD,autoattack,Auto Attack,0,98,98,882388.714,88,7365.5222,,,0.5300010000000004,256.13320100000016,generated damage in simulator and external reference without an axis press; sim count differs from external damage event count
+BRD,barrage,Barrage,3,3,3,0.0,0,0.0,8.233333333333338,248.2333333333335,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+BRD,battlevoice,Battle Voice,2,2,2,0.0,0,0.0,2.916666666666668,136.39999999999998,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+BRD,blastarrow,Blast Arrow,2,2,2,134117.727,2,1407.0,75.78333333333332,253.96666666666675,77.43333333333332,255.6166666666668,matched
+BRD,burstshot,Burst Shot,9,9,9,208718.095,9,2104.524965,4.316666666666668,137.8,5.786666666666671,139.27000000000004,matched
+BRD,causticbite,Caustic Bite,1,2,2,16330.865,2,170.0,1.5166666666666675,1.5166666666666675,2.8066666666666684,4.930828174630749,generated damage matched external reference; axis press count differs because external damage rows include ticks or follow-ups
+BRD,empyrealarrow,Empyreal Arrow,4,4,4,110824.563,4,1175.744698,5.016666666666669,138.50000000000003,6.04666666666667,139.53000000000003,matched
+BRD,heartbreakshot,Heartbreak Shot,4,4,4,87382.997,4,726.106964,47.100000000000016,133.8666666666668,48.75000000000002,135.51666666666677,matched
+BRD,ironjaws,Iron Jaws,4,34,34,130883.01,34,1273.065597,6.8333333333333375,140.0166666666667,7.503333333333337,140.6866666666667,generated damage matched external reference; axis press count differs because external damage rows include ticks or follow-ups
+BRD,magesballad,Mage's Ballad,1,1,1,0.0,0,0.0,45.000000000000014,45.000000000000014,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+BRD,pitchperfect,Pitch Perfect,1,1,1,36613.892,1,283.590581,139.20000000000005,139.20000000000005,140.00000000000003,140.00000000000003,matched
+BRD,radiantencore,Radiant Encore,3,3,3,420395.807,1,868.283339,14.383333333333336,256.48333333333346,16.343333333333334,16.343333333333334,sim count differs from external damage event count; external damage event count differs from axis action count
+BRD,radiantfinale,Radiant Finale,2,2,2,0.0,0,0.0,7.533333333333337,137.1,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+BRD,ragingstrikes,Raging Strikes,2,2,2,0.0,0,0.0,2.2166666666666677,135.7,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+BRD,refulgentarrow,Refulgent Arrow,5,5,5,167962.055,5,3292.53945,9.350000000000003,248.93333333333348,10.820000000000004,250.40333333333345,matched
+BRD,resonantarrow,Resonant Arrow,1,1,1,113311.528,1,644.456825,131.05000000000013,131.05000000000013,132.21000000000012,132.21000000000012,matched
+BRD,sidewinder,Sidewinder,3,3,3,134602.387,3,1300.161908,10.050000000000004,249.63333333333347,10.580000000000004,250.16333333333347,matched
+BRD,stormbite,Stormbite,1,3,3,13972.879,3,150.0,-1.0,-1.0,0.29000000000000004,4.930828174630749,generated damage matched external reference; axis press count differs because external damage rows include ticks or follow-ups
+BRD,thewanderersminuet,The Wanderer's Minuet,2,2,2,0.0,0,0.0,3.616666666666669,135.0,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
