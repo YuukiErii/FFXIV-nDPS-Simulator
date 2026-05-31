@@ -1,0 +1,24 @@
+job,skill_key,display_name,axis_action_count,sim_count,sim_target_sum,sim_damage_one_run,xiv_damage_events,xiv_total_potency,first_axis_time,last_axis_time,first_xiv_damage_time,last_xiv_damage_time,note
+DNC,autoattack,Auto Attack,0,58,58,554323.821,50,4879.565055,,,-0.40499999999999936,152.47499999999994,generated damage in simulator and external xivintheshell without an axis press; sim count differs from external damage event count
+DNC,cascade,Cascade,3,3,3,75426.94,3,693.0,35.033333333333346,90.0,35.83333333333334,90.79999999999998,matched
+DNC,danceofthedawn,Dance of the Dawn,4,4,4,366859.739,4,4365.280534,27.508333333333347,147.06666666666658,27.948333333333345,147.50666666666658,matched
+DNC,devilment,Devilment,2,2,2,0.0,0,0.0,6.274999999999999,141.24166666666665,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DNC,emboite,Emboite,4,4,4,0.0,0,0.0,-3.4916666666666667,136.50833333333333,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DNC,entrechat,Entrechat,4,4,4,0.0,0,0.0,-2.4833333333333334,137.51666666666665,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DNC,fandanceiii,Fan Dance III,3,3,3,85750.584,1,231.0,28.208333333333343,147.76666666666657,64.66166666666669,64.66166666666669,sim count differs from external damage event count; external damage event count differs from axis action count
+DNC,fandanceiv,Fan Dance IV,3,3,3,146985.041,1,483.0,28.908333333333346,148.46666666666655,65.36166666666668,65.36166666666668,sim count differs from external damage event count; external damage event count differs from axis action count
+DNC,finishingmove,Finishing Move,2,2,2,288212.762,0,0.0,25.000000000000007,144.55833333333325,,,axis/simulator damage has no external damage key; likely xivintheshell naming or generated-damage attribution mismatch
+DNC,flourish,Flourish,1,1,1,0.0,0,0.0,63.3416666666667,63.3416666666667,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DNC,fountain,Fountain,3,3,3,88533.178,3,882.0,37.54166666666668,92.50833333333331,38.521666666666675,93.48833333333332,matched
+DNC,fountainfall,Fountainfall,3,3,3,107749.627,3,1071.0,42.55833333333334,97.52499999999998,43.76833333333334,98.73499999999999,matched
+DNC,jete,Jete,3,3,3,0.0,0,0.0,3.5583333333333336,138.52499999999998,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DNC,lastdance,Last Dance,3,3,3,196105.606,1,567.0,45.06666666666667,110.08333333333334,63.9016666666667,63.9016666666667,sim count differs from external damage event count; external damage event count differs from axis action count
+DNC,pirouette,Pirouette,3,3,3,0.0,0,0.0,4.566666666666666,139.5333333333333,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DNC,reversecascade,Reverse Cascade,3,3,3,113729.453,3,882.0,40.050000000000004,95.01666666666665,40.67,95.63666666666664,matched
+DNC,saberdance,Saber Dance,3,3,3,190089.309,3,1790.251488,65.44166666666668,152.08333333333326,65.88166666666667,152.52333333333326,matched
+DNC,standardfinish,Standard Finish,3,3,3,228457.654,3,1098.0,-1.4749999999999996,108.575,-0.9349999999999996,109.11500000000001,matched
+DNC,standardstep,Standard Step,3,3,3,0.0,0,0.0,-5.0,105.04999999999998,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DNC,starfalldance,Starfall Dance,3,3,3,334358.819,1,1283.556876,30.016666666666673,149.5749999999999,150.46499999999992,150.46499999999992,sim count differs from external damage event count; external damage event count differs from axis action count
+DNC,technicalfinish,Technical Finish,2,2,2,213757.359,2,717.5,5.574999999999999,140.54166666666666,6.114999999999998,141.08166666666665,matched
+DNC,technicalstep,Technical Step,2,2,2,0.0,0,0.0,0.0333333333333341,135.0,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DNC,tillana,Tillana,2,2,2,210799.104,2,1494.795057,7.083333333333332,142.04999999999995,7.923333333333332,142.88999999999993,matched

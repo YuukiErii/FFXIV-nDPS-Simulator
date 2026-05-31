@@ -1,0 +1,2 @@
+job,row_no,time,skill,code,severity,message
+VPR,27,26.965,Uncoiled Fury,vpr_rattling_coil_low,warning,Uncoiled Fury used without a tracked Rattling Coil.

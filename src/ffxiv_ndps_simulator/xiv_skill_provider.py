@@ -5,6 +5,13 @@ def _forced_name(value):
     return getattr(value, "name", str(value))
 
 
+def _is_gcd_skill(skill):
+    explicit = getattr(skill, "is_GCD", None)
+    if explicit is not None:
+        return bool(explicit)
+    return _forced_name(getattr(skill, "skill_type", "")) in {"SPELL", "WEAPONSKILL"}
+
+
 def _select_spec(specs, prefer_no_combo=False):
     if specs is None:
         return None
@@ -133,6 +140,7 @@ class AmasSkillProvider:
             "potency": potency or 0,
             "base_potency": base_potency or potency or 0,
             "combo_prev": _combo_prev(skill.combo_spec),
+            "is_gcd": _is_gcd_skill(skill),
             "guaranteed_crit": _forced_name(getattr(main_spec, "guaranteed_crit", "")) == "FORCE_YES",
             "guaranteed_dh": _forced_name(getattr(main_spec, "guaranteed_dh", "")) == "FORCE_YES",
             "is_aoe": bool(getattr(skill, "has_aoe", False)),

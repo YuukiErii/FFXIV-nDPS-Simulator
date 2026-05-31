@@ -1,0 +1,4 @@
+job,row_no,time,skill,code,severity,message
+BRD,22,53.92,Iron Jaws,brd_iron_jaws_missing_dot,warning,Iron Jaws used without both Caustic Bite and Stormbite active; DoT refresh skipped.
+BRD,36,98.52,Iron Jaws,brd_iron_jaws_missing_dot,warning,Iron Jaws used without both Caustic Bite and Stormbite active; DoT refresh skipped.
+BRD,49,140.687,Iron Jaws,brd_iron_jaws_missing_dot,warning,Iron Jaws used without both Caustic Bite and Stormbite active; DoT refresh skipped.

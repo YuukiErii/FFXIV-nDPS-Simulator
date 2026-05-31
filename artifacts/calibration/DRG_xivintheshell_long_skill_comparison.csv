@@ -1,0 +1,22 @@
+job,skill_key,display_name,axis_action_count,sim_count,sim_target_sum,sim_damage_one_run,xiv_damage_events,xiv_total_potency,first_axis_time,last_axis_time,first_xiv_damage_time,last_xiv_damage_time,note
+DRG,autoattack,Auto Attack,0,72,72,583428.221,68,7071.867528,,,0.29000000000000004,187.89000000000001,generated damage in simulator and external xivintheshell without an axis press; sim count differs from external damage event count
+DRG,battlelitany,Battle Litany,1,1,1,0.0,0,0.0,2.208333333333334,2.208333333333334,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DRG,chaoticspring,Chaotic Spring,3,27,27,250111.436,27,2681.787619,4.0166666666666675,96.41666666666671,4.466666666666667,118.93082817463089,generated damage matched external xivintheshell; axis press count differs because external damage rows include ticks or follow-ups
+DRG,dragonfiredive,Dragonfire Dive,2,2,2,114118.724,2,1307.542386,7.616666666666667,187.6166666666668,8.416666666666666,188.4166666666668,matched
+DRG,drakesbane,Drakesbane,5,5,5,241848.89,1,506.0,11.625000000000004,147.54166666666666,56.033333333333374,56.033333333333374,sim count differs from external damage event count; external damage event count differs from axis action count
+DRG,fangandclaw,Fang and Claw,2,2,2,101893.488,2,455.4,75.14166666666674,142.52499999999998,75.76166666666674,143.14499999999998,matched
+DRG,geirskogul,Geirskogul,4,4,4,118832.425,4,1224.716292,6.216666666666669,186.2166666666668,6.8866666666666685,186.8866666666668,matched
+DRG,heavensthrust,Heavens' Thrust,3,3,3,61880.501,3,639.213563,9.116666666666667,140.01666666666665,9.826666666666668,140.72666666666663,matched
+DRG,highjump,High Jump,4,4,4,156870.761,4,1873.594703,4.716666666666667,148.24166666666667,5.206666666666667,148.73166666666665,matched
+DRG,lancecharge,Lance Charge,2,2,2,0.0,0,0.0,-0.2999999999999998,90.00000000000001,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DRG,lifesurge,Life Surge,2,2,2,0.0,0,0.0,2.908333333333333,90.70000000000002,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+DRG,miragedive,Mirage Dive,4,4,4,154359.815,4,1779.914968,5.5166666666666675,149.04166666666666,6.316666666666668,149.84166666666667,matched
+DRG,nastrond,Nastrond,4,4,4,306690.838,4,3621.661036,6.916666666666668,186.9166666666668,7.676666666666668,187.6766666666668,matched
+DRG,raidenthrust,Raiden Thrust,1,1,1,58342.845,1,404.8,67.61666666666672,67.61666666666672,68.23666666666672,68.23666666666672,matched
+DRG,riseofthedragon,Rise of the Dragon,2,2,2,135787.341,2,1438.296624,8.416666666666666,188.4166666666668,9.576666666666668,189.5766666666668,matched
+DRG,spiralblow,Spiral Blow,5,5,5,150103.026,5,1717.5,1.5083333333333337,137.50833333333333,2.8883333333333336,138.88833333333332,matched
+DRG,starcross,Starcross,2,2,2,125484.754,2,2615.084772,13.825000000000003,129.1166666666668,14.805000000000003,130.09666666666678,matched
+DRG,stardiver,Stardiver,2,2,2,155225.084,2,2196.671208,12.325000000000003,127.61666666666679,13.615000000000002,128.90666666666678,matched
+DRG,truethrust,True Thrust,4,4,4,91072.419,4,1110.969615,-1.0,135.0,-0.2400000000000002,135.76,matched
+DRG,wheelingthrust,Wheeling Thrust,3,3,3,75465.285,3,829.4,52.52500000000004,145.0333333333333,53.195000000000036,145.70333333333332,matched
+DRG,wyrmwindthrust,Wyrmwind Thrust,2,2,2,81966.445,0,0.0,14.525000000000002,129.81666666666678,,,axis/simulator damage has no external damage key; likely xivintheshell naming or generated-damage attribution mismatch

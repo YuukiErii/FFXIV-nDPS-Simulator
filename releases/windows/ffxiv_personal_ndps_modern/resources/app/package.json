@@ -1,0 +1,6 @@
+﻿{
+    "main":  "electron/main.cjs",
+    "private":  true,
+    "name":  "ffxiv-ndps-modern",
+    "version":  "0.1.0"
+}

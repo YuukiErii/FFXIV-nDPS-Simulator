@@ -5,6 +5,15 @@ except ImportError:
 
 
 class SamJobState(JobState):
+    COMBO_CANONICAL = {
+        "晓风": "Gyofu",
+        "阵风": "Jinpu",
+        "士风": "Shifu",
+        "月光": "Gekko",
+        "花车": "Kasha",
+        "雪风": "Yukikaze",
+    }
+
     def __init__(self):
         super().__init__("SAM")
         self.fugetsu_until = -1.0
@@ -18,10 +27,27 @@ class SamJobState(JobState):
         self.sen = set()
         self.meditation_stacks = 0
         self.zanshin_ready = False
-        self.kaeshi_ready = None
+        self.kaeshi_ready = set()
+        self.meditate_started_at = None
+        self.meditate_ticks_applied = 0
+        self._pending_canonical = None
 
     def _canonical(self, name, skill=None):
         return (skill or {}).get("amas_name") or name
+
+    def _combo_canonical(self, name):
+        return self.COMBO_CANONICAL.get(name, name)
+
+    def _sync_meditate(self, current_time):
+        if self.meditate_started_at is None:
+            return
+        available_ticks = min(5, max(0, int((current_time - self.meditate_started_at) // 3.0)))
+        new_ticks = available_ticks - self.meditate_ticks_applied
+        if new_ticks <= 0:
+            return
+        self.meditation_stacks = min(3, self.meditation_stacks + new_ticks)
+        self.kenki = min(100, self.kenki + 10 * new_ticks)
+        self.meditate_ticks_applied = available_ticks
 
     def _warn_if_resource_short(self, canonical, current_time, name):
         kenki_costs = {
@@ -46,7 +72,7 @@ class SamJobState(JobState):
             self.warn("sam_sen_low", current_time, name,
                       f"{canonical} used with {len(self.sen)} Sen; expected 3.")
         if canonical in {"Kaeshi: Setsugekka", "Tendo Kaeshi Setsugekka", "Kaeshi: Goken",
-                         "Kaeshi: Namikiri"} and self.kaeshi_ready != canonical:
+                         "Tendo Kaeshi Goken", "Kaeshi: Namikiri"} and canonical not in self.kaeshi_ready:
             self.warn("sam_kaeshi_not_ready", current_time, name,
                       f"{canonical} used without the matching prior Iaijutsu/Ogi action.")
         if canonical in {"Shoha", "Shoha II"} and self.meditation_stacks < 3:
@@ -55,6 +81,10 @@ class SamJobState(JobState):
 
     def on_press(self, name, skill, current_time, snapshot_time):
         canonical = self._canonical(name, skill)
+        self._sync_meditate(current_time)
+        if canonical not in {"Meditate", "默想"}:
+            self.meditate_started_at = None
+        self._pending_canonical = canonical
         self._warn_if_resource_short(canonical, current_time, name)
 
         if name == "必杀剑·夜天":
@@ -67,9 +97,28 @@ class SamJobState(JobState):
         return {"enhanced": enhanced_enpi}
 
     def on_press_complete(self, name, current_time):
-        if name == "明镜止水":
+        canonical = self._pending_canonical or name
+        self._pending_canonical = None
+        if canonical in {"Meikyo Shisui", "明镜止水"}:
             self.meikyo_stacks = 3
             self.meikyo_until = current_time + 20.0
+        elif canonical in {"Meditate", "默想"}:
+            self.meditate_started_at = current_time + 0.62
+            self.meditate_ticks_applied = 0
+
+        if canonical in {"Higanbana", "Tenka Goken", "Tendo Goken", "Midare Setsugekka",
+                         "Tendo Setsugekka", "Ogi Namikiri"}:
+            self.meditation_stacks = min(3, self.meditation_stacks + 1)
+        if canonical == "Tenka Goken":
+            self.kaeshi_ready.add("Kaeshi: Goken")
+        elif canonical == "Tendo Goken":
+            self.kaeshi_ready.add("Tendo Kaeshi Goken")
+        elif canonical == "Midare Setsugekka":
+            self.kaeshi_ready.add("Kaeshi: Setsugekka")
+        elif canonical == "Tendo Setsugekka":
+            self.kaeshi_ready.add("Tendo Kaeshi Setsugekka")
+        elif canonical == "Ogi Namikiri":
+            self.kaeshi_ready.add("Kaeshi: Namikiri")
 
     def consume_combo_override(self, name, skill, current_time):
         if self.meikyo_stacks <= 0 or self.meikyo_until <= current_time:
@@ -85,7 +134,8 @@ class SamJobState(JobState):
         combo_prev = skill.get("combo_prev")
         if not combo_prev:
             return False
-        return self.combo_action in combo_prev and (current_time - self.combo_time < 30)
+        expected_actions = {self._combo_canonical(action) for action in combo_prev}
+        return self._combo_canonical(self.combo_action) in expected_actions and (current_time - self.combo_time < 30)
 
     def resolve_potency(self, name, skill, current_time, payload):
         is_combo = self.is_combo(name, skill, current_time, payload)
@@ -108,8 +158,15 @@ class SamJobState(JobState):
         elif grant == "shifu":
             self.shifu_until = current_time + 40.0
 
-        if skill.get("potency", 0) > 0 or skill.get("combo_prev") or name == "晓风":
-            self.combo_action = name
+        if skill.get("combo_prev") or canonical in {"Gyofu", "Hakaze", "晓风"} or name == "晓风":
+            if canonical in {"Gyofu", "Hakaze", "晓风"} or name == "晓风":
+                self.combo_action = self._combo_canonical(canonical)
+            elif is_combo and canonical in {"Jinpu", "阵风"}:
+                self.combo_action = self._combo_canonical(canonical)
+            elif is_combo and canonical in {"Shifu", "士风"}:
+                self.combo_action = self._combo_canonical(canonical)
+            elif is_combo:
+                self.combo_action = None
             self.combo_time = current_time
 
         if canonical in {"Gyofu", "Hakaze"}:
@@ -140,23 +197,15 @@ class SamJobState(JobState):
         if canonical in kenki_costs:
             self.kenki = max(0, self.kenki - kenki_costs[canonical])
 
-        if canonical in {"Higanbana", "Tenka Goken"} and self.sen:
+        if canonical in {"Higanbana", "Tenka Goken", "Tendo Goken"} and self.sen:
             self.sen.clear()
-            self.meditation_stacks = min(3, self.meditation_stacks + 1)
         elif canonical == "Midare Setsugekka":
             self.sen.clear()
-            self.meditation_stacks = min(3, self.meditation_stacks + 1)
-            self.kaeshi_ready = "Kaeshi: Setsugekka"
         elif canonical == "Tendo Setsugekka":
             self.sen.clear()
-            self.meditation_stacks = min(3, self.meditation_stacks + 1)
-            self.kaeshi_ready = "Tendo Kaeshi Setsugekka"
-        elif canonical == "Ogi Namikiri":
-            self.meditation_stacks = min(3, self.meditation_stacks + 1)
-            self.kaeshi_ready = "Kaeshi: Namikiri"
         elif canonical in {"Kaeshi: Setsugekka", "Tendo Kaeshi Setsugekka", "Kaeshi: Goken",
-                           "Kaeshi: Namikiri"}:
-            self.kaeshi_ready = None
+                           "Tendo Kaeshi Goken", "Kaeshi: Namikiri"}:
+            self.kaeshi_ready.discard(canonical)
         elif canonical in {"Shoha", "Shoha II"}:
             self.meditation_stacks = max(0, self.meditation_stacks - 3)
         elif canonical == "Zanshin":

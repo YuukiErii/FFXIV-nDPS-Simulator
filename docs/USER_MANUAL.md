@@ -191,6 +191,14 @@ cd .\apps\ndps-ui
 npm run build
 ```
 
+Modern UI Windows package:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\build_modern_ndps_ui.ps1
+```
+
+The packaged modern UI is written to `releases\windows\ffxiv_personal_ndps_modern\` and includes a bundled Python JSON backend at `resources\backend\ndps_backend.exe`.
+
 ## Troubleshooting
 
 Run the simulator self-test first when a packaged executable behaves unexpectedly:

@@ -9,7 +9,7 @@ a = Analysis(
     ['..\\..\\..\\src\\ffxiv_ndps_simulator\\sim.py'],
     pathex=['.\\src\\ffxiv_ndps_simulator'],
     binaries=[],
-    datas=[('data\\ff14_job_skill_en_cn_map.json', 'data'), ('examples\\skill_lines', 'examples/skill_lines'), ('src\\ffxiv_ndps_simulator\\game.txt', 'ffxiv_ndps_simulator'), ('src\\ffxiv_ndps_simulator\\stat_fns.txt', 'ffxiv_ndps_simulator'), ('src\\ffxiv_ndps_simulator\\damage_cal.txt', 'ffxiv_ndps_simulator'), ('src\\ffxiv_ndps_simulator\\ffxiv_ndps.ico', '.')],
+    datas=[('C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\data\\ff14_job_skill_en_cn_map.json', 'data'), ('C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\examples\\skill_lines', 'examples/skill_lines'), ('C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\src\\ffxiv_ndps_simulator\\game.txt', 'ffxiv_ndps_simulator'), ('C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\src\\ffxiv_ndps_simulator\\stat_fns.txt', 'ffxiv_ndps_simulator'), ('C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\src\\ffxiv_ndps_simulator\\damage_cal.txt', 'ffxiv_ndps_simulator'), ('C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\src\\ffxiv_ndps_simulator\\ffxiv_ndps.ico', '.')],
     hiddenimports=hiddenimports,
     hookspath=[],
     hooksconfig={},
@@ -39,5 +39,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['src\\ffxiv_ndps_simulator\\ffxiv_ndps.ico'],
+    icon=['C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\src\\ffxiv_ndps_simulator\\ffxiv_ndps.ico'],
 )

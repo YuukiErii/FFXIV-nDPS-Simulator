@@ -1,0 +1,22 @@
+job,skill_key,display_name,axis_action_count,sim_count,sim_target_sum,sim_damage_one_run,xiv_damage_events,xiv_total_potency,first_axis_time,last_axis_time,first_xiv_damage_time,last_xiv_damage_time,note
+MCH,airanchor,Air Anchor,3,3,3,187146.734,3,1980.0,2.208333333333333,145.03333333333325,3.3583333333333343,146.18333333333322,matched
+MCH,armpunch,Armpunch,0,10,10,158384.381,10,1490.0,,,19.024999999999995,141.06499999999988,generated damage matched external xivintheshell without an axis press
+MCH,autoattack,Auto Attack,0,60,60,510124.88,61,4880.0,,,0.5300010000000004,158.93000099999992,generated damage in simulator and external xivintheshell without an axis press; sim count differs from external damage event count
+MCH,automatonqueen,Automaton Queen,2,2,2,0.0,0,0.0,13.524999999999991,129.32499999999996,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+MCH,barrelstabilizer,Barrel Stabilizer,2,2,2,0.0,0,0.0,2.908333333333333,122.9083333333333,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+MCH,chainsaw,Chain Saw,3,3,3,189061.018,3,1980.0,4.716666666666669,147.54166666666657,5.746666666666668,148.57166666666657,matched
+MCH,checkmate,Checkmate,4,4,4,61739.33,4,720.0,15.62499999999999,152.14999999999995,16.334999999999994,152.85999999999993,matched
+MCH,crownedcollider,Crowned Collider,0,2,2,141449.341,2,971.0,,,28.82499999999999,144.62499999999986,generated damage matched external xivintheshell without an axis press
+MCH,detonator,Detonator,2,2,2,0.0,0,0.0,12.824999999999992,128.62499999999994,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+MCH,doublecheck,Double Check,6,6,6,126764.678,6,1080.0,14.92499999999999,151.44999999999996,15.634999999999991,152.15999999999994,matched
+MCH,drill,Drill,4,4,4,375421.041,4,3600.010772,-0.3000000000000007,142.52499999999995,0.8499999999999996,143.67499999999993,matched
+MCH,excavator,Excavator,3,3,3,180898.159,3,1980.0,7.225,150.0499999999999,8.294999999999998,151.11999999999995,matched
+MCH,fullmetalfield,Full Metal Field,2,2,2,305787.058,2,3109.105598,14.22499999999999,130.02499999999995,15.24499999999999,131.04499999999996,matched
+MCH,heatblast,Heat Blast,10,10,10,209778.096,0,0.0,9.324999999999996,127.10833333333329,,,axis/simulator damage has no external damage key; likely xivintheshell naming or generated-damage attribution mismatch
+MCH,heatedcleanshot,Heated Clean Shot,4,4,4,160810.179,4,1680.0,50.01666666666667,157.86666666666656,50.81666666666668,158.66666666666654,matched
+MCH,heatedslugshot,Heated Slug Shot,4,4,4,169593.305,4,1280.0,47.50833333333333,155.35833333333326,48.30833333333334,156.15833333333325,matched
+MCH,heatedsplitshot,Heated Split Shot,4,4,4,86839.969,4,880.0,45.0,152.84999999999994,45.8,153.64999999999992,matched
+MCH,hypercharge,Hypercharge,2,2,2,0.0,0,0.0,8.624999999999996,123.60833333333329,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+MCH,pilebunker,Pilebunker,0,2,2,107453.551,2,847.0,,,26.824999999999992,142.6249999999999,generated damage matched external xivintheshell without an axis press
+MCH,reassemble,Reassemble,2,2,2,0.0,0,0.0,-1.0,90.0,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+MCH,wildfire,Wildfire,2,2,2,166446.122,2,699.925721,7.925000000000001,127.92499999999995,17.924999999999994,137.92499999999993,matched

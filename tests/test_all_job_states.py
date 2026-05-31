@@ -1,6 +1,8 @@
 import pathlib
+import random
 import sys
 import unittest
+from unittest.mock import patch
 
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -12,8 +14,10 @@ if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
 from jobs import MODELED_JOB_STATE_SKILLS, create_job_state  # noqa: E402
+from jobs.base import JobState  # noqa: E402
 from jobs.drg import DrgJobState  # noqa: E402
 from jobs.mch import MchJobState  # noqa: E402
+from jobs.sam import SamJobState  # noqa: E402
 from scan_skill_coverage import is_known_non_axis_csv  # noqa: E402
 from sim import (  # noqa: E402
     DpsSimulator,
@@ -175,6 +179,144 @@ class AllJobStateTests(unittest.TestCase):
 
         potency, _ = state.resolve_potency("Wildfire", {"amas_name": "Wildfire", "potency": 0}, 10.0, {})
         self.assertEqual(potency, 1440)
+
+    def test_sam_provider_keeps_backup_authoritative_overlay(self):
+        resolver = SkillResolver("SAM")
+        if resolver.provider is None:
+            self.skipTest("AMAS skill provider is unavailable")
+
+        gekko = resolver.get("Gekko")
+        midare = resolver.get("Midare Setsugekka")
+        ogi = resolver.get("Ogi Namikiri")
+
+        self.assertEqual(gekko["base_potency"], 200)
+        self.assertEqual(gekko["meikyo_grants"], "fugetsu")
+        self.assertEqual(midare["potency"], 680)
+        self.assertEqual(ogi["decay"], 0.4)
+
+    def test_sam_meikyo_gekko_grants_fugetsu(self):
+        resolver = SkillResolver("SAM")
+        if resolver.provider is None:
+            self.skipTest("AMAS skill provider is unavailable")
+
+        state = SamJobState()
+        gekko = resolver.get("Gekko")
+        state.on_press_complete("明镜止水", 0.0)
+        payload = {"meikyo": state.consume_combo_override("月光", gekko, 1.0)}
+        potency, is_combo = state.resolve_potency("月光", gekko, 1.0, payload)
+        state.on_damage_resolved("月光", gekko, 1.0, is_combo, payload)
+
+        self.assertEqual(potency, 420)
+        self.assertTrue(is_combo)
+        self.assertTrue(state.active_damage_buffs(1.1)["sam_fugetsu"])
+
+    def test_sam_ogcd_does_not_break_combo_chain(self):
+        resolver = SkillResolver("SAM")
+        if resolver.provider is None:
+            self.skipTest("AMAS skill provider is unavailable")
+
+        state = SamJobState()
+        for t, name in [(0.0, "Gyofu"), (2.5, "Jinpu"), (3.0, "Hissatsu: Shinten")]:
+            skill = resolver.get(name)
+            potency, is_combo = state.resolve_potency(name, skill, t, {})
+            self.assertGreater(potency, 0)
+            state.on_damage_resolved(name, skill, t, is_combo, {})
+
+        gekko = resolver.get("Gekko")
+        potency, is_combo = state.resolve_potency("Gekko", gekko, 5.0, {})
+        self.assertTrue(is_combo)
+        self.assertEqual(potency, 420)
+
+    def test_sam_confirm_resources_are_ready_before_application_delay(self):
+        state = SamJobState()
+        state.sen = {"setsu", "getsu", "ka"}
+        state.meditation_stacks = 2
+        state.on_press("天道雪月花", {"amas_name": "Tendo Setsugekka", "potency": 1100}, 0.0, 0.8)
+        state.on_press_complete("天道雪月花", 0.0)
+        state.on_press("天道回返雪月花", {"amas_name": "Tendo Kaeshi Setsugekka", "potency": 1100}, 2.14, 2.14)
+        state.on_press("照破", {"amas_name": "Shoha", "potency": 640}, 2.15, 2.15)
+
+        codes = [warning["code"] for warning in state.get_resource_warnings()]
+        self.assertNotIn("sam_kaeshi_not_ready", codes)
+        self.assertNotIn("sam_meditation_low", codes)
+
+    def test_sam_meditate_ticks_feed_warning_ledger(self):
+        state = SamJobState()
+        state.on_press("默想", {"potency": 0}, 0.0, 0.0)
+        state.on_press_complete("默想", 0.0)
+        state.on_press("晓风", {"amas_name": "Gyofu", "potency": 240}, 6.7, 6.7)
+
+        self.assertEqual(state.meditation_stacks, 2)
+        self.assertEqual(state.kenki, 20)
+
+    def test_generic_combo_state_ignores_ogcd_damage(self):
+        state = JobState("TEST")
+        state.on_damage_resolved("Starter", {"potency": 100, "is_gcd": True}, 0.0, False, {})
+        state.on_damage_resolved("Ability", {"potency": 500, "is_gcd": False}, 1.0, False, {})
+        potency, is_combo = state.resolve_potency(
+            "Finisher",
+            {"potency": 400, "base_potency": 100, "combo_prev": ["Starter"], "is_gcd": True},
+            2.5,
+            {},
+        )
+
+        self.assertTrue(is_combo)
+        self.assertEqual(potency, 400)
+
+    def test_combo_jobs_keep_chain_across_provider_ogcd_damage(self):
+        cases = {
+            "NIN": ("Spinning Edge", "Bhavacakra", "Gust Slash"),
+            "RPR": ("Slice", "Gluttony", "Waxing Slice"),
+            "DRG": ("True Thrust", "High Jump", "Spiral Blow"),
+            "MCH": ("Heated Split Shot", "Gauss Round", "Heated Slug Shot"),
+            "DNC": ("Cascade", "Fan Dance", "Fountain"),
+            "RDM": ("Enchanted Riposte", "Fleche", "Enchanted Zwerchhau"),
+            "VPR": ("Reawaken", "First Legacy", "First Generation"),
+        }
+        for job, (starter_name, ogcd_name, finisher_name) in cases.items():
+            resolver = SkillResolver(job)
+            if resolver.provider is None:
+                self.skipTest("AMAS skill provider is unavailable")
+
+            with self.subTest(job=job):
+                state = create_job_state(job)
+                starter = resolver.get(starter_name)
+                ogcd = resolver.get(ogcd_name)
+                finisher = resolver.get(finisher_name)
+                self.assertTrue(starter["is_gcd"])
+                self.assertFalse(ogcd["is_gcd"])
+                self.assertTrue(finisher["is_gcd"])
+
+                starter_potency, starter_combo = state.resolve_potency(starter_name, starter, 0.0, {})
+                self.assertGreater(starter_potency, 0)
+                state.on_damage_resolved(starter_name, starter, 0.0, starter_combo, {})
+
+                ogcd_potency, ogcd_combo = state.resolve_potency(ogcd_name, ogcd, 1.0, {})
+                self.assertGreater(ogcd_potency, 0)
+                state.on_damage_resolved(ogcd_name, ogcd, 1.0, ogcd_combo, {})
+
+                finisher_potency, finisher_combo = state.resolve_potency(finisher_name, finisher, 2.5, {})
+                self.assertTrue(finisher_combo)
+                self.assertEqual(finisher_potency, finisher["potency"])
+
+    def test_sam_m12s_postman_backup_authoritative_replay(self):
+        path = REPO_ROOT / "examples/skill_lines" / "sam_m9_m12s" / "m12s_postman_cn.csv"
+        events, _meta = parse_axis_csv(
+            path,
+            normalize_name=lambda raw_name: normalize_skill_name_for_job(raw_name, "SAM"),
+        )
+        stats = dict(BASE_STATS)
+        stats["job"] = "SAM"
+        sim = DpsSimulator(stats, events, iterations=1)
+
+        with patch.object(random, "random", return_value=1.0), patch.object(
+                random, "uniform", side_effect=lambda low, high: (low + high) / 2):
+            total, last_hit, _dmg, counts, *_tail, resource_warnings = sim.run_one_simulation(is_first_run=True)
+
+        self.assertAlmostEqual(total, 14339999.006454568, places=6)
+        self.assertAlmostEqual(last_hit, 383.21675, places=6)
+        self.assertEqual(counts["Auto Attack"], 157)
+        self.assertEqual(resource_warnings, [])
 
     def test_mch_wildfire_and_queen_are_attributed_separately(self):
         timeline = [

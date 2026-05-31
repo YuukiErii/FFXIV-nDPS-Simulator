@@ -51,8 +51,18 @@ class JobState:
             return skill.get("base_potency", 0), is_combo
         return skill.get("potency", 0), is_combo
 
+    @staticmethod
+    def _updates_combo_state(skill, payload):
+        event_is_gcd = payload.get("is_gcd")
+        if event_is_gcd is not None:
+            return bool(event_is_gcd)
+        skill_is_gcd = skill.get("is_gcd")
+        if skill_is_gcd is not None:
+            return bool(skill_is_gcd)
+        return bool(skill.get("combo_prev"))
+
     def on_damage_resolved(self, name, skill, current_time, is_combo, payload):
-        if skill.get("potency", 0) > 0 or skill.get("combo_prev"):
+        if self._updates_combo_state(skill, payload):
             self.combo_action = name
             self.combo_time = current_time
         return None

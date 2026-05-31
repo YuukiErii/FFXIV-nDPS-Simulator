@@ -375,6 +375,17 @@ class SkillResolver:
                     info = dict(info)
                     info['amas_name'] = amas_name
                     if self.job == "SAM":
+                        local_name = normalize_skill_name_for_job(lookup_name, self.job)
+                        if local_name in SKILL_DB:
+                            provider_info = info
+                            info = dict(SKILL_DB[local_name])
+                            for key in ('amas_name', 'is_gcd', 'damage_class'):
+                                if key in provider_info:
+                                    info[key] = provider_info[key]
+                            if 'dot_potency' in info:
+                                for key in ('dot_name', 'dot_primary_only'):
+                                    if key in provider_info:
+                                        info[key] = provider_info[key]
                         info['combo_prev'] = [SKILL_TRANSLATION.get(x, x) for x in info.get('combo_prev', [])]
                         if 'dot_name' in info:
                             info['dot_name'] = SKILL_TRANSLATION.get(info['dot_name'].replace(" (dot)", ""), info['dot_name'])
@@ -1214,6 +1225,7 @@ class DpsSimulator:
                     'targets': target_count,
                     'tid': target_id,
                     'row_no': payload.get('row_no'),
+                    'is_gcd': payload.get('is_gcd'),
                     **press_state,
                 })
 

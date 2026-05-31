@@ -1,0 +1,14 @@
+job,row_no,time,skill,code,severity,message
+SMN,13,63.887,Summon Titan II,smn_gem_during_demi,warning,Summon Titan II used while Summon Bahamut is still active.
+SMN,15,80.087,Deathflare,smn_demi_action_inactive,warning,Deathflare used without an active demi summon.
+SMN,16,80.787,Summon Garuda II,smn_gem_overwrite,warning,Summon Garuda II used before spending current titan gem charges.
+SMN,19,88.22,Summon Ifrit II,smn_gem_overwrite,warning,Summon Ifrit II used before spending current garuda gem charges.
+SMN,22,96.12,Crimson Strike,smn_gem_action_mismatch,warning,Crimson Strike used without an active ifrit gem charge.
+SMN,33,117.395,Summon Ifrit II,smn_gem_overwrite,warning,Summon Ifrit II used before spending current garuda gem charges.
+SMN,36,125.295,Crimson Strike,smn_gem_action_mismatch,warning,Crimson Strike used without an active ifrit gem charge.
+SMN,37,127.762,Ruby Rite,smn_gem_action_mismatch,warning,Ruby Rite used without an active ifrit gem charge.
+SMN,48,141.228,Summon Titan II,smn_gem_during_demi,warning,Summon Titan II used while Summon Solar Bahamut is still active.
+SMN,50,156.362,Sunflare,smn_demi_action_inactive,warning,Sunflare used without an active demi summon.
+SMN,57,204.748,Summon Garuda II,smn_gem_during_demi,warning,Summon Garuda II used while Summon Phoenix is still active.
+SMN,60,208.723,Summon Ifrit II,smn_gem_overwrite,warning,Summon Ifrit II used before spending current garuda gem charges.
+SMN,63,216.623,Crimson Strike,smn_gem_action_mismatch,warning,Crimson Strike used without an active ifrit gem charge.
