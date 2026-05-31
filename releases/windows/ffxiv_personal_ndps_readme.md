@@ -1,5 +1,7 @@
 # FFXIV Personal nDPS Simulator
 
+Full workspace manual: `..\..\docs\USER_MANUAL.md`
+
 ## Files
 
 - `ffxiv_personal_ndps.exe`: packaged simulator GUI and command-line self-test.

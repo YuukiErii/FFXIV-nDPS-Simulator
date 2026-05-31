@@ -1,7 +1,8 @@
 # FFXIV SIM Workspace
 
-This folder is organized around two local tools and one skill-line archive.
+This folder is organized around the personal nDPS simulator, the modern desktop UI track, the XIV in the Shell TTS converter, and the sample skill-line archive.
 
+- Full manual: `docs/USER_MANUAL.md`
 - `releases/windows/`: user-facing portable executables and their short usage notes.
 - `src/`: source code for the XIV in the Shell TTS converter.
 - `scripts/`: reproducible build/data-generation scripts.

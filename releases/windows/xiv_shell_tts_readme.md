@@ -2,6 +2,8 @@
 
 `xiv_shell_tts.exe` converts a XIV in the Shell exported CSV into the TTS txt format used by the old `TTS.py` script.
 
+Full workspace manual: `..\..\docs\USER_MANUAL.md`
+
 Input CSV should contain at least:
 
 - `time`

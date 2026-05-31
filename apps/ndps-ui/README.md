@@ -2,6 +2,8 @@
 
 This is the high-ceiling UI track for `ffxiv_personal_ndps`: a React/Vite frontend that can later be wrapped by Electron or Tauri while keeping the validated Python simulator core intact.
 
+Full workspace manual: `..\..\docs\USER_MANUAL.md`
+
 Run locally:
 
 ```powershell
