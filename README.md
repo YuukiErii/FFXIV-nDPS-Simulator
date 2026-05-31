@@ -35,4 +35,15 @@ Simulator source entrypoint:
 .\.venv\Scripts\python.exe .\src\ffxiv_ndps_simulator\sim.py
 ```
 
+Modern UI track:
+
+```powershell
+cd .\apps\ndps-ui
+npm install
+npm run dev
+npm run desktop
+```
+
+The modern UI is a React/Vite dashboard plus Electron desktop shell. It keeps the validated simulator core in Python and uses `scripts/run_ndps_simulation.py` as the JSON bridge for desktop `Run Simulation`.
+
 `src\ffxiv_ndps_simulator\sim_test.py` is now only a compatibility launcher that forwards to the unified `sim.py` GUI. The simulator report can export a Markdown summary plus CSV detail files for combat log, skill aggregation, coverage, resource warnings, and metadata.

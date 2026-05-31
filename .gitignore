@@ -12,6 +12,11 @@ artifacts/duplicates/
 artifacts/legacy_sam_binaries/
 *.log
 
+# Frontend workspaces
+node_modules/
+apps/*/node_modules/
+apps/*/dist/
+
 # OS/editor noise
 .DS_Store
 Thumbs.db
