@@ -26,7 +26,8 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
 }
 
@@ -194,7 +195,8 @@ h2 {
   font-weight: 700;
 }
 
-.field input {
+.field input,
+.field textarea {
   width: 100%;
   min-width: 0;
   border: 1px solid #38342d;
@@ -205,8 +207,34 @@ h2 {
   outline: none;
 }
 
-.field input:focus {
+.field textarea {
+  min-height: 58px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
   border-color: #59d6c8;
+}
+
+.rules-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.toggle-field {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #cfc7b8;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.toggle-field input {
+  width: 16px;
+  height: 16px;
+  accent-color: #59d6c8;
 }
 
 .primary-action,

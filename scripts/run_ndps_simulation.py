@@ -79,9 +79,22 @@ def _attach_targets(events: list[dict], target_actions: list[dict], job: str) ->
     return out
 
 
-def _parse_windows(value: str | None) -> list[tuple[float, float]]:
+def _parse_windows(value) -> list[tuple[float, float]]:
     if not value:
         return []
+    if isinstance(value, (list, tuple)):
+        windows = []
+        for item in value:
+            if isinstance(item, dict):
+                start = item.get("start")
+                end = item.get("end")
+            elif isinstance(item, (list, tuple)) and len(item) >= 2:
+                start, end = item[0], item[1]
+            else:
+                continue
+            windows.append((float(start), float(end)))
+        return windows
+    value = str(value).replace("，", ",")
     windows = []
     for chunk in value.replace("，", ",").split(","):
         text = chunk.strip().replace("(", "").replace(")", "")
@@ -90,6 +103,83 @@ def _parse_windows(value: str | None) -> list[tuple[float, float]]:
         start, end = text.split("-", 1)
         windows.append((float(start), float(end)))
     return windows
+
+
+def _parse_target_downtime(value) -> dict[int, list[tuple[float, float]]]:
+    if not value:
+        return {}
+    if isinstance(value, dict):
+        return {
+            int(target_id): parsed
+            for target_id, windows in value.items()
+            if (parsed := _parse_windows(windows))
+        }
+    out = {}
+    for line in str(value).replace("；", ";").split(";"):
+        if ":" not in line:
+            continue
+        target_id, windows = line.split(":", 1)
+        target_id = target_id.strip().upper().removeprefix("T").strip()
+        if target_id.isdigit():
+            parsed = _parse_windows(windows)
+            if parsed:
+                out[int(target_id)] = parsed
+    return out
+
+
+def _intersect_two_windows(left: list[tuple[float, float]], right: list[tuple[float, float]]) -> list[tuple[float, float]]:
+    out = []
+    for left_start, left_end in left:
+        for right_start, right_end in right:
+            start = max(left_start, right_start)
+            end = min(left_end, right_end)
+            if start < end:
+                out.append((start, end))
+    return out
+
+
+def _downtime_intersection(downtime_config: dict[int, list[tuple[float, float]]]) -> list[tuple[float, float]]:
+    configs = [windows for _, windows in sorted(downtime_config.items()) if windows]
+    if not configs:
+        return []
+    intersection = configs[0]
+    for windows in configs[1:]:
+        intersection = _intersect_two_windows(intersection, windows)
+        if not intersection:
+            break
+    return intersection
+
+
+def _parse_dot_config(value, job: str) -> dict[str, list[int]]:
+    if not value:
+        return {}
+    raw = value
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return {}
+        try:
+            raw = json.loads(text)
+        except json.JSONDecodeError:
+            raw = {}
+            for line in text.replace("；", ";").split(";"):
+                if ":" not in line:
+                    continue
+                name, targets = line.split(":", 1)
+                ids = [
+                    int(item.strip().upper().removeprefix("T"))
+                    for item in targets.split(",")
+                    if item.strip().upper().removeprefix("T").isdigit()
+                ]
+                if ids:
+                    raw[name.strip()] = ids
+    if not isinstance(raw, dict):
+        return {}
+    return {
+        normalize_skill_name_for_job(str(name).strip(), job): [int(target_id) for target_id in targets]
+        for name, targets in raw.items()
+        if str(name).strip() and isinstance(targets, (list, tuple))
+    }
 
 
 def _skill_rows(stats_pkg: dict, sim: DpsSimulator, iterations: int) -> list[dict]:
@@ -173,12 +263,20 @@ def run(payload: dict) -> dict:
     events, csv_meta = parse_axis_csv(csv_path, normalize_name=lambda raw_name: normalize_skill_name_for_job(raw_name, job))
     events = _attach_targets(events, _target_actions(target_path), job)
     coverage = build_skill_coverage(events, SkillResolver(job), csv_meta=csv_meta)
+    multi_boss_mode = bool(payload.get("multi_boss_mode"))
+    downtime_config = _parse_target_downtime(payload.get("downtime_config"))
+    global_downtime = _parse_windows(payload.get("global_downtime"))
+    if multi_boss_mode and downtime_config and not global_downtime:
+        global_downtime = _downtime_intersection(downtime_config)
 
     sim = DpsSimulator(
         stats,
         events,
         iterations=iterations,
-        global_downtime_list=_parse_windows(payload.get("global_downtime")),
+        downtime_config=downtime_config,
+        dot_config=_parse_dot_config(payload.get("dot_config"), job),
+        multi_boss_mode=multi_boss_mode,
+        global_downtime_list=global_downtime,
         custom_snaps=[float(value) for value in payload.get("custom_snaps", [])],
     )
     dps_list, duration, last_hit, stats_pkg, log = sim.run_batch(threshold=threshold)
@@ -196,6 +294,9 @@ def run(payload: dict) -> dict:
             "seed": seed,
             "base_gcd": base_gcd,
             "job_gcd": job_gcd,
+            "multi_boss_mode": multi_boss_mode,
+            "global_downtime": global_downtime,
+            "downtime_config": downtime_config,
         },
         "summary": {
             "expected_dps": mean_dps,

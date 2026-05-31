@@ -43,6 +43,11 @@ function Remove-DirectoryInside {
 Set-Location $Root
 New-Item -ItemType Directory -Force -Path $ReleaseRoot, $ArtifactDir, $BackendBuildDir, $BackendDistDir, $SpecDir | Out-Null
 
+$Running = Get-Process -Name "ffxiv_personal_ndps_modern" -ErrorAction SilentlyContinue
+if ($Running) {
+  $Running | Stop-Process -Force
+}
+
 $SkillMapPath = Join-Path $Root "data\ff14_job_skill_en_cn_map.json"
 $SkillLineDir = Join-Path $Root "examples\skill_lines"
 $GameTxt = Join-Path $Root "src\ffxiv_ndps_simulator\game.txt"
@@ -83,19 +88,29 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Set-Location $Root
-Remove-DirectoryInside -Path $ModernReleaseDir -Parent $ReleaseRoot
 
 $ElectronDist = Join-Path $AppRoot "node_modules\electron\dist"
 if (-not (Test-Path (Join-Path $ElectronDist "electron.exe"))) {
   throw "Electron runtime is missing. Run dependency installation for apps\ndps-ui first."
 }
 
-Copy-Item -Path $ElectronDist -Destination $ModernReleaseDir -Recurse
-Rename-Item -LiteralPath (Join-Path $ModernReleaseDir "electron.exe") -NewName "ffxiv_personal_ndps_modern.exe"
+if (-not (Test-Path $ModernReleaseDir)) {
+  Copy-Item -Path $ElectronDist -Destination $ModernReleaseDir -Recurse
+  Rename-Item -LiteralPath (Join-Path $ModernReleaseDir "electron.exe") -NewName "ffxiv_personal_ndps_modern.exe"
+} else {
+  Get-ChildItem -LiteralPath $ElectronDist | Where-Object { $_.Name -ne "resources" -and $_.Name -ne "electron.exe" } | ForEach-Object {
+    Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $ModernReleaseDir $_.Name) -Recurse -Force
+  }
+  if (-not (Test-Path (Join-Path $ModernReleaseDir "ffxiv_personal_ndps_modern.exe"))) {
+    Copy-Item -LiteralPath (Join-Path $ElectronDist "electron.exe") -Destination (Join-Path $ModernReleaseDir "ffxiv_personal_ndps_modern.exe") -Force
+  }
+}
 
 $ResourcesDir = Join-Path $ModernReleaseDir "resources"
 $AppPackageDir = Join-Path $ResourcesDir "app"
 $BackendPackageDir = Join-Path $ResourcesDir "backend"
+Remove-DirectoryInside -Path $AppPackageDir -Parent $ModernReleaseDir
+Remove-DirectoryInside -Path $BackendPackageDir -Parent $ModernReleaseDir
 New-Item -ItemType Directory -Force -Path $AppPackageDir, $BackendPackageDir | Out-Null
 
 Copy-Item -Path (Join-Path $AppRoot "dist") -Destination (Join-Path $AppPackageDir "dist") -Recurse

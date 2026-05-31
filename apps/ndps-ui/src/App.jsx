@@ -31,6 +31,14 @@ const DEFAULT_STATS = {
   threshold: 46000,
 };
 
+const DEFAULT_SIM_OPTIONS = {
+  globalDowntime: "",
+  customSnaps: "",
+  multiBossMode: false,
+  downtimeConfig: "",
+  dotConfig: "",
+};
+
 const SAMPLE_ROWS = [
   { time: 0.0, action: "Gyofu", raw: "Gyofu", source: "sample" },
   { time: 2.14, action: "Jinpu", raw: "Jinpu", source: "sample" },
@@ -190,6 +198,7 @@ function App() {
   const [runResult, setRunResult] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [runError, setRunError] = useState("");
+  const [simOptions, setSimOptions] = useState(DEFAULT_SIM_OPTIONS);
   const axisInputRef = useRef(null);
   const targetInputRef = useRef(null);
 
@@ -242,12 +251,28 @@ function App() {
     }));
   }
 
+  function updateSimOption(key, value) {
+    setSimOptions((current) => ({
+      ...current,
+      [key]: value,
+    }));
+  }
+
+  function parseNumberList(value) {
+    return String(value || "")
+      .replace(/，/g, ",")
+      .split(",")
+      .map((item) => Number.parseFloat(item.trim()))
+      .filter((item) => Number.isFinite(item));
+  }
+
   function exportUiSnapshot() {
     const payload = {
       source: axisFile?.name || "sample",
       target: targetFile?.name || "",
       job,
       stats,
+      simOptions,
       rows: rows.length,
       summary,
       projection,
@@ -297,6 +322,11 @@ function App() {
         job,
         iterations: Math.max(1, Math.trunc(stats.iterations)),
         threshold: stats.threshold,
+        global_downtime: simOptions.globalDowntime,
+        custom_snaps: parseNumberList(simOptions.customSnaps),
+        multi_boss_mode: simOptions.multiBossMode,
+        downtime_config: simOptions.downtimeConfig,
+        dot_config: simOptions.dotConfig,
         stats: {
           main_stat: stats.mainStat,
           crt: stats.crt,
@@ -374,6 +404,55 @@ function App() {
                 <input value={stats[key]} onChange={(event) => updateStat(key, event.target.value)} />
               </label>
             ))}
+          </div>
+        </section>
+
+        <section className="control-section">
+          <div className="section-heading">
+            <Timer size={16} />
+            <span>Fight Rules</span>
+          </div>
+          <div className="rules-grid">
+            <label className="field wide">
+              <span>Global downtime</span>
+              <input
+                placeholder="60-75, 180-195"
+                value={simOptions.globalDowntime}
+                onChange={(event) => updateSimOption("globalDowntime", event.target.value)}
+              />
+            </label>
+            <label className="field wide">
+              <span>Custom snapshots</span>
+              <input
+                placeholder="60, 120.5, 300"
+                value={simOptions.customSnaps}
+                onChange={(event) => updateSimOption("customSnaps", event.target.value)}
+              />
+            </label>
+            <label className="toggle-field">
+              <input
+                checked={simOptions.multiBossMode}
+                onChange={(event) => updateSimOption("multiBossMode", event.target.checked)}
+                type="checkbox"
+              />
+              <span>Multi boss / split DoT mode</span>
+            </label>
+            <label className="field wide">
+              <span>Target downtime</span>
+              <textarea
+                placeholder="T1:60-75; T2:120-135"
+                value={simOptions.downtimeConfig}
+                onChange={(event) => updateSimOption("downtimeConfig", event.target.value)}
+              />
+            </label>
+            <label className="field wide">
+              <span>DoT target plan</span>
+              <textarea
+                placeholder="Higanbana:1,2; Caustic Bite:1,2"
+                value={simOptions.dotConfig}
+                onChange={(event) => updateSimOption("dotConfig", event.target.value)}
+              />
+            </label>
           </div>
         </section>
 
