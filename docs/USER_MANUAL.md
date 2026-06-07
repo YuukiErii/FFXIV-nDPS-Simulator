@@ -163,13 +163,13 @@ Resource warnings are warning-only. A run with warnings can still be useful for 
 
 `examples\skill_lines\` contains sample raid-planner exports, translated CSVs, TTS skill lines, and merged outputs.
 
-`results\` is for calibration and result artifacts that should remain separate from source.
+`results\` is the canonical place for calibration and result artifacts that should remain separate from source.
 
 `releases\windows\` contains user-facing portable Windows executables and short release notes.
 
-`docs\` contains this manual, roadmap notes, calibration notes, and migration/audit context.
+`docs\` contains this manual, `PROJECT_STATUS.md`, the lightweight plan router, and archived historical notes under `docs\archive\`.
 
-`artifacts\` is for build specs and local generated artifacts. Build caches, reference checkouts, duplicates, and legacy binary staging are ignored by Git.
+`artifacts\` is for build specs and local generated artifacts. Build caches, reference checkouts, old duplicate calibration outputs, duplicates, and legacy binary staging are ignored by Git.
 
 `archive\` contains preserved older material.
 
@@ -235,3 +235,5 @@ Do not commit local dependency folders or build caches:
 Keep sample axes under `examples\skill_lines\`, result evidence under `results\`, user-facing binaries under `releases\windows\`, and source changes under `src\`, `apps\`, or `scripts`.
 
 When changing simulator behavior, keep the Python core as the source of truth and use the modern UI bridge only as a presentation and orchestration layer.
+
+For current development status, evidence levels, and the archive index, read `docs\PROJECT_STATUS.md`.

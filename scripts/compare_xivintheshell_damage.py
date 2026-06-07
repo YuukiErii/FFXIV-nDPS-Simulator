@@ -179,13 +179,14 @@ def compare_one(job, axis_path, damage_path, record_path, out_dir):
         })
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    csv_path = out_dir / f"{job}_xivintheshell_long_skill_comparison.csv"
+    job_lower = job.lower()
+    csv_path = out_dir / f"{job_lower}_xivintheshell_long_skill_comparison.csv"
     with open(csv_path, "w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()) if rows else ["job"])
         writer.writeheader()
         writer.writerows(rows)
 
-    warnings_path = out_dir / f"{job}_resource_warnings.csv"
+    warnings_path = out_dir / f"{job_lower}_resource_warnings.csv"
     warning_fields = ["job", "row_no", "time", "skill", "code", "severity", "message"]
     with open(warnings_path, "w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=warning_fields)
@@ -224,7 +225,7 @@ def note_for_row(key, action_counts, damage_events, sim_rows):
 
     if action_count and not damage_count:
         if sim_count and sim_damage:
-            notes.append("axis/simulator damage has no external damage key; likely xivintheshell naming or generated-damage attribution mismatch")
+            notes.append("axis/simulator damage has no external damage key; likely reference naming or generated-damage attribution mismatch")
         elif sim_count:
             notes.append("axis/simulator zero-damage action; likely buff, step, stance, or utility")
         else:
@@ -232,9 +233,9 @@ def note_for_row(key, action_counts, damage_events, sim_rows):
     if damage_count and not action_count:
         if sim_count:
             if sim_count == damage_count:
-                notes.append("generated damage matched external xivintheshell without an axis press")
+                notes.append("generated damage matched external reference without an axis press")
             else:
-                notes.append("generated damage in simulator and external xivintheshell without an axis press")
+                notes.append("generated damage in simulator and external reference without an axis press")
         elif key == "autoattack":
             notes.append("external auto-attack damage without local simulator auto-attack rows; check auto-attack scheduling")
         else:
@@ -244,7 +245,7 @@ def note_for_row(key, action_counts, damage_events, sim_rows):
     if action_count and key not in sim_rows:
         notes.append("axis action not counted by simulator; likely zero-damage utility or unsupported damage path")
     if action_count and damage_count and sim_count == damage_count and action_count != damage_count:
-        notes.append("generated damage matched external xivintheshell; axis press count differs because external damage rows include ticks or follow-ups")
+        notes.append("generated damage matched external reference; axis press count differs because external damage rows include ticks or follow-ups")
     elif action_count and sim_count and action_count != sim_count:
         notes.append("sim count differs from axis action count")
         if damage_count and sim_count and damage_count != sim_count:
@@ -296,12 +297,13 @@ def write_markdown(summaries, out_path):
 def default_jobs():
     jobs = []
     for job in LONG_JOBS:
-        directory = REPO_ROOT / "examples/skill_lines" / f"{job}_xivintheshell_long"
+        job_lower = job.lower()
+        directory = REPO_ROOT / "examples/skill_lines" / f"{job_lower}_xivintheshell_long"
         jobs.append((
             job,
-            directory / f"{job}_xivintheshell_long.csv",
-            directory / f"{job}_xivintheshell_damage.csv",
-            directory / f"{job}_xivintheshell_long.json",
+            directory / f"{job_lower}_xivintheshell_long.csv",
+            directory / f"{job_lower}_xivintheshell_damage.csv",
+            directory / f"{job_lower}_xivintheshell_long.json",
         ))
     return jobs
 
@@ -313,7 +315,7 @@ def main():
         pass
 
     parser = argparse.ArgumentParser(description="Compare local simulator output against xivintheshell damage exports.")
-    parser.add_argument("--out-dir", default=str(REPO_ROOT / "artifacts" / "calibration"))
+    parser.add_argument("--out-dir", default=str(REPO_ROOT / "results" / "calibration"))
     parser.add_argument("--job", choices=LONG_JOBS)
     args = parser.parse_args()
 

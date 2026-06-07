@@ -6,8 +6,8 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-CALIBRATION_DIR = REPO_ROOT / "artifacts" / "calibration"
-DEFAULT_OUT = REPO_ROOT / "docs" / "task_i_xivintheshell_comparison_audit.md"
+CALIBRATION_DIR = REPO_ROOT / "results" / "calibration"
+DEFAULT_OUT = REPO_ROOT / "docs" / "archive" / "task_i_xivintheshell_comparison_audit.md"
 JOBS = ("MNK", "DRG", "VPR", "BRD", "MCH", "DNC", "SMN", "RDM")
 
 
@@ -107,7 +107,7 @@ def classify(row):
 
     if note == "matched":
         return "matched"
-    if "generated damage matched external xivintheshell" in note:
+    if "generated damage matched external" in note:
         return "generated_matched"
     if "zero-damage" in note or "utility" in note and damage_count == 0 and as_float(row.get("sim_damage_one_run")) == 0:
         return "expected_zero_or_utility"
@@ -204,11 +204,12 @@ def main():
 
     per_job = {}
     for job in JOBS:
-        path = comparison_dir / f"{job}_xivintheshell_long_skill_comparison.csv"
+        job_lower = job.lower()
+        path = comparison_dir / f"{job_lower}_xivintheshell_long_skill_comparison.csv"
         rows = load_rows(path)
         for row in rows:
             row["audit_class"] = classify(row)
-        warning_path = comparison_dir / f"{job}_resource_warnings.csv"
+        warning_path = comparison_dir / f"{job_lower}_resource_warnings.csv"
         per_job[job] = (path, rows, warning_path, load_warning_rows(warning_path))
 
     lines = [

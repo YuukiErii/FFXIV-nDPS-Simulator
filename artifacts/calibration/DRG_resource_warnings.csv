@@ -1,2 +1,0 @@
-job,row_no,time,skill,code,severity,message
-DRG,18,14.525,Wyrmwind Thrust,drg_firstminds_low,warning,Wyrmwind Thrust used with Firstminds' Focus 1; expected 2.

@@ -1,7 +1,0 @@
-job,row_no,time,skill,code,severity,message
-DNC,16,28.208,Fan Dance III,dnc_fan3_not_ready,warning,Fan Dance III used without a tracked Flourish/Fan Dance proc.
-DNC,17,28.908,Fan Dance IV,dnc_fan4_not_ready,warning,Fan Dance IV used without a tracked Flourish proc.
-DNC,43,100.033,Saber Dance,dnc_esprit_low,warning,Saber Dance used with Esprit 20; expected at least 50.
-DNC,60,147.767,Fan Dance III,dnc_fan3_not_ready,warning,Fan Dance III used without a tracked Flourish/Fan Dance proc.
-DNC,61,148.467,Fan Dance IV,dnc_fan4_not_ready,warning,Fan Dance IV used without a tracked Flourish proc.
-DNC,63,152.083,Saber Dance,dnc_esprit_low,warning,Saber Dance used with Esprit 5; expected at least 50.

@@ -4,6 +4,8 @@
 
 Full workspace manual: `..\..\docs\USER_MANUAL.md`
 
+Project status and evidence map: `..\..\docs\PROJECT_STATUS.md`
+
 Input CSV should contain at least:
 
 - `time`

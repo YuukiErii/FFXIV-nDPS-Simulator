@@ -7,6 +7,7 @@ __pycache__/
 # Local build/cache outputs
 artifacts/build/
 artifacts/cache/
+artifacts/calibration/
 artifacts/reference/
 artifacts/duplicates/
 artifacts/legacy_sam_binaries/

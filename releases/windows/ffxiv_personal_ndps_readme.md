@@ -2,6 +2,8 @@
 
 Full workspace manual: `..\..\docs\USER_MANUAL.md`
 
+Project status and evidence map: `..\..\docs\PROJECT_STATUS.md`
+
 ## Files
 
 - `ffxiv_personal_ndps.exe`: packaged simulator GUI and command-line self-test.

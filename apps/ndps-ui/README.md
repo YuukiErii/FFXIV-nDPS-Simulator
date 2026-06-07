@@ -4,6 +4,8 @@ This is the high-ceiling UI track for `ffxiv_personal_ndps`: a React/Vite fronte
 
 Full workspace manual: `..\..\docs\USER_MANUAL.md`
 
+Project status and evidence map: `..\..\docs\PROJECT_STATUS.md`
+
 Run locally:
 
 ```powershell

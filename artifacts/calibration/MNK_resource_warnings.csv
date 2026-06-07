@@ -1,5 +1,0 @@
-job,row_no,time,skill,code,severity,message
-MNK,16,11.27,The Forbidden Chakra,mnk_chakra_low,warning,The Forbidden Chakra used with Chakra 0; expected 5.
-MNK,20,15.773,The Forbidden Chakra,mnk_chakra_low,warning,The Forbidden Chakra used with Chakra 0; expected 5.
-MNK,23,19.037,The Forbidden Chakra,mnk_chakra_low,warning,The Forbidden Chakra used with Chakra 0; expected 5.
-MNK,41,68.92,The Forbidden Chakra,mnk_chakra_low,warning,The Forbidden Chakra used with Chakra 0; expected 5.

@@ -1,16 +1,12 @@
 # FFXIV SIM Workspace
 
-This folder is organized around the personal nDPS simulator, the modern desktop UI track, the XIV in the Shell TTS converter, and the sample skill-line archive.
+This repository contains the personal nDPS simulator, the modern desktop UI track, the XIV in the Shell TTS converter, and the sample skill-line archive.
 
-- Full manual: `docs/USER_MANUAL.md`
-- `releases/windows/`: user-facing portable executables and their short usage notes.
-- `src/`: source code for the XIV in the Shell TTS converter.
-- `scripts/`: reproducible build/data-generation scripts.
-- `data/`: FF14 Chinese-English skill mapping files used by the converter.
-- `examples/skill_lines/`: saved XIV in the Shell exports, converted Chinese CSVs, TTS skill-line txt files, and merged timeline outputs.
-- `src/ffxiv_ndps_simulator/`: the DPS simulator source, assets, and versioned executables.
-- `docs/`: older notes that are useful for context but not part of the active converter.
-- `artifacts/specs/`: PyInstaller spec files. Local build cache, reference checkouts, duplicates, and legacy binaries stay under `artifacts/` but are ignored by Git.
+Active docs:
+
+- User manual: `docs/USER_MANUAL.md`
+- Project status and evidence map: `docs/PROJECT_STATUS.md`
+- Simulator plan router: `docs/all_dps_nd_simulator_plan.md`
 
 Main executables:
 
@@ -19,9 +15,21 @@ releases/windows/xiv_shell_tts.exe
 releases/windows/ffxiv_personal_ndps.exe
 ```
 
-The executable converts XIV in the Shell CSV exports into the old `TTS.py` txt format. It can also take an optional fight timeline txt and produce the old `MERGE.PY`-style merged timeline output.
+`xiv_shell_tts.exe` converts XIV in the Shell CSV exports into the old `TTS.py` txt format. It can also take an optional fight timeline txt and produce the old `MERGE.PY`-style merged timeline output.
 
 `ffxiv_personal_ndps.exe` opens the personal nDPS simulator GUI. It also supports `--self-test`, which verifies packaged resources, 13 DPS smoke CSVs, historical target-data samples, the formula layer, and the bundled `ama_xiv_combat_sim` dependency.
+
+Folder layout:
+
+- `apps/ndps-ui/`: React/Vite/Electron modern UI.
+- `src/`: simulator and converter source packages.
+- `scripts/`: reproducible build, comparison, audit, and bridge scripts.
+- `data/`: FF14 Chinese-English skill mapping files used by the converter.
+- `examples/skill_lines/`: saved xivintheshell exports, converted CSVs, target sidecars, TTS skill lines, and merged timeline outputs.
+- `results/calibration/`: canonical calibration and comparison evidence.
+- `releases/windows/`: user-facing portable executables and short usage notes.
+- `docs/`: active manual/status docs plus archived historical reports.
+- `artifacts/specs/`: PyInstaller spec files. Build cache, reference checkouts, duplicates, and legacy binary staging stay under ignored `artifacts/` subfolders.
 
 Rebuild command:
 
