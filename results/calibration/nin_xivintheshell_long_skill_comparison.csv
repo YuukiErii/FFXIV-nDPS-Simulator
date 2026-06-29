@@ -1,0 +1,34 @@
+job,skill_key,display_name,axis_action_count,sim_count,sim_target_sum,sim_damage_one_run,xiv_damage_events,xiv_total_potency,first_axis_time,last_axis_time,first_xiv_damage_time,last_xiv_damage_time,note
+NIN,aeolianedge,Aeolian Edge,34,34,34,1808424.916,34,20023.936,30.731250000000003,481.7562500000002,31.271249999999988,482.2962499999996,matched
+NIN,aeolianedgepet,Aeolian Edge (pet),0,4,4,62921.66,0,0.0,,,,,local simulator attributes Bunshin as an independent pet hit; xivintheshell folds Bunshin potency into the triggering weaponskill
+NIN,armorcrush,Armor Crush,18,18,18,849799.346,18,9176.2,6.906249999999993,472.3562500000002,7.526249999999997,472.97624999999954,matched
+NIN,armorcrushpet,Armor Crush (pet),0,1,1,18546.274,0,0.0,,,,,local simulator attributes Bunshin as an independent pet hit; xivintheshell folds Bunshin potency into the triggering weaponskill
+NIN,autoattack,Auto Attack,0,233,233,1668522.314,233,22031.496,,,1.036249999999999,505.8682500000002,generated damage matched external reference without an axis press
+NIN,bhavacakra,Bhavacakra,30,30,30,1181568.77,30,13596.56,22.781249999999993,504.55625000000066,23.401250000000026,505.1762500000002,matched
+NIN,bunshin,Bunshin,6,6,6,0.0,0,0.0,4.231249999999992,482.3062500000002,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+NIN,chi,Chi,27,27,27,0.0,0,0.0,-5.49375,501.4437500000006,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+NIN,dokumori,Dokumori,5,5,5,178539.514,5,2064.0,3.6812499999999915,484.93125000000026,4.751249999999992,486.0012499999997,matched
+NIN,dreamwithinadream,Dream Within a Dream,9,27,27,475140.173,9,5594.292,10.593749999999996,494.33750000000055,11.573750000000004,495.31749999999977,local simulator keeps the official three hits independent; xivintheshell aggregates each cast into one 540-potency damage row
+NIN,fleetingraiju,Fleeting Raiju,19,19,19,1343092.067,19,17056.7936,17.5875,505.58125000000075,18.34750000000001,506.3412500000003,matched
+NIN,fleetingraijupet,Fleeting Raiju (pet),0,9,9,168485.989,0,0.0,,,,,local simulator attributes Bunshin as an independent pet hit; xivintheshell folds Bunshin potency into the triggering weaponskill
+NIN,forkedraiju,Forked Raiju,4,4,4,289202.036,4,3195.5,374.9875000000001,440.08750000000026,375.6075,440.7074999999998,matched
+NIN,fumashurikenten,Fuma Shuriken (Ten),5,5,5,254117.897,5,2979.9,14.068750000000001,497.4187500000005,14.958750000000009,498.3087499999999,matched
+NIN,gustslash,Gust Slash,53,53,53,2018531.759,53,22714.816,2.6312499999999943,486.00625000000025,3.0312499999999964,486.40624999999966,matched
+NIN,gustslashpet,Gust Slash (pet),0,8,8,123753.146,0,0.0,,,,,local simulator attributes Bunshin as an independent pet hit; xivintheshell folds Bunshin potency into the triggering weaponskill
+NIN,hyoshoranryu,Hyosho Ranryu,9,9,9,1584773.988,9,17508.062,10.043749999999996,491.2687500000005,10.663750000000004,491.88874999999985,matched
+NIN,jin,Jin,18,18,18,0.0,0,0.0,-4.987500000000001,490.7625000000005,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+NIN,kassatsu,Kassatsu,9,9,9,0.0,0,0.0,1.0562499999999986,486.55625000000026,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+NIN,kunaisbane,Kunai's Bane,9,9,9,595280.333,9,6592.6,8.456249999999994,489.68125000000055,9.74625,490.9712499999998,matched
+NIN,meisui,Meisui,5,5,5,0.0,0,0.0,18.137499999999996,504.0062500000006,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+NIN,phantomkamaitachi,Phantom Kamaitachi,6,6,6,371945.904,6,4043.34,4.781249999999993,488.1312500000003,6.351249999999993,489.70124999999985,matched
+NIN,raiton,Raiton,18,18,18,1225928.12,18,15332.504,12.5625,501.9500000000006,13.272500000000008,502.6600000000001,matched
+NIN,raitonchi,Raiton (Chi),5,5,5,395296.889,5,4410.252,15.075000000000003,498.4250000000005,15.78500000000001,499.135,matched
+NIN,spinningedge,Spinning Edge,53,53,53,1364867.063,53,17135.52,0.5062500000000014,483.8812500000002,0.90625,484.2812499999996,matched
+NIN,spinningedgepet,Spinning Edge (pet),0,8,8,117768.185,0,0.0,,,,,local simulator attributes Bunshin as an independent pet hit; xivintheshell folds Bunshin potency into the triggering weaponskill
+NIN,suiton,Suiton,9,9,9,488113.363,9,5266.4,-1.0,478.12500000000017,-0.019999999999999574,479.10499999999956,matched
+NIN,suitonjin,Suiton (Jin),5,5,5,332256.027,5,3456.684,16.081249999999997,499.43125000000055,17.06125000000001,500.41125,matched
+NIN,ten,Ten,36,36,36,0.0,0,0.0,-6.0,500.93750000000057,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+NIN,tenchijin,Ten Chi Jin,5,5,5,0.0,0,0.0,13.112500000000004,496.3937500000005,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
+NIN,tenrijindo,Tenri Jindo,5,5,5,538234.231,5,6555.78,16.63125,499.9812500000005,16.98125000000001,500.33124999999995,matched
+NIN,tincture,Tincture,2,0,0,0.0,0,0.0,117.13750000000022,475.2312500000001,,,axis-only zero-damage action; likely buff/utility handled outside simulator skill counts; axis action not counted by simulator; likely zero-damage utility or unsupported damage path
+NIN,zeshomeppo,Zesho Meppo,5,5,5,407921.757,5,4345.11,18.687499999999993,495.84375000000045,19.717500000000015,496.87374999999986,matched

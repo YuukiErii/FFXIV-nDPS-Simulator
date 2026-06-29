@@ -1,4 +1,5 @@
 import heapq
+import re
 
 
 class SimEventType:
@@ -49,3 +50,21 @@ def total_window_overlap(windows, end_time):
             if actual_end > start:
                 total += actual_end - start
     return total
+
+
+def parse_downtime_windows(value):
+    if not value:
+        return []
+    if isinstance(value, (list, tuple)):
+        windows = []
+        for item in value:
+            if isinstance(item, dict):
+                start, end = item.get("start"), item.get("end")
+            elif isinstance(item, (list, tuple)) and len(item) >= 2:
+                start, end = item[0], item[1]
+            else:
+                continue
+            windows.append((float(start), float(end)))
+        return windows
+    pairs = re.findall(r"(-?\d+(?:\.\d+)?)\s*(?:-|,|，|~|–|—)\s*(-?\d+(?:\.\d+)?)", str(value))
+    return [(float(start), float(end)) for start, end in pairs if float(start) < float(end)]

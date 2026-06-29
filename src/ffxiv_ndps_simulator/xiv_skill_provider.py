@@ -61,8 +61,8 @@ def _select_direct_followup(followups, prefer_no_combo=False):
         spec = _select_spec(getattr(skill, "damage_spec", None))
         if spec is not None:
             delay = (getattr(follow, "delay_after_parent_application", 0) or 0) / 1000.0
-            return spec, delay
-    return None, None
+            return spec, delay, skill
+    return None, None, None
 
 
 def _combo_prev(combo_spec):
@@ -126,14 +126,24 @@ class AmasSkillProvider:
         timing = skill.timing_spec
         main_spec = _select_spec(skill.damage_spec)
         no_combo_spec = _select_spec(skill.damage_spec, prefer_no_combo=True)
-        direct_follow_spec, direct_follow_delay = _select_direct_followup(skill.follow_up_skills)
-        direct_no_combo_spec, _ = _select_direct_followup(skill.follow_up_skills, prefer_no_combo=True)
+        direct_follow_spec, direct_follow_delay, direct_follow_skill = _select_direct_followup(skill.follow_up_skills)
+        direct_no_combo_spec, _, _ = _select_direct_followup(skill.follow_up_skills, prefer_no_combo=True)
+        damage_skill = skill
         if main_spec is None and direct_follow_spec is not None:
             main_spec = direct_follow_spec
+            damage_skill = direct_follow_skill or skill
         if no_combo_spec is None and direct_no_combo_spec is not None:
             no_combo_spec = direct_no_combo_spec
         potency = getattr(main_spec, "potency", 0) if main_spec is not None else 0
         base_potency = getattr(no_combo_spec, "potency", potency) if no_combo_spec is not None else potency
+        aoe_dropoff = getattr(skill, "aoe_dropoff", None)
+        if aoe_dropoff is None and damage_skill is not skill:
+            aoe_dropoff = getattr(damage_skill, "aoe_dropoff", None)
+        is_aoe = bool(getattr(skill, "has_aoe", False) or getattr(damage_skill, "has_aoe", False))
+        if job == "NIN" and name in {
+            "Katon", "Huton", "Goka Mekkyaku", "Hollow Nozuchi", "Deathfrog Medium",
+        }:
+            is_aoe = True
         out = {
             "cast": (getattr(timing, "base_cast_time", 0) or 0) / 1000.0 if timing else 0.0,
             "delay": direct_follow_delay if direct_follow_delay is not None else (getattr(timing, "application_delay", 500) or 500) / 1000.0 if timing else 0.5,
@@ -143,10 +153,11 @@ class AmasSkillProvider:
             "is_gcd": _is_gcd_skill(skill),
             "guaranteed_crit": _forced_name(getattr(main_spec, "guaranteed_crit", "")) == "FORCE_YES",
             "guaranteed_dh": _forced_name(getattr(main_spec, "guaranteed_dh", "")) == "FORCE_YES",
-            "is_aoe": bool(getattr(skill, "has_aoe", False)),
-            "decay": float(getattr(skill, "aoe_dropoff", 0.0) or 0.0),
+            "is_aoe": is_aoe,
+            "decay": float(aoe_dropoff or 0.0),
             "buff": _buff_spec_to_dict(skill.offensive_buff_spec, name),
             "damage_class": getattr(getattr(main_spec, "damage_class", None), "name", ""),
+            "job_mod_override": getattr(main_spec, "pet_job_mod_override", None),
         }
 
         for follow in _select_followups(skill.follow_up_skills):

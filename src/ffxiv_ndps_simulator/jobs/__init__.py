@@ -32,11 +32,17 @@ except ImportError:
 
 MODELED_JOB_STATE_SKILLS = {
     "NIN": {
+        "Spinning Edge", "Gust Slash", "Aeolian Edge", "Armor Crush",
+        "Throwing Dagger", "Death Blossom", "Hakke Mujinsatsu",
         "Ten", "Chi", "Jin", "Fuma Shuriken", "Fuma Shuriken (Ten)",
-        "Raiton", "Raiton (Chi)", "Suiton", "Suiton (Jin)", "Kassatsu",
-        "Bunshin", "Ten Chi Jin", "Meisui", "Dokumori", "Kunai's Bane",
-        "Tenri Jindo", "Bhavacakra", "Dream Within a Dream",
-        "Phantom Kamaitachi",
+        "Fuma Shuriken (Chi)", "Fuma Shuriken (Jin)", "Katon", "Katon (Ten)",
+        "Raiton", "Raiton (Chi)", "Hyoton", "Hyoton (Jin)", "Huton",
+        "Huton (Ten)", "Doton", "Doton (Chi)", "Suiton", "Suiton (Jin)",
+        "Goka Mekkyaku", "Hyosho Ranryu", "Kassatsu", "Bunshin",
+        "Ten Chi Jin", "Meisui", "Hide", "Dokumori", "Kunai's Bane",
+        "Tenri Jindo", "Bhavacakra", "Hellfrog Medium", "Deathfrog Medium",
+        "Zesho Meppo", "Dream Within a Dream", "Phantom Kamaitachi",
+        "Forked Raiju", "Fleeting Raiju", "Hollow Nozuchi", "True North",
     },
     "RPR": {
         "Arcane Circle", "Enshroud", "Soulsow", "Gluttony", "Plentiful Harvest",
@@ -120,7 +126,10 @@ MODELED_JOB_STATE_SKILLS = {
 }
 
 MODELED_FOLLOWUP_SKILLS = {
-    "NIN": {"Bunshin", "Phantom Kamaitachi"},
+    "NIN": {
+        "Bunshin", "Dream Within a Dream", "Phantom Kamaitachi",
+        "Hakke Mujinsatsu", "Katon", "Goka Mekkyaku",
+    },
     "RPR": {"Gluttony", "Enshroud", "Sacrificium", "Communio", "Perfectio"},
     "PCT": {"Pom Muse", "Winged Muse", "Clawed Muse", "Fanged Muse", "Mog of the Ages", "Retribution of the Madeen"},
     "MCH": {"Automaton Queen", "Queen Overdrive", "Wildfire"},
@@ -133,11 +142,11 @@ MODELED_FOLLOWUP_SKILLS = {
 }
 
 
-def create_job_state(job):
+def create_job_state(job, version="7.2"):
     if job == "SAM":
         return SamJobState()
     if job == "NIN":
-        return NinJobState()
+        return NinJobState(version=version)
     if job == "RPR":
         return RprJobState()
     if job == "PCT":

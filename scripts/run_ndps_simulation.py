@@ -27,6 +27,8 @@ from sim import (  # noqa: E402
     parse_axis_csv,
     skill_names_match,
 )
+from xiv_sim_core import parse_downtime_windows  # noqa: E402
+from xiv_job_data import DEFAULT_MAIN_STATS, DEFAULT_WEAPON_DELAYS  # noqa: E402
 
 
 DEFAULT_STATS = {
@@ -38,6 +40,7 @@ DEFAULT_STATS = {
     "wd": 158,
     "delay": 2.64,
     "party_bonus": 1.05,
+    "version": "7.5",
 }
 
 
@@ -45,11 +48,10 @@ def _load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
-def _target_actions(path: Path | None) -> list[dict]:
+def _target_record(path: Path | None) -> dict:
     if not path:
-        return []
-    payload = _load_json(path)
-    return [item for item in payload.get("actions", []) if item.get("type") == "Skill"]
+        return {}
+    return _load_json(path)
 
 
 def _attach_targets(events: list[dict], target_actions: list[dict], job: str) -> list[dict]:
@@ -80,6 +82,7 @@ def _attach_targets(events: list[dict], target_actions: list[dict], job: str) ->
 
 
 def _parse_windows(value) -> list[tuple[float, float]]:
+    return parse_downtime_windows(value)
     if not value:
         return []
     if isinstance(value, (list, tuple)):
@@ -252,17 +255,28 @@ def run(payload: dict) -> dict:
     seed = int(payload.get("seed") or random.randrange(1, 2**31))
     random.seed(seed)
 
+    payload_stats = payload.get("stats", {})
     stats = dict(DEFAULT_STATS)
-    stats.update(payload.get("stats", {}))
+    stats.update(payload_stats)
+    if "main_stat" not in payload_stats and "str" not in payload_stats:
+        stats["main_stat"] = DEFAULT_MAIN_STATS.get(job, DEFAULT_STATS["main_stat"])
+    if "delay" not in payload_stats:
+        stats["delay"] = DEFAULT_WEAPON_DELAYS.get(job, DEFAULT_STATS["delay"])
     profile = JOB_PROFILES.get(job, JOB_PROFILES["SAM"])
     stats["job"] = job
+    stats["version"] = str(stats.get("version", DEFAULT_STATS["version"]))
     stats["main_stat"] = int(stats.get("main_stat", stats.get("str", DEFAULT_STATS["main_stat"])))
     stats["str"] = stats["main_stat"]
     stats["party_bonus"] = float(stats.get("party_bonus", profile.party_bonus))
 
     events, csv_meta = parse_axis_csv(csv_path, normalize_name=lambda raw_name: normalize_skill_name_for_job(raw_name, job))
-    events = _attach_targets(events, _target_actions(target_path), job)
-    coverage = build_skill_coverage(events, SkillResolver(job), csv_meta=csv_meta)
+    target_record = _target_record(target_path)
+    events = _attach_targets(
+        events,
+        [item for item in target_record.get("actions", []) if item.get("type") == "Skill"],
+        job,
+    )
+    coverage = build_skill_coverage(events, SkillResolver(job, stats["version"]), csv_meta=csv_meta)
     multi_boss_mode = bool(payload.get("multi_boss_mode"))
     downtime_config = _parse_target_downtime(payload.get("downtime_config"))
     global_downtime = _parse_windows(payload.get("global_downtime"))
@@ -292,6 +306,8 @@ def run(payload: dict) -> dict:
             "csv_format": csv_meta.get("format", ""),
             "iterations": iterations,
             "seed": seed,
+            "game_version": stats["version"],
+            "weapon_delay": stats["delay"],
             "base_gcd": base_gcd,
             "job_gcd": job_gcd,
             "multi_boss_mode": multi_boss_mode,

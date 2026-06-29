@@ -1,6 +1,6 @@
 # FFXIV SIM Project Status
 
-Updated: 2026-06-08
+Updated: 2026-06-29
 
 This document is the active development status and evidence map for the FFXIV SIM workspace. It consolidates the former roadmap, calibration matrix, Task I audit pointer, SAM regression audit pointer, filename migration notes, and the original Chinese user-facing draft into one readable control surface.
 
@@ -26,7 +26,7 @@ The original long implementation plan is archived at `docs/archive/all_dps_nd_si
 
 - Phase 0 to Phase 3 are complete: baseline preservation, CSV import, formula module, simulator core split, coverage reporting, and report/export surfaces are in place.
 - Phase 4 MVP is complete for all 13 DPS jobs: SAM, MNK, DRG, NIN, RPR, VPR, BRD, MCH, DNC, BLM, SMN, RDM, and PCT all have job-state support at the current "axis can be interpreted" level.
-- Task I is closed for the current plan scope: reproducible xivintheshell per-skill comparisons exist for MNK, DRG, VPR, BRD, MCH, DNC, SMN, and RDM, with remaining differences recorded as evidence boundaries.
+- Task I is closed for the current plan scope: reproducible xivintheshell per-skill comparisons exist for NIN, MNK, DRG, VPR, BRD, MCH, DNC, SMN, and RDM, with remaining differences recorded as evidence boundaries.
 - Task J is closed for the current plan scope: all 13 DPS job state classes support warning-only resource legality ledgers that do not block simulation.
 - Task K is closed: the maintained GUI entrypoint, report header, evidence levels, Markdown export, CSV detail export, and resource-warning surfacing are wired.
 - Task L is closed: source self-test, packaged simulator self-test, release packaging, and GitHub sync have been completed in prior release commits.
@@ -48,7 +48,7 @@ Use these terms conservatively in code, docs, and reports:
 | Job | Best current sample | Current evidence | Next calibration focus |
 | --- | --- | --- | --- |
 | SAM | `examples/skill_lines/sam_m9_m12s/m11s_217.csv` | Historical long-axis import smoke | Restore/guard backup-authoritative SAM replay parity before claiming numerical stability. |
-| NIN | `examples/skill_lines/nin_m12s_p2/nin_830.csv` | Historical long-axis import smoke | Compare mudra, Bunshin, Dokumori, and resource timing against external totals. |
+| NIN | `examples/skill_lines/nin_m12s_p2/nin_830.csv` | `mechanic_calibrated` | Seek real-log or independently audited numerical validation; the retained axis still has two intentional Ninki-overcap warnings. |
 | RPR | `examples/skill_lines/rpr_enuo/reaper.csv` | Historical long-axis import smoke | Compare Enshroud, Lemure/Void chains, Communio, Plentiful Harvest, and target attribution. |
 | PCT | `examples/skill_lines/pct_fru/23_desaturation.csv` | Historical FRU long-axis import smoke | Compare motif, muse, hammer, comet, creature follow-ups, and multi-target phases. |
 | BLM | `examples/skill_lines/sam_m9_m12s/sam_misc/suiyue_jiyu_9s.csv` | Historical long-axis import smoke | Move or alias BLM-owned samples, then compare Astral/Umbral state, Thunder ticks, and target counts. |
@@ -66,6 +66,7 @@ Use these terms conservatively in code, docs, and reports:
 - Canonical calibration output directory: `results/calibration/`
 - Task I generated audit: `docs/archive/task_i_xivintheshell_comparison_audit.md`
 - SAM backup/stable regression audit: `docs/archive/sam_backup_stable_rd_regression_audit_2026_05_31.md`
+- NIN mechanic and accuracy audit: `docs/archive/nin_nd_accuracy_audit_2026_06_29.md`
 - Filename migration record: `docs/archive/filename_migration_2026_05_28.md`
 
 The old duplicate `artifacts/calibration/` surface is retired. Build specs and local build/cache material remain under `artifacts/`.
@@ -99,5 +100,6 @@ Run the checks that match the layer touched. For documentation-only edits, markd
 | `docs/archive/simulator_calibration_matrix_2026_05_28.md` | Former per-job calibration matrix, now summarized here. |
 | `docs/archive/task_i_xivintheshell_comparison_audit.md` | Generated Task I triage report from comparison CSVs. |
 | `docs/archive/sam_backup_stable_rd_regression_audit_2026_05_31.md` | SAM backup versus maintained-core regression audit. |
+| `docs/archive/nin_nd_accuracy_audit_2026_06_29.md` | NIN skill coverage, output mechanics, closed accuracy gaps, and external comparison boundary. |
 | `docs/archive/filename_migration_2026_05_28.md` | Old-to-new path mapping from the repository reorganization. |
 | `docs/archive/original_user_note_cn_2026_01_31.md` | Original Chinese draft explaining the tool idea and user workflow. |

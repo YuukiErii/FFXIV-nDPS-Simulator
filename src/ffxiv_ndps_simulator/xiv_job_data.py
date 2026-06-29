@@ -10,6 +10,26 @@ DPS_JOB_ORDER = (
     "BLM", "SMN", "RDM", "PCT",
 )
 
+DEFAULT_WEAPON_DELAYS = {
+    "MNK": 2.56,
+    "DRG": 2.80,
+    "NIN": 2.56,
+    "SAM": 2.64,
+    "RPR": 3.20,
+    "VPR": 2.64,
+    "BRD": 3.04,
+    "MCH": 2.64,
+    "DNC": 3.12,
+    "BLM": 3.28,
+    "SMN": 3.12,
+    "RDM": 3.44,
+    "PCT": 2.96,
+}
+
+DEFAULT_MAIN_STATS = {
+    "NIN": 6490,
+}
+
 
 STAT_SCHEMA_MAIN = {
     "dpsStr": "STR",

@@ -5,6 +5,7 @@ import random
 import re
 import sys
 from collections import Counter, defaultdict
+from datetime import date
 from pathlib import Path
 
 
@@ -20,10 +21,10 @@ from sim import (  # noqa: E402
     normalize_skill_name_for_job,
 )
 from xiv_axis_csv import parse_axis_csv  # noqa: E402
-from xiv_job_data import JOB_PROFILES  # noqa: E402
+from xiv_job_data import DEFAULT_MAIN_STATS, DEFAULT_WEAPON_DELAYS, JOB_PROFILES  # noqa: E402
 
 
-LONG_JOBS = ("MNK", "DRG", "VPR", "BRD", "MCH", "DNC", "SMN", "RDM")
+LONG_JOBS = ("NIN", "MNK", "DRG", "VPR", "BRD", "MCH", "DNC", "SMN", "RDM")
 
 
 def match_key(value):
@@ -76,13 +77,13 @@ def stats_from_record(job, record):
     return {
         "job": job,
         "version": "7.5",
-        "main_stat": int(config.get("main", 6498)),
+        "main_stat": int(config.get("main", DEFAULT_MAIN_STATS.get(job, 6498))),
         "crt": int(config.get("criticalHit", 3605)),
         "det": int(config.get("determination", 2426)),
         "dh": int(config.get("directHit", 1793)),
         "sks": int(speed),
         "wd": int(config.get("wd", 158)),
-        "delay": 2.64,
+        "delay": DEFAULT_WEAPON_DELAYS.get(job, 2.64),
     }
 
 
@@ -216,6 +217,16 @@ def compare_one(job, axis_path, damage_path, record_path, out_dir):
 
 
 def note_for_row(key, action_counts, damage_events, sim_rows):
+    if (
+        key == "dreamwithinadream"
+        and action_counts.get(key, 0)
+        and sim_rows.get(key, {}).get("sim_count") == action_counts[key] * 3
+        and damage_events.get(key, 0) == action_counts[key]
+    ):
+        return "local simulator keeps the official three hits independent; xivintheshell aggregates each cast into one 540-potency damage row"
+    if key.endswith("pet") and sim_rows.get(key, {}).get("sim_count") and not damage_events.get(key, 0):
+        return "local simulator attributes Bunshin as an independent pet hit; xivintheshell folds Bunshin potency into the triggering weaponskill"
+
     notes = []
     action_count = action_counts.get(key, 0)
     damage_count = damage_events.get(key, 0)
@@ -266,7 +277,7 @@ def write_markdown(summaries, out_path):
     lines = [
         "# Xivintheshell Long-Axis Skill Comparisons",
         "",
-        "Generated: 2026-05-27",
+        f"Generated: {date.today().isoformat()}",
         "",
         "These tables compare the local simulator's imported long-axis samples against xivintheshell action and damage exports. They are not real FFLogs validation; they are a reproducible external-detail baseline for Task I.",
         "",
@@ -298,6 +309,15 @@ def default_jobs():
     jobs = []
     for job in LONG_JOBS:
         job_lower = job.lower()
+        if job == "NIN":
+            directory = REPO_ROOT / "examples/skill_lines/nin_m12s_p2"
+            jobs.append((
+                job,
+                directory / "nin_830.csv",
+                directory / "nin_830_damage.csv",
+                directory / "nin_830.txt",
+            ))
+            continue
         directory = REPO_ROOT / "examples/skill_lines" / f"{job_lower}_xivintheshell_long"
         jobs.append((
             job,

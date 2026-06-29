@@ -1,0 +1,24 @@
+﻿{
+    "iterations":  1000,
+    "custom_snaps":  [
+
+                     ],
+    "multi_boss_mode":  false,
+    "job":  "SAM",
+    "csv_path":  "C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\examples\\skill_lines\\sam_m9_m12s\\m11s_217.csv",
+    "stats":  {
+                  "main_stat":  6498,
+                  "crt":  3605,
+                  "delay":  2.64,
+                  "det":  2587,
+                  "party_bonus":  1.05,
+                  "wd":  158,
+                  "sks":  420,
+                  "dh":  1901
+              },
+    "downtime_config":  "",
+    "threshold":  46000,
+    "target_path":  "C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\examples\\skill_lines\\sam_m9_m12s\\m11s_217.txt",
+    "dot_config":  "",
+    "global_downtime":  "60-75, 180-195"
+}

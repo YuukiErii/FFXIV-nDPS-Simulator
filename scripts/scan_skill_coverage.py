@@ -48,7 +48,7 @@ CONTENT_JOB_HINTS = (
 
 def is_known_non_axis_csv(path):
     name = path.name.lower()
-    return name.endswith("_xivintheshell_damage.csv") or name.endswith("_skill_comparison.csv")
+    return name.endswith("_damage.csv") or name.endswith("_skill_comparison.csv")
 
 
 def infer_job(path):

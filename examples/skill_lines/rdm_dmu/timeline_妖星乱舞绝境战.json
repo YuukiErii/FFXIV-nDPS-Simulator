@@ -1,0 +1,4151 @@
+{
+  "fileType": "MarkerTracksCombined",
+  "tracks": [
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": -1,
+      "markers": [
+        {
+          "time": 197.597,
+          "markerType": "Info",
+          "duration": 10.336,
+          "description": "不可选中",
+          "color": "#b7b7b7",
+          "showText": true
+        },
+        {
+          "time": 377.193,
+          "markerType": "Info",
+          "duration": 50.379,
+          "description": "不可选中",
+          "color": "#b7b7b7",
+          "showText": true
+        },
+        {
+          "time": 725.413,
+          "markerType": "Info",
+          "duration": 4.454,
+          "description": "不可选中",
+          "color": "#b7b7b7",
+          "showText": true
+        },
+        {
+          "time": 862.401,
+          "markerType": "Info",
+          "duration": 31.001,
+          "description": "不可选中",
+          "color": "#b7b7b7",
+          "showText": true
+        },
+        {
+          "time": 1113.868,
+          "markerType": "Info",
+          "duration": 0.049,
+          "description": "不可选中",
+          "color": "#b7b7b7",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 0,
+      "markers": [
+        {
+          "time": 10.168,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "恶狠狠毁荡",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 18.369,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "恶狠狠毁荡",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 24.564,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "Enhanced Thrill Of War II",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 25.99,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "众神之像",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 32.146,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "玄乎乎魔法",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 37.936,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "呼啦啦爆炎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 41.322,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "连环环陷阱",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 45.783,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 48.415,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "玄乎乎魔法",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 57.509,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "制裁之光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 65.669,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "超驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 67.764,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "超驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 69.862,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "超驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 75.657,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "Enhanced Thrill Of War II",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 77.083,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "众神之像",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 82.209,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 91.342,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "岩石弹",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 97.178,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "恶狠狠毁荡",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 100.299,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "恶狠狠毁荡",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 105.788,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "重力弹",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 109.801,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "岩石弹",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 114.261,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "重力波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 118.096,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连环环陷阱",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 121.124,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "强重力",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 122.194,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "强重力",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 127.232,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "制裁之光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 135.382,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "超驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 137.475,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "超驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 139.569,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "超驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 146.472,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "唰啦啦传送",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 159.301,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "唰啦啦传送",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 160.549,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "众神之像",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 167.77,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连环环陷阱",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 173.341,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "圣母的神气",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 179.761,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "Enhanced Thrill Of War II",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 181.322,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "玄乎乎魔法",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 187.119,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "呼啦啦爆炎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 215.2,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "终末双腕",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 228.436,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 248.674,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "光之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 251.621,
+          "markerType": "Info",
+          "duration": 6.1,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 259.325,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·散碎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 264.401,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 270.332,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 272.697,
+          "markerType": "Info",
+          "duration": 6.1,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 280.407,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 285.575,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 291.327,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 293.644,
+          "markerType": "Info",
+          "duration": 6.1,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 301.356,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 306.524,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 312.407,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 314.591,
+          "markerType": "Info",
+          "duration": 6.1,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 321.769,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "光之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 327.39,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 336.628,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "制裁之光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 349.871,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "异三角",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 356.019,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "破坏之翼",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 365.739,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "异三角",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 367.744,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "异三角",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 369.753,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "异三角",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 372.427,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "终末双腕",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 383.919,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "疼飕飕暴风",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 420.526,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "Definition of Insanity",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 427.706,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "决战",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 445.171,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "深层痛楚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 462.234,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 470.304,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "海啸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 473.333,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 481.436,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 486.244,
+          "markerType": "Info",
+          "duration": 3.6,
+          "description": "幻化",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 491.415,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "经度聚爆",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 494.135,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 496.274,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌之炎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 497.297,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "烈焰",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 506.521,
+          "markerType": "Info",
+          "duration": 7.7,
+          "description": "真空波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 515.433,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 517.435,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 519.439,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 521.443,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 529.461,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 530.573,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 532.132,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 540.24,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 542.02,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "决战",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 549.242,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 556.15,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "放大",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 557.352,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 559.314,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 566.259,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 569.737,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 575.525,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 576.593,
+          "markerType": "Info",
+          "duration": 1.2,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 585.547,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 590.808,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 598.924,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 600.172,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 605.923,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 607.036,
+          "markerType": "Info",
+          "duration": 1.2,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 616.081,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 617.641,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 621.161,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 622.724,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 626.246,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 627.627,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "本色出演的我",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 632.707,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "本色出演的我",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 634.758,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "Blackblood",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 637.078,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 640.199,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 650.323,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 651.883,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 655.406,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 656.966,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 660.487,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 662.049,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 666.776,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "白洞",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 672.482,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 673.909,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 675.022,
+          "markerType": "Info",
+          "duration": 1.2,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 684.023,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 685.584,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 689.547,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "本色出演的我",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 690.659,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "本色出演的我",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 692.661,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 697.029,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 703.095,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 705.364,
+          "markerType": "Info",
+          "duration": 1.2,
+          "description": "轰隆隆跺脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 707.992,
+          "markerType": "Info",
+          "duration": 1.2,
+          "description": "轰隆隆跺脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 710.534,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 715.655,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "顶起",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 719.662,
+          "markerType": "Info",
+          "duration": 9.7,
+          "description": "陨石流星",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 735.037,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "闹哄哄魂击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 743.195,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "Enhanced Thrill Of War II",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 744.619,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 754.063,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "大十字",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 759.143,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "烈焰",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 764.581,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 769.081,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "大十字",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 774.159,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "海啸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 779.73,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 784.056,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "大十字",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 791.229,
+          "markerType": "Info",
+          "duration": 5.2,
+          "description": "生死之境",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 800.545,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "死亡波涛",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 801.835,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "魔法储存",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 808.075,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 814.176,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "死亡尖叫",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 818.236,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "扑腾腾究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 825.989,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌之炎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 830.181,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "死亡波纹",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 831.252,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 837.667,
+          "markerType": "Info",
+          "duration": 6.7,
+          "description": "魔法放出",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 848.857,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌之水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 855.985,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "Enhanced Thrill Of War II",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 857.408,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "扑腾腾究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 896.52,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 901.596,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 902.979,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 905.65,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "unknown_c652",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 908.812,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "unknown_c652",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 911.934,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "unknown_c652",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 913.05,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "洪水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 919.067,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌洪水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 920.18,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "洪水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 921.207,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "洪水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 922.231,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "洪水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 926.242,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "癫狂交响曲",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 932.123,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "神圣",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 934.4,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "癫狂交响曲",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 938.76,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌神圣",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 942.593,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "unknown_c652",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 945.711,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "unknown_c652",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 947.939,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "三星",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 957.12,
+          "markerType": "Info",
+          "duration": 4.0,
+          "description": "二选一的灾祟",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 962.193,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "龙卷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 968.069,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 969.273,
+          "markerType": "Info",
+          "duration": 4.0,
+          "description": "二选一的灾祟",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 974.353,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "龙卷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 978.454,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 983.532,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 984.912,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 987.585,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "unknown_c652",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 990.746,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "unknown_c652",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 992.973,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 998.005,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1002.996,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1007.724,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1009.107,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "混沌涡旋",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1014.985,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌涡旋",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1018.281,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "癫狂交响曲",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1024.163,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "神圣",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1026.436,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "癫狂交响曲",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1030.848,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "核爆扩散",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1034.635,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "unknown_c652",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1037.748,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "unknown_c652",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1040.87,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "unknown_c652",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1043.008,
+          "markerType": "Info",
+          "duration": 9.7,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1058.081,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1061.205,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1066.283,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末狱",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1069.359,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1074.437,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末狱",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1077.511,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1082.589,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末狱",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1087.629,
+          "markerType": "Info",
+          "duration": 25.7,
+          "description": "遗弃末点",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 1,
+      "markers": [
+        {
+          "time": 15.252,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "恶狠狠毁荡",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 28.98,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "众神之像",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 32.146,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 42.172,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "波动炮",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 44.313,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连环环陷阱",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 48.415,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 62.504,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "制裁之光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 80.068,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "众神之像",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 87.199,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 92.101,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "恶狠狠毁荡",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 101.146,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扑杀的神气",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 121.259,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "强重力",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 132.221,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "制裁之光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 151.464,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "唰啦啦传送",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 162.29,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "唰啦啦传送",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 163.539,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "众神之像",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 173.341,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "睡魔的神气",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 181.322,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 220.189,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "终末双腕",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 235.435,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 249.3,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 257.988,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 259.325,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 264.669,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 279.071,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 280.407,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·散碎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 290.569,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 300.018,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 301.356,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·散碎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 311.518,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 320.967,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 322.394,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·散碎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 327.525,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 341.625,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "制裁之光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 352.856,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "异三角",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 359.987,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "破坏之翼",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 366.185,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "破坏之翼",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 377.415,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "终末双腕",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 386.902,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "疼飕飕暴风",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 424.494,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "Definition of Insanity",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 430.691,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "决战",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 450.166,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "深层痛楚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 469.19,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 478.321,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 486.422,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "经度聚爆",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 492.129,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 506.745,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "本影爆碎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 513.43,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 514.499,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "真空波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 518.37,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "龙卷风",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 519.928,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "以太连接",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 529.683,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 530.796,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 537.123,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 545.006,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "决战",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 551.158,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "放大",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 571.251,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 574.723,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 576.104,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 578.063,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 585.636,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "以太连接",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 592.589,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 595.801,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 599.101,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "诅咒敕令",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 605.167,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 606.548,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 608.507,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 626.335,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "诅咒敕令",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 632.082,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 652.596,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "以太连接",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 666.776,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "纬度聚爆",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 673.15,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 674.488,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 676.489,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 685.584,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "本色出演的我",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 691.104,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 698.814,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "轰隆隆跺脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 705.498,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "轰隆隆跺脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 706.654,
+          "markerType": "Info",
+          "duration": 1.2,
+          "description": "轰隆隆跺脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 709.462,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "轰隆隆跺脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 710.666,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "顶起",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 740.032,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "闹哄哄魂击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 744.619,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 759.59,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 774.737,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 791.229,
+          "markerType": "Info",
+          "duration": 5.2,
+          "description": "死者暗黑光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 804.82,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔法储存",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 813.061,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 820.997,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "混沌之炎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 830.181,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "死亡落雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 838.202,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "死亡尖叫",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 843.863,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "混沌之水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 849.705,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 862.401,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扑腾腾究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 900.484,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 902.308,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 903.691,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 906.452,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 909.613,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 912.739,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 918.041,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "洪水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 919.156,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "洪水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 921.073,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌洪水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 931.232,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "癫狂交响曲",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 935.291,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "神圣",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 938.76,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "核爆扩散",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 943.396,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 946.516,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 952.928,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "三星",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 961.393,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "二选一的灾祟",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 968.069,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 973.55,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "二选一的灾祟",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 982.418,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 984.244,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 985.624,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连续究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 988.388,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 991.548,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 995.512,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1000.502,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1005.494,
+          "markerType": "Info",
+          "duration": 3.7,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1010.576,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1011.6,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1012.623,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1014.093,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌涡旋",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1023.271,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "癫狂交响曲",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1027.327,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "神圣",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1030.848,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌神圣",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1035.437,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1038.552,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1041.67,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1052.998,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1058.081,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末地",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1061.294,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1069.448,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1077.6,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1113.599,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末点",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 2,
+      "markers": [
+        {
+          "time": 34.817,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "波动弹",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 37.132,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "玄乎乎魔法",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 42.799,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "爆炸",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 48.415,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 87.332,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "重力弹",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 122.059,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "强重力",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 186.316,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "玄乎乎魔法",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 249.3,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 258.257,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 259.325,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·散碎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 269.393,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 279.338,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 290.703,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "光之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 300.287,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 311.784,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "光之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 321.235,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 322.394,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 332.388,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 370.153,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "破坏之翼",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 469.278,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌之水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 490.123,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "幻化",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 507.415,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 509.421,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 511.425,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 529.906,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 531.018,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 554.231,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 575.436,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "黑洞",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 604.096,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "诅咒敕令",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 607.259,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 608.598,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 627.715,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "本色出演的我",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 668.158,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 674.533,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 676.579,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "重冲击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 685.672,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "本色出演的我",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 700.02,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 703.138,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 708.126,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "轰隆隆跺脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 711.067,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "轰击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 714.493,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 744.621,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "玄乎乎魔法",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 759.59,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 774.737,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 791.229,
+          "markerType": "Info",
+          "duration": 5.2,
+          "description": "生者暗黑光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 805.178,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "死亡波纹",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 823.224,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扑腾腾究极",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 826.257,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 844.623,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "魔法放出",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 849.705,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 920.047,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌洪水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 922.053,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌洪水",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 932.123,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "核爆",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 935.291,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌核爆",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 962.06,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 968.069,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 974.085,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 996.937,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 998.049,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 999.075,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1000.101,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1001.125,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1002.15,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1003.575,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1004.601,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1006.12,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1007.145,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1008.616,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1009.642,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1011.109,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1012.134,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1024.163,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "核爆",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1027.327,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌核爆",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1053.085,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1061.294,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "遗弃末地",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1069.448,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "遗弃末地",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1077.6,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "遗弃末地",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 3,
+      "markers": [
+        {
+          "time": 37.132,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 49.442,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "连环环陷阱",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 53.41,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "玄乎乎魔法",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 186.316,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 249.301,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 258.434,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 269.661,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 279.471,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 291.327,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 300.421,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 312.407,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 321.368,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "过去终结",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 322.394,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·散碎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 332.522,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "消灭之脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 511.737,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "本影爆碎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 530.128,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 554.319,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 576.815,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 578.152,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "重冲击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 627.805,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "地震",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 631.325,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "诅咒敕令",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 671.77,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "白洞",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 675.244,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "响亮亮耳光",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 700.108,
+          "markerType": "Info",
+          "duration": 2.7,
+          "description": "冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 704.026,
+          "markerType": "Info",
+          "duration": 1.2,
+          "description": "轰隆隆跺脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 706.834,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "轰隆隆跺脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 745.065,
+          "markerType": "Info",
+          "duration": 8.7,
+          "description": "大十字",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 759.59,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "玄乎乎魔法",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 774.737,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "玄乎乎魔法",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 791.229,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "无之泛滥",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 805.178,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "死亡落雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 844.711,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 962.06,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 974.085,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 997.561,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 998.584,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 999.609,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1000.635,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1001.972,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1003.086,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1004.109,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1005.584,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1006.609,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1008.08,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1009.152,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1053.085,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "遗弃末地",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1066.283,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1074.437,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1082.589,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末世",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 4,
+      "markers": [
+        {
+          "time": 53.41,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 186.45,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "懒惰的神气",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 258.7,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "光之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 269.706,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "光之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 279.74,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "光之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 291.327,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 300.732,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "光之波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 312.407,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·波动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 530.35,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "究极冲击波",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 578.418,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "黑洞",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 631.593,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "本色出演的我",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 671.77,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "纬度聚爆",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 700.51,
+          "markerType": "Info",
+          "duration": 4.7,
+          "description": "轰击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 749.608,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "劈啪啪暴雷",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 760.081,
+          "markerType": "Info",
+          "duration": 8.7,
+          "description": "大十字",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 775.093,
+          "markerType": "Info",
+          "duration": 8.7,
+          "description": "大十字",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 796.22,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "无之泛滥",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 805.178,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "死亡波纹",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 962.06,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 974.085,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "爆炎",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 999.474,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1001.614,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1004.468,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1006.967,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1009.463,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1058.126,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末狱",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1066.283,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末地",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1074.437,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末地",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1082.589,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "遗弃末地",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    },
+    {
+      "fileType": "MarkerTrackIndividual",
+      "track": 5,
+      "markers": [
+        {
+          "time": 53.41,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 270.332,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 312.407,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "咏唱危机·驱动",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 703.804,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "轰隆隆跺脚",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 705.498,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "轰击",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 749.608,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 764.581,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 779.73,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "扩大大冰封",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 796.712,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "生死之境",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1002.595,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1005.092,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1007.589,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        },
+        {
+          "time": 1010.086,
+          "markerType": "Info",
+          "duration": 0.0,
+          "description": "混沌末世",
+          "color": "#217ff5",
+          "showText": true
+        }
+      ]
+    }
+  ]
+}

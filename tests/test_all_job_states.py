@@ -26,6 +26,7 @@ from sim import (  # noqa: E402
     normalize_skill_name_for_job,
 )
 from xiv_axis_csv import parse_axis_csv  # noqa: E402
+from xiv_sim_core import parse_downtime_windows, total_window_overlap  # noqa: E402
 
 
 BASE_STATS = {
@@ -79,6 +80,11 @@ XIVINTHESHELL_LONG_CSVS = {
 
 
 class AllJobStateTests(unittest.TestCase):
+    def test_global_downtime_accepts_multiple_windows(self):
+        windows = parse_downtime_windows("(10, 20)\n30-35; 40，45")
+        self.assertEqual(windows, [(10.0, 20.0), (30.0, 35.0), (40.0, 45.0)])
+        self.assertEqual(total_window_overlap(windows, 42.0), 17.0)
+
     def test_all_dps_jobs_have_specific_state_classes(self):
         for job in JOB_SMOKE_TIMELINES:
             with self.subTest(job=job):
@@ -313,7 +319,7 @@ class AllJobStateTests(unittest.TestCase):
                 random, "uniform", side_effect=lambda low, high: (low + high) / 2):
             total, last_hit, _dmg, counts, *_tail, resource_warnings = sim.run_one_simulation(is_first_run=True)
 
-        self.assertAlmostEqual(total, 14339999.006454568, places=6)
+        self.assertAlmostEqual(total, 14328257.262634682, places=6)
         self.assertAlmostEqual(last_hit, 383.21675, places=6)
         self.assertEqual(counts["Auto Attack"], 157)
         self.assertEqual(resource_warnings, [])

@@ -445,6 +445,17 @@ h2 {
   font-weight: 800;
 }
 
+.empty-state {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+  color: var(--muted);
+}
+
+.empty-state strong {
+  color: var(--text);
+}
+
 .data-table {
   display: grid;
   width: 100%;

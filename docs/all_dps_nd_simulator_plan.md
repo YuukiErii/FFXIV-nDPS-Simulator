@@ -1,6 +1,6 @@
 # All-DPS nDPS Simulator Plan
 
-Updated: 2026-06-08
+Updated: 2026-06-29
 
 This file remains the routing artifact for the all-DPS simulator plan. The original long plan was archived to `docs/archive/all_dps_nd_simulator_plan_2026_05_28.md`; the current consolidated status, evidence map, and folder policy now live in `docs/PROJECT_STATUS.md`.
 
@@ -16,6 +16,7 @@ This file remains the routing artifact for the all-DPS simulator plan. The origi
 - Task K: UI, report, and export closure - closed.
 - Task L: packaging, self-test, and release validation - closed.
 - Task M: advanced nDPS and teammate contribution accounting - future work.
+- NIN accuracy pass: mechanic-calibrated against the retained 506-second xivintheshell axis; see `docs/archive/nin_nd_accuracy_audit_2026_06_29.md`.
 
 ## Active Routing
 

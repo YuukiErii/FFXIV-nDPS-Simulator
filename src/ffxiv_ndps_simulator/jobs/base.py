@@ -33,6 +33,9 @@ class JobState:
     def on_press_complete(self, name, current_time):
         return None
 
+    def on_press_confirmed(self, name, skill, current_time, payload):
+        return self.on_press_complete(name, current_time)
+
     def handles_skill_buff(self, name, skill):
         return False
 
@@ -98,6 +101,12 @@ class JobState:
         return not getattr(job_profile, "is_caster", False)
 
     def should_start_auto_attacks(self, name, skill, current_time):
+        return True
+
+    def can_activate_without_target(self, name, skill):
+        return False
+
+    def is_dot_active(self, dot, current_time):
         return True
 
     def format_buffs(self, active_buffs, has_potion=False):

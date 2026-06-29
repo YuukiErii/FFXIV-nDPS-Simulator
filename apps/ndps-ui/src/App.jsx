@@ -17,6 +17,14 @@ import {
 import React, { useMemo, useRef, useState } from "react";
 
 const JOBS = ["SAM", "VPR", "MNK", "DRG", "NIN", "RPR", "BRD", "MCH", "DNC", "BLM", "SMN", "RDM", "PCT"];
+const WEAPON_DELAYS = {
+  MNK: 2.56, DRG: 2.8, NIN: 2.56, SAM: 2.64, RPR: 3.2, VPR: 2.64,
+  BRD: 3.04, MCH: 2.64, DNC: 3.12, BLM: 3.28, SMN: 3.12, RDM: 3.44, PCT: 2.96,
+};
+
+const MAIN_STAT_DEFAULTS = {
+  NIN: 6490,
+};
 
 const DEFAULT_STATS = {
   mainStat: 6498,
@@ -27,7 +35,8 @@ const DEFAULT_STATS = {
   wd: 158,
   delay: 2.64,
   partyBonus: 1.05,
-  iterations: 10000,
+  version: 7.5,
+  iterations: 1000,
   threshold: 46000,
 };
 
@@ -204,6 +213,7 @@ function App() {
 
   const summary = useMemo(() => summarizeRows(rows), [rows]);
   const fallbackProjection = useMemo(() => buildProjection(rows, stats), [rows, stats]);
+  const hasSimulation = Boolean(runResult?.summary);
   const projection = useMemo(() => {
     if (!runResult?.summary) return fallbackProjection;
     return {
@@ -336,6 +346,7 @@ function App() {
           wd: stats.wd,
           delay: stats.delay,
           party_bonus: stats.partyBonus,
+          version: String(stats.version),
         },
       });
       setRunResult(result);
@@ -372,7 +383,14 @@ function App() {
               <button
                 className={item === job ? "job-button active" : "job-button"}
                 key={item}
-                onClick={() => setJob(item)}
+                onClick={() => {
+                  setJob(item);
+                  setStats((current) => ({
+                    ...current,
+                    delay: WEAPON_DELAYS[item] ?? current.delay,
+                    mainStat: MAIN_STAT_DEFAULTS[item] ?? DEFAULT_STATS.mainStat,
+                  }));
+                }}
                 type="button"
               >
                 {item}
@@ -396,6 +414,7 @@ function App() {
               ["wd", "WD"],
               ["delay", "Delay"],
               ["partyBonus", "Party"],
+              ["version", "Patch"],
               ["iterations", "Runs"],
               ["threshold", "RD Gate"],
             ].map(([key, label]) => (
@@ -471,7 +490,6 @@ function App() {
       <main className="workspace">
         <header className="topbar">
           <div>
-            <p className="eyebrow">Modern UI Track</p>
             <h2>{axisFile?.name || "Sample Axis"}</h2>
           </div>
           <div className="topbar-actions">
@@ -516,7 +534,7 @@ function App() {
             </div>
             <div className="run-metric">
               <span>{projection.expected.toLocaleString()}</span>
-              <small>Expected RD</small>
+              <small>{hasSimulation ? "Expected RD" : "Preview RD"}</small>
             </div>
             <div className="sparkline" aria-label="RD timeline">
               <TimelineSvg data={projection.timeline} />
@@ -650,6 +668,14 @@ function TimelineTable({ rows }) {
 
 function ResultsPanel({ projection, runResult }) {
   const skillRows = runResult?.skills?.slice(0, 8) || [];
+  if (!runResult?.summary) {
+    return (
+      <div className="empty-state">
+        <strong>Python simulation has not run.</strong>
+        <span>Use the desktop file picker, then run the simulation to show real RD.</span>
+      </div>
+    );
+  }
   return (
     <div className="results-grid">
       <div className="chart-panel">

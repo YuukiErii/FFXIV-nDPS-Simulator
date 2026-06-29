@@ -65,7 +65,8 @@ def _find_header(rows):
     return None, {}, rows
 
 
-def _entry(time_value, name, row_no, raw_name=None, is_gcd=None, cast_time=None, source="axis_csv"):
+def _entry(time_value, name, row_no, raw_name=None, is_gcd=None, cast_time=None,
+           positional_hit=None, source="axis_csv"):
     action = (name or "").strip()
     if not action:
         raise AxisCsvError(f"第 {row_no} 行缺少 action/技能名。")
@@ -76,6 +77,7 @@ def _entry(time_value, name, row_no, raw_name=None, is_gcd=None, cast_time=None,
         "targets": 1,
         "is_gcd": is_gcd,
         "cast_time": cast_time,
+        "positional_hit": positional_hit,
         "source": source,
         "row_no": row_no,
     }
@@ -94,6 +96,7 @@ def parse_axis_csv(path, normalize_name=None):
         action_idx = columns["action"]
         is_gcd_idx = columns.get("isgcd")
         cast_idx = columns.get("casttime")
+        positional_idx = columns.get("positionalhit", columns.get("positional"))
         for row_no, row in data_rows:
             if len(row) <= max(time_idx, action_idx):
                 skipped += 1
@@ -109,6 +112,11 @@ def parse_axis_csv(path, normalize_name=None):
                 raw_name=raw_name,
                 is_gcd=_optional_bool(row[is_gcd_idx]) if is_gcd_idx is not None and is_gcd_idx < len(row) else None,
                 cast_time=_optional_float(row[cast_idx]) if cast_idx is not None and cast_idx < len(row) else None,
+                positional_hit=(
+                    _optional_bool(row[positional_idx])
+                    if positional_idx is not None and positional_idx < len(row)
+                    else None
+                ),
             )
             entries.append(entry)
     else:
@@ -162,6 +170,7 @@ def parse_axis_csv(path, normalize_name=None):
         "format": "xiv_plan_csv" if header_row_no is not None else ("tts_skillline_csv" if tts_rows else "positional_csv"),
         "has_cast_time": any(item.get("cast_time") is not None for item in entries),
         "has_is_gcd": any(item.get("is_gcd") is not None for item in entries),
+        "has_positional_hit": any(item.get("positional_hit") is not None for item in entries),
     }
     return entries, meta
 

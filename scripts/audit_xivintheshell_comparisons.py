@@ -8,10 +8,16 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CALIBRATION_DIR = REPO_ROOT / "results" / "calibration"
 DEFAULT_OUT = REPO_ROOT / "docs" / "archive" / "task_i_xivintheshell_comparison_audit.md"
-JOBS = ("MNK", "DRG", "VPR", "BRD", "MCH", "DNC", "SMN", "RDM")
+JOBS = ("NIN", "MNK", "DRG", "VPR", "BRD", "MCH", "DNC", "SMN", "RDM")
 
 
 JOB_INTERPRETATION = {
+    "NIN": (
+        "All pressed damaging skills and all 233 auto-attacks match the external event counts. Dream Within a "
+        "Dream remains three independent local hits while xivintheshell aggregates each cast, and Bunshin remains "
+        "independently attributed locally while xivintheshell folds it into the parent weaponskill. The two resource "
+        "warnings are genuine Ninki overcaps in the retained axis."
+    ),
     "MNK": (
         "Most direct skills are present. The remaining high-priority checks are Masterful Blitz / Fire's Reply "
         "xivintheshell attribution, auto-attack count drift, and keeping Tincture as a utility action rather than a "
@@ -68,6 +74,7 @@ CLASS_LABELS = {
     "auto_attack_gap": "Auto-attack timing/model gap",
     "sim_damage_missing_external_key": "Local damage without external key",
     "simulator_generated_only": "Simulator-only generated row",
+    "documented_attribution": "Documented attribution difference",
     "known_xivintheshell_gap": "Known xivintheshell export gap",
     "review": "Needs review",
 }
@@ -109,6 +116,11 @@ def classify(row):
         return "matched"
     if "generated damage matched external" in note:
         return "generated_matched"
+    if row.get("job") == "NIN" and (
+        row.get("skill_key") == "dreamwithinadream"
+        or "independent pet hit" in note
+    ):
+        return "documented_attribution"
     if "zero-damage" in note or "utility" in note and damage_count == 0 and as_float(row.get("sim_damage_one_run")) == 0:
         return "expected_zero_or_utility"
     if row.get("job") == "MCH" and row.get("skill_key") == "heatblast" and "no external damage key" in note:
@@ -249,6 +261,7 @@ def main():
         "- `Auto-attack timing/model gap`: external auto-attack damage exists, but the simulator does not emit matching auto-attack rows.",
         "- `Local damage without external key`: simulator assigns damage to the pressed skill, but xivintheshell assigns no damage key there.",
         "- `Simulator-only generated row`: simulator uses a generic generated-damage bucket such as `Dot Tick`.",
+        "- `Documented attribution difference`: the local model keeps official independent hits that xivintheshell aggregates.",
         "",
         "## Per-Job Findings",
         "",

@@ -51,7 +51,7 @@ TTS conversion:
 
 1. Open `ffxiv_personal_ndps.exe` or run `sim.py` from source.
 2. Choose the job that matches the imported axis.
-3. Fill the stat fields. The simulator uses these values for damage formula calculation.
+3. Fill the stat fields and choose the game patch. The simulator uses these values for damage formula calculation. Changing jobs updates the default weapon delay (NIN uses `2.56`); an explicitly entered delay remains the authoritative gear value.
 4. Import an axis CSV exported from XIV in the Shell or a compatible raid planner.
 5. Optionally import a matching target JSON or TXT file. This preserves multi-target counts when the axis itself does not contain enough target metadata.
 6. Configure DoT target rules, downtime, multi-boss behavior, and report thresholds if the fight needs them.
@@ -113,7 +113,7 @@ Axis CSV input should contain at least:
 - `time`
 - `action`
 
-Optional columns such as `isGCD`, `castTime`, and target-related metadata improve preview and simulation fidelity when available.
+Optional columns such as `isGCD`, `castTime`, `positionalHit`, and target-related metadata improve preview and simulation fidelity when available. Positional actions default to a successful positional; set `positionalHit` to `false` to model a miss.
 
 The simulator can also parse compatible positional or TTS skill-line CSV files. When possible, prefer the original raid-planner axis CSV because it usually keeps more timing and target metadata.
 

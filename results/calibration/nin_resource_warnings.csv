@@ -1,0 +1,3 @@
+job,row_no,time,skill,code,severity,message
+NIN,105,127.213,Phantom Kamaitachi,nin_ninki_overcap,warning,Phantom Kamaitachi overcaps Ninki by 10.
+NIN,373,474.481,Spinning Edge,nin_ninki_overcap,warning,Spinning Edge overcaps Ninki by 5.

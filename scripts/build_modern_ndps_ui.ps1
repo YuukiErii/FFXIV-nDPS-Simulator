@@ -99,7 +99,11 @@ if (-not (Test-Path $ModernReleaseDir)) {
   Rename-Item -LiteralPath (Join-Path $ModernReleaseDir "electron.exe") -NewName "ffxiv_personal_ndps_modern.exe"
 } else {
   Get-ChildItem -LiteralPath $ElectronDist | Where-Object { $_.Name -ne "resources" -and $_.Name -ne "electron.exe" } | ForEach-Object {
-    Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $ModernReleaseDir $_.Name) -Recurse -Force
+    $Destination = Join-Path $ModernReleaseDir $_.Name
+    if ($_.PSIsContainer) {
+      Remove-DirectoryInside -Path $Destination -Parent $ModernReleaseDir
+    }
+    Copy-Item -LiteralPath $_.FullName -Destination $Destination -Recurse -Force
   }
   if (-not (Test-Path (Join-Path $ModernReleaseDir "ffxiv_personal_ndps_modern.exe"))) {
     Copy-Item -LiteralPath (Join-Path $ElectronDist "electron.exe") -Destination (Join-Path $ModernReleaseDir "ffxiv_personal_ndps_modern.exe") -Force

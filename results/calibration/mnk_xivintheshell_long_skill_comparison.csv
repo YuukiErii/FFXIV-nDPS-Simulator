@@ -1,21 +1,21 @@
 job,skill_key,display_name,axis_action_count,sim_count,sim_target_sum,sim_damage_one_run,xiv_damage_events,xiv_total_potency,first_axis_time,last_axis_time,first_xiv_damage_time,last_xiv_damage_time,note
-MNK,autoattack,Auto Attack,0,72,72,522008.912,94,9417.036825,,,0.5300009999999986,159.25000100000014,generated damage in simulator and external reference without an axis press; sim count differs from external damage event count
+MNK,autoattack,Auto Attack,0,74,74,543752.325,94,9417.036825,,,0.5300009999999986,159.25000100000014,generated damage in simulator and external reference without an axis press; sim count differs from external damage event count
 MNK,brotherhood,Brotherhood,2,2,2,0.0,0,0.0,3.5033333333333303,123.50333333333333,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
-MNK,demolish,Demolish,5,5,5,166839.661,5,2154.6,2.8833333333333293,151.3066666666667,4.4833333333333325,152.9066666666667,matched
-MNK,dragonkick,Dragon Kick,11,11,11,365078.212,11,3843.936,-1.0,147.42333333333335,0.28999999999999915,148.71333333333334,matched
-MNK,elixirburst,Elixir Burst,2,2,2,240690.06,2,2073.69,22.299999999999983,145.48166666666668,23.719999999999978,146.90166666666667,matched
-MNK,firesreply,Fire's Reply,2,2,2,233361.491,1,1825.74,12.591666666666661,137.71500000000003,14.01166666666666,14.01166666666666,sim count differs from external damage event count; external damage event count differs from axis action count
+MNK,demolish,Demolish,5,5,5,169035.621,5,2154.6,2.8833333333333293,151.3066666666667,4.4833333333333325,152.9066666666667,matched
+MNK,dragonkick,Dragon Kick,11,11,11,318312.294,11,3843.936,-1.0,147.42333333333335,0.28999999999999915,148.71333333333334,matched
+MNK,elixirburst,Elixir Burst,2,2,2,212583.885,2,2073.69,22.299999999999983,145.48166666666668,23.719999999999978,146.90166666666667,matched
+MNK,firesreply,Fire's Reply,2,2,2,246370.768,1,1825.74,12.591666666666661,137.71500000000003,14.01166666666666,14.01166666666666,sim count differs from external damage event count; external damage event count differs from axis action count
 MNK,formshift,Form Shift,1,1,1,0.0,0,0.0,-10.0,-10.0,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
-MNK,leapingopo,Leaping Opo,10,10,10,238723.412,10,6448.128731,4.824999999999999,153.24833333333336,5.4449999999999985,153.86833333333337,matched
-MNK,masterfulblitz,Masterful Blitz,1,1,1,164350.733,0,0.0,159.0733333333334,159.0733333333334,,,axis/simulator damage has no external damage key; likely reference naming or generated-damage attribution mismatch
+MNK,leapingopo,Leaping Opo,10,10,10,208183.431,10,6448.128731,4.824999999999999,153.24833333333336,5.4449999999999985,153.86833333333337,matched
+MNK,masterfulblitz,Masterful Blitz,1,1,1,107229.349,0,0.0,159.0733333333334,159.0733333333334,,,axis/simulator damage has no external damage key; likely reference naming or generated-damage attribution mismatch
 MNK,perfectbalance,Perfect Balance,4,4,4,0.0,0,0.0,0.28999999999999915,138.955,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
-MNK,phantomrush,Phantom Rush,1,1,1,103660.473,1,1500.0,68.30000000000005,68.30000000000005,68.70000000000006,68.70000000000006,matched
-MNK,pouncingcoeurl,Pouncing Coeurl,3,3,3,111155.459,3,1586.0,54.70833333333336,157.13166666666672,55.72833333333337,158.15166666666673,matched
+MNK,phantomrush,Phantom Rush,1,1,1,107254.076,1,1500.0,68.30000000000005,68.30000000000005,68.70000000000006,68.70000000000006,matched
+MNK,pouncingcoeurl,Pouncing Coeurl,3,3,3,110464.087,3,1586.0,54.70833333333336,157.13166666666672,55.72833333333337,158.15166666666673,matched
 MNK,riddleoffire,Riddle of Fire,2,2,2,0.0,0,0.0,4.123333333333331,90.0,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
 MNK,riddleofwind,Riddle of Wind,2,2,2,0.0,0,0.0,6.064999999999998,134.45166666666668,,,"axis/simulator zero-damage action; likely buff, step, stance, or utility"
 MNK,risingphoenix,Rising Phoenix,1,1,1,136167.616,1,1173.69,6.766666666666666,6.766666666666666,7.526666666666664,7.526666666666664,matched
-MNK,risingraptor,Rising Raptor,3,3,3,85483.296,3,1647.0,52.76666666666668,155.19000000000003,53.65666666666668,156.08000000000004,matched
-MNK,theforbiddenchakra,The Forbidden Chakra,6,6,6,232586.533,6,2906.56,5.4449999999999985,138.33500000000004,6.924999999999997,139.81500000000003,matched
+MNK,risingraptor,Rising Raptor,3,3,3,86289.855,3,1647.0,52.76666666666668,155.19000000000003,53.65666666666668,156.08000000000004,matched
+MNK,theforbiddenchakra,The Forbidden Chakra,6,6,6,241495.199,6,2906.56,5.4449999999999985,138.33500000000004,6.924999999999997,139.81500000000003,matched
 MNK,tincture,Tincture,1,0,0,0.0,0,0.0,2.061666666666664,2.061666666666664,,,axis-only zero-damage action; likely buff/utility handled outside simulator skill counts; axis action not counted by simulator; likely zero-damage utility or unsupported damage path
-MNK,twinsnakes,Twin Snakes,5,5,5,179465.72,5,2121.0,0.9416666666666647,149.365,1.7816666666666645,150.205,matched
-MNK,windsreply,Wind's Reply,2,2,2,195520.536,2,2448.264,10.649999999999999,135.77333333333337,11.849999999999994,136.97333333333336,matched
+MNK,twinsnakes,Twin Snakes,5,5,5,153922.365,5,2121.0,0.9416666666666647,149.365,1.7816666666666645,150.205,matched
+MNK,windsreply,Wind's Reply,2,2,2,196473.874,2,2448.264,10.649999999999999,135.77333333333337,11.849999999999994,136.97333333333336,matched

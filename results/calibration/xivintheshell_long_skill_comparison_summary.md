@@ -1,11 +1,12 @@
 # Xivintheshell Long-Axis Skill Comparisons
 
-Generated: 2026-05-27
+Generated: 2026-06-29
 
 These tables compare the local simulator's imported long-axis samples against xivintheshell action and damage exports. They are not real FFLogs validation; they are a reproducible external-detail baseline for Task I.
 
 | Job | Axis actions | XIV damage rows | Coverage | Resource warnings | Warning details | Output |
 | --- | ---: | ---: | --- | ---: | --- | --- |
+| NIN | 409 | 534 | 可模拟 | 2 | `results\calibration\nin_resource_warnings.csv` | `results\calibration\nin_xivintheshell_long_skill_comparison.csv` |
 | MNK | 64 | 144 | 可模拟 | 4 | `results\calibration\mnk_resource_warnings.csv` | `results\calibration\mnk_xivintheshell_long_skill_comparison.csv` |
 | DRG | 57 | 138 | 可模拟 | 1 | `results\calibration\drg_resource_warnings.csv` | `results\calibration\drg_xivintheshell_long_skill_comparison.csv` |
 | VPR | 81 | 156 | 可模拟 | 1 | `results\calibration\vpr_resource_warnings.csv` | `results\calibration\vpr_xivintheshell_long_skill_comparison.csv` |
