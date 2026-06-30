@@ -363,7 +363,7 @@ h2 {
 
 .file-strip {
   display: grid;
-  grid-template-columns: 1fr 1fr minmax(220px, 0.8fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(220px, 0.8fr);
   gap: 12px;
   margin-bottom: 14px;
 }

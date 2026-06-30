@@ -234,6 +234,7 @@ function App() {
   const [stats, setStats] = useState(DEFAULT_STATS);
   const [axisFile, setAxisFile] = useState(null);
   const [targetFile, setTargetFile] = useState(null);
+  const [trackFile, setTrackFile] = useState(null);
   const [rows, setRows] = useState(SAMPLE_ROWS);
   const [activeTab, setActiveTab] = useState("coverage");
   const [status, setStatus] = useState("sample");
@@ -243,6 +244,7 @@ function App() {
   const [simOptions, setSimOptions] = useState(DEFAULT_SIM_OPTIONS);
   const axisInputRef = useRef(null);
   const targetInputRef = useRef(null);
+  const trackInputRef = useRef(null);
 
   const summary = useMemo(() => summarizeRows(rows), [rows]);
   const fallbackProjection = useMemo(() => buildProjection(rows, stats), [rows, stats]);
@@ -285,6 +287,12 @@ function App() {
     if (!file) return;
     const text = typeof file.text === "function" ? await file.text() : file.text || "";
     setTargetFile({ name: file.name, path: file.path || "", text });
+  }
+
+  async function readTrackFile(file) {
+    if (!file) return;
+    const text = typeof file.text === "function" ? await file.text() : file.text || "";
+    setTrackFile({ name: file.name, path: file.path || "", text });
     const downtimeText = markerTrackDowntimeText(text);
     if (downtimeText) {
       setSimOptions((current) => ({ ...current, globalDowntime: downtimeText }));
@@ -317,6 +325,7 @@ function App() {
     const payload = {
       source: axisFile?.name || "sample",
       target: targetFile?.name || "",
+      track: trackFile?.name || "",
       job,
       stats,
       simOptions,
@@ -351,6 +360,15 @@ function App() {
     targetInputRef.current?.click();
   }
 
+  async function chooseTrack() {
+    if (window.ndps?.openTrack) {
+      const file = await window.ndps.openTrack();
+      if (file) await readTrackFile(file);
+      return;
+    }
+    trackInputRef.current?.click();
+  }
+
   async function runSimulation() {
     setRunError("");
     if (!window.ndps?.runSimulation) {
@@ -366,6 +384,7 @@ function App() {
       const result = await window.ndps.runSimulation({
         csv_path: axisFile.path,
         target_path: targetFile?.path || "",
+        downtime_track_path: trackFile?.path || "",
         job,
         iterations: Math.max(1, Math.trunc(stats.iterations)),
         threshold: stats.threshold,
@@ -534,9 +553,13 @@ function App() {
               <Upload size={18} />
               <span>Axis CSV</span>
             </button>
-            <button className="icon-button" onClick={chooseTarget} type="button" title="Import target JSON or untargetable track TXT">
+            <button className="icon-button" onClick={chooseTarget} type="button" title="Import target JSON/TXT">
               <FileText size={18} />
-              <span>Target/Track</span>
+              <span>Target TXT</span>
+            </button>
+            <button className="icon-button" onClick={chooseTrack} type="button" title="Import untargetable track TXT">
+              <Timer size={18} />
+              <span>Track TXT</span>
             </button>
             <input
               accept=".csv,text/csv"
@@ -550,6 +573,13 @@ function App() {
               hidden
               onChange={(event) => readTargetFile(event.target.files?.[0])}
               ref={targetInputRef}
+              type="file"
+            />
+            <input
+              accept=".txt,.json,application/json,text/plain"
+              hidden
+              onChange={(event) => readTrackFile(event.target.files?.[0])}
+              ref={trackInputRef}
               type="file"
             />
           </div>
@@ -594,9 +624,16 @@ function App() {
           <DropPanel
             file={targetFile}
             icon={<FileText size={19} />}
-            label="Target/Track TXT"
+            label="Target TXT"
             onClick={chooseTarget}
             onDrop={readTargetFile}
+          />
+          <DropPanel
+            file={trackFile}
+            icon={<Timer size={19} />}
+            label="Track TXT"
+            onClick={chooseTrack}
+            onDrop={readTrackFile}
           />
           <div className="confidence-panel">
             <span className="signal good" />

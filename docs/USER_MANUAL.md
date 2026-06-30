@@ -53,11 +53,12 @@ TTS conversion:
 2. Choose the job that matches the imported axis.
 3. Fill the stat fields and choose the game patch. The simulator uses these values for damage formula calculation. Changing jobs updates the default weapon delay (NIN uses `2.56`); an explicitly entered delay remains the authoritative gear value.
 4. Import an axis CSV exported from XIV in the Shell or a compatible raid planner.
-5. Optionally import a matching target JSON or TXT file. This preserves multi-target counts when the axis itself does not contain enough target metadata. You can also import a raid-planner `MarkerTrackIndividual` untargetable-track TXT; its `time + duration` markers are converted to global downtime.
-6. Configure DoT target rules, downtime, multi-boss behavior, and report thresholds if the fight needs them.
-7. Run the simulation.
-8. Read the result tab, coverage summary, target-source status, and resource warnings.
-9. Export a Markdown report or CSV detail bundle when you need a durable record.
+5. Optionally import a matching target JSON or TXT file. This preserves multi-target counts when the axis itself does not contain enough target metadata.
+6. Optionally import a raid-planner `MarkerTrackIndividual` untargetable-track TXT. Its `time + duration` markers are converted to global downtime and can be used alongside the target file.
+7. Configure DoT target rules, downtime, multi-boss behavior, and report thresholds if the fight needs them.
+8. Run the simulation.
+9. Read the result tab, coverage summary, target-source status, and resource warnings.
+10. Export a Markdown report or CSV detail bundle when you need a durable record.
 
 The simulator report can export:
 
@@ -80,7 +81,7 @@ In desktop mode, `npm run desktop` builds the UI and opens Electron. Electron ke
 .\scripts\run_ndps_simulation.py
 ```
 
-The desktop bridge sends the selected axis path, optional target or untargetable-track path, selected job, stat fields, and simulation options to Python, then renders the returned summary, timeline, coverage, and warnings.
+The desktop bridge sends the selected axis path, optional target path, optional untargetable-track path, selected job, stat fields, and simulation options to Python, then renders the returned summary, timeline, coverage, and warnings.
 
 Current boundary: the modern UI is the preferred visual direction, but the packaged `ffxiv_personal_ndps.exe` remains the stable release surface. Treat the modern UI as the polished desktop track while the Python simulator remains the source of calculation truth.
 
@@ -127,7 +128,7 @@ Target JSON or TXT files should contain action records. Useful fields include:
 
 When no target metadata is available, simulator rows default to target count `1`. The report labels this as default target data so the result can be interpreted correctly.
 
-Raid-planner untargetable-track TXT files are JSON records with `fileType: MarkerTrackIndividual` and a `markers` list. Markers whose description contains `不可选中`, `上天`, or `untargetable` are parsed as global downtime windows using `time` as the start and `time + duration` as the end.
+Raid-planner untargetable-track TXT files are loaded through the separate Track TXT input. They are JSON records with `fileType: MarkerTrackIndividual` and a `markers` list. Markers whose description contains `不可选中`, `上天`, or `untargetable` are parsed as global downtime windows using `time` as the start and `time + duration` as the end.
 
 Timeline text files for TTS merging may contain an optional leading `#` and a numeric timestamp. Merge output reads the fight timeline first, then the skill-line text, parses the first numeric timestamp on each non-empty line, and stable-sorts all parsed lines by timestamp.
 

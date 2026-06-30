@@ -19,7 +19,7 @@ from jobs.drg import DrgJobState  # noqa: E402
 from jobs.mch import MchJobState  # noqa: E402
 from jobs.sam import SamJobState  # noqa: E402
 from scan_skill_coverage import is_known_non_axis_csv  # noqa: E402
-from run_ndps_simulation import _target_record, _target_record_downtime  # noqa: E402
+from run_ndps_simulation import _target_record, _target_record_downtime, run as run_backend_simulation  # noqa: E402
 from sim import (  # noqa: E402
     DpsSimulator,
     SkillResolver,
@@ -80,6 +80,8 @@ XIVINTHESHELL_LONG_CSVS = {
 }
 
 UNTARGETABLE_TRACK = REPO_ROOT / "examples/skill_lines" / "sam_dmu" / "track_untargetable.txt"
+SAM_DMU_CSV = REPO_ROOT / "examples/skill_lines" / "sam_dmu" / "2.17.csv"
+SAM_DMU_TARGET = REPO_ROOT / "examples/skill_lines" / "sam_dmu" / "2.17.txt"
 
 
 class AllJobStateTests(unittest.TestCase):
@@ -97,6 +99,24 @@ class AllJobStateTests(unittest.TestCase):
         self.assertAlmostEqual(windows[0][1], 207.933)
         self.assertEqual(parse_downtime_windows(text), windows)
         self.assertEqual(_target_record_downtime(_target_record(UNTARGETABLE_TRACK)), windows)
+
+    def test_backend_accepts_target_and_untargetable_track_together(self):
+        result = run_backend_simulation(
+            {
+                "csv_path": str(SAM_DMU_CSV),
+                "target_path": str(SAM_DMU_TARGET),
+                "downtime_track_path": str(UNTARGETABLE_TRACK),
+                "job": "SAM",
+                "iterations": 1,
+                "threshold": 0,
+                "stats": dict(BASE_STATS, party_bonus=1.05, version="7.5"),
+            }
+        )
+
+        self.assertEqual(result["metadata"]["global_downtime_source"], "downtime_track_path")
+        self.assertTrue(result["metadata"]["target_path"].endswith("2.17.txt"))
+        self.assertTrue(result["metadata"]["downtime_track_path"].endswith("track_untargetable.txt"))
+        self.assertGreater(result["summary"]["expected_dps"], 0)
 
     def test_all_dps_jobs_have_specific_state_classes(self):
         for job in JOB_SMOKE_TIMELINES:

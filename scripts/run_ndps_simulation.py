@@ -265,6 +265,11 @@ def run(payload: dict) -> dict:
     job = payload.get("job", "SAM")
     csv_path = Path(payload["csv_path"]).expanduser().resolve()
     target_path = Path(payload["target_path"]).expanduser().resolve() if payload.get("target_path") else None
+    downtime_track_path = (
+        Path(payload["downtime_track_path"]).expanduser().resolve()
+        if payload.get("downtime_track_path")
+        else None
+    )
     iterations = int(payload.get("iterations", 1000))
     threshold = float(payload.get("threshold", 0.0))
     seed = int(payload.get("seed") or random.randrange(1, 2**31))
@@ -286,6 +291,7 @@ def run(payload: dict) -> dict:
 
     events, csv_meta = parse_axis_csv(csv_path, normalize_name=lambda raw_name: normalize_skill_name_for_job(raw_name, job))
     target_record = _target_record(target_path)
+    downtime_track_record = _target_record(downtime_track_path)
     events = _attach_targets(
         events,
         [item for item in target_record.get("actions", []) if item.get("type") == "Skill"],
@@ -296,6 +302,10 @@ def run(payload: dict) -> dict:
     downtime_config = _parse_target_downtime(payload.get("downtime_config"))
     global_downtime = _parse_windows(payload.get("global_downtime"))
     global_downtime_source = "manual" if global_downtime else ""
+    if not global_downtime:
+        global_downtime = _target_record_downtime(downtime_track_record)
+        if global_downtime:
+            global_downtime_source = "downtime_track_path"
     if not global_downtime:
         global_downtime = _target_record_downtime(target_record)
         if global_downtime:
@@ -324,6 +334,7 @@ def run(payload: dict) -> dict:
             "job": job,
             "csv_path": str(csv_path),
             "target_path": str(target_path) if target_path else "",
+            "downtime_track_path": str(downtime_track_path) if downtime_track_path else "",
             "csv_format": csv_meta.get("format", ""),
             "iterations": iterations,
             "seed": seed,
