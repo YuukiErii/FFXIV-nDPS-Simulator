@@ -14,10 +14,10 @@ const packagedBackendExe = app.isPackaged
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1440,
-    height: 940,
-    minWidth: 1120,
-    minHeight: 760,
+    width: 1520,
+    height: 980,
+    minWidth: 1180,
+    minHeight: 800,
     title: "FFXIV Personal nDPS",
     backgroundColor: "#11100e",
     autoHideMenuBar: true,

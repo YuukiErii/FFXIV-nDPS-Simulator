@@ -50,6 +50,13 @@ const TABS = [
   ["distribution", "DPS 分布分析", BarChart3],
   ["distributionTable", "DPS分布表格", Table2],
 ];
+const MONO_COLUMNS = new Set([
+  "row_no", "time", "raw_name", "count", "targets", "cast_time", "source", "code",
+  "potency", "crit", "dh", "dmg", "avg_cast_count", "avg_hits_per_cast", "avg_dps",
+  "crit_percent", "direct_hit_percent", "crit_direct_percent", "damage", "mean_rd", "max_rd",
+  "top_1", "top_0_1", "run_id", "rd", "duration", "range", "percent_ge",
+]);
+const SERIF_COLUMNS = new Set(["message", "reason"]);
 
 function parseCsvLine(line) {
   const cells = [];
@@ -380,7 +387,7 @@ function EmptyState({ needsRun = false }) {
 
 function ReportTable({ columns, rows, className = "", rowClassName }) {
   if (!rows?.length) return <EmptyState />;
-  return <div className="table-scroll"><table className={`report-table ${className}`}><thead><tr>{columns.map((column) => <th key={column.key}>{column.label}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr className={rowClassName?.(row) || ""} key={row.key || `${index}-${row.skill || row.name || row.raw_name || "row"}`}>{columns.map((column) => <td key={column.key}>{column.render ? column.render(row) : row[column.key] ?? "-"}</td>)}</tr>)}</tbody></table></div>;
+  return <div className="table-scroll"><table className={`report-table ${className}`}><thead><tr>{columns.map((column) => <th key={column.key}>{column.label}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr className={rowClassName?.(row) || ""} key={row.key || `${index}-${row.skill || row.name || row.raw_name || "row"}`}>{columns.map((column) => <td className={SERIF_COLUMNS.has(column.key) ? "cell-serif" : MONO_COLUMNS.has(column.key) ? "cell-mono" : ""} key={column.key}>{column.render ? column.render(row) : row[column.key] ?? "-"}</td>)}</tr>)}</tbody></table></div>;
 }
 
 function KvGrid({ rows }) {
