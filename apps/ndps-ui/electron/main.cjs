@@ -60,7 +60,7 @@ ipcMain.handle("ndps:open-axis", () =>
 );
 
 ipcMain.handle("ndps:open-target", () =>
-  readPickedFile([{ name: "Target JSON/TXT", extensions: ["json", "txt"] }]),
+  readPickedFile([{ name: "Target or untargetable track", extensions: ["json", "txt"] }]),
 );
 
 ipcMain.handle("ndps:run", async (_event, payload) => {

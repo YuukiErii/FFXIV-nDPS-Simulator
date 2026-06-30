@@ -27,7 +27,7 @@ from sim import (  # noqa: E402
     parse_axis_csv,
     skill_names_match,
 )
-from xiv_sim_core import parse_downtime_windows  # noqa: E402
+from xiv_sim_core import parse_downtime_windows, parse_marker_track_downtime_windows  # noqa: E402
 from xiv_job_data import DEFAULT_MAIN_STATS, DEFAULT_WEAPON_DELAYS  # noqa: E402
 
 
@@ -51,7 +51,15 @@ def _load_json(path: Path) -> dict:
 def _target_record(path: Path | None) -> dict:
     if not path:
         return {}
-    return _load_json(path)
+    text = path.read_text(encoding="utf-8-sig")
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        return {"_text": text}
+
+
+def _target_record_downtime(record: dict) -> list[tuple[float, float]]:
+    return parse_marker_track_downtime_windows(record) or parse_downtime_windows(record.get("_text", ""))
 
 
 def _attach_targets(events: list[dict], target_actions: list[dict], job: str) -> list[dict]:
@@ -287,8 +295,14 @@ def run(payload: dict) -> dict:
     multi_boss_mode = bool(payload.get("multi_boss_mode"))
     downtime_config = _parse_target_downtime(payload.get("downtime_config"))
     global_downtime = _parse_windows(payload.get("global_downtime"))
+    global_downtime_source = "manual" if global_downtime else ""
+    if not global_downtime:
+        global_downtime = _target_record_downtime(target_record)
+        if global_downtime:
+            global_downtime_source = "target_path_marker_track"
     if multi_boss_mode and downtime_config and not global_downtime:
         global_downtime = _downtime_intersection(downtime_config)
+        global_downtime_source = "target_downtime_intersection"
 
     sim = DpsSimulator(
         stats,
@@ -319,6 +333,7 @@ def run(payload: dict) -> dict:
             "job_gcd": job_gcd,
             "multi_boss_mode": multi_boss_mode,
             "global_downtime": global_downtime,
+            "global_downtime_source": global_downtime_source,
             "downtime_config": downtime_config,
         },
         "summary": {

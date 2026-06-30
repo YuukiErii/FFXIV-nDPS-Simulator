@@ -130,7 +130,7 @@ $PackageJson = @{
 } | ConvertTo-Json -Depth 3
 $PackageJson | Set-Content -Path (Join-Path $AppPackageDir "package.json") -Encoding UTF8
 
-$ReleaseNote = @"
+$ReleaseNote = @'
 # FFXIV Personal nDPS Modern UI
 
 Run `ffxiv_personal_ndps_modern.exe` to open the React/Electron desktop UI.
@@ -142,8 +142,12 @@ This package includes:
 - the Electron runtime files required by the desktop shell
 
 Use the legacy stable simulator GUI at `..\ffxiv_personal_ndps.exe` if you need the older Tk interface or command-line self-test.
-"@
-$ReleaseNote | Set-Content -Path (Join-Path $ModernReleaseDir "README.md") -Encoding UTF8
+'@
+[System.IO.File]::WriteAllText(
+  (Join-Path $ModernReleaseDir "README.md"),
+  $ReleaseNote + "`n",
+  [System.Text.UTF8Encoding]::new($false)
+)
 
 Write-Host "Built modern UI package: $ModernReleaseDir"
 Write-Host "Run: $ModernReleaseDir\ffxiv_personal_ndps_modern.exe"

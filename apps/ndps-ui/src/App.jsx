@@ -196,6 +196,39 @@ function formatTime(seconds) {
   return `${minutes}:${rest.toFixed(rest % 1 === 0 ? 0 : 1).padStart(2, "0")}`;
 }
 
+function formatWindowNumber(value) {
+  return Number.parseFloat(value.toFixed(3)).toString();
+}
+
+function downtimeTextFromPairs(text) {
+  const matches = Array.from(String(text || "").matchAll(/(-?\d+(?:\.\d+)?)\s*(?:-|,|，|~|–|—)\s*(-?\d+(?:\.\d+)?)/g));
+  return matches
+    .map((match) => [Number.parseFloat(match[1]), Number.parseFloat(match[2])])
+    .filter(([start, end]) => Number.isFinite(start) && Number.isFinite(end) && start < end)
+    .map(([start, end]) => `${formatWindowNumber(start)}-${formatWindowNumber(end)}`)
+    .join(", ");
+}
+
+function markerTrackDowntimeText(text) {
+  let data;
+  try {
+    data = JSON.parse(String(text || "").replace(/^\uFEFF/, "").trim());
+  } catch {
+    return downtimeTextFromPairs(text);
+  }
+  if (!data || (data.fileType !== "MarkerTrackIndividual" && !Array.isArray(data.markers))) return "";
+  const markers = Array.isArray(data.markers) ? data.markers : [];
+  const descriptions = markers.map((marker) => String(marker?.description || "").toLowerCase()).filter(Boolean);
+  const needsLabel = descriptions.length > 0;
+  const keywords = ["不可选中", "上天", "untargetable"];
+  return markers
+    .filter((marker) => !needsLabel || keywords.some((keyword) => String(marker?.description || "").toLowerCase().includes(keyword)))
+    .map((marker) => [Number.parseFloat(marker?.time), Number.parseFloat(marker?.duration)])
+    .filter(([start, duration]) => Number.isFinite(start) && Number.isFinite(duration) && duration > 0)
+    .map(([start, duration]) => `${formatWindowNumber(start)}-${formatWindowNumber(start + duration)}`)
+    .join(", ");
+}
+
 function App() {
   const [job, setJob] = useState("SAM");
   const [stats, setStats] = useState(DEFAULT_STATS);
@@ -252,6 +285,10 @@ function App() {
     if (!file) return;
     const text = typeof file.text === "function" ? await file.text() : file.text || "";
     setTargetFile({ name: file.name, path: file.path || "", text });
+    const downtimeText = markerTrackDowntimeText(text);
+    if (downtimeText) {
+      setSimOptions((current) => ({ ...current, globalDowntime: downtimeText }));
+    }
   }
 
   function updateStat(key, value) {
@@ -497,9 +534,9 @@ function App() {
               <Upload size={18} />
               <span>Axis CSV</span>
             </button>
-            <button className="icon-button" onClick={chooseTarget} type="button" title="Import target JSON">
+            <button className="icon-button" onClick={chooseTarget} type="button" title="Import target JSON or untargetable track TXT">
               <FileText size={18} />
-              <span>Target JSON</span>
+              <span>Target/Track</span>
             </button>
             <input
               accept=".csv,text/csv"
@@ -557,7 +594,7 @@ function App() {
           <DropPanel
             file={targetFile}
             icon={<FileText size={19} />}
-            label="Target JSON/TXT"
+            label="Target/Track TXT"
             onClick={chooseTarget}
             onDrop={readTargetFile}
           />

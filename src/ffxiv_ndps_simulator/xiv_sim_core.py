@@ -1,4 +1,5 @@
 import heapq
+import json
 import re
 
 
@@ -52,9 +53,62 @@ def total_window_overlap(windows, end_time):
     return total
 
 
+def parse_marker_track_downtime_windows(value):
+    if not value:
+        return []
+    data = value
+    if isinstance(value, str):
+        text = value.strip().lstrip("\ufeff")
+        if not text.startswith(("{", "[")):
+            return []
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError:
+            return []
+
+    if isinstance(data, dict):
+        if data.get("fileType") != "MarkerTrackIndividual" and "markers" not in data:
+            return []
+        markers = data.get("markers", [])
+    elif isinstance(data, list):
+        markers = data
+    else:
+        return []
+
+    descriptions = [
+        str(marker.get("description", "")).lower()
+        for marker in markers
+        if isinstance(marker, dict) and str(marker.get("description", "")).strip()
+    ]
+    require_untargetable_label = bool(descriptions)
+    keywords = ("不可选中", "上天", "untargetable")
+
+    windows = []
+    for marker in markers:
+        if not isinstance(marker, dict):
+            continue
+        description = str(marker.get("description", "")).lower()
+        if require_untargetable_label and not any(keyword in description for keyword in keywords):
+            continue
+        try:
+            start = float(marker["time"])
+            if marker.get("duration") is not None:
+                end = start + float(marker["duration"])
+            else:
+                end = float(marker["end"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if start < end:
+            windows.append((start, end))
+    return windows
+
+
 def parse_downtime_windows(value):
     if not value:
         return []
+    marker_windows = parse_marker_track_downtime_windows(value)
+    if marker_windows:
+        return marker_windows
     if isinstance(value, (list, tuple)):
         windows = []
         for item in value:

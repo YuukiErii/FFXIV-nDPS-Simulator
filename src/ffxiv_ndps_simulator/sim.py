@@ -20,13 +20,13 @@ try:
     from xiv_job_data import DEFAULT_MAIN_STATS, DEFAULT_WEAPON_DELAYS, DPS_JOB_ORDER, JOB_PROFILES
     from xiv_skill_provider import get_amas_provider
     from xiv_axis_csv import AxisCsvError, parse_axis_csv, timeline_entry, timeline_time, timeline_targets
-    from xiv_sim_core import SimEventType, is_time_in_windows, parse_downtime_windows, push_sim_event, total_window_overlap
+    from xiv_sim_core import SimEventType, is_time_in_windows, parse_downtime_windows, parse_marker_track_downtime_windows, push_sim_event, total_window_overlap
     from jobs import MODELED_FOLLOWUP_SKILLS, MODELED_JOB_STATE_SKILLS, create_job_state
 except ImportError:
     from .xiv_job_data import DEFAULT_MAIN_STATS, DEFAULT_WEAPON_DELAYS, DPS_JOB_ORDER, JOB_PROFILES
     from .xiv_skill_provider import get_amas_provider
     from .xiv_axis_csv import AxisCsvError, parse_axis_csv, timeline_entry, timeline_time, timeline_targets
-    from .xiv_sim_core import SimEventType, is_time_in_windows, parse_downtime_windows, push_sim_event, total_window_overlap
+    from .xiv_sim_core import SimEventType, is_time_in_windows, parse_downtime_windows, parse_marker_track_downtime_windows, push_sim_event, total_window_overlap
     from .jobs import MODELED_FOLLOWUP_SKILLS, MODELED_JOB_STATE_SKILLS, create_job_state
 
 # 尝试导入 matplotlib
@@ -1829,6 +1829,8 @@ class DpsSimulatorApp:
 
         self.csv_path = None;
         self.txt_path = None
+        self.txt_downtime_windows = []
+        self.auto_downtime_path = None
         self.user_dot_config = {};
         self.user_downtime_config = defaultdict(list)
 
@@ -2167,6 +2169,7 @@ class DpsSimulatorApp:
         p = filedialog.askopenfilename(filetypes=[("Text/JSON", "*.txt *.json"), ("Text Files", "*.txt"), ("JSON Files", "*.json")])
         if not p: return
         self.txt_path = p
+        self.auto_downtime_path = None
         self.process_files()
 
     def selected_game_version(self):
@@ -2198,10 +2201,24 @@ class DpsSimulatorApp:
             self.csv_meta = csv_meta
 
             txt_skills = []
+            self.txt_downtime_windows = []
             if self.txt_path:
-                with open(self.txt_path, 'r', encoding='utf-8') as f:
-                    log_data = json.load(f)
-                    txt_skills = [x for x in log_data['actions'] if x['type'] == 'Skill']
+                with open(self.txt_path, 'r', encoding='utf-8-sig') as f:
+                    txt_text = f.read()
+                try:
+                    log_data = json.loads(txt_text)
+                    txt_skills = [x for x in log_data.get('actions', []) if x.get('type') == 'Skill']
+                    self.txt_downtime_windows = parse_marker_track_downtime_windows(log_data)
+                except json.JSONDecodeError:
+                    self.txt_downtime_windows = parse_downtime_windows(txt_text)
+
+                if self.txt_downtime_windows and self.auto_downtime_path != self.txt_path:
+                    self.txt_dt.delete("1.0", tk.END)
+                    self.txt_dt.insert(
+                        tk.END,
+                        "\n".join(f"{start:g}-{end:g}" for start, end in self.txt_downtime_windows) + "\n",
+                    )
+                    self.auto_downtime_path = self.txt_path
 
             final_loaded = []
             txt_idx = 0;
@@ -2245,7 +2262,10 @@ class DpsSimulatorApp:
             self.coverage_report = build_skill_coverage(final_loaded, resolver, csv_meta=csv_meta)
             self.update_coverage_tab()
             self.update_preview_tab(csv_meta)
-            target_mode = txt_name if self.txt_path else "单目标模式"
+            if self.txt_downtime_windows:
+                target_mode = f"{txt_name} ({len(self.txt_downtime_windows)} 段全局上天)"
+            else:
+                target_mode = txt_name if self.txt_path else "单目标模式"
             color = "#98c379" if self.txt_path else "#e5c07b"
             flags = []
             if csv_meta.get("has_cast_time"):
@@ -2513,6 +2533,8 @@ class DpsSimulatorApp:
         return any(name.endswith("_xivintheshell_damage.csv") for name in os.listdir(directory))
 
     def target_source_label(self):
+        if self.txt_downtime_windows:
+            return f"{os.path.basename(self.txt_path)} ({len(self.txt_downtime_windows)} untargetable windows)"
         if self.txt_path:
             return f"{os.path.basename(self.txt_path)} (TXT/JSON target list)"
         if not self.coverage_report:

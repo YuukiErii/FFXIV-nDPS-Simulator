@@ -1,6 +1,6 @@
 # FFXIV SIM Project Status
 
-Updated: 2026-06-30
+Updated: 2026-07-01
 
 This document is the active development status and evidence map for the FFXIV SIM workspace. It consolidates the former roadmap, calibration matrix, Task I audit pointer, SAM regression audit pointer, filename migration notes, and the original Chinese user-facing draft into one readable control surface.
 
@@ -33,6 +33,8 @@ The original long implementation plan is archived at `docs/archive/all_dps_nd_si
 - Task M remains future work: external party-buff timelines, teammate contribution accounting, and FFLogs-like strict nDPS are not part of the current MVP.
 - 2026-06-30 all-job regression gate passed for the current framework: 113 unit tests, skill coverage scan, xivintheshell comparison/audit regeneration, damage-formula smoke, and `git diff --check` completed without blocking errors. Remaining comparison rows are documented sample/export/timing boundaries rather than unmodeled skill-coverage gaps.
 - 2026-06-30 repository hygiene pass moved BLM-owned M10S samples out of the SAM archive, retired reproducible test outputs and unreferenced performance dumps, and made `artifacts/specs/` the only tracked `artifacts/` surface.
+- 2026-06-30 stable and modern Windows packages were rebuilt from the current source. The stable EXE passed its packaged 13-job self-test; the modern package passed packaged-backend simulation and Electron launch smoke checks.
+- 2026-07-01 raid-planner `MarkerTrackIndividual` untargetable TXT files can be imported as global downtime through the existing target/track sidecar slot. Source tests, SAM DMU import scan, stable packaged self-test, and packaged modern backend marker-track smoke checks passed.
 
 ## Evidence Levels
 

@@ -19,6 +19,7 @@ from jobs.drg import DrgJobState  # noqa: E402
 from jobs.mch import MchJobState  # noqa: E402
 from jobs.sam import SamJobState  # noqa: E402
 from scan_skill_coverage import is_known_non_axis_csv  # noqa: E402
+from run_ndps_simulation import _target_record, _target_record_downtime  # noqa: E402
 from sim import (  # noqa: E402
     DpsSimulator,
     SkillResolver,
@@ -26,7 +27,7 @@ from sim import (  # noqa: E402
     normalize_skill_name_for_job,
 )
 from xiv_axis_csv import parse_axis_csv  # noqa: E402
-from xiv_sim_core import parse_downtime_windows, total_window_overlap  # noqa: E402
+from xiv_sim_core import parse_downtime_windows, parse_marker_track_downtime_windows, total_window_overlap  # noqa: E402
 
 
 BASE_STATS = {
@@ -78,12 +79,24 @@ XIVINTHESHELL_LONG_CSVS = {
     "RDM": REPO_ROOT / "examples/skill_lines" / "rdm_xivintheshell_long" / "rdm_xivintheshell_long.csv",
 }
 
+UNTARGETABLE_TRACK = REPO_ROOT / "examples/skill_lines" / "sam_dmu" / "track_untargetable.txt"
+
 
 class AllJobStateTests(unittest.TestCase):
     def test_global_downtime_accepts_multiple_windows(self):
         windows = parse_downtime_windows("(10, 20)\n30-35; 40，45")
         self.assertEqual(windows, [(10.0, 20.0), (30.0, 35.0), (40.0, 45.0)])
         self.assertEqual(total_window_overlap(windows, 42.0), 17.0)
+
+    def test_untargetable_marker_track_becomes_global_downtime(self):
+        text = UNTARGETABLE_TRACK.read_text(encoding="utf-8-sig")
+        windows = parse_marker_track_downtime_windows(text)
+
+        self.assertEqual(len(windows), 5)
+        self.assertAlmostEqual(windows[0][0], 197.597)
+        self.assertAlmostEqual(windows[0][1], 207.933)
+        self.assertEqual(parse_downtime_windows(text), windows)
+        self.assertEqual(_target_record_downtime(_target_record(UNTARGETABLE_TRACK)), windows)
 
     def test_all_dps_jobs_have_specific_state_classes(self):
         for job in JOB_SMOKE_TIMELINES:
