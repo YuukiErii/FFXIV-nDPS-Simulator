@@ -123,6 +123,8 @@ class AllJobStateTests(unittest.TestCase):
         self.assertGreater(len(result["best_run"]), 0)
         self.assertGreater(len(result["intervals"]), 0)
         self.assertGreater(len(result["combat_log"]), 0)
+        self.assertEqual(result["preview"]["total"], result["coverage"]["stats"]["total_events"])
+        self.assertIn("row_no", result["preview"]["rows"][0])
 
     def test_all_dps_jobs_have_specific_state_classes(self):
         for job in JOB_SMOKE_TIMELINES:

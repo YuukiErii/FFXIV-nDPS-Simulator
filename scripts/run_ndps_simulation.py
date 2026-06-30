@@ -31,6 +31,7 @@ from sim import (  # noqa: E402
     skill_names_match,
 )
 from xiv_sim_core import parse_downtime_windows, parse_marker_track_downtime_windows  # noqa: E402
+from xiv_axis_csv import timeline_entry  # noqa: E402
 from xiv_job_data import DEFAULT_MAIN_STATS, DEFAULT_WEAPON_DELAYS  # noqa: E402
 
 
@@ -519,6 +520,11 @@ def run(payload: dict) -> dict:
             "status": coverage.get("status"),
             "stats": _json_safe(coverage.get("stats")),
             "rows": _json_safe(coverage.get("rows", [])[:500]),
+        },
+        "preview": {
+            "meta": _json_safe(csv_meta),
+            "rows": _json_safe([timeline_entry(event) for event in events[:20]]),
+            "total": len(events),
         },
         "skills": skill_rows,
         "skill_total": total_skill_row,

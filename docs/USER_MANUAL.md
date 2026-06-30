@@ -81,7 +81,7 @@ In desktop mode, `npm run desktop` builds the UI and opens Electron. Electron ke
 .\scripts\run_ndps_simulation.py
 ```
 
-The desktop bridge sends the selected axis path, optional target path, optional untargetable-track path, selected job, stat fields, and simulation options to Python, then renders the full report view: evidence boundary, input metadata, panel stats, result extrema, resource warnings, skill DPS, best-run breakdown, interval RD, distribution, coverage, and combat log.
+The desktop bridge sends the selected axis path, optional target path, optional untargetable-track path, selected job, stat fields, and simulation options to Python. The modern shell follows the stable GUI's nine report columns: import coverage, import preview, overview, combat log, average skill detail, max-DPS detail, interval RD, DPS distribution chart, and DPS distribution table. The chart retains probability and DPS axes, normal-distribution curve, and the Top 1%, 0.1%, and 0.01% markers. The bundled Anthropic Sans/Mono and Noto Sans SC font stack follows the local Claude theme's Latin, numeric, and Chinese fallback scheme.
 
 Current boundary: the modern UI is the preferred visual direction, but the packaged `ffxiv_personal_ndps.exe` remains the stable release surface. Treat the modern UI as the polished desktop track while the Python simulator remains the source of calculation truth.
 

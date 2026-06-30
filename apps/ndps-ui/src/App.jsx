@@ -4,10 +4,13 @@ import {
   BarChart3,
   CheckCircle2,
   Download,
+  Eye,
+  FileSearch,
   FileText,
   Gauge,
   Play,
   Settings2,
+  Sparkles,
   Swords,
   Table2,
   Timer,
@@ -21,59 +24,31 @@ const WEAPON_DELAYS = {
   MNK: 2.56, DRG: 2.8, NIN: 2.56, SAM: 2.64, RPR: 3.2, VPR: 2.64,
   BRD: 3.04, MCH: 2.64, DNC: 3.12, BLM: 3.28, SMN: 3.12, RDM: 3.44, PCT: 2.96,
 };
-
-const MAIN_STAT_DEFAULTS = {
-  NIN: 6490,
-};
-
+const MAIN_STAT_DEFAULTS = { NIN: 6490 };
 const DEFAULT_STATS = {
-  mainStat: 6498,
-  crt: 3605,
-  det: 2426,
-  dh: 1793,
-  sks: 689,
-  wd: 158,
-  delay: 2.64,
-  partyBonus: 1.05,
-  version: 7.5,
-  iterations: 1000,
-  threshold: 46000,
+  mainStat: 6498, crt: 3605, det: 2426, dh: 1793, sks: 689,
+  wd: 158, delay: 2.64, partyBonus: 1.05, version: 7.5,
+  iterations: 1000, threshold: 46000,
 };
-
 const DEFAULT_SIM_OPTIONS = {
-  globalDowntime: "",
-  customSnaps: "",
-  multiBossMode: false,
-  downtimeConfig: "",
-  dotConfig: "",
+  globalDowntime: "", customSnaps: "", multiBossMode: false,
+  downtimeConfig: "", dotConfig: "",
 };
-
 const SAMPLE_ROWS = [
-  { time: 0.0, action: "Gyofu", raw: "Gyofu", source: "sample" },
-  { time: 2.14, action: "Jinpu", raw: "Jinpu", source: "sample" },
-  { time: 4.28, action: "Gekko", raw: "Gekko", source: "sample" },
-  { time: 6.42, action: "Higanbana", raw: "Higanbana", source: "sample" },
-  { time: 9.04, action: "Meikyo Shisui", raw: "Meikyo Shisui", source: "sample" },
-  { time: 10.35, action: "Kasha", raw: "Kasha", source: "sample" },
-  { time: 12.49, action: "Yukikaze", raw: "Yukikaze", source: "sample" },
-  { time: 14.63, action: "Midare Setsugekka", raw: "Midare Setsugekka", source: "sample" },
-  { time: 15.25, action: "Kaeshi: Setsugekka", raw: "Kaeshi: Setsugekka", source: "sample" },
-  { time: 16.72, action: "Tendo Setsugekka", raw: "Tendo Setsugekka", source: "sample" },
-  { time: 18.03, action: "Tendo Kaeshi Setsugekka", raw: "Tendo Kaeshi Setsugekka", source: "sample" },
+  { time: 0, action: "Gyofu", raw: "Gyofu", source: "sample", rowNo: 1 },
+  { time: 2.14, action: "Jinpu", raw: "Jinpu", source: "sample", rowNo: 2 },
+  { time: 4.28, action: "Gekko", raw: "Gekko", source: "sample", rowNo: 3 },
 ];
-
-const DOT_HINTS = ["Higanbana", "Caustic Bite", "Stormbite", "Biolysis", "Thunder", "High Thunder"];
-const BUFF_HINTS = [
-  "Meikyo",
-  "Tincture",
-  "Battle Voice",
-  "Embolden",
-  "Arcane Circle",
-  "Technical",
-  "Devilment",
-  "Ley Lines",
-  "Hypercharge",
-  "Wildfire",
+const TABS = [
+  ["coverage", "导入覆盖", FileSearch],
+  ["preview", "导入预览", Eye],
+  ["overview", "模拟报告 (概览)", FileText],
+  ["log", "战斗日志 (表格)", Activity],
+  ["skills", "技能详情 (平均)", Zap],
+  ["best", "极值详情 (Max DPS)", Sparkles],
+  ["intervals", "阶段 RD 分析", Timer],
+  ["distribution", "DPS 分布分析", BarChart3],
+  ["distributionTable", "DPS分布表格", Table2],
 ];
 
 function parseCsvLine(line) {
@@ -86,114 +61,46 @@ function parseCsvLine(line) {
     if (char === '"' && quoted && next === '"') {
       current += '"';
       index += 1;
-    } else if (char === '"') {
-      quoted = !quoted;
-    } else if (char === "," && !quoted) {
+    } else if (char === '"') quoted = !quoted;
+    else if (char === "," && !quoted) {
       cells.push(current.trim());
       current = "";
-    } else {
-      current += char;
-    }
+    } else current += char;
   }
   cells.push(current.trim());
   return cells;
 }
 
 function parseAxisCsv(text) {
-  const lines = text
-    .replace(/^\uFEFF/, "")
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .filter((line) => !line.toLowerCase().startsWith("sep="));
-
+  const lines = text.replace(/^\uFEFF/, "").split(/\r?\n/).map((line) => line.trim())
+    .filter(Boolean).filter((line) => !line.toLowerCase().startsWith("sep="));
   if (!lines.length) return [];
-
   const first = parseCsvLine(lines[0]);
-  const normalized = first.map((cell) => cell.toLowerCase().replace(/[\s_]/g, ""));
-  const hasHeader = normalized.includes("time") && normalized.includes("action");
-  const timeIndex = hasHeader ? normalized.indexOf("time") : 0;
-  const actionIndex = hasHeader ? normalized.indexOf("action") : 1;
+  const headers = first.map((cell) => cell.toLowerCase().replace(/[\s_]/g, ""));
+  const hasHeader = headers.includes("time") && (headers.includes("action") || headers.includes("skill"));
+  const indexOf = (...names) => names.map((name) => headers.indexOf(name)).find((index) => index >= 0) ?? -1;
+  const timeIndex = hasHeader ? indexOf("time") : 0;
+  const actionIndex = hasHeader ? indexOf("action", "skill", "name") : 1;
+  const castIndex = indexOf("casttime", "cast");
+  const gcdIndex = indexOf("isgcd", "gcd");
+  const targetIndex = indexOf("targets", "targetcount");
+  const sourceIndex = indexOf("source");
   const rows = hasHeader ? lines.slice(1) : lines;
-
-  return rows
-    .map((line, offset) => {
-      const cells = parseCsvLine(line);
-      if (cells.length <= Math.max(timeIndex, actionIndex)) return null;
-      const time = Number.parseFloat(cells[timeIndex]);
-      const action = cells[actionIndex];
-      if (!Number.isFinite(time) || !action) return null;
-      return {
-        time,
-        action,
-        raw: action,
-        source: hasHeader ? "xiv_plan_csv" : "positional_csv",
-        rowNo: offset + (hasHeader ? 2 : 1),
-      };
-    })
-    .filter(Boolean)
-    .sort((left, right) => left.time - right.time);
-}
-
-function classifyRow(row) {
-  const name = row.action;
-  if (DOT_HINTS.some((hint) => name.includes(hint))) return "dot";
-  if (BUFF_HINTS.some((hint) => name.includes(hint))) return "buff";
-  if (/Sprint|Feint|Addle|Second Wind|True North|Arms Length|Lucid/.test(name)) return "utility";
-  return "damage";
-}
-
-function summarizeRows(rows) {
-  const duration = rows.length ? Math.max(...rows.map((row) => row.time)) : 0;
-  const uniqueSkills = new Set(rows.map((row) => row.action)).size;
-  const counts = rows.reduce(
-    (acc, row) => {
-      acc[classifyRow(row)] += 1;
-      return acc;
-    },
-    { damage: 0, dot: 0, buff: 0, utility: 0 },
-  );
-  return { duration, uniqueSkills, counts };
-}
-
-function buildProjection(rows, stats) {
-  const summary = summarizeRows(rows);
-  const activeRows = Math.max(1, rows.length);
-  const duration = Math.max(1, summary.duration);
-  const statFactor =
-    stats.mainStat * 0.36 +
-    stats.crt * 0.08 +
-    stats.det * 0.05 +
-    stats.dh * 0.045 +
-    stats.wd * 95 +
-    activeRows * 22;
-  const expected = Math.round((statFactor / duration) * 108);
-  const spread = Math.max(420, Math.round(expected * 0.034));
-  const distribution = Array.from({ length: 18 }, (_, index) => {
-    const x = -2.6 + index * 0.31;
-    const curve = Math.exp(-0.5 * x * x);
-    const wave = 0.82 + 0.18 * Math.sin(index * 1.7 + activeRows);
-    return Math.round(curve * wave * 100);
-  });
-  const timeline = rows.slice(0, 34).map((row, index) => ({
-    time: row.time,
-    value: Math.round(expected * (0.72 + index / Math.max(14, rows.length) * 0.34)),
-    action: row.action,
-  }));
-  return {
-    expected,
-    spread,
-    high: expected + Math.round(spread * 2.326),
-    peak: expected + Math.round(spread * 3.09),
-    distribution,
-    timeline,
-  };
-}
-
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const rest = seconds - minutes * 60;
-  return `${minutes}:${rest.toFixed(rest % 1 === 0 ? 0 : 1).padStart(2, "0")}`;
+  return rows.map((line, offset) => {
+    const cells = parseCsvLine(line);
+    const time = Number.parseFloat(cells[timeIndex]);
+    const action = cells[actionIndex];
+    if (!Number.isFinite(time) || !action) return null;
+    const gcdValue = gcdIndex >= 0 ? cells[gcdIndex]?.toLowerCase() : "";
+    return {
+      time, action, raw: action, rowNo: offset + (hasHeader ? 2 : 1),
+      castTime: castIndex >= 0 && cells[castIndex] !== "" ? Number.parseFloat(cells[castIndex]) : null,
+      isGcd: gcdValue ? ["1", "true", "yes", "gcd"].includes(gcdValue) : null,
+      targets: targetIndex >= 0 ? Number.parseInt(cells[targetIndex], 10) || 1 : 1,
+      targetSource: targetIndex >= 0 ? "axis" : "default",
+      source: sourceIndex >= 0 ? cells[sourceIndex] || "axis" : hasHeader ? "axis_csv" : "positional_csv",
+    };
+  }).filter(Boolean).sort((left, right) => left.time - right.time);
 }
 
 function formatWindowNumber(value) {
@@ -202,31 +109,44 @@ function formatWindowNumber(value) {
 
 function downtimeTextFromPairs(text) {
   const matches = Array.from(String(text || "").matchAll(/(-?\d+(?:\.\d+)?)\s*(?:-|,|，|~|–|—)\s*(-?\d+(?:\.\d+)?)/g));
-  return matches
-    .map((match) => [Number.parseFloat(match[1]), Number.parseFloat(match[2])])
+  return matches.map((match) => [Number.parseFloat(match[1]), Number.parseFloat(match[2])])
     .filter(([start, end]) => Number.isFinite(start) && Number.isFinite(end) && start < end)
-    .map(([start, end]) => `${formatWindowNumber(start)}-${formatWindowNumber(end)}`)
-    .join(", ");
+    .map(([start, end]) => `${formatWindowNumber(start)}-${formatWindowNumber(end)}`).join(", ");
 }
 
 function markerTrackDowntimeText(text) {
   let data;
-  try {
-    data = JSON.parse(String(text || "").replace(/^\uFEFF/, "").trim());
-  } catch {
-    return downtimeTextFromPairs(text);
-  }
+  try { data = JSON.parse(String(text || "").replace(/^\uFEFF/, "").trim()); }
+  catch { return downtimeTextFromPairs(text); }
   if (!data || (data.fileType !== "MarkerTrackIndividual" && !Array.isArray(data.markers))) return "";
   const markers = Array.isArray(data.markers) ? data.markers : [];
   const descriptions = markers.map((marker) => String(marker?.description || "").toLowerCase()).filter(Boolean);
-  const needsLabel = descriptions.length > 0;
   const keywords = ["不可选中", "上天", "untargetable"];
-  return markers
-    .filter((marker) => !needsLabel || keywords.some((keyword) => String(marker?.description || "").toLowerCase().includes(keyword)))
+  return markers.filter((marker) => !descriptions.length || keywords.some((word) => String(marker?.description || "").toLowerCase().includes(word)))
     .map((marker) => [Number.parseFloat(marker?.time), Number.parseFloat(marker?.duration)])
     .filter(([start, duration]) => Number.isFinite(start) && Number.isFinite(duration) && duration > 0)
-    .map(([start, duration]) => `${formatWindowNumber(start)}-${formatWindowNumber(start + duration)}`)
-    .join(", ");
+    .map(([start, duration]) => `${formatWindowNumber(start)}-${formatWindowNumber(start + duration)}`).join(", ");
+}
+
+function fmt(value, digits = 2) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return value ?? "-";
+  return number.toLocaleString("zh-CN", { minimumFractionDigits: digits, maximumFractionDigits: digits });
+}
+
+function pct(value, digits = 1) {
+  return value === null || value === undefined ? "-" : `${fmt(value, digits)}%`;
+}
+
+function seconds(value) {
+  return Number.isFinite(Number(value)) ? `${fmt(value, 3)}s` : "-";
+}
+
+function formatTime(value) {
+  const secondsValue = Number(value) || 0;
+  const minutes = Math.floor(secondsValue / 60);
+  const rest = secondsValue - minutes * 60;
+  return `${minutes}:${rest.toFixed(rest % 1 === 0 ? 0 : 1).padStart(2, "0")}`;
 }
 
 function App() {
@@ -246,27 +166,26 @@ function App() {
   const targetInputRef = useRef(null);
   const trackInputRef = useRef(null);
 
-  const summary = useMemo(() => summarizeRows(rows), [rows]);
-  const fallbackProjection = useMemo(() => buildProjection(rows, stats), [rows, stats]);
-  const hasSimulation = Boolean(runResult?.summary);
-  const projection = useMemo(() => {
-    if (!runResult?.summary) return fallbackProjection;
-    return {
-      ...fallbackProjection,
-      expected: Math.round(runResult.summary.expected_dps),
-      spread: Math.round(runResult.summary.std_dps),
-      high: Math.round(runResult.summary.top_1),
-      peak: Math.round(runResult.summary.top_0_1),
-    };
-  }, [fallbackProjection, runResult]);
-  const coverageRows = useMemo(
-    () =>
-      rows.slice(0, 80).map((row) => ({
-        ...row,
-        category: classifyRow(row),
-      })),
-    [rows],
-  );
+  const activeLabel = TABS.find(([key]) => key === activeTab)?.[1] || "";
+  const importedSummary = useMemo(() => ({
+    duration: rows.length ? Math.max(...rows.map((row) => row.time)) : 0,
+    uniqueSkills: new Set(rows.map((row) => row.action)).size,
+  }), [rows]);
+  const localCoverage = useMemo(() => {
+    const grouped = new Map();
+    rows.forEach((row) => {
+      const item = grouped.get(row.action) || {
+        raw_name: row.raw, name: row.action, count: 0, first_time: row.time, last_time: row.time,
+        max_targets: row.targets || 1, target_sources_text: row.targetSource || "default",
+        tags_text: "-", classification: { category_label: "预览", reason: "运行模拟后显示完整覆盖分类" },
+      };
+      item.count += 1;
+      item.last_time = row.time;
+      item.max_targets = Math.max(item.max_targets, row.targets || 1);
+      grouped.set(row.action, item);
+    });
+    return [...grouped.values()];
+  }, [rows]);
 
   async function readAxisFile(file) {
     if (!file) return;
@@ -274,6 +193,7 @@ function App() {
     const parsed = parseAxisCsv(text);
     if (!parsed.length) {
       setStatus("error");
+      setRunError("无法从该文件解析时间与技能列。");
       return;
     }
     setRows(parsed);
@@ -281,6 +201,7 @@ function App() {
     setStatus("ready");
     setRunResult(null);
     setRunError("");
+    setActiveTab("preview");
   }
 
   async function readTargetFile(file) {
@@ -293,851 +214,363 @@ function App() {
     if (!file) return;
     const text = typeof file.text === "function" ? await file.text() : file.text || "";
     setTrackFile({ name: file.name, path: file.path || "", text });
-    const downtimeText = markerTrackDowntimeText(text);
-    if (downtimeText) {
-      setSimOptions((current) => ({ ...current, globalDowntime: downtimeText }));
-    }
+    const downtime = markerTrackDowntimeText(text);
+    if (downtime) setSimOptions((current) => ({ ...current, globalDowntime: downtime }));
   }
 
-  function updateStat(key, value) {
-    setStats((current) => ({
-      ...current,
-      [key]: Number.parseFloat(value) || 0,
-    }));
-  }
+  const updateStat = (key, value) => setStats((current) => ({ ...current, [key]: Number.parseFloat(value) || 0 }));
+  const updateOption = (key, value) => setSimOptions((current) => ({ ...current, [key]: value }));
+  const parseNumberList = (value) => String(value || "").replace(/，/g, ",").split(",")
+    .map((item) => Number.parseFloat(item.trim())).filter(Number.isFinite);
 
-  function updateSimOption(key, value) {
-    setSimOptions((current) => ({
-      ...current,
-      [key]: value,
-    }));
-  }
-
-  function parseNumberList(value) {
-    return String(value || "")
-      .replace(/，/g, ",")
-      .split(",")
-      .map((item) => Number.parseFloat(item.trim()))
-      .filter((item) => Number.isFinite(item));
-  }
-
-  function exportUiSnapshot() {
-    const payload = {
-      source: axisFile?.name || "sample",
-      target: targetFile?.name || "",
-      track: trackFile?.name || "",
-      job,
-      stats,
-      simOptions,
-      rows: rows.length,
-      summary,
-      projection,
-    };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "ndps-ui-snapshot.json";
-    link.click();
-    URL.revokeObjectURL(url);
-  }
-
-  async function chooseAxis() {
-    if (window.ndps?.openAxis) {
-      const file = await window.ndps.openAxis();
-      if (file) await readAxisFile(file);
-      return;
-    }
-    axisInputRef.current?.click();
-  }
-
-  async function chooseTarget() {
-    if (window.ndps?.openTarget) {
-      const file = await window.ndps.openTarget();
-      if (file) await readTargetFile(file);
-      return;
-    }
-    targetInputRef.current?.click();
-  }
-
-  async function chooseTrack() {
-    if (window.ndps?.openTrack) {
-      const file = await window.ndps.openTrack();
-      if (file) await readTrackFile(file);
-      return;
-    }
-    trackInputRef.current?.click();
+  async function chooseFile(kind, ref, reader) {
+    const method = { axis: "openAxis", target: "openTarget", track: "openTrack" }[kind];
+    if (window.ndps?.[method]) {
+      const file = await window.ndps[method]();
+      if (file) await reader(file);
+    } else ref.current?.click();
   }
 
   async function runSimulation() {
     setRunError("");
     if (!window.ndps?.runSimulation) {
-      setStatus("preview");
+      setRunError("桌面模拟后端未连接。");
       return;
     }
     if (!axisFile?.path) {
-      setRunError("Choose an axis CSV through the desktop file picker before running the Python simulator.");
+      setRunError("请先通过文件选择器导入排轴 CSV。");
       return;
     }
     setIsRunning(true);
     try {
       const result = await window.ndps.runSimulation({
-        csv_path: axisFile.path,
-        target_path: targetFile?.path || "",
-        downtime_track_path: trackFile?.path || "",
-        job,
-        iterations: Math.max(1, Math.trunc(stats.iterations)),
-        threshold: stats.threshold,
-        global_downtime: simOptions.globalDowntime,
-        custom_snaps: parseNumberList(simOptions.customSnaps),
-        multi_boss_mode: simOptions.multiBossMode,
-        downtime_config: simOptions.downtimeConfig,
-        dot_config: simOptions.dotConfig,
+        csv_path: axisFile.path, target_path: targetFile?.path || "", downtime_track_path: trackFile?.path || "",
+        job, iterations: Math.max(1, Math.trunc(stats.iterations)), threshold: stats.threshold,
+        global_downtime: simOptions.globalDowntime, custom_snaps: parseNumberList(simOptions.customSnaps),
+        multi_boss_mode: simOptions.multiBossMode, downtime_config: simOptions.downtimeConfig, dot_config: simOptions.dotConfig,
         stats: {
-          main_stat: stats.mainStat,
-          crt: stats.crt,
-          det: stats.det,
-          dh: stats.dh,
-          sks: stats.sks,
-          wd: stats.wd,
-          delay: stats.delay,
-          party_bonus: stats.partyBonus,
-          version: String(stats.version),
+          main_stat: stats.mainStat, crt: stats.crt, det: stats.det, dh: stats.dh, sks: stats.sks,
+          wd: stats.wd, delay: stats.delay, party_bonus: stats.partyBonus, version: String(stats.version),
         },
       });
       setRunResult(result);
       setStatus("simulated");
-      setActiveTab("report");
+      setActiveTab("overview");
     } catch (error) {
       setRunError(error?.message || String(error));
       setStatus("error");
-    } finally {
-      setIsRunning(false);
-    }
+    } finally { setIsRunning(false); }
   }
+
+  function exportSnapshot() {
+    const payload = { source: axisFile?.name || "sample", target: targetFile?.name || "", track: trackFile?.name || "", job, stats, simOptions, result: runResult };
+    const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "ndps-report.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  const summary = runResult?.summary;
+  const statusText = { sample: "示例数据", ready: "已导入", simulated: "模拟完成", error: "需要处理" }[status];
 
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <div className="brand-row">
-          <div className="brand-mark">
-            <Swords size={22} />
-          </div>
-          <div>
-            <p className="eyebrow">Personal nDPS</p>
-            <h1>FFXIV Simulator</h1>
-          </div>
-        </div>
+        <header className="brand-row">
+          <div className="brand-mark"><Swords size={21} /></div>
+          <div><p>PERSONAL nDPS</p><h1>FFXIV 模拟器</h1></div>
+        </header>
 
         <section className="control-section">
-          <div className="section-heading">
-            <Settings2 size={16} />
-            <span>Job</span>
-          </div>
+          <SectionTitle icon={<Settings2 size={16} />} title="职业" />
           <div className="job-grid">
             {JOBS.map((item) => (
-              <button
-                className={item === job ? "job-button active" : "job-button"}
-                key={item}
-                onClick={() => {
-                  setJob(item);
-                  setStats((current) => ({
-                    ...current,
-                    delay: WEAPON_DELAYS[item] ?? current.delay,
-                    mainStat: MAIN_STAT_DEFAULTS[item] ?? DEFAULT_STATS.mainStat,
-                  }));
-                }}
-                type="button"
-              >
-                {item}
-              </button>
+              <button className={item === job ? "job-button active" : "job-button"} key={item} onClick={() => {
+                setJob(item);
+                setStats((current) => ({ ...current, delay: WEAPON_DELAYS[item] ?? current.delay, mainStat: MAIN_STAT_DEFAULTS[item] ?? DEFAULT_STATS.mainStat }));
+              }} type="button">{item}</button>
             ))}
           </div>
         </section>
 
         <section className="control-section">
-          <div className="section-heading">
-            <Gauge size={16} />
-            <span>Stats</span>
-          </div>
+          <SectionTitle icon={<Gauge size={16} />} title="面板属性" />
           <div className="stat-grid">
             {[
-              ["mainStat", "Main"],
-              ["crt", "CRT"],
-              ["det", "DET"],
-              ["dh", "DHT"],
-              ["sks", "SKS/SPS"],
-              ["wd", "WD"],
-              ["delay", "Delay"],
-              ["partyBonus", "Party"],
-              ["version", "Patch"],
-              ["iterations", "Runs"],
-              ["threshold", "RD Gate"],
-            ].map(([key, label]) => (
-              <label className="field" key={key}>
-                <span>{label}</span>
-                <input value={stats[key]} onChange={(event) => updateStat(key, event.target.value)} />
-              </label>
-            ))}
+              ["mainStat", "主属性"], ["crt", "暴击"], ["det", "信念"], ["dh", "直击"], ["sks", "技速/咏速"],
+              ["wd", "武器性能"], ["delay", "武器延迟"], ["partyBonus", "队伍加成"], ["version", "版本"],
+              ["iterations", "模拟次数"], ["threshold", "RD 阈值"],
+            ].map(([key, label]) => <Field key={key} label={label} value={stats[key]} onChange={(value) => updateStat(key, value)} />)}
           </div>
         </section>
 
         <section className="control-section">
-          <div className="section-heading">
-            <Timer size={16} />
-            <span>Fight Rules</span>
-          </div>
-          <div className="rules-grid">
-            <label className="field wide">
-              <span>Global downtime</span>
-              <input
-                placeholder="60-75, 180-195"
-                value={simOptions.globalDowntime}
-                onChange={(event) => updateSimOption("globalDowntime", event.target.value)}
-              />
-            </label>
-            <label className="field wide">
-              <span>Custom snapshots</span>
-              <input
-                placeholder="60, 120.5, 300"
-                value={simOptions.customSnaps}
-                onChange={(event) => updateSimOption("customSnaps", event.target.value)}
-              />
-            </label>
-            <label className="toggle-field">
-              <input
-                checked={simOptions.multiBossMode}
-                onChange={(event) => updateSimOption("multiBossMode", event.target.checked)}
-                type="checkbox"
-              />
-              <span>Multi boss / split DoT mode</span>
-            </label>
-            <label className="field wide">
-              <span>Target downtime</span>
-              <textarea
-                placeholder="T1:60-75; T2:120-135"
-                value={simOptions.downtimeConfig}
-                onChange={(event) => updateSimOption("downtimeConfig", event.target.value)}
-              />
-            </label>
-            <label className="field wide">
-              <span>DoT target plan</span>
-              <textarea
-                placeholder="Higanbana:1,2; Caustic Bite:1,2"
-                value={simOptions.dotConfig}
-                onChange={(event) => updateSimOption("dotConfig", event.target.value)}
-              />
-            </label>
-          </div>
+          <SectionTitle icon={<Timer size={16} />} title="战斗规则" />
+          <label className="field wide"><span>全局上天时间</span><input placeholder="60-75, 180-195" value={simOptions.globalDowntime} onChange={(event) => updateOption("globalDowntime", event.target.value)} /></label>
+          <label className="field wide"><span>自定义 RD 快照点</span><input placeholder="60, 120.5, 300" value={simOptions.customSnaps} onChange={(event) => updateOption("customSnaps", event.target.value)} /></label>
+          <label className="toggle-field"><input checked={simOptions.multiBossMode} onChange={(event) => updateOption("multiBossMode", event.target.checked)} type="checkbox" /><span>多 Boss / 分路 DoT 模式</span></label>
+          <label className="field wide"><span>目标上天配置</span><textarea value={simOptions.downtimeConfig} onChange={(event) => updateOption("downtimeConfig", event.target.value)} /></label>
+          <label className="field wide"><span>DoT 目标配置</span><textarea value={simOptions.dotConfig} onChange={(event) => updateOption("dotConfig", event.target.value)} /></label>
         </section>
 
-        <section className="control-section compact">
-          <button className="primary-action" onClick={runSimulation} type="button">
-            <Play size={17} />
-            <span>{isRunning ? "Running..." : "Run Simulation"}</span>
-          </button>
-          <button className="secondary-action" onClick={exportUiSnapshot} type="button">
-            <Download size={17} />
-            <span>Export Snapshot</span>
-          </button>
-        </section>
+        <div className="sidebar-actions">
+          <button className="primary-action" disabled={isRunning} onClick={runSimulation} type="button"><Play size={17} />{isRunning ? "模拟中..." : "运行模拟"}</button>
+          <button className="icon-button" disabled={!runResult} onClick={exportSnapshot} title="导出 JSON 报告" type="button"><Download size={18} /></button>
+        </div>
       </aside>
 
       <main className="workspace">
         <header className="topbar">
-          <div>
-            <h2>{axisFile?.name || "Sample Axis"}</h2>
-          </div>
-          <div className="topbar-actions">
-            <button className="icon-button" onClick={chooseAxis} type="button" title="Import axis CSV">
-              <Upload size={18} />
-              <span>Axis CSV</span>
-            </button>
-            <button className="icon-button" onClick={chooseTarget} type="button" title="Import target JSON/TXT">
-              <FileText size={18} />
-              <span>Target TXT</span>
-            </button>
-            <button className="icon-button" onClick={chooseTrack} type="button" title="Import untargetable track TXT">
-              <Timer size={18} />
-              <span>Track TXT</span>
-            </button>
-            <input
-              accept=".csv,text/csv"
-              hidden
-              onChange={(event) => readAxisFile(event.target.files?.[0])}
-              ref={axisInputRef}
-              type="file"
-            />
-            <input
-              accept=".txt,.json,application/json,text/plain"
-              hidden
-              onChange={(event) => readTargetFile(event.target.files?.[0])}
-              ref={targetInputRef}
-              type="file"
-            />
-            <input
-              accept=".txt,.json,application/json,text/plain"
-              hidden
-              onChange={(event) => readTrackFile(event.target.files?.[0])}
-              ref={trackInputRef}
-              type="file"
-            />
+          <div><p className="page-kicker">{job} / {statusText}</p><h2>{activeLabel}</h2></div>
+          <div className="top-metrics">
+            <TopMetric label="期望 RD" value={summary ? fmt(summary.expected_dps, 0) : "-"} />
+            <TopMetric label="标准差" value={summary ? fmt(summary.std_dps, 0) : "-"} />
+            <TopMetric label="Top 1%" value={summary ? fmt(summary.top_1, 0) : "-"} />
+            <TopMetric label="时长" value={summary ? seconds(summary.duration) : seconds(importedSummary.duration)} />
           </div>
         </header>
 
-        <section className="hero-grid">
-          <div className="run-card">
-            <div className="status-line">
-              {status === "error" ? <AlertTriangle size={18} /> : <CheckCircle2 size={18} />}
-              <span>
-                {status === "sample"
-                  ? "Sample data loaded"
-                  : status === "error"
-                    ? "Needs attention"
-                    : status === "simulated"
-                      ? "Python simulation complete"
-                      : "Axis ready"}
-              </span>
-            </div>
-            <div className="run-metric">
-              <span>{projection.expected.toLocaleString()}</span>
-              <small>{hasSimulation ? "Expected RD" : "Preview RD"}</small>
-            </div>
-            <div className="sparkline" aria-label="RD timeline">
-              <TimelineSvg data={projection.timeline} />
-            </div>
-          </div>
-
-          <MetricCard icon={<Activity size={18} />} label="Rows" value={rows.length.toLocaleString()} detail={`${summary.uniqueSkills} unique`} />
-          <MetricCard icon={<Timer size={18} />} label="Duration" value={formatTime(summary.duration)} detail={`${summary.duration.toFixed(1)}s`} />
-          <MetricCard icon={<Zap size={18} />} label="Top 1%" value={projection.high.toLocaleString()} detail={`std ${projection.spread.toLocaleString()}`} />
-        </section>
-
         <section className="file-strip">
-          <DropPanel
-            file={axisFile}
-            icon={<Upload size={19} />}
-            label="Axis CSV"
-            onClick={chooseAxis}
-            onDrop={readAxisFile}
-          />
-          <DropPanel
-            file={targetFile}
-            icon={<FileText size={19} />}
-            label="Target TXT"
-            onClick={chooseTarget}
-            onDrop={readTargetFile}
-          />
-          <DropPanel
-            file={trackFile}
-            icon={<Timer size={19} />}
-            label="Track TXT"
-            onClick={chooseTrack}
-            onDrop={readTrackFile}
-          />
-          <div className="confidence-panel">
-            <span className="signal good" />
-            <div>
-              <strong>{summary.counts.damage + summary.counts.dot} damage rows</strong>
-              <small>{summary.counts.buff} buffs, {summary.counts.utility} utility rows</small>
-            </div>
-          </div>
+          <FileButton file={axisFile} icon={<Upload size={18} />} label="排轴 CSV" onClick={() => chooseFile("axis", axisInputRef, readAxisFile)} onDrop={readAxisFile} />
+          <FileButton file={targetFile} icon={<FileText size={18} />} label="目标 TXT" onClick={() => chooseFile("target", targetInputRef, readTargetFile)} onDrop={readTargetFile} />
+          <FileButton file={trackFile} icon={<Timer size={18} />} label="不可选中轨道 TXT" onClick={() => chooseFile("track", trackInputRef, readTrackFile)} onDrop={readTrackFile} />
+          <div className="import-status"><CheckCircle2 size={18} /><div><strong>{rows.length} 条事件</strong><span>{importedSummary.uniqueSkills} 个技能</span></div></div>
         </section>
 
-        <nav className="tabbar" aria-label="Result views">
-          {[
-            ["report", "Report", FileText],
-            ["coverage", "Coverage", Table2],
-            ["timeline", "Timeline", Timer],
-            ["results", "Results", BarChart3],
-            ["log", "Combat Log", Activity],
-          ].map(([key, label, Icon]) => (
-            <button className={activeTab === key ? "tab active" : "tab"} key={key} onClick={() => setActiveTab(key)} type="button">
-              <Icon size={16} />
-              <span>{label}</span>
-            </button>
+        <input accept=".csv,.txt" hidden onChange={(event) => readAxisFile(event.target.files?.[0])} ref={axisInputRef} type="file" />
+        <input accept=".txt,.json" hidden onChange={(event) => readTargetFile(event.target.files?.[0])} ref={targetInputRef} type="file" />
+        <input accept=".txt,.json" hidden onChange={(event) => readTrackFile(event.target.files?.[0])} ref={trackInputRef} type="file" />
+
+        <nav className="tabbar" aria-label="报告栏目">
+          {TABS.map(([key, label, Icon]) => (
+            <button className={activeTab === key ? "tab active" : "tab"} key={key} onClick={() => setActiveTab(key)} type="button"><Icon size={15} /><span>{label}</span></button>
           ))}
         </nav>
 
+        {runError && <div className="error-banner"><AlertTriangle size={17} /><span>{runError}</span></div>}
         <section className="panel-surface">
-          {runError && (
-            <div className="error-banner">
-              <AlertTriangle size={17} />
-              <span>{runError}</span>
-            </div>
-          )}
-          {activeTab === "report" && <ReportPanel runResult={runResult} />}
-          {activeTab === "coverage" && <CoverageTable rows={coverageRows} />}
-          {activeTab === "timeline" && <TimelineTable rows={rows} />}
-          {activeTab === "results" && <ResultsPanel projection={projection} runResult={runResult} />}
-          {activeTab === "log" && <CombatLog rows={rows} projection={projection} runResult={runResult} />}
+          {activeTab === "coverage" && <CoverageTab result={runResult} rows={runResult?.coverage?.rows || localCoverage} />}
+          {activeTab === "preview" && <PreviewTab result={runResult} rows={rows} />}
+          {activeTab === "overview" && <OverviewTab result={runResult} />}
+          {activeTab === "log" && <CombatLogTab result={runResult} />}
+          {activeTab === "skills" && <SkillDetailsTab result={runResult} />}
+          {activeTab === "best" && <BestRunTab result={runResult} />}
+          {activeTab === "intervals" && <IntervalsTab result={runResult} />}
+          {activeTab === "distribution" && <DistributionTab result={runResult} />}
+          {activeTab === "distributionTable" && <DistributionTableTab result={runResult} />}
         </section>
       </main>
     </div>
   );
 }
 
-function fmt(value, digits = 2) {
-  const number = Number(value);
-  if (!Number.isFinite(number)) return value ?? "-";
-  return number.toLocaleString(undefined, {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits,
-  });
+function SectionTitle({ icon, title }) { return <div className="section-heading">{icon}<span>{title}</span></div>; }
+function Field({ label, value, onChange }) { return <label className="field"><span>{label}</span><input value={value} onChange={(event) => onChange(event.target.value)} /></label>; }
+function TopMetric({ label, value }) { return <div className="top-metric"><span>{label}</span><strong>{value}</strong></div>; }
+
+function FileButton({ file, icon, label, onClick, onDrop }) {
+  return <button className="file-button" onClick={onClick} onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); onDrop(event.dataTransfer.files?.[0]); }} type="button">{icon}<span>{label}</span><strong>{file?.name || "未选择"}</strong></button>;
 }
 
-function pct(value, digits = 1) {
-  if (value === null || value === undefined) return "-";
-  return `${fmt(value, digits)}%`;
+function EmptyState({ needsRun = false }) {
+  return <div className="empty-state"><FileSearch size={28} /><strong>{needsRun ? "尚无模拟结果" : "暂无数据"}</strong><span>{needsRun ? "导入排轴并运行模拟后显示。" : "当前栏目没有可显示的记录。"}</span></div>;
 }
 
-function seconds(value) {
-  return `${fmt(value, 3)}s`;
+function ReportTable({ columns, rows, className = "", rowClassName }) {
+  if (!rows?.length) return <EmptyState />;
+  return <div className="table-scroll"><table className={`report-table ${className}`}><thead><tr>{columns.map((column) => <th key={column.key}>{column.label}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr className={rowClassName?.(row) || ""} key={row.key || `${index}-${row.skill || row.name || row.raw_name || "row"}`}>{columns.map((column) => <td key={column.key}>{column.render ? column.render(row) : row[column.key] ?? "-"}</td>)}</tr>)}</tbody></table></div>;
 }
 
 function KvGrid({ rows }) {
-  return (
-    <div className="kv-grid">
-      {rows.map(([label, value]) => (
-        <div className="kv-row" key={label}>
-          <span>{label}</span>
-          <strong>{value || "-"}</strong>
-        </div>
-      ))}
+  return <div className="kv-grid">{rows.map(([label, value]) => <div className="kv-row" key={label}><span>{label}</span><strong>{value === null || value === undefined || value === "" ? "-" : value}</strong></div>)}</div>;
+}
+
+function CoverageTab({ result, rows }) {
+  const stats = result?.coverage?.stats || {};
+  return <div className="view-stack">
+    <div className="summary-band">
+      <div><span>覆盖状态</span><strong>{result?.coverage?.status || "导入预览"}</strong></div>
+      <div><span>总事件</span><strong>{stats.total_events ?? rows.reduce((sum, row) => sum + row.count, 0)}</strong></div>
+      <div><span>未识别</span><strong>{stats.unrecognized_events ?? "-"}</strong></div>
+      <div><span>需状态建模</span><strong>{stats.needs_state_events ?? "-"}</strong></div>
+      <div><span>默认目标数</span><strong>{stats.default_target_events ?? "-"}</strong></div>
     </div>
-  );
+    <ReportTable className="coverage-table" columns={[
+      { key: "category", label: "分类", render: (row) => row.classification?.category_label || row.classification?.category || "-" },
+      { key: "name", label: "模拟技能名" }, { key: "raw_name", label: "CSV 原名" }, { key: "count", label: "次数" },
+      { key: "targets", label: "目标/来源", render: (row) => `${row.max_targets ?? 1} / ${row.target_sources_text || "default"}` },
+      { key: "tags_text", label: "标签" }, { key: "reason", label: "说明", render: (row) => row.classification?.reason || "-" },
+    ]} rowClassName={(row) => row.classification?.category === "unrecognized" ? "danger-row" : row.classification?.needs_state || row.classification?.followup_unmodeled ? "warning-row" : ""} rows={rows} />
+  </div>;
 }
 
-function ReportTable({ columns, rows, className = "" }) {
-  if (!rows?.length) {
-    return <div className="empty-state compact"><span>None.</span></div>;
-  }
-  return (
-    <div className="report-table-wrap">
-      <table className={`report-table ${className}`}>
-        <thead>
-          <tr>
-            {columns.map((column) => <th key={column.key}>{column.label}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, rowIndex) => (
-            <tr key={row.key || rowIndex}>
-              {columns.map((column) => <td key={column.key}>{column.render ? column.render(row) : row[column.key]}</td>)}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+function PreviewTab({ result, rows }) {
+  const meta = result?.preview?.meta || {};
+  const previewRows = result?.preview?.rows || rows.slice(0, 20).map((row) => ({
+    row_no: row.rowNo, time: row.time, name: row.action, raw_name: row.raw, is_gcd: row.isGcd,
+    cast_time: row.castTime, targets: row.targets, target_source: row.targetSource, source: row.source,
+  }));
+  return <div className="view-stack">
+    <div className="summary-band compact"><div><span>显示</span><strong>{previewRows.length} / {result?.preview?.total || rows.length}</strong></div><div><span>CSV 格式</span><strong>{meta.format || "本地预览"}</strong></div><div><span>castTime</span><strong>{meta.has_cast_time ? "有" : "无"}</strong></div><div><span>isGCD</span><strong>{meta.has_is_gcd ? "有" : "无"}</strong></div></div>
+    <ReportTable columns={[
+      { key: "row_no", label: "CSV行" }, { key: "time", label: "时间", render: (row) => fmt(row.time, 3) },
+      { key: "name", label: "模拟技能名" }, { key: "raw_name", label: "CSV 原名" },
+      { key: "is_gcd", label: "GCD", render: (row) => row.is_gcd === true ? "GCD" : row.is_gcd === false ? "oGCD" : "-" },
+      { key: "cast_time", label: "读条", render: (row) => row.cast_time === null || row.cast_time === undefined ? "-" : fmt(row.cast_time, 2) },
+      { key: "targets", label: "目标/来源", render: (row) => `${row.targets ?? 1} / ${row.target_source || "default"}` }, { key: "source", label: "来源" },
+    ]} rows={previewRows} />
+  </div>;
+}
+
+function OverviewTab({ result }) {
+  if (!result?.summary) return <EmptyState needsRun />;
+  const meta = result.metadata || {};
+  const panel = result.panel || {};
+  const summary = result.summary || {};
+  return <div className="overview-view">
+    <div className="definition-band"><div><span className="status-dot" /><strong>{meta.resource_status || "报告就绪"}</strong></div><p>{result.definition}</p></div>
+    <div className="metric-grid">
+      <Metric label="期望 DPS / RD" value={fmt(summary.expected_dps, 2)} accent />
+      <Metric label="标准差 σ" value={fmt(summary.std_dps, 2)} />
+      <Metric label="最高 DPS" value={fmt(summary.max_dps, 2)} tone="green" />
+      <Metric label="最低 DPS" value={fmt(summary.min_dps, 2)} tone="orange" />
+      <Metric label="Top 1%" value={fmt(summary.top_1, 2)} />
+      <Metric label="Top 0.1%" value={fmt(summary.top_0_1, 2)} />
+      <Metric label="Top 0.01%" value={fmt(summary.top_0_01, 2)} />
+      <Metric label="Bottom 1%" value={fmt(summary.bottom_1, 2)} />
     </div>
-  );
+    <OverviewSection title="面板与理论数据"><KvGrid rows={[
+      ["职业", meta.job_label || meta.job], ["主属性", `${panel.main_stat_name || "main"} ${panel.main_stat ?? "-"}`], ["武器性能", panel.weapon_damage],
+      ["速度", `${panel.speed_stat_name || "speed"} ${panel.speed ?? "-"}`], ["暴击", `${panel.crit ?? "-"} -> ${pct((panel.crit_rate || 0) * 100, 3)} (x${fmt(panel.crit_damage, 3)})`],
+      ["直击", `${panel.direct_hit ?? "-"} -> ${pct((panel.direct_hit_rate || 0) * 100, 3)}`], ["信念", panel.determination],
+      ["GCD", `${seconds(panel.job_gcd)} (Base ${seconds(panel.base_gcd)})`], ["最后技能出伤", seconds(summary.last_hit)], ["有效战斗时长", seconds(summary.duration)],
+    ]} /></OverviewSection>
+    <OverviewSection title="输入与证据"><KvGrid rows={[
+      ["生成时间", meta.generated_at], ["游戏版本", meta.game_version], ["技能数据", meta.skill_data_source], ["排轴样本", meta.csv_path],
+      ["目标数来源", meta.target_source], ["不可选中轨道", meta.downtime_track_path || "未导入"], ["当前模式", meta.mode],
+      ["全局上天", `${meta.global_downtime_count || 0} 段 / ${meta.global_downtime_source || "无"}`], ["模拟次数", meta.iterations], ["随机种子", meta.seed],
+      ["导入冒烟", meta.import_smoke_passed], ["机制校准", meta.mechanic_calibrated], ["日志验证", meta.log_validated],
+    ]} /></OverviewSection>
+    <OverviewSection title={`资源合法性警告 (${result.resource_warnings?.length || 0})`}><ReportTable columns={[
+      { key: "row_no", label: "CSV行" }, { key: "time", label: "时间", render: (row) => seconds(row.time) }, { key: "skill", label: "技能" },
+      { key: "code", label: "代码" }, { key: "severity", label: "级别" }, { key: "message", label: "说明" },
+    ]} rows={result.resource_warnings || []} /></OverviewSection>
+    <OverviewSection title={`高 RD 模拟 (${result.high_rd_runs?.length || 0})`}><ReportTable columns={[
+      { key: "run_id", label: "模拟序号" }, { key: "rd", label: "RD", render: (row) => fmt(row.rd, 2) }, { key: "duration", label: "有效时长", render: (row) => seconds(row.duration) },
+    ]} rows={result.high_rd_runs || []} /></OverviewSection>
+  </div>;
 }
 
-function ReportPanel({ runResult }) {
-  if (!runResult?.summary) {
-    return (
-      <div className="empty-state">
-        <strong>Python simulation has not run.</strong>
-        <span>Use the desktop file picker, then run the simulation to show the full report.</span>
-      </div>
-    );
-  }
+function Metric({ label, value, accent, tone = "" }) { return <div className={`metric-card ${accent ? "accent" : ""} ${tone}`}><span>{label}</span><strong>{value}</strong></div>; }
+function OverviewSection({ title, children }) { return <section className="overview-section"><h3>{title}</h3>{children}</section>; }
 
-  const meta = runResult.metadata || {};
-  const panel = runResult.panel || {};
-  const summary = runResult.summary || {};
-  const coverageStats = runResult.coverage?.stats || {};
-  const skills = [...(runResult.skills || []), runResult.skill_total].filter(Boolean);
-  const combatLog = runResult.combat_log || [];
-
-  return (
-    <div className="report-view">
-      <section className="report-section">
-        <h3>Evidence</h3>
-        <p className="definition-text">{runResult.definition}</p>
-        <KvGrid
-          rows={[
-            ["Generated", meta.generated_at],
-            ["Skill data", meta.skill_data_source],
-            ["Random seed", meta.seed],
-            ["Import smoke", meta.import_smoke_passed],
-            ["Mechanic calibration", meta.mechanic_calibrated],
-            ["Log validation", meta.log_validated],
-            ["Coverage", meta.coverage_status],
-            ["Resource legality", meta.resource_status],
-          ]}
-        />
-      </section>
-
-      <section className="report-section">
-        <h3>Inputs</h3>
-        <KvGrid
-          rows={[
-            ["Job", meta.job_label || meta.job],
-            ["Game version", meta.game_version],
-            ["Axis", meta.csv_path],
-            ["Target", meta.target_path || meta.target_source],
-            ["Track", meta.downtime_track_path || "-"],
-            ["CSV format", meta.csv_format],
-            ["Mode", meta.mode],
-            ["Global downtime", `${meta.global_downtime_count || 0} window(s) from ${meta.global_downtime_source || "none"}`],
-          ]}
-        />
-      </section>
-
-      <section className="report-section">
-        <h3>Panel</h3>
-        <KvGrid
-          rows={[
-            ["Main stat", `${panel.main_stat_name || "main"} ${panel.main_stat ?? "-"}`],
-            ["Weapon damage", panel.weapon_damage],
-            ["Speed", `${panel.speed_stat_name || "speed"} ${panel.speed ?? "-"}`],
-            ["Critical hit", `${panel.crit ?? "-"} -> ${pct((panel.crit_rate || 0) * 100, 3)} x${fmt(panel.crit_damage, 3)}`],
-            ["Direct hit", `${panel.direct_hit ?? "-"} -> ${pct((panel.direct_hit_rate || 0) * 100, 3)}`],
-            ["Determination", panel.determination],
-            ["Party bonus", fmt(panel.party_bonus, 3)],
-            ["GCD", `${seconds(panel.job_gcd)} (base ${seconds(panel.base_gcd)})`],
-          ]}
-        />
-      </section>
-
-      <section className="report-section">
-        <h3>Results</h3>
-        <KvGrid
-          rows={[
-            ["Iterations", meta.iterations],
-            ["Effective duration", seconds(summary.duration)],
-            ["Last hit", seconds(summary.last_hit)],
-            ["Expected DPS/RD", fmt(summary.expected_dps, 2)],
-            ["Std dev", fmt(summary.std_dps, 2)],
-            ["Max DPS", fmt(summary.max_dps, 2)],
-            ["Min DPS", fmt(summary.min_dps, 2)],
-            ["Top 1%", fmt(summary.top_1, 2)],
-            ["Top 0.1%", fmt(summary.top_0_1, 2)],
-            ["Top 0.01%", fmt(summary.top_0_01, 2)],
-            ["Bottom 1%", fmt(summary.bottom_1, 2)],
-            ["High RD runs", summary.high_rd_run_count],
-          ]}
-        />
-      </section>
-
-      <section className="report-section">
-        <h3>Resource Warnings</h3>
-        <ReportTable
-          className="warnings-report-table"
-          columns={[
-            { key: "time", label: "Time", render: (row) => seconds(row.time) },
-            { key: "skill", label: "Skill" },
-            { key: "code", label: "Code" },
-            { key: "severity", label: "Severity" },
-            { key: "message", label: "Message" },
-          ]}
-          rows={runResult.resource_warnings || []}
-        />
-      </section>
-
-      <section className="report-section">
-        <h3>Skill DPS</h3>
-        <ReportTable
-          className="skills-report-table"
-          columns={[
-            { key: "skill", label: "Skill" },
-            { key: "avg_cast_count", label: "Avg Count", render: (row) => fmt(row.avg_cast_count, 3) },
-            { key: "avg_hits_per_cast", label: "Hits/Cast", render: (row) => fmt(row.avg_hits_per_cast, 3) },
-            { key: "avg_dps", label: "Avg DPS", render: (row) => fmt(row.avg_dps, 2) },
-            { key: "std_dps", label: "Std DPS", render: (row) => fmt(row.std_dps, 2) },
-            { key: "total_hit_events", label: "Hits" },
-            { key: "crit_percent", label: "Crit", render: (row) => pct(row.crit_percent) },
-            { key: "direct_hit_percent", label: "DH", render: (row) => pct(row.direct_hit_percent) },
-            { key: "crit_direct_percent", label: "CDH", render: (row) => pct(row.crit_direct_percent) },
-          ]}
-          rows={skills}
-        />
-      </section>
-
-      <section className="report-section">
-        <h3>Best Run</h3>
-        <ReportTable
-          className="best-run-report-table"
-          columns={[
-            { key: "skill", label: "Skill" },
-            { key: "count", label: "Count" },
-            { key: "hits", label: "Hits" },
-            { key: "damage", label: "Damage", render: (row) => fmt(row.damage, 0) },
-            { key: "crit_percent", label: "Crit", render: (row) => pct(row.crit_percent, 0) },
-            { key: "direct_hit_percent", label: "DH", render: (row) => pct(row.direct_hit_percent, 0) },
-            { key: "crit_direct_percent", label: "CDH", render: (row) => pct(row.crit_direct_percent, 0) },
-          ]}
-          rows={runResult.best_run || []}
-        />
-      </section>
-
-      <section className="report-section">
-        <h3>Intervals</h3>
-        <ReportTable
-          className="interval-report-table"
-          columns={[
-            { key: "time", label: "Time", render: (row) => formatTime(row.time) },
-            { key: "mean_rd", label: "Expected RD", render: (row) => `${fmt(row.mean_rd, 2)} +/- ${fmt(row.std_rd, 2)}` },
-            { key: "max_rd", label: "Max", render: (row) => fmt(row.max_rd, 2) },
-            { key: "top_1", label: "Top 1%", render: (row) => fmt(row.top_1, 2) },
-            { key: "top_0_1", label: "Top 0.1%", render: (row) => fmt(row.top_0_1, 2) },
-          ]}
-          rows={runResult.intervals || []}
-        />
-      </section>
-
-      <section className="report-section">
-        <h3>Distribution</h3>
-        <ReportTable
-          className="distribution-report-table"
-          columns={[
-            { key: "range", label: "Range" },
-            { key: "count", label: "Count" },
-            { key: "percent_ge", label: "% >= Range", render: (row) => pct(row.percent_ge, 3) },
-          ]}
-          rows={runResult.distribution || []}
-        />
-      </section>
-
-      <section className="report-section">
-        <h3>Coverage</h3>
-        <KvGrid
-          rows={[
-            ["Total events", coverageStats.total_events],
-            ["Unique skills", coverageStats.unique_skills],
-            ["Unrecognized", coverageStats.unrecognized_events],
-            ["Needs state", coverageStats.needs_state_events],
-            ["Followup gaps", coverageStats.followup_unmodeled_events],
-            ["Default target rows", coverageStats.default_target_events],
-          ]}
-        />
-        <ReportTable
-          className="coverage-report-table"
-          columns={[
-            { key: "raw_name", label: "Raw" },
-            { key: "name", label: "Skill" },
-            { key: "count", label: "Count" },
-            { key: "first_time", label: "First", render: (row) => fmt(row.first_time, 3) },
-            { key: "last_time", label: "Last", render: (row) => fmt(row.last_time, 3) },
-            { key: "max_targets", label: "Targets" },
-            { key: "target_sources_text", label: "Source" },
-            { key: "tags_text", label: "Tags" },
-            { key: "classification", label: "Reason", render: (row) => row.classification?.reason || "-" },
-          ]}
-          rows={runResult.coverage?.rows || []}
-        />
-      </section>
-
-      <section className="report-section">
-        <h3>Combat Log</h3>
-        <ReportTable
-          className="combat-report-table"
-          columns={[
-            { key: "time", label: "Time", render: (row) => seconds(row.time) },
-            { key: "name", label: "Skill" },
-            { key: "potency", label: "Potency" },
-            { key: "buffs", label: "Buffs" },
-            { key: "targets", label: "Targets" },
-            { key: "crit", label: "Crit" },
-            { key: "dh", label: "DH" },
-            { key: "dmg", label: "Damage", render: (row) => (Number.isFinite(Number(row.dmg)) ? fmt(row.dmg, 2) : row.dmg) },
-          ]}
-          rows={combatLog}
-        />
-      </section>
-    </div>
-  );
+function CombatLogTab({ result }) {
+  if (!result?.summary) return <EmptyState needsRun />;
+  return <ReportTable className="combat-table" columns={[
+    { key: "time", label: "Time (s)", render: (row) => fmt(row.time, 3) }, { key: "name", label: "Skill Name" },
+    { key: "potency", label: "Potency" }, { key: "buffs", label: "Active Buffs" }, { key: "targets", label: "Targets" },
+    { key: "crit", label: "Crit" }, { key: "dh", label: "DH" }, { key: "dmg", label: "Damage", render: (row) => Number.isFinite(Number(row.dmg)) ? fmt(row.dmg, 2) : row.dmg },
+  ]} rows={result.combat_log || []} />;
 }
 
-function MetricCard({ icon, label, value, detail }) {
-  return (
-    <div className="metric-card">
-      <div className="metric-icon">{icon}</div>
-      <span>{label}</span>
-      <strong>{value}</strong>
-      <small>{detail}</small>
-    </div>
-  );
+function SkillDetailsTab({ result }) {
+  if (!result?.summary) return <EmptyState needsRun />;
+  const rows = [...(result.skills || []), result.skill_total].filter(Boolean);
+  return <ReportTable columns={[
+    { key: "skill", label: "Skill Name" }, { key: "avg_cast_count", label: "Count", render: (row) => row.skill === "--- TOTAL ---" ? `${fmt(row.avg_cast_count, 1)} ± ${fmt(row.std_cast_count, 1)}` : fmt(row.avg_cast_count, 1) },
+    { key: "avg_hits_per_cast", label: "Avg Hits", render: (row) => row.skill === "--- TOTAL ---" ? "-" : fmt(row.avg_hits_per_cast, 1) },
+    { key: "avg_dps", label: "DPS (μ ± σ)", render: (row) => `${fmt(row.avg_dps, 2)} ± ${fmt(row.std_dps, 2)}` },
+    { key: "crit_percent", label: "Crit %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.crit_percent) },
+    { key: "direct_hit_percent", label: "DH %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.direct_hit_percent) },
+    { key: "crit_direct_percent", label: "CDH %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.crit_direct_percent) },
+  ]} rowClassName={(row) => row.skill === "--- TOTAL ---" ? "total-row blue" : ""} rows={rows} />;
 }
 
-function DropPanel({ file, icon, label, onClick, onDrop }) {
-  return (
-    <button
-      className="drop-panel"
-      onClick={onClick}
-      onDragOver={(event) => event.preventDefault()}
-      onDrop={(event) => {
-        event.preventDefault();
-        onDrop(event.dataTransfer.files?.[0]);
-      }}
-      type="button"
-    >
-      {icon}
-      <span>{label}</span>
-      <strong>{file?.name || "No file"}</strong>
-    </button>
-  );
+function BestRunTab({ result }) {
+  if (!result?.summary) return <EmptyState needsRun />;
+  const total = (result.best_run || []).reduce((sum, row) => sum + Number(row.damage || 0), 0);
+  const rows = [...(result.best_run || []), ...(result.best_run?.length ? [{ skill: "--- MAX RUN TOTAL ---", damage: total, total: true }] : [])];
+  return <ReportTable columns={[
+    { key: "skill", label: "Skill Name" }, { key: "count", label: "Cast" }, { key: "hits", label: "Total Hits" },
+    { key: "damage", label: "Total Damage", render: (row) => fmt(row.damage, 0) },
+    { key: "crit_percent", label: "Crit %", render: (row) => row.total ? "-" : pct(row.crit_percent, 0) },
+    { key: "direct_hit_percent", label: "DH %", render: (row) => row.total ? "-" : pct(row.direct_hit_percent, 0) },
+    { key: "crit_direct_percent", label: "CDH %", render: (row) => row.total ? "-" : pct(row.crit_direct_percent, 0) },
+  ]} rowClassName={(row) => row.total ? "total-row orange" : ""} rows={rows} />;
 }
 
-function CoverageTable({ rows }) {
-  return (
-    <div className="data-table">
-      <div className="table-row table-head">
-        <span>Class</span>
-        <span>Time</span>
-        <span>Skill</span>
-        <span>Source</span>
-      </div>
-      {rows.map((row, index) => (
-        <div className="table-row" key={`${row.time}-${row.action}-${index}`}>
-          <span className={`pill ${row.category}`}>{row.category}</span>
-          <span>{row.time.toFixed(2)}</span>
-          <strong>{row.action}</strong>
-          <span>{row.source}</span>
-        </div>
-      ))}
-    </div>
-  );
+function IntervalsTab({ result }) {
+  if (!result?.summary) return <EmptyState needsRun />;
+  return <ReportTable columns={[
+    { key: "time", label: "时间节点", render: (row) => formatTime(row.time) },
+    { key: "mean_rd", label: "RD (μ ± σ)", render: (row) => `${fmt(row.mean_rd, 2)} ± ${fmt(row.std_rd, 2)}` },
+    { key: "max_rd", label: "Max RD", render: (row) => fmt(row.max_rd, 2) },
+    { key: "top_1", label: "Top 1% (Z=2.326)", render: (row) => fmt(row.top_1, 2) },
+    { key: "top_0_1", label: "Top 0.1% (Z=3.090)", render: (row) => fmt(row.top_0_1, 2) },
+  ]} rows={result.intervals || []} />;
 }
 
-function TimelineTable({ rows }) {
-  return (
-    <div className="timeline-list">
-      {rows.slice(0, 70).map((row, index) => (
-        <div className="timeline-item" key={`${row.time}-${row.action}-${index}`}>
-          <span>{formatTime(row.time)}</span>
-          <strong>{row.action}</strong>
-          <small>{row.raw}</small>
-        </div>
-      ))}
-    </div>
-  );
-}
+function DistributionTab({ result }) {
+  if (!result?.summary) return <EmptyState needsRun />;
+  const rows = result.distribution || [];
+  if (!rows.length) return <EmptyState />;
+  const width = 960;
+  const plot = { left: 72, right: 930, top: 42, bottom: 340 };
+  const iterations = Number(result.metadata?.iterations) || rows.reduce((sum, row) => sum + row.count, 0);
+  const lowerBounds = rows.map((row) => Number(row.range.split("-")[0]));
+  const binSize = Number(rows[0].range.split("-")[1]) - lowerBounds[0] || 100;
+  const mean = Number(result.summary.expected_dps);
+  const std = Number(result.summary.std_dps);
+  const thresholds = [
+    [Number(result.summary.top_1), "Top 1%", "top1"],
+    [Number(result.summary.top_0_1), "Top 0.1%", "top01"],
+    [Number(result.summary.top_0_01), "Top 0.01%", "top001"],
+  ];
+  const domainMin = lowerBounds[0];
+  const domainMax = Math.max(lowerBounds.at(-1) + binSize, ...thresholds.map(([value]) => value));
+  const x = (value) => plot.left + (value - domainMin) / Math.max(1, domainMax - domainMin) * (plot.right - plot.left);
+  const curve = std > 0 ? Array.from({ length: 161 }, (_, index) => {
+    const value = domainMin + index / 160 * (domainMax - domainMin);
+    const percent = Math.exp(-0.5 * ((value - mean) / std) ** 2) / (std * Math.sqrt(2 * Math.PI)) * 100 * binSize;
+    return [value, percent];
+  }) : [];
+  const barPercents = rows.map((row) => row.count / iterations * 100);
+  const rawMaxY = Math.max(...barPercents, ...curve.map((point) => point[1]), 1);
+  const yMax = Math.max(5, Math.ceil(rawMaxY / 5) * 5);
+  const y = (value) => plot.bottom - value / yMax * (plot.bottom - plot.top);
+  const yTicks = Array.from({ length: 6 }, (_, index) => yMax / 5 * index);
+  const xTickStep = Math.max(1, Math.ceil(rows.length / 7));
+  const xTicks = lowerBounds.filter((_, index) => index % xTickStep === 0);
+  if (xTicks.at(-1) !== lowerBounds.at(-1)) xTicks.push(lowerBounds.at(-1));
+  const curvePath = curve.map(([value, percent], index) => `${index ? "L" : "M"}${x(value).toFixed(2)},${y(percent).toFixed(2)}`).join(" ");
+  const barWidth = Math.max(3, x(domainMin + binSize) - x(domainMin) - 3);
 
-function ResultsPanel({ projection, runResult }) {
-  const skillRows = runResult?.skills?.slice(0, 8) || [];
-  if (!runResult?.summary) {
-    return (
-      <div className="empty-state">
-        <strong>Python simulation has not run.</strong>
-        <span>Use the desktop file picker, then run the simulation to show real RD.</span>
-      </div>
-    );
-  }
-  return (
-    <div className="results-grid">
-      <div className="chart-panel">
-        <div className="panel-title">
-          <BarChart3 size={17} />
-          <span>DPS Distribution</span>
-        </div>
-        <DistributionSvg values={projection.distribution} />
-      </div>
-      <div className="result-stack">
-        <ResultLine label="Expected RD" value={projection.expected} />
-        <ResultLine label="Std dev" value={Math.round(runResult.summary.std_dps)} />
-        <ResultLine label="Max RD" value={Math.round(runResult.summary.max_dps)} />
-        <ResultLine label="Min RD" value={Math.round(runResult.summary.min_dps)} />
-        <ResultLine label="Top 1%" value={Math.round(runResult.summary.top_1)} />
-        <ResultLine label="Top 0.1%" value={Math.round(runResult.summary.top_0_1)} />
-        <ResultLine label="Top 0.01%" value={Math.round(runResult.summary.top_0_01)} />
-        <ResultLine label="Bottom 1%" value={Math.round(runResult.summary.bottom_1)} />
-        {skillRows.length > 0 && (
-          <div className="skill-mini-list">
-            {skillRows.map((row) => (
-              <div key={row.skill}>
-                <span>{row.skill}</span>
-                <strong>{Math.round(row.avg_dps).toLocaleString()}</strong>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function ResultLine({ label, value }) {
-  return (
-    <div className="result-line">
-      <span>{label}</span>
-      <strong>{value.toLocaleString()}</strong>
-    </div>
-  );
-}
-
-function CombatLog({ rows, projection, runResult }) {
-  if (runResult?.combat_log?.length) {
-    return (
-      <ReportTable
-        className="combat-report-table standalone"
-        columns={[
-          { key: "time", label: "Time", render: (row) => seconds(row.time) },
-          { key: "name", label: "Skill" },
-          { key: "potency", label: "Potency" },
-          { key: "buffs", label: "Buffs" },
-          { key: "targets", label: "Targets" },
-          { key: "crit", label: "Crit" },
-          { key: "dh", label: "DH" },
-          { key: "dmg", label: "Damage", render: (row) => (Number.isFinite(Number(row.dmg)) ? fmt(row.dmg, 2) : row.dmg) },
-        ]}
-        rows={runResult.combat_log}
-      />
-    );
-  }
-  return (
-    <div className="data-table log-table">
-      <div className="table-row table-head">
-        <span>Time</span>
-        <span>Skill</span>
-        <span>Projected RD</span>
-      </div>
-      {rows.slice(0, 60).map((row, index) => (
-        <div className="table-row" key={`${row.time}-${row.action}-${index}`}>
-          <span>{row.time.toFixed(2)}</span>
-          <strong>{row.action}</strong>
-          <span>{Math.round(projection.expected * (0.74 + index / Math.max(16, rows.length) * 0.24)).toLocaleString()}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function DistributionSvg({ values }) {
-  const max = Math.max(...values, 1);
-  return (
-    <svg className="bar-chart" viewBox="0 0 560 220" role="img" aria-label="DPS distribution bars">
-      <line x1="22" x2="538" y1="188" y2="188" className="axis" />
-      {values.map((value, index) => {
-        const width = 22;
-        const gap = 7;
-        const height = (value / max) * 146;
-        const x = 32 + index * (width + gap);
-        const y = 188 - height;
-        return <rect className="bar" height={height} key={index} rx="4" width={width} x={x} y={y} />;
+  return <div className="distribution-view">
+    <div className="chart-header"><div><span>DPS Distribution (N={iterations}, Bin={binSize})</span><strong>{fmt(mean, 2)} ± {fmt(std, 2)}</strong></div><div className="legend"><small><i className="legend-bar" />概率频次</small><small><i className="legend-normal" />正态分布</small><small><i className="legend-top1" />Top 1%</small><small><i className="legend-top01" />Top 0.1%</small><small><i className="legend-top001" />Top 0.01%</small></div></div>
+    <svg className="distribution-chart" role="img" aria-label="DPS 分布概率图" viewBox={`0 0 ${width} 420`}>
+      {yTicks.map((tick) => <g key={tick}><line className="chart-grid" x1={plot.left} x2={plot.right} y1={y(tick)} y2={y(tick)} /><text className="chart-label" textAnchor="end" x={plot.left - 10} y={y(tick) + 4}>{fmt(tick, tick % 1 ? 1 : 0)}%</text></g>)}
+      {xTicks.map((tick) => <g key={tick}><line className="chart-axis" x1={x(tick)} x2={x(tick)} y1={plot.bottom} y2={plot.bottom + 5} /><text className="chart-label" textAnchor="middle" x={x(tick)} y={plot.bottom + 22}>{fmt(tick, 0)}</text></g>)}
+      <line className="chart-axis" x1={plot.left} x2={plot.right} y1={plot.bottom} y2={plot.bottom} />
+      <line className="chart-axis" x1={plot.left} x2={plot.left} y1={plot.top} y2={plot.bottom} />
+      {rows.map((row, index) => {
+        const percent = barPercents[index];
+        return <g key={row.range}><rect className="distribution-bar" height={plot.bottom - y(percent)} rx="2" width={barWidth} x={x(lowerBounds[index]) + 1.5} y={y(percent)} /><title>{row.range}: {row.count} 次 / {fmt(percent, 2)}%</title></g>;
       })}
-      <text x="32" y="208">low</text>
-      <text x="486" y="208">high</text>
+      {curvePath && <path className="normal-curve" d={curvePath} />}
+      {thresholds.map(([value, label, tone], index) => <g key={label}><line className={`threshold-line ${tone}`} x1={x(value)} x2={x(value)} y1={plot.top} y2={plot.bottom} /><text className={`threshold-label ${tone}`} textAnchor="end" transform={`rotate(-90 ${x(value) - 5} ${plot.top + 72 + index * 12})`} x={x(value) - 5} y={plot.top + 72 + index * 12}>{label} {fmt(value, 0)}</text></g>)}
+      <text className="chart-title-label" x={plot.left} y="22">Frequency (Probability %)</text>
+      <text className="chart-title-label" textAnchor="end" x={plot.right} y="404">DPS / RD</text>
     </svg>
-  );
+  </div>;
 }
 
-function TimelineSvg({ data }) {
-  if (!data.length) return null;
-  const max = Math.max(...data.map((point) => point.value), 1);
-  const points = data
-    .map((point, index) => {
-      const x = 8 + (index / Math.max(1, data.length - 1)) * 304;
-      const y = 74 - (point.value / max) * 58;
-      return `${x},${y}`;
-    })
-    .join(" ");
-  return (
-    <svg viewBox="0 0 320 86" role="img" aria-label="RD sparkline">
-      <polyline className="spark-area" points={`8,78 ${points} 312,78`} />
-      <polyline className="spark-line" points={points} />
-    </svg>
-  );
+function DistributionTableTab({ result }) {
+  if (!result?.summary) return <EmptyState needsRun />;
+  return <ReportTable columns={[
+    { key: "range", label: "DPS 区间" }, { key: "count", label: "频次" }, { key: "percent_ge", label: "上位占比 (≥Min)", render: (row) => pct(row.percent_ge, 2) },
+  ]} rows={result.distribution || []} />;
 }
 
 export default App;
