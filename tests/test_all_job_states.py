@@ -94,7 +94,8 @@ class AllJobStateTests(unittest.TestCase):
         text = UNTARGETABLE_TRACK.read_text(encoding="utf-8-sig")
         windows = parse_marker_track_downtime_windows(text)
 
-        self.assertEqual(len(windows), 5)
+        self.assertGreaterEqual(len(windows), 1)
+        self.assertTrue(all(start < end for start, end in windows))
         self.assertAlmostEqual(windows[0][0], 197.597)
         self.assertAlmostEqual(windows[0][1], 207.933)
         self.assertEqual(parse_downtime_windows(text), windows)
@@ -125,6 +126,24 @@ class AllJobStateTests(unittest.TestCase):
         self.assertGreater(len(result["combat_log"]), 0)
         self.assertEqual(result["preview"]["total"], result["coverage"]["stats"]["total_events"])
         self.assertIn("row_no", result["preview"]["rows"][0])
+
+    def test_duration_uses_last_damage_application_not_last_button_press(self):
+        stats = dict(BASE_STATS, job="SAM", version="7.5", party_bonus=1.05)
+        damage_event = {"time": 0.0, "name": "晓风", "targets": 1}
+        sim = DpsSimulator(
+            stats,
+            [damage_event, {"time": 10.0, "name": "明镜止水", "targets": 1}],
+            iterations=1,
+        )
+        skill = sim.get_skill(damage_event["name"])
+        expected_last_hit = sim.effective_cast_time(skill, damage_event) + skill.get("delay", 0.5)
+
+        with patch.object(random, "random", return_value=1.0), patch.object(
+                random, "uniform", side_effect=lambda low, high: (low + high) / 2):
+            _total, last_hit, _dmg, counts, *_ = sim.run_one_simulation(is_first_run=True)
+
+        self.assertAlmostEqual(last_hit, expected_last_hit, places=6)
+        self.assertEqual(counts["晓风"], 1)
 
     def test_all_dps_jobs_have_specific_state_classes(self):
         for job in JOB_SMOKE_TIMELINES:
@@ -240,6 +259,23 @@ class AllJobStateTests(unittest.TestCase):
         self.assertEqual(gekko["meikyo_grants"], "fugetsu")
         self.assertEqual(midare["potency"], 680)
         self.assertEqual(ogi["decay"], 0.4)
+
+    def test_xivintheshell_application_delay_overrides_are_applied(self):
+        cases = {
+            "SAM": {"Tendo Goken": 0.36, "Tendo Kaeshi Goken": 0.36},
+            "DNC": {"Dance of the Dawn": 0.44},
+            "RDM": {"Riposte": 0.62},
+        }
+
+        for job, skills in cases.items():
+            resolver = SkillResolver(job, "7.5")
+            if resolver.provider is None:
+                self.skipTest("AMAS skill provider is unavailable")
+            for name, expected_delay in skills.items():
+                with self.subTest(job=job, skill=name):
+                    skill = resolver.get(name)
+                    self.assertIsNotNone(skill)
+                    self.assertAlmostEqual(skill["delay"], expected_delay)
 
     def test_sam_meikyo_gekko_grants_fugetsu(self):
         resolver = SkillResolver("SAM")

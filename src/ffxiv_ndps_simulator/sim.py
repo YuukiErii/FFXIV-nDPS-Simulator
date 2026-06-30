@@ -290,7 +290,7 @@ for _job, _names in MODELED_JOB_STATE_SKILLS.items():
 FOLLOWUP_RISK_SKILLS = {
     "NIN": {"Bunshin", "Phantom Kamaitachi"},
     "RPR": {"Gluttony", "Enshroud", "Sacrificium", "Communio", "Perfectio"},
-    "MCH": {"Automaton Queen", "Queen Overdrive", "Wildfire"},
+    "MCH": {"Automaton Queen", "Queen Overdrive", "Wildfire", "Detonator", "Flamethrower"},
     "SMN": {"Summon Bahamut", "Summon Phoenix", "Summon Solar Bahamut", "Enkindle Bahamut", "Enkindle Phoenix"},
     "PCT": {"Pom Muse", "Winged Muse", "Clawed Muse", "Fanged Muse", "Mog of the Ages", "Retribution of the Madeen"},
 }
@@ -402,6 +402,8 @@ class SkillResolver:
                             for key in ('amas_name', 'is_gcd', 'damage_class'):
                                 if key in provider_info:
                                     info[key] = provider_info[key]
+                            if provider_info.get('delay_source') == 'xivintheshell':
+                                info['delay'] = provider_info['delay']
                             if 'dot_potency' in info:
                                 for key in ('dot_name', 'dot_primary_only'):
                                     if key in provider_info:
@@ -1063,26 +1065,17 @@ class DpsSimulator:
         push_sim_event(pq, random.uniform(0.0, 3.0), SimEventType.DOT_TICK, tie_breaker, None)
 
         last_skill_hit_time = 0.0
-        last_press_resolution_time = 0.0
         for item in self.timeline_data:
             event = timeline_entry(item)
             name = event['name']
             s = self.get_skill(name)
             if s:
                 cast, delay = self.effective_cast_time(s, event), s.get('delay', 0.5)
-                last_press_resolution_time = max(last_press_resolution_time, event['time'] + cast + delay)
-        for item in reversed(self.timeline_data):
-            event = timeline_entry(item)
-            name = event['name']
-            s = self.get_skill(name)
-            if s and (s.get('potency', 0) > 0 or s.get('dot_potency', 0) > 0):
-                cast, delay = self.effective_cast_time(s, event), s.get('delay', 0.5)
-                last_skill_hit_time = event['time'] + cast + delay
-                break
-        last_skill_hit_time = max(last_skill_hit_time, last_press_resolution_time)
-        if self.timeline_data:
-            last_skill_hit_time = max(last_skill_hit_time, timeline_time(self.timeline_data[-1]))
-        simulation_end_time = last_skill_hit_time
+                hit_time = event['time'] + cast + delay
+                keys = _classification_keys(name, self.job)
+                emits_followup_damage = bool(keys & FOLLOWUP_RISK_SKILL_KEYS.get(self.job, set()))
+                if s.get('potency', 0) > 0 or s.get('dot_potency', 0) > 0 or emits_followup_damage:
+                    last_skill_hit_time = max(last_skill_hit_time, hit_time)
 
         run_snapshots = {}  # 用于存储本次运行的快照数据 {time: current_damage}
         cp_time = 30.0
@@ -1127,7 +1120,7 @@ class DpsSimulator:
 
         while pq:
             t, _, ev_type, _, payload = heapq.heappop(pq)
-            if t > simulation_end_time + 0.001: break
+            if t > last_skill_hit_time + 0.001: break
             current_time = t
             global_dt = self.is_global_downtime(current_time)
 
@@ -1446,7 +1439,6 @@ class DpsSimulator:
                             potion_active_until > current_time >= (potion_active_until - 30.0)
                         )
                     followup_time = current_time + float(followup_payload.get('delay', 0.0) or 0.0)
-                    simulation_end_time = max(simulation_end_time, followup_time)
                     if followup_payload.get('extends_duration', True):
                         last_skill_hit_time = max(last_skill_hit_time, followup_time)
                     push_sim_event(

@@ -177,7 +177,7 @@ MODELED_FOLLOWUP_SKILLS = {
     },
     "RPR": {"Gluttony", "Enshroud", "Sacrificium", "Communio", "Perfectio"},
     "PCT": {"Pom Muse", "Winged Muse", "Clawed Muse", "Fanged Muse", "Mog of the Ages", "Retribution of the Madeen"},
-    "MCH": {"Automaton Queen", "Queen Overdrive", "Wildfire"},
+    "MCH": {"Automaton Queen", "Queen Overdrive", "Wildfire", "Detonator", "Flamethrower"},
     "SMN": {
         "Summon Bahamut", "Summon Phoenix", "Summon Solar Bahamut",
         "Summon Ifrit", "Summon Ifrit II", "Summon Titan", "Summon Titan II",

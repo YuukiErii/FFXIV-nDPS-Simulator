@@ -2,6 +2,93 @@ from functools import lru_cache
 from decimal import Decimal
 
 
+XIVINTHESHELL_APPLICATION_DELAY_OVERRIDES = {
+    # Source: xivintheshell/xivintheshell main@81a7c2c, src/Game/Jobs/*.ts.
+    # These values mirror applicationDelay for damaging skills where the local
+    # AMAS provider currently diverges by more than a frame-scale tolerance.
+    ("DRG", "Wheeling Thrust"): 0.67,
+    ("DRG", "Drakesbane"): 1.0,
+    ("NIN", "Dream Within a Dream"): 0.98,
+    ("NIN", "Phantom Kamaitachi"): 1.57,
+    ("NIN", "Tenri Jindo"): 0.35,
+    ("SAM", "Tendo Goken"): 0.36,
+    ("SAM", "Tendo Kaeshi Goken"): 0.36,
+    ("RPR", "Shadow of Death"): 1.15,
+    ("RPR", "Soul Slice"): 0.99,
+    ("RPR", "Gibbet"): 0.5,
+    ("RPR", "Gallows"): 0.53,
+    ("RPR", "Executioner's Gallows"): 0.62,
+    ("RPR", "Communio"): 1.16,
+    ("RPR", "Harpe"): 0.9,
+    ("RPR", "Harvest Moon"): 0.9,
+    ("RPR", "Gluttony"): 1.06,
+    ("RPR", "Lemure's Slice"): 0.7,
+    ("RPR", "Void Reaping"): 0.53,
+    ("RPR", "Cross Reaping"): 0.53,
+    ("RPR", "Whorl of Death"): 1.15,
+    ("RPR", "Soul Scythe"): 0.66,
+    ("RPR", "Executioner's Guillotine"): 0.53,
+    ("RPR", "Lemure's Scythe"): 0.66,
+    ("VPR", "Writhing Snap"): 0.488,
+    ("VPR", "Steel Fangs"): 1.158,
+    ("VPR", "Reaving Fangs"): 1.293,
+    ("VPR", "Hunter's Coil"): 0.982,
+    ("VPR", "Swiftskin's Coil"): 1.473,
+    ("VPR", "Reawaken"): 0.625,
+    ("VPR", "Ouroboros"): 2.313,
+    ("VPR", "Vicewinder"): 0.581,
+    ("VPR", "Uncoiled Fury"): 0.804,
+    ("VPR", "Steel Maw"): 1.091,
+    ("VPR", "Reaving Maw"): 0.908,
+    ("VPR", "Hunter's Bite"): 1.134,
+    ("VPR", "Swiftskin's Bite"): 1.445,
+    ("VPR", "Jagged Maw"): 1.127,
+    ("VPR", "Bloodied Maw"): 0.866,
+    ("VPR", "Hunter's Den"): 0.569,
+    ("VPR", "Swiftskin's Den"): 0.999,
+    ("VPR", "Death Rattle"): 1.697,
+    ("VPR", "Last Lash"): 1.226,
+    ("BRD", "Bloodletter"): 1.65,
+    ("MCH", "Gauss Round"): 0.71,
+    ("MCH", "Ricochet"): 0.71,
+    ("DNC", "Dance of the Dawn"): 0.44,
+    ("DNC", "Last Dance"): 1.26,
+    ("DNC", "Fan Dance IV"): 0.62,
+    ("DNC", "Technical Finish"): 0.54,
+    ("DNC", "Fan Dance II"): 0.54,
+    ("BLM", "Blizzard"): 0.846,
+    ("BLM", "Fire"): 1.871,
+    ("BLM", "Fire III"): 1.292,
+    ("BLM", "Blizzard III"): 0.89,
+    ("BLM", "Freeze"): 0.664,
+    ("BLM", "Flare"): 1.157,
+    ("BLM", "Paradox"): 0.624,
+    ("BLM", "High Thunder"): 0.757,
+    ("BLM", "Flare Star"): 0.622,
+    ("BLM", "High Thunder II"): 0.8,
+    ("SMN", "Tri-disaster"): 0.8,
+    ("SMN", "Ruby Catastrophe"): 0.53,
+    ("SMN", "Topaz Catastrophe"): 0.53,
+    ("SMN", "Emerald Catastrophe"): 0.53,
+    ("SMN", "Slipstream"): 1.02,
+    ("RDM", "Jolt II"): 0.8,
+    ("RDM", "Riposte"): 0.62,
+    ("RDM", "Zwerchhau"): 0.62,
+    ("RDM", "Redoublement"): 0.62,
+    ("RDM", "Enchanted Riposte"): 0.62,
+    ("RDM", "Enchanted Zwerchhau"): 0.62,
+    ("RDM", "Enchanted Redoublement"): 0.62,
+    ("RDM", "Reprise"): 0.62,
+    ("RDM", "Enchanted Reprise"): 0.62,
+    ("RDM", "Corps-a-corps"): 0.62,
+    ("RDM", "Engagement"): 0.62,
+    ("RDM", "Displacement"): 0.62,
+    ("PCT", "Water II in Blue"): 0.89,
+    ("PCT", "Thunder in Magenta"): 0.8,
+    ("PCT", "Thunder II in Magenta"): 0.8,
+}
+
+
 def _forced_name(value):
     return getattr(value, "name", str(value))
 
@@ -239,6 +326,10 @@ class AmasSkillProvider:
             out["potency"] = out["base_potency"] = 120
         if job == "MNK" and name == "Enlightenment":
             out["is_gcd"] = False
+        delay_override = XIVINTHESHELL_APPLICATION_DELAY_OVERRIDES.get((job, name))
+        if delay_override is not None:
+            out["delay"] = delay_override
+            out["delay_source"] = "xivintheshell"
         return out
 
 

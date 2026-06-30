@@ -354,7 +354,7 @@ class NinJobStateTests(unittest.TestCase):
         self.assertEqual(counts["Auto Attack"], 233)
         self.assertEqual(
             sum(count for name, count in counts.items() if name.endswith(" (pet)")),
-            30,
+            29,
         )
         self.assertEqual({item["code"] for item in warnings}, {"nin_ninki_overcap"})
 
