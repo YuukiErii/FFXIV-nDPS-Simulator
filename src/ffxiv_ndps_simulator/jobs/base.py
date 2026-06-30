@@ -70,8 +70,14 @@ class JobState:
             self.combo_time = current_time
         return None
 
+    def should_resolve_damage(self, name, skill, current_time, payload):
+        return True
+
     def followup_damage_events(self, name, skill, current_time, payload):
         return []
+
+    def is_followup_active(self, payload, current_time):
+        return True
 
     def dot_applications(self, name, skill, current_time, target_count, target_id, active_buffs, has_potion):
         if "dot_potency" not in skill:
@@ -100,11 +106,17 @@ class JobState:
     def allows_auto_attacks(self, job_profile):
         return not getattr(job_profile, "is_caster", False)
 
-    def should_start_auto_attacks(self, name, skill, current_time):
+    def allows_auto_attack_at(self, current_time):
         return True
+
+    def should_start_auto_attacks(self, name, skill, current_time):
+        return bool(skill.get("potency", 0) or skill.get("dot_potency", 0))
 
     def can_activate_without_target(self, name, skill):
         return False
+
+    def effective_cast_time(self, name, skill, event, current_time, default_cast_time):
+        return default_cast_time
 
     def is_dot_active(self, dot, current_time):
         return True

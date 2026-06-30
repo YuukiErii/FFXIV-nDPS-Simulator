@@ -272,6 +272,13 @@ class NinJobStateTests(unittest.TestCase):
         self.assertEqual(counts["Dream Within a Dream"], 3)
         self.assertNotIn("nin_ninki_low", warning_codes)
 
+    def test_default_simulator_version_is_75(self):
+        stats = dict(BASE_STATS)
+        stats.pop("version")
+        sim = DpsSimulator(stats, [(0.0, "Dokumori", 1)], iterations=1)
+        self.assertEqual(sim.stats["version"], "7.5")
+        self.assertEqual(sim.get_skill("Dokumori")["potency"], 400)
+
     def test_dream_followups_share_crit_direct_but_roll_variance_separately(self):
         random_values = iter([
             1.0, 1.0,  # Auto Attack before Dream: no crit, no DH.

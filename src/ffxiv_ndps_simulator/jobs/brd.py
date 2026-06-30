@@ -5,13 +5,32 @@ except ImportError:
 
 
 class BrdJobState(JobState):
+    SONGS = {
+        "Mage's Ballad": "mage",
+        "Army's Paeon": "army",
+        "The Wanderer's Minuet": "wanderer",
+    }
+    RADIANT_MULT = {1: 1.02, 2: 1.04, 3: 1.06}
+    RADIANT_ENCORE_POTENCY = {1: 700, 2: 800, 3: 1100}
+    PITCH_PERFECT_POTENCY = {1: 100, 2: 220, 3: 360}
+
     def __init__(self):
         super().__init__("BRD")
         self.raging_until = -1.0
         self.battle_voice_until = -1.0
         self.radiant_until = -1.0
+        self.radiant_mult = 1.0
+        self.radiant_encore_coda = 3
+        self.radiant_encore_until = -1.0
         self.song = None
         self.song_until = -1.0
+        self.coda = set()
+        self.pitch_stacks = 0
+        self.army_stacks = 0
+        self.soul_voice = 100
+        self.barrage_until = -1.0
+        self.blast_arrow_until = -1.0
+        self.resonant_arrow_until = -1.0
         self.caustic_until = -1.0
         self.storm_until = -1.0
 
@@ -19,7 +38,27 @@ class BrdJobState(JobState):
         return (skill or {}).get("amas_name") or name
 
     def handles_skill_buff(self, name, skill):
-        return self._canonical(name, skill) in {"Raging Strikes", "Battle Voice", "Radiant Finale"}
+        return self._canonical(name, skill) in {
+            "Raging Strikes", "Battle Voice", "Radiant Finale",
+            "Mage's Ballad", "Army's Paeon", "The Wanderer's Minuet", "Barrage",
+        }
+
+    def resolve_potency(self, name, skill, current_time, payload):
+        canonical = self._canonical(name, skill)
+        if canonical == "Apex Arrow":
+            gauge = self.soul_voice if self.soul_voice >= 20 else 100
+            return int(round(gauge * 7)), False
+        if canonical == "Radiant Encore":
+            coda = max(1, min(3, self.radiant_encore_coda))
+            return self.RADIANT_ENCORE_POTENCY[coda], False
+        if canonical == "Pitch Perfect":
+            stacks = 3
+            return self.PITCH_PERFECT_POTENCY[max(1, min(3, stacks))], False
+        if canonical == "Refulgent Arrow" and self.barrage_until > current_time:
+            return skill.get("potency", 0) * 3, False
+        if canonical == "Shadowbite" and self.barrage_until > current_time:
+            return 300, False
+        return super().resolve_potency(name, skill, current_time, payload)
 
     def on_damage_resolved(self, name, skill, current_time, is_combo, payload):
         super().on_damage_resolved(name, skill, current_time, is_combo, payload)
@@ -29,18 +68,52 @@ class BrdJobState(JobState):
         elif canonical == "Battle Voice":
             self.battle_voice_until = current_time + 20.0
         elif canonical == "Radiant Finale":
-            self.radiant_until = current_time + 30.0
-        elif canonical in {"The Wanderer's Minuet", "Mage's Ballad", "Army's Paeon"}:
+            coda_count = max(1, min(3, len(self.coda)))
+            self.radiant_mult = self.RADIANT_MULT[coda_count]
+            self.radiant_until = current_time + 20.0
+            self.radiant_encore_coda = coda_count
+            self.radiant_encore_until = current_time + 30.0
+            self.coda.clear()
+        elif canonical in self.SONGS:
             self.song = canonical
             self.song_until = current_time + 45.0
+            self.coda.add(self.SONGS[canonical])
+            self.pitch_stacks = 0
+            self.army_stacks = 0
+        elif canonical == "Barrage":
+            self.barrage_until = current_time + 10.0
+            self.resonant_arrow_until = current_time + 30.0
+        elif canonical == "Empyreal Arrow" and self.song_until > current_time:
+            self.soul_voice = min(100, self.soul_voice + 5)
+            if self.song == "The Wanderer's Minuet":
+                self.pitch_stacks = min(3, self.pitch_stacks + 1)
+            elif self.song == "Army's Paeon":
+                self.army_stacks = min(4, self.army_stacks + 1)
+        elif canonical == "Pitch Perfect":
+            self.pitch_stacks = 0
+        elif canonical == "Apex Arrow":
+            gauge = self.soul_voice if self.soul_voice >= 20 else 100
+            if gauge >= 80:
+                self.blast_arrow_until = current_time + 10.0
+            self.soul_voice = 0
+        elif canonical == "Blast Arrow":
+            self.blast_arrow_until = -1.0
+        elif canonical == "Resonant Arrow":
+            self.resonant_arrow_until = -1.0
+        elif canonical == "Radiant Encore":
+            self.radiant_encore_until = -1.0
         elif canonical == "Caustic Bite":
             self.caustic_until = current_time + skill.get("dot_duration", 45.0)
         elif canonical == "Stormbite":
             self.storm_until = current_time + skill.get("dot_duration", 45.0)
-        elif canonical == "Iron Jaws" and self.caustic_until > current_time and self.storm_until > current_time:
+        elif canonical == "Iron Jaws" and (self.caustic_until > current_time or self.storm_until > current_time):
             duration = skill.get("dot_duration", 45.0)
-            self.caustic_until = current_time + duration
-            self.storm_until = current_time + duration
+            if self.caustic_until > current_time:
+                self.caustic_until = current_time + duration
+            if self.storm_until > current_time:
+                self.storm_until = current_time + duration
+        if canonical in {"Refulgent Arrow", "Shadowbite"}:
+            self.barrage_until = -1.0
 
     def _dot_payload(self, source_name, dot_name, dot_key, potency, current_time, target_count,
                      target_id, active_buffs, has_potion, duration=45.0):
@@ -68,30 +141,51 @@ class BrdJobState(JobState):
             return [self._dot_payload(name, "Stormbite (dot)", "brd_storm", 25, current_time,
                                       target_count, target_id, active_buffs, has_potion, duration)]
         if canonical == "Iron Jaws":
-            if self.caustic_until > current_time and self.storm_until > current_time:
-                return [
-                    self._dot_payload(name, "Caustic Bite (dot)", "brd_caustic", 20, current_time,
-                                      target_count, target_id, active_buffs, has_potion, duration),
-                    self._dot_payload(name, "Stormbite (dot)", "brd_storm", 25, current_time,
-                                      target_count, target_id, active_buffs, has_potion, duration),
-                ]
+            out = []
+            if self.caustic_until > current_time:
+                out.append(self._dot_payload(name, "Caustic Bite (dot)", "brd_caustic", 20, current_time,
+                                             target_count, target_id, active_buffs, has_potion, duration))
+            if self.storm_until > current_time:
+                out.append(self._dot_payload(name, "Stormbite (dot)", "brd_storm", 25, current_time,
+                                             target_count, target_id, active_buffs, has_potion, duration))
+            if out:
+                return out
             self.warn("brd_iron_jaws_missing_dot", current_time, name,
-                      "Iron Jaws used without both Caustic Bite and Stormbite active; DoT refresh skipped.")
+                      "Iron Jaws used without an active Caustic Bite or Stormbite; DoT refresh skipped.")
             return []
         return super().dot_applications(name, skill, current_time, target_count, target_id, active_buffs, has_potion)
 
     def active_damage_buffs(self, t, target_id=None):
         damage_mult = 1.0
+        crit_rate_add = 0.0
+        dh_rate_add = 0.0
         if self.raging_until > t:
             damage_mult *= 1.15
+        if self.radiant_until > t:
+            damage_mult *= self.radiant_mult
+        if self.song_until > t:
+            if self.song == "Mage's Ballad":
+                damage_mult *= 1.01
+            elif self.song == "Army's Paeon":
+                dh_rate_add += 0.03
+            elif self.song == "The Wanderer's Minuet":
+                crit_rate_add += 0.02
+        if self.battle_voice_until > t:
+            dh_rate_add += 0.20
         return {
             "brd_raging": self.raging_until > t,
             "brd_battle_voice": self.battle_voice_until > t,
             "brd_radiant": self.radiant_until > t,
             "brd_song": self.song if self.song_until > t else None,
             "damage_mult": damage_mult,
-            "dh_rate_add": 0.20 if self.battle_voice_until > t else 0.0,
+            "crit_rate_add": crit_rate_add,
+            "dh_rate_add": dh_rate_add,
         }
+
+    def auto_attack_interval_multiplier(self, t):
+        if self.song == "Army's Paeon" and self.song_until > t and self.army_stacks > 0:
+            return max(0.84, 1.0 - 0.04 * self.army_stacks)
+        return 1.0
 
     def format_buffs(self, active_buffs, has_potion=False):
         labels = []

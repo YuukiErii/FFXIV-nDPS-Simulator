@@ -6,24 +6,30 @@ except ImportError:
 
 class BlmJobState(JobState):
     ENOCHIAN_MULT = 1.27
-    ELEMENT_TIMEOUT = 15.0
+    # ponytail: Patch 7.2 removed AF/UI expiration; keep the state until an action swaps/removes it.
+    ELEMENT_TIMEOUT = float("inf")
+    POLYGLOT_INTERVAL = 30.0
 
     FIRE_ASPECT = {
-        "Fire", "Fire III", "Fire IV", "High Fire II",
+        "Fire", "Fire II", "Fire III", "Fire IV", "High Fire II",
         "Despair", "Flare", "Flare Star",
     }
     ICE_ASPECT = {
-        "Blizzard", "Blizzard III", "Blizzard IV", "High Blizzard II", "Freeze",
+        "Blizzard", "Blizzard II", "Blizzard III", "Blizzard IV", "High Blizzard II", "Freeze",
     }
-    THUNDER_SPELLS = {"Thunder III", "Thunder IV", "High Thunder", "High Thunder II"}
+    THUNDER_SPELLS = {
+        "Thunder", "Thunder II", "Thunder III", "Thunder IV",
+        "High Thunder", "High Thunder II",
+    }
     FIRE_MP_COSTS = {
         "Fire": 800,
+        "Fire II": 1500,
         "Fire III": 2000,
         "Fire IV": 800,
         "High Fire II": 1500,
-        "Despair": 800,
-        "Flare": 800,
     }
+    ALL_MP_SPELLS = {"Despair", "Flare"}
+    UI_MP_RESTORE = {1: 2500, 2: 5000, 3: 10000}
 
     def __init__(self):
         super().__init__("BLM")
@@ -41,7 +47,9 @@ class BlmJobState(JobState):
         self.swiftcast_until = -1.0
         self.triplecast_stacks = 0
         self.triplecast_until = -1.0
+        self.next_polyglot_at = -1.0
         self._pending_canonical = None
+        self._pending_mp_spend = (0, 0, False, False)
 
     def _canonical(self, name, skill=None):
         if skill:
@@ -49,10 +57,26 @@ class BlmJobState(JobState):
         return name
 
     def _refresh_enochian(self, current_time):
+        if self.enochian_until <= current_time or self.next_polyglot_at < 0:
+            self.next_polyglot_at = current_time + self.POLYGLOT_INTERVAL
         self.enochian_until = current_time + self.ELEMENT_TIMEOUT
 
     def _has_enochian(self, current_time):
         return self.enochian_until > current_time and (self.astral_fire > 0 or self.umbral_ice > 0)
+
+    def _advance_time(self, current_time):
+        if not self._has_enochian(current_time):
+            if self.enochian_until <= current_time:
+                self.astral_fire = 0
+                self.umbral_ice = 0
+                self.astral_soul = 0
+                self.next_polyglot_at = -1.0
+            return
+        if self.next_polyglot_at < 0:
+            self.next_polyglot_at = current_time + self.POLYGLOT_INTERVAL
+        while self.next_polyglot_at <= current_time and self.next_polyglot_at <= self.enochian_until:
+            self.polyglot = min(3, self.polyglot + 1)
+            self.next_polyglot_at += self.POLYGLOT_INTERVAL
 
     def _switch_to_astral_fire(self, stacks, current_time):
         if self.astral_fire <= 0:
@@ -73,22 +97,69 @@ class BlmJobState(JobState):
         self.astral_soul = 0
         self._refresh_enochian(current_time)
 
-    def _consume_instant_cast_status(self, canonical):
+    def _consume_instant_cast_status(self, canonical, current_time):
+        if canonical == "Fire III" and self.firestarter > 0:
+            self.firestarter = 0
+            return
         if canonical in {"Despair", "Foul", "Xenoglossy", "Paradox", "Umbral Soul"}:
             return
-        if self.swiftcast_until > -1.0:
+        if self.swiftcast_until > current_time:
             self.swiftcast_until = -1.0
             return
-        if self.triplecast_stacks > 0:
+        self.swiftcast_until = -1.0
+        if self.triplecast_until <= current_time:
+            self.triplecast_stacks = 0
+        elif self.triplecast_stacks > 0:
             self.triplecast_stacks -= 1
+
+    def _mp_spend_for(self, canonical):
+        if canonical == "Fire III" and self.firestarter > 0:
+            return 0, 0, False, False
+        if canonical == "Paradox":
+            if self.umbral_ice > 0:
+                return 0, 0, False, False
+            return 1600, 1600, False, False
+        if canonical == "Flare" and self.umbral_hearts > 0:
+            if self.umbral_ice > 0:
+                return 0, 0, False, False
+            return 800, (self.mp * 2 + 2) // 3, False, False
+        if canonical in self.ALL_MP_SPELLS:
+            if self.umbral_ice > 0:
+                return 0, 0, False, False
+            return 800, self.mp, False, True
+        base_cost = self.FIRE_MP_COSTS.get(canonical, 0)
+        if not base_cost or self.umbral_ice > 0:
+            return 0, 0, False, False
+        spend = base_cost
+        consumes_heart = False
+        if canonical in self.FIRE_ASPECT and self.astral_fire > 0:
+            if self.umbral_hearts > 0:
+                consumes_heart = True
+            else:
+                spend = base_cost * 2
+        return spend, spend, consumes_heart, False
+
+    def _restore_mp_for_umbral_ice(self):
+        self.mp = min(10000, self.mp + self.UI_MP_RESTORE.get(self.umbral_ice, 0))
+
+    def _apply_pending_mp_spend(self):
+        _required, spend, consumes_heart, all_mp = self._pending_mp_spend
+        self._pending_mp_spend = (0, 0, False, False)
+        if all_mp:
+            self.mp = 0
+        elif spend:
+            self.mp = max(0, self.mp - spend)
+        if consumes_heart:
+            self.umbral_hearts = max(0, self.umbral_hearts - 1)
 
     def handles_skill_buff(self, name, skill):
         return bool(skill.get("buff"))
 
     def on_press(self, name, skill, current_time, snapshot_time):
+        self._advance_time(current_time)
         canonical = self._canonical(name, skill)
         self._pending_canonical = canonical
-        if canonical in {"Fire IV", "Despair", "Flare Star"} and self.astral_fire <= 0:
+        if canonical in {"Fire IV", "Despair", "Flare", "Flare Star"} and self.astral_fire <= 0:
             self.warn("blm_astral_fire_missing", current_time, name,
                       f"{canonical} used without a tracked Astral Fire state.")
         if canonical in self.THUNDER_SPELLS and self.thunderhead <= 0:
@@ -100,18 +171,44 @@ class BlmJobState(JobState):
         if canonical == "Flare Star" and self.astral_soul < 6:
             self.warn("blm_astral_soul_low", current_time, name,
                       f"Flare Star used with Astral Soul {self.astral_soul}; expected 6.")
-        mp_cost = self.FIRE_MP_COSTS.get(canonical, 0)
-        if mp_cost and self.umbral_ice <= 0 and self.mp < mp_cost:
+        self._pending_mp_spend = self._mp_spend_for(canonical)
+        mp_required = self._pending_mp_spend[0]
+        if mp_required and self.mp < mp_required:
             self.warn("blm_mp_low", current_time, name,
-                      f"{canonical} used with MP {self.mp}; expected at least {mp_cost}.")
+                      f"{canonical} used with MP {self.mp}; expected at least {mp_required}.")
         if skill.get("cast", 0) or canonical in self.FIRE_ASPECT or canonical in self.ICE_ASPECT:
-            self._consume_instant_cast_status(canonical)
+            self._consume_instant_cast_status(canonical, current_time)
         return {}
 
     def on_press_complete(self, name, current_time):
+        self._advance_time(current_time)
         canonical = self._pending_canonical or name
         self._pending_canonical = None
         self._apply_action(canonical, current_time)
+
+    def effective_cast_time(self, name, skill, event, current_time, default_cast_time):
+        if event and event.get("cast_time") is not None:
+            return default_cast_time
+        canonical = self._canonical(name, skill)
+        if canonical in self.THUNDER_SPELLS:
+            return 0.0
+        if canonical == "Fire III" and self.firestarter > 0:
+            return 0.0
+        if canonical in {"Despair", "Foul", "Xenoglossy", "Paradox", "Umbral Soul"}:
+            return 0.0
+        if self.swiftcast_until > current_time:
+            return 0.0
+        if self.triplecast_stacks > 0 and self.triplecast_until > current_time:
+            return 0.0
+        cast_time = default_cast_time
+        if cast_time > 0:
+            if canonical in self.ICE_ASPECT and self.astral_fire >= 3:
+                cast_time *= 0.5
+            elif canonical in self.FIRE_ASPECT and self.umbral_ice >= 3:
+                cast_time *= 0.5
+            if self.ley_lines_until > current_time:
+                cast_time *= 0.85
+        return cast_time
 
     def _aspect_multiplier(self, canonical):
         if canonical in self.FIRE_ASPECT:
@@ -142,11 +239,11 @@ class BlmJobState(JobState):
         return potency * self._aspect_multiplier(canonical), False
 
     def _apply_action(self, canonical, current_time):
-        if canonical in {"Fire", "Fire III", "High Fire II"}:
-            stacks = 3 if canonical in {"Fire III", "High Fire II"} else 1
+        if canonical in {"Fire", "Fire II", "Fire III", "High Fire II"}:
+            stacks = 3 if canonical in {"Fire II", "Fire III", "High Fire II"} else 1
             self._switch_to_astral_fire(stacks, current_time)
-        elif canonical in {"Blizzard", "Blizzard III", "High Blizzard II"}:
-            stacks = 3 if canonical in {"Blizzard III", "High Blizzard II"} else 1
+        elif canonical in {"Blizzard", "Blizzard II", "Blizzard III", "High Blizzard II"}:
+            stacks = 3 if canonical in {"Blizzard II", "Blizzard III", "High Blizzard II"} else 1
             self._switch_to_umbral_ice(stacks, current_time)
         elif canonical == "Transpose":
             if self.astral_fire > 0:
@@ -177,12 +274,17 @@ class BlmJobState(JobState):
         elif canonical == "Blizzard IV":
             if self.umbral_ice > 0:
                 self.umbral_hearts = 3
+        elif canonical == "Freeze":
+            if self.umbral_ice > 0:
+                self.umbral_hearts = 3
         elif canonical == "Umbral Soul":
             if self.umbral_ice > 0:
                 self.umbral_ice = min(3, self.umbral_ice + 1)
                 self.umbral_hearts = min(3, self.umbral_hearts + 1)
                 self._refresh_enochian(current_time)
         elif canonical == "Paradox":
+            if self.astral_fire > 0 or self.umbral_ice > 0:
+                self._refresh_enochian(current_time)
             self.paradox = 0
             if self.astral_fire > 0:
                 self.firestarter = 1
@@ -202,15 +304,66 @@ class BlmJobState(JobState):
             self.swiftcast_until = current_time + 10.0
         elif canonical == "Triplecast":
             self.triplecast_stacks = 3
-            self.triplecast_until = current_time + 15.7
+            self.triplecast_until = current_time + 15.0
 
-        if canonical in self.ICE_ASPECT or (canonical == "Transpose" and self.umbral_ice > 0):
-            self.mp = 10000
-        elif canonical in self.FIRE_MP_COSTS and self.umbral_ice <= 0:
-            self.mp = max(0, self.mp - self.FIRE_MP_COSTS[canonical])
+        self._apply_pending_mp_spend()
+        if canonical in self.ICE_ASPECT:
+            self._restore_mp_for_umbral_ice()
+        elif canonical == "Umbral Soul" and self.umbral_ice > 0:
+            self._restore_mp_for_umbral_ice()
 
     def on_damage_resolved(self, name, skill, current_time, is_combo, payload):
         return None
+
+    def _dot_target_ids(self, target_count, target_id):
+        raw_ids = self._event_context.get("target_ids") or []
+        ids = []
+        for raw_id in raw_ids if isinstance(raw_ids, (list, tuple)) else []:
+            try:
+                tid = int(raw_id)
+            except (TypeError, ValueError):
+                continue
+            if tid > 0 and tid not in ids:
+                ids.append(tid)
+
+        if not ids:
+            ids.append(int(target_id or 1))
+            candidate = 1
+            while len(ids) < max(1, int(target_count or 1)):
+                if candidate not in ids:
+                    ids.append(candidate)
+                candidate += 1
+
+        return ids[:max(1, int(target_count or 1))]
+
+    def dot_applications(self, name, skill, current_time, target_count, target_id,
+                         active_buffs, has_potion):
+        canonical = self._canonical(name, skill)
+        if (
+            canonical not in {"Thunder IV", "High Thunder II"}
+            or skill.get("dot_primary_only", True)
+            or not self._event_context.get("multi_boss_mode")
+        ):
+            return super().dot_applications(
+                name, skill, current_time, target_count, target_id, active_buffs, has_potion
+            )
+
+        return [
+            {
+                "name": skill.get("dot_name", name),
+                "source_name": name,
+                "dot_key": name,
+                "tid": tid,
+                "targets": 1,
+                "potency": skill["dot_potency"],
+                "buffs": active_buffs,
+                "expire": current_time + skill["dot_duration"],
+                "has_potion": has_potion,
+                "guaranteed_crit": skill.get("dot_guaranteed_crit", False),
+                "guaranteed_dh": skill.get("dot_guaranteed_dh", False),
+            }
+            for tid in self._dot_target_ids(target_count, target_id)
+        ]
 
     def active_damage_buffs(self, t, target_id=None):
         enochian = self._has_enochian(t)

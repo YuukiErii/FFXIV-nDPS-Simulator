@@ -1,16 +1,16 @@
 .venv/
 .idea/
+.agents/
+.pytest_cache/
 __pycache__/
 *.py[cod]
 *$py.class
 
 # Local build/cache outputs
-artifacts/build/
-artifacts/cache/
-artifacts/calibration/
-artifacts/reference/
-artifacts/duplicates/
-artifacts/legacy_sam_binaries/
+artifacts/*
+!artifacts/specs/
+!artifacts/specs/**
+results/test_outputs/
 *.log
 
 # Frontend workspaces

@@ -59,7 +59,7 @@ class NinJobState(JobState):
         "Armor Crush", "Death Blossom", "Hakke Mujinsatsu",
     }
 
-    def __init__(self, version="7.2"):
+    def __init__(self, version="7.5"):
         super().__init__("NIN")
         self.version = version
         self.kassatsu_until = self.INACTIVE

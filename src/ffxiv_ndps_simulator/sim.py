@@ -82,9 +82,9 @@ SKILL_DB = {
     "阵风": {"cast": 0, "delay": 0.62, "potency": 300, "base_potency": 140, "combo_prev": ["晓风"],
              "grants": "fugetsu"},
     "士风": {"cast": 0, "delay": 0.80, "potency": 300, "base_potency": 140, "combo_prev": ["晓风"], "grants": "shifu"},
-    "月光": {"cast": 0, "delay": 0.76, "potency": 420, "base_potency": 200, "combo_prev": ["阵风"],
+    "月光": {"cast": 0, "delay": 0.76, "potency": 420, "base_potency": 210, "combo_prev": ["阵风"],
              "meikyo_grants": "fugetsu"},
-    "花车": {"cast": 0, "delay": 0.62, "potency": 420, "base_potency": 200, "combo_prev": ["士风"],
+    "花车": {"cast": 0, "delay": 0.62, "potency": 420, "base_potency": 210, "combo_prev": ["士风"],
              "meikyo_grants": "shifu"},
     "雪风": {"cast": 0, "delay": 0.85, "potency": 340, "base_potency": 160, "combo_prev": ["晓风"]},
     "彼岸花": {"cast": 1.3, "delay": 0.62, "potency": 200, "dot_potency": 50, "dot_duration": 60},
@@ -103,8 +103,8 @@ SKILL_DB = {
     "必杀剑·红莲": {"cast": 0, "delay": 0.62, "potency": 400, "is_aoe": True, "decay": 0},
     "天下五剑": {"cast": 1.3, "delay": 0.62, "potency": 300, "is_aoe": True, "decay": 0},
     "回返五剑": {"cast": 0, "delay": 0.62, "potency": 300, "is_aoe": True, "decay": 0},
-    "天道五剑": {"cast": 1.3, "delay": 0.62, "potency": 300, "is_aoe": True, "decay": 0},
-    "天道回返五剑": {"cast": 0, "delay": 0.62, "potency": 300, "is_aoe": True, "decay": 0},
+    "天道五剑": {"cast": 1.3, "delay": 0.62, "potency": 410, "is_aoe": True, "decay": 0},
+    "天道回返五剑": {"cast": 0, "delay": 0.62, "potency": 410, "is_aoe": True, "decay": 0},
     "照破": {"cast": 0, "delay": 0.58, "potency": 640, "is_aoe": True, "decay": 0.4},
     "残心": {"cast": 0, "delay": 1.03, "potency": 940, "is_aoe": True, "decay": 0.4},
     "明镜止水": {"cast": 0, "delay": 0, "potency": 0},
@@ -174,7 +174,12 @@ COMMON_SKILL_ALIASES = {
     "Thunder 4": "Thunder IV",
     "High Thunder 2": "High Thunder II",
     "Bootshine": "Leaping Opo",
+    "True Strike": "Rising Raptor",
+    "Snap Punch": "Pouncing Coeurl",
+    "Arm of the Destroyer": "Shadow of the Destroyer",
+    "Elixir Field": "Elixir Burst",
     "Flint Strike": "Rising Phoenix",
+    "Tornado Kick": "Phantom Rush",
     "Masterful Blitz": "Phantom Rush",
     "Dread Fangs": "Reaving Fangs",
     "Fester": "Necrotize",
@@ -205,9 +210,15 @@ GENERIC_ZERO_SKILL_REASONS = {
     "爆发药": "爆发药自身无直接伤害，但会影响后续伤害。",
     "Meditate": "武士资源/状态技能，当前不进入伤害统计。",
     "默想": "武士资源/状态技能，当前不进入伤害统计。",
+    "Toggle buff: Meditate": "排轴中的武士默想结束标记，当前不进入伤害统计。",
     "Pop Tengentsu": "武士状态触发标记，当前不进入伤害统计。",
     "天眼通生效": "武士状态触发标记，当前不进入伤害统计。",
     "+10 Soul Gauge": "排轴资源标记，当前不进入伤害统计。",
+    "Regress": "钐镰客位移返回技能，当前不进入伤害统计。",
+    "Pop Arcane Crest": "钐镰客神秘纹触发标记，当前不进入伤害统计。",
+    "Aetherial Manipulation": "黑魔法师位移技能，当前不进入伤害统计。",
+    "Between the Lines": "黑魔法师位移技能，当前不进入伤害统计。",
+    "Retrace": "黑魔法师位移技能，当前不进入伤害统计。",
 }
 
 POTION_KEYS = {_match_key(name) for name in (
@@ -364,7 +375,7 @@ def is_potion_skill_name(name, job=None):
 
 
 class SkillResolver:
-    def __init__(self, job="SAM", version="7.2"):
+    def __init__(self, job="SAM", version="7.5"):
         self.job = job
         self.version = version
         self.provider = get_amas_provider(version=version, level=100)
@@ -657,7 +668,7 @@ SELF_TEST_BASE_STATS = {
     "sks": 689,
     "wd": 158,
     "party_bonus": 1.05,
-    "version": "7.2",
+    "version": "7.5",
 }
 
 SELF_TEST_JOB_CSVS = {
@@ -670,7 +681,7 @@ SELF_TEST_JOB_CSVS = {
     "BRD": os.path.join("examples/skill_lines", "brd_xivintheshell_smoke", "brd_xivintheshell_smoke.csv"),
     "MCH": os.path.join("examples/skill_lines", "mch_xivintheshell_smoke", "mch_xivintheshell_smoke.csv"),
     "DNC": os.path.join("examples/skill_lines", "dnc_xivintheshell_smoke", "dnc_xivintheshell_smoke.csv"),
-    "BLM": os.path.join("examples/skill_lines", "sam_m9_m12s", "m10s_1b3.csv"),
+    "BLM": os.path.join("examples/skill_lines", "blm_m10s", "m10s_1b3.csv"),
     "SMN": os.path.join("examples/skill_lines", "smn_xivintheshell_smoke", "smn_xivintheshell_smoke.csv"),
     "RDM": os.path.join("examples/skill_lines", "rdm_xivintheshell_smoke", "rdm_xivintheshell_smoke.csv"),
     "PCT": os.path.join("examples/skill_lines", "pct_fru", "23_desaturation.csv"),
@@ -725,6 +736,7 @@ def _self_test_attach_target_counts(events, actions, job):
         sim_name = row["name"]
         target_count = 1
         target_source = "default"
+        target_ids = []
         if actions:
             for i in range(txt_idx, min(txt_idx + search_window, len(actions))):
                 item = actions[i]
@@ -732,13 +744,17 @@ def _self_test_attach_target_counts(events, actions, job):
                 if skill_names_match(raw_name, sim_name, txt_name, job):
                     if "targetList" in item:
                         target_count = len(item["targetList"])
+                        target_ids = list(item["targetList"])
                     else:
                         target_count = item.get("targetCount", 1)
+                        target_ids = []
                     txt_idx = i + 1
                     target_source = "txt"
                     break
         out = dict(row)
         out["targets"] = int(target_count)
+        if target_ids:
+            out["target_ids"] = target_ids
         out["target_source"] = target_source
         final.append(out)
     return final
@@ -910,7 +926,7 @@ class DpsSimulator:
         self.stats = dict(stats)
         self.job = self.stats.get('job', 'SAM')
         self.stats.setdefault('delay', DEFAULT_WEAPON_DELAYS.get(self.job, 2.64))
-        self.stats['version'] = str(self.stats.get('version', '7.2'))
+        self.stats['version'] = str(self.stats.get('version', '7.5'))
         stats = self.stats
         self.timeline_data = timeline_data
         self.custom_snaps = custom_snaps if custom_snaps else []
@@ -1028,11 +1044,15 @@ class DpsSimulator:
         active['dh_rate_add'] = dh_rate_add
         return active
 
-    @staticmethod
-    def effective_cast_time(skill, event):
+    def effective_cast_time(self, skill, event):
         if event and event.get('cast_time') is not None:
             return max(0.0, float(event.get('cast_time') or 0.0))
-        return skill.get('cast', 0)
+        cast = float(skill.get('cast', 0) or 0.0)
+        if cast <= 0:
+            return 0.0
+        time_ms = int(round(cast * 1000))
+        speed_term = math.ceil(130 * (self.lvl_sub - self.stats.get('sks', self.lvl_sub)) / self.lvl_div)
+        return int(1000 * (math.floor(time_ms * (1000 + speed_term) / 10000) / 100)) / 1000.0
 
     def run_one_simulation(self, is_first_run=False):
         pq = []
@@ -1091,7 +1111,7 @@ class DpsSimulator:
         total_hits_in_run = 0
 
         buffs = {}
-        job_state = create_job_state(self.job, self.stats.get('version', '7.2'))
+        job_state = create_job_state(self.job, self.stats.get('version', '7.5'))
         active_dots = [];
         casting_state = (-1, -1, -1);
         potion_active_until = -1.0
@@ -1133,7 +1153,9 @@ class DpsSimulator:
 
                 # 计算快照时间 (用于判定此时Boss是否在场)
                 # 读条技能看滑步点，瞬发技能看当前
-                cast_time = self.effective_cast_time(skill, payload)
+                cast_time = job_state.effective_cast_time(
+                    name, skill, payload, current_time, self.effective_cast_time(skill, payload)
+                )
                 snapshot_time = current_time
                 if cast_time > 0:
                     snapshot_time = current_time + cast_time - SLIDECAST_WINDOW
@@ -1212,11 +1234,12 @@ class DpsSimulator:
                     continue
 
                 if (job_state.allows_auto_attacks(self.job_profile)
+                        and job_state.allows_auto_attack_at(current_time)
                         and job_state.should_start_auto_attacks(name, skill, current_time)
-                        and not aa_running and not global_dt and current_time >= 0.0):
+                        and not aa_running and not global_dt):
                     aa_running = True;
-                    next_aa_timestamp = current_time
-                    push_sim_event(pq, current_time, SimEventType.AUTO_ATTACK_CHECK, tie_breaker, {'scheduled_time': current_time})
+                    next_aa_timestamp = max(0.0, current_time)
+                    push_sim_event(pq, next_aa_timestamp, SimEventType.AUTO_ATTACK_CHECK, tie_breaker, {'scheduled_time': next_aa_timestamp})
 
                 skill_buff = skill.get('buff')
                 if skill_buff and not skill.get('grants') and not job_state.handles_skill_buff(name, skill):
@@ -1233,7 +1256,7 @@ class DpsSimulator:
                             'crit': '-', 'dh': '-', 'dmg': '-', 'targets': 1
                         })
 
-                cast, delay = self.effective_cast_time(skill, payload), skill.get('delay', 0.5)
+                cast, delay = cast_time, skill.get('delay', 0.5)
                 hit_time = current_time + cast + delay
                 check_time = current_time
 
@@ -1261,9 +1284,11 @@ class DpsSimulator:
                     'meikyo': is_meikyo_proc,
                     'has_potion': is_potion,
                     'targets': target_count,
+                    'target_ids': payload.get('target_ids'),
                     'tid': target_id,
                     'row_no': payload.get('row_no'),
                     'is_gcd': payload.get('is_gcd'),
+                    'multi_boss_mode': self.multi_boss_mode,
                     **press_state,
                 })
 
@@ -1274,8 +1299,11 @@ class DpsSimulator:
                     {
                         **payload,
                         **press_state,
+                        'meikyo': is_meikyo_proc,
                         'tid': target_id,
                         'targets': target_count,
+                        'target_ids': payload.get('target_ids'),
+                        'multi_boss_mode': self.multi_boss_mode,
                     },
                 )
 
@@ -1287,6 +1315,8 @@ class DpsSimulator:
 
                 skill = self.get_skill(name)
                 job_state.set_event_context(payload)
+                if not job_state.should_resolve_damage(name, skill, current_time, payload):
+                    continue
                 skill_count_map[name] += 1
 
                 # --- 核心判定：出伤时刻是否上天 ---
@@ -1309,11 +1339,10 @@ class DpsSimulator:
                     skill_target_sum_map[name] += target_count
                     total_hits_in_run += 1
 
-                is_aoe_skill = skill.get('is_aoe', False);
-                decay_rate = skill.get('decay', 0.0)
                 step_total_damage = 0;
                 main_crit = False;
                 main_dh = False
+                crit_count = 0
 
                 active_buffs = self.get_active_damage_buffs(
                     buffs,
@@ -1322,6 +1351,8 @@ class DpsSimulator:
                     target_id=target_id,
                 )
                 potency, is_combo = job_state.resolve_potency(name, skill, current_time, payload)
+                is_aoe_skill = skill.get('is_aoe', False);
+                decay_rate = skill.get('decay', 0.0)
                 payload['damage_immune'] = is_damage_immune
 
                 # 如果没上天，计算伤害
@@ -1344,6 +1375,7 @@ class DpsSimulator:
                                                                         force_no_dh=payload.get('force_no_dh', False),
                                                                         job_mod_override=skill.get('job_mod_override'))
                         step_total_damage += (dmg_val * modifier)
+                        if is_c: crit_count += 1
                         if i == 0: main_crit = is_c; main_dh = is_d
 
                 # 如果上天了，step_total_damage 为 0
@@ -1357,6 +1389,7 @@ class DpsSimulator:
                 if main_crit and main_dh: skill_cdh_map[name] += 1
                 payload['source_roll_available'] = bool(potency > 0 and not is_damage_immune)
                 payload['source_crit'] = main_crit
+                payload['source_crit_count'] = crit_count
                 payload['source_dh'] = main_dh
 
                 # --- DoT 挂载 ---
@@ -1408,6 +1441,10 @@ class DpsSimulator:
                         'has_potion': has_potion,
                     }
                     followup_payload.update(followup)
+                    if followup_payload.get('snapshot_potion_now'):
+                        followup_payload['has_potion'] = (
+                            potion_active_until > current_time >= (potion_active_until - 30.0)
+                        )
                     followup_time = current_time + float(followup_payload.get('delay', 0.0) or 0.0)
                     simulation_end_time = max(simulation_end_time, followup_time)
                     if followup_payload.get('extends_duration', True):
@@ -1421,11 +1458,15 @@ class DpsSimulator:
                     )
 
             elif ev_type == SimEventType.FOLLOWUP_DAMAGE:
+                if not job_state.is_followup_active(payload, current_time):
+                    continue
                 name = payload['name']
                 potency = payload.get('potency', 0) or 0
                 target_count = int(payload.get('targets', 1))
                 target_id = payload.get('tid', 1)
                 has_potion = payload.get('has_potion', False)
+                if payload.get('snapshot_potion_at_followup'):
+                    has_potion = potion_active_until > current_time >= (potion_active_until - 30.0)
                 is_damage_immune = False
                 if self.multi_boss_mode:
                     if self.is_target_untargetable(current_time, target_id):
@@ -1446,6 +1487,12 @@ class DpsSimulator:
                     job_state=job_state,
                     target_id=target_id,
                 )
+                if "smn_searing_snapshot" in payload:
+                    snap = bool(payload["smn_searing_snapshot"])
+                    current = bool(active_buffs.get("smn_searing"))
+                    if snap != current:
+                        active_buffs["damage_mult"] *= 1.05 if snap else (1.0 / 1.05)
+                    active_buffs["smn_searing"] = snap
                 if not is_damage_immune:
                     skill_target_sum_map[name] += target_count
                     total_hits_in_run += 1
@@ -1453,6 +1500,7 @@ class DpsSimulator:
                         dmg_val, is_c, is_d = self.calculate_damage_val(
                             potency,
                             is_auto=False,
+                            is_dot=payload.get('is_dot', False),
                             active_buffs=active_buffs,
                             guaranteed_crit=payload.get('guaranteed_crit', False),
                             guaranteed_dh=payload.get('guaranteed_dh', False),
@@ -1489,6 +1537,9 @@ class DpsSimulator:
 
             elif ev_type == SimEventType.AUTO_ATTACK_CHECK:
                 if abs(payload['scheduled_time'] - next_aa_timestamp) > 0.0001: continue
+                if not job_state.allows_auto_attack_at(current_time):
+                    aa_running = False
+                    continue
                 if self.is_global_downtime(current_time):
                     aa_running = False;
                     continue
@@ -1496,6 +1547,8 @@ class DpsSimulator:
 
                 is_potion = (potion_active_until > current_time)
                 aa_buffs = self.get_active_damage_buffs(buffs, current_time, job_state=job_state, target_id=1)
+                if "auto_damage_mult" in aa_buffs:
+                    aa_buffs["damage_mult"] = aa_buffs["auto_damage_mult"]
                 push_sim_event(
                     pq,
                     current_time + AA_DELAY,
@@ -1514,6 +1567,8 @@ class DpsSimulator:
                 )
 
             elif ev_type == SimEventType.AUTO_ATTACK_DAMAGE:
+                if not job_state.allows_auto_attack_at(current_time):
+                    continue
                 if not self.is_global_downtime(current_time):
                     d = payload
                     skill_count_map['Auto Attack'] += 1;
@@ -2117,7 +2172,7 @@ class DpsSimulatorApp:
     def selected_game_version(self):
         entry = self.ents.get("游戏版本") if hasattr(self, "ents") else None
         if entry is None:
-            return "7.2"
+            return "7.5"
         try:
             return f"{float(entry.get()):g}"
         except ValueError:
@@ -2157,6 +2212,7 @@ class DpsSimulatorApp:
                 sim_name = row['name']
                 target_count = 1
                 target_source = "default"
+                target_ids = []
                 if txt_skills:
                     for i in range(txt_idx, min(txt_idx + search_window, max_txt)):
                         txt_item = txt_skills[i];
@@ -2166,6 +2222,7 @@ class DpsSimulatorApp:
                             if 'targetList' in txt_item:
                                 # 如果有 targetList，目标数 = 列表长度
                                 target_count = len(txt_item['targetList'])
+                                target_ids = list(txt_item['targetList'])
                             else:
                                 # 兼容旧格式
                                 target_count = txt_item.get('targetCount', 1)
@@ -2177,6 +2234,8 @@ class DpsSimulatorApp:
                             break
                 row = dict(row)
                 row['targets'] = int(target_count)
+                if target_ids:
+                    row['target_ids'] = target_ids
                 row['target_source'] = target_source
                 final_loaded.append(row)
             self.loaded = final_loaded
@@ -2492,7 +2551,7 @@ class DpsSimulatorApp:
             "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "app": APP_TITLE,
             "job": f"{sim.job_profile.name} ({sim.job})",
-            "game_version": str(sim.stats.get("version", "7.2/default")),
+            "game_version": str(sim.stats.get("version", "7.5/default")),
             "skill_data_source": provider,
             "sample_path": self.csv_path or "-",
             "target_source": self.target_source_label(),

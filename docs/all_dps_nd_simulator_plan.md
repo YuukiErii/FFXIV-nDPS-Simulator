@@ -1,6 +1,6 @@
 # All-DPS nDPS Simulator Plan
 
-Updated: 2026-06-29
+Updated: 2026-06-30
 
 This file remains the routing artifact for the all-DPS simulator plan. The original long plan was archived to `docs/archive/all_dps_nd_simulator_plan_2026_05_28.md`; the current consolidated status, evidence map, and folder policy now live in `docs/PROJECT_STATUS.md`.
 

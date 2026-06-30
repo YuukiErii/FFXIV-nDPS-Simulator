@@ -1,4 +1,5 @@
 from functools import lru_cache
+from decimal import Decimal
 
 
 def _forced_name(value):
@@ -103,7 +104,7 @@ def _buff_spec_to_dict(spec, name):
 
 
 class AmasSkillProvider:
-    def __init__(self, version="7.2", level=100):
+    def __init__(self, version="7.5", level=100):
         from ama_xiv_combat_sim.simulator.skills.create_skill_library import create_skill_library
 
         self.version = version
@@ -123,7 +124,7 @@ class AmasSkillProvider:
         if not self.has_skill(job, name):
             return None
         skill = self.library.get_skill(name, job)
-        timing = skill.timing_spec
+        timing = _select_spec(skill.timing_spec)
         main_spec = _select_spec(skill.damage_spec)
         no_combo_spec = _select_spec(skill.damage_spec, prefer_no_combo=True)
         direct_follow_spec, direct_follow_delay, direct_follow_skill = _select_direct_followup(skill.follow_up_skills)
@@ -146,7 +147,9 @@ class AmasSkillProvider:
             is_aoe = True
         out = {
             "cast": (getattr(timing, "base_cast_time", 0) or 0) / 1000.0 if timing else 0.0,
-            "delay": direct_follow_delay if direct_follow_delay is not None else (getattr(timing, "application_delay", 500) or 500) / 1000.0 if timing else 0.5,
+            "delay": direct_follow_delay if direct_follow_delay is not None else (
+                getattr(timing, "application_delay", 500) / 1000.0 if timing else 0.5
+            ),
             "potency": potency or 0,
             "base_potency": base_potency or potency or 0,
             "combo_prev": _combo_prev(skill.combo_spec),
@@ -178,11 +181,69 @@ class AmasSkillProvider:
                 out["dot_duration"] = dot_duration / 1000.0
                 out["dot_primary_only"] = bool(getattr(follow, "primary_target_only", True))
                 break
+        if job == "RPR" and Decimal(str(self.version)) >= Decimal("7.5"):
+            potency = {
+                "Gluttony": 560,
+                "Void Reaping": 580,
+                "Cross Reaping": 580,
+                "Sacrificium": 700,
+            }.get(name)
+            if potency is not None:
+                out["potency"] = out["base_potency"] = potency
+        if job == "DRG" and Decimal(str(self.version)) >= Decimal("7.5") and name == "Starcross":
+            out["potency"] = out["base_potency"] = 1000
+        if job == "VPR" and Decimal(str(self.version)) >= Decimal("7.5"):
+            potency = {
+                "Vicewinder": 540,
+                "Hunter's Coil": 680,
+                "Swiftskin's Coil": 680,
+            }.get(name)
+            if potency is not None:
+                out["potency"] = out["base_potency"] = potency
+            if name in {
+                "Reawaken", "First Generation", "Second Generation", "Third Generation",
+                "Fourth Generation", "Ouroboros", "First Legacy", "Second Legacy",
+                "Third Legacy", "Fourth Legacy",
+            }:
+                out["decay"] = 0.75
+        if job == "SMN" and Decimal(str(self.version)) >= Decimal("7.5"):
+            potency = {
+                "Painflare": 220,
+                "Ruby Rite": 620,
+                "Crimson Cyclone": 560,
+                "Crimson Strike": 560,
+                "Necrotize": 500,
+            }.get(name)
+            if potency is not None:
+                out["potency"] = out["base_potency"] = potency
+            if name in {"Summon Bahamut", "Summon Phoenix", "Summon Solar Bahamut"}:
+                out["delay"] = 0.76
+            pet_potency = {
+                "Wyrmwave": 120,
+                "Scarlet Flame": 120,
+                "Luxwave": 128,
+                "Akh Morn": 1040,
+                "Revelation": 1040,
+                "Exodus": 1200,
+            }.get(name)
+            if pet_potency is not None:
+                out["potency"] = out["base_potency"] = pet_potency
+                out["job_mod_override"] = None
+        if job == "PCT" and name in {"Blizzard in Cyan", "Blizzard II in Cyan"}:
+            out["is_aoe"] = name.endswith("II in Cyan")
+            out["decay"] = 0.0
+        if job == "BLM" and name in {"Thunder III", "Thunder IV", "High Thunder", "High Thunder II"}:
+            out["cast"] = 0.0
+        if job == "BLM" and name == "Scathe":
+            # ponytail: expected potency for the official 20% chance to double potency.
+            out["potency"] = out["base_potency"] = 120
+        if job == "MNK" and name == "Enlightenment":
+            out["is_gcd"] = False
         return out
 
 
 @lru_cache(maxsize=4)
-def get_amas_provider(version="7.2", level=100):
+def get_amas_provider(version="7.5", level=100):
     try:
         return AmasSkillProvider(version=version, level=level)
     except Exception:

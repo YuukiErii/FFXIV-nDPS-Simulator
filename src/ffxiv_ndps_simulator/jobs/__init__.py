@@ -31,6 +31,17 @@ except ImportError:
 
 
 MODELED_JOB_STATE_SKILLS = {
+    "SAM": {
+        "Gyofu", "Jinpu", "Shifu", "Gekko", "Kasha", "Yukikaze",
+        "Fuko", "Mangetsu", "Oka", "Enpi", "Higanbana", "Tenka Goken",
+        "Midare Setsugekka", "Tendo Goken", "Tendo Setsugekka",
+        "Kaeshi: Goken", "Kaeshi: Setsugekka", "Tendo Kaeshi Goken",
+        "Tendo Kaeshi Setsugekka", "Ogi Namikiri", "Kaeshi: Namikiri",
+        "Meikyo Shisui", "Meditate", "Toggle buff: Meditate", "Shoha",
+        "Hagakure", "Ikishoten", "Zanshin", "Hissatsu: Shinten",
+        "Hissatsu: Kyuten", "Hissatsu: Gyoten", "Hissatsu: Yaten",
+        "Hissatsu: Senei", "Hissatsu: Guren", "Pop Tengentsu",
+    },
     "NIN": {
         "Spinning Edge", "Gust Slash", "Aeolian Edge", "Armor Crush",
         "Throwing Dagger", "Death Blossom", "Hakke Mujinsatsu",
@@ -45,17 +56,30 @@ MODELED_JOB_STATE_SKILLS = {
         "Forked Raiju", "Fleeting Raiju", "Hollow Nozuchi", "True North",
     },
     "RPR": {
-        "Arcane Circle", "Enshroud", "Soulsow", "Gluttony", "Plentiful Harvest",
-        "Sacrificium", "Communio", "Perfectio", "Harvest Moon", "+10 Soul Gauge",
-        "Shadow of Death", "Whorl of Death",
+        "Arcane Circle", "Arcane Crest", "Pop Arcane Crest",
+        "Blood Stalk", "Unveiled Gibbet", "Unveiled Gallows", "Gluttony",
+        "Enshroud", "Void Reaping", "Cross Reaping", "Grim Reaping",
+        "Lemure's Slice", "Lemure's Scythe", "Sacrificium", "Communio",
+        "Perfectio", "Plentiful Harvest", "Harvest Moon", "Soulsow",
+        "Shadow of Death", "Whorl of Death", "Slice", "Waxing Slice",
+        "Infernal Slice", "Spinning Scythe", "Nightmare Scythe", "Harpe",
+        "Soul Slice", "Soul Scythe", "Gibbet", "Gallows", "Guillotine",
+        "Executioner's Gibbet", "Executioner's Gallows",
+        "Executioner's Guillotine", "Hell's Ingress", "Hell's Egress",
+        "Regress", "+10 Soul Gauge",
     },
     "PCT": {
+        "Fire in Red", "Aero in Green", "Water in Blue",
+        "Fire II in Red", "Aero II in Green", "Water II in Blue",
+        "Blizzard in Cyan", "Stone in Yellow", "Thunder in Magenta",
+        "Blizzard II in Cyan", "Stone II in Yellow", "Thunder II in Magenta",
+        "Holy in White", "Comet in Black",
         "Creature Motif", "Pom Motif", "Wing Motif", "Claw Motif", "Maw Motif",
         "Weapon Motif", "Hammer Motif", "Landscape Motif", "Starry Sky Motif",
         "Pom Muse", "Winged Muse", "Clawed Muse", "Fanged Muse", "Striking Muse",
         "Starry Muse", "Subtractive Palette", "Hyperphantasia", "Rainbow Drip",
         "Hammer Stamp", "Hammer Brush", "Polishing Hammer", "Mog of the Ages",
-        "Retribution of the Madeen", "Star Prism",
+        "Retribution of the Madeen", "Star Prism", "Swiftcast",
     },
     "BLM": {
         "Fire", "Fire III", "Fire 3", "Fire IV", "Fire 4",
@@ -68,24 +92,38 @@ MODELED_JOB_STATE_SKILLS = {
         "High Blizzard II", "Freeze",
     },
     "MNK": {
-        "Dragon Kick", "Bootshine", "Leaping Opo", "Twin Snakes", "Rising Raptor",
-        "Demolish", "Pouncing Coeurl", "Perfect Balance", "Masterful Blitz",
-        "Elixir Field", "Flint Strike", "Rising Phoenix", "Phantom Rush",
-        "Riddle of Fire", "Brotherhood", "Riddle of Wind", "Form Shift",
-        "The Forbidden Chakra", "Enlightenment", "Six-sided Star",
+        "Dragon Kick", "Bootshine", "Leaping Opo", "Twin Snakes", "True Strike",
+        "Rising Raptor", "Demolish", "Snap Punch", "Pouncing Coeurl",
+        "Arm of the Destroyer", "Shadow of the Destroyer", "Four-point Fury",
+        "Rockbreaker", "Perfect Balance", "Form Shift", "Masterful Blitz",
+        "Elixir Field", "Elixir Burst", "Celestial Revolution", "Flint Strike",
+        "Rising Phoenix", "Tornado Kick", "Phantom Rush", "Riddle of Fire",
+        "Fire's Reply", "Brotherhood", "Riddle of Wind", "Wind's Reply",
+        "Steeled Meditation", "Inspirited Meditation", "Forbidden Meditation",
+        "Enlightened Meditation", "The Forbidden Chakra", "Enlightenment",
+        "Six-sided Star",
     },
     "DRG": {
         "Life Surge", "Lance Charge", "Battle Litany", "Geirskogul", "Nastrond",
         "Stardiver", "Starcross", "High Jump", "Mirage Dive", "Dragonfire Dive",
-        "Wyrmwind Thrust", "Rise of the Dragon", "Chaotic Spring", "Heavens' Thrust",
+        "Wyrmwind Thrust", "Rise of the Dragon", "True Thrust", "Raiden Thrust",
+        "Draconian Fury", "Doom Spike", "Sonic Thrust", "Chaotic Spring", "Heavens' Thrust",
         "Fang and Claw", "Wheeling Thrust", "Drakesbane", "Coerthan Torment",
     },
     "VPR": {
-        "Steel Fangs", "Dread Fangs", "Hunter's Sting", "Swiftskin's Sting",
-        "Hunter's Coil", "Swiftskin's Coil", "Reawaken", "First Generation",
-        "Second Generation", "Third Generation", "Fourth Generation", "First Legacy",
-        "Second Legacy", "Third Legacy", "Fourth Legacy", "Uncoiled Fury",
-        "Twinfang", "Twinblood", "Serpent's Ire", "Vicewinder", "Vicepit",
+        "Steel Fangs", "Reaving Fangs", "Dread Fangs", "Writhing Snap",
+        "Hunter's Sting", "Swiftskin's Sting", "Flanksting Strike", "Flanksbane Fang",
+        "Hindsting Strike", "Hindsbane Fang", "Death Rattle",
+        "Steel Maw", "Reaving Maw", "Hunter's Bite", "Swiftskin's Bite",
+        "Jagged Maw", "Bloodied Maw", "Last Lash",
+        "Vicewinder", "Hunter's Coil", "Swiftskin's Coil",
+        "Vicepit", "Hunter's Den", "Swiftskin's Den",
+        "Twinfang", "Twinblood", "Twinfang Bite", "Twinblood Bite",
+        "Twinfang Thresh", "Twinblood Thresh", "Uncoiled Fury",
+        "Uncoiled Twinfang", "Uncoiled Twinblood", "Serpent's Ire",
+        "Reawaken", "First Generation", "Second Generation", "Third Generation",
+        "Fourth Generation", "Ouroboros", "First Legacy", "Second Legacy",
+        "Third Legacy", "Fourth Legacy",
     },
     "BRD": {
         "Caustic Bite", "Stormbite", "Iron Jaws", "Raging Strikes", "Barrage",
@@ -110,17 +148,24 @@ MODELED_JOB_STATE_SKILLS = {
     "SMN": {
         "Summon Bahamut", "Summon Phoenix", "Summon Solar Bahamut",
         "Summon Ifrit", "Summon Ifrit II", "Summon Titan", "Summon Titan II",
-        "Summon Garuda", "Summon Garuda II", "Deathflare", "Akh Morn",
+        "Summon Garuda", "Summon Garuda II",
+        "Astral Impulse", "Astral Flare", "Deathflare", "Akh Morn",
+        "Fountain of Fire", "Brand of Purgatory", "Rekindle", "Revelation",
+        "Umbral Impulse", "Umbral Flare", "Sunflare", "Lux Solaris", "Exodus",
         "Enkindle Bahamut", "Enkindle Phoenix", "Enkindle Solar Bahamut",
-        "Searing Light", "Energy Drain", "Energy Siphon", "Fester", "Painflare",
-        "Slipstream", "Crimson Cyclone", "Crimson Strike", "Mountain Buster",
-        "Ruin IV", "Astral Flow",
+        "Ruby Rite", "Ruby Catastrophe", "Topaz Rite", "Topaz Catastrophe",
+        "Emerald Rite", "Emerald Catastrophe", "Slipstream",
+        "Crimson Cyclone", "Crimson Strike", "Mountain Buster",
+        "Searing Light", "Searing Flash", "Energy Drain", "Energy Siphon",
+        "Fester", "Necrotize", "Painflare", "Ruin IV", "Astral Flow", "Swiftcast",
     },
     "RDM": {
-        "Dualcast", "Acceleration", "Embolden", "Manafication",
-        "Jolt III", "Verthunder III", "Veraero III", "Verfire", "Verstone",
+        "Dualcast", "Swiftcast", "Acceleration", "Embolden", "Manafication",
+        "Jolt III", "Verthunder II", "Veraero II", "Verthunder III", "Veraero III",
+        "Verfire", "Verstone", "Impact", "Grand Impact",
         "Enchanted Riposte", "Enchanted Zwerchhau", "Enchanted Redoublement",
-        "Enchanted Moulinet", "Verholy", "Verflare", "Scorch", "Resolution",
+        "Enchanted Moulinet", "Enchanted Moulinet Deux", "Enchanted Moulinet Trois",
+        "Enchanted Reprise", "Verholy", "Verflare", "Scorch", "Resolution",
         "Vice of Thorns", "Prefulgence",
     },
 }
@@ -142,7 +187,7 @@ MODELED_FOLLOWUP_SKILLS = {
 }
 
 
-def create_job_state(job, version="7.2"):
+def create_job_state(job, version="7.5"):
     if job == "SAM":
         return SamJobState()
     if job == "NIN":

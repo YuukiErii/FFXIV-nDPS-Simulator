@@ -31,14 +31,14 @@ JOB_INTERPRETATION = {
     ),
     "VPR": (
         "This is the cleanest long-axis comparison. Direct VPR actions match; remaining rows are auto-attack count "
-        "drift plus utility / movement / tincture rows. The one resource warning marks a Rattling Coil assumption "
-        "for Uncoiled Fury."
+        "drift plus utility / movement / tincture rows; the current retained long axis has no resource warnings."
     ),
     "BRD": (
         "Direct attacks mostly exist. Caustic Bite / Stormbite / Iron Jaws DoT tick counts now match the external "
-        "damage rows, and later Iron Jaws presses without both DoTs active surface resource warnings instead of "
-        "refreshing phantom DoTs. Remaining checks are count deltas on Apex Arrow / Radiant Encore and auto-attack "
-        "timing."
+        "damage rows. Later Iron Jaws presses with neither Caustic Bite nor Stormbite active surface resource "
+        "warnings instead of refreshing phantom DoTs. Song buffs, Coda / Radiant Finale, Pitch Perfect, Barrage, "
+        "Apex / Blast Arrow, Resonant Arrow, and Radiant Encore are handled by the BRD state machine; remaining "
+        "checks are count deltas on Apex Arrow / Radiant Encore and auto-attack timing."
     ),
     "MCH": (
         "Main weaponskills are present. Automaton Queen now emits Armpunch / Pilebunker / Crowned Collider as "
@@ -49,7 +49,8 @@ JOB_INTERPRETATION = {
     "DNC": (
         "Most direct skills are present and dance-step rows are expected utility. Finishing Move lacks an external "
         "damage key in this export, and Fan Dance / Last Dance / Starfall Dance count deltas need xivintheshell review. "
-        "Fan Dance and Saber Dance warning rows document proc / Esprit assumptions in the manual axis."
+        "Triggered dance/proc actions present in the axis are treated as already ready, so the current retained long "
+        "axis has no DNC resource warnings."
     ),
     "SMN": (
         "SMN pet and demi generated rows are now attributed to explicit follow-up names, and Slipstream ticks are "

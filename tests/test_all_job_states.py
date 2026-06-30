@@ -195,7 +195,7 @@ class AllJobStateTests(unittest.TestCase):
         midare = resolver.get("Midare Setsugekka")
         ogi = resolver.get("Ogi Namikiri")
 
-        self.assertEqual(gekko["base_potency"], 200)
+        self.assertEqual(gekko["base_potency"], 210)
         self.assertEqual(gekko["meikyo_grants"], "fugetsu")
         self.assertEqual(midare["potency"], 680)
         self.assertEqual(ogi["decay"], 0.4)
@@ -247,13 +247,90 @@ class AllJobStateTests(unittest.TestCase):
         self.assertNotIn("sam_meditation_low", codes)
 
     def test_sam_meditate_ticks_feed_warning_ledger(self):
+        resolver = SkillResolver("SAM")
+        toggle = resolver.get("Toggle buff: Meditate")
+        self.assertIsNotNone(toggle)
+
         state = SamJobState()
         state.on_press("默想", {"potency": 0}, 0.0, 0.0)
         state.on_press_complete("默想", 0.0)
-        state.on_press("晓风", {"amas_name": "Gyofu", "potency": 240}, 6.7, 6.7)
+        state.on_press("Toggle buff: Meditate", toggle, 7.15, 7.15)
+        state.on_press("晓风", {"amas_name": "Gyofu", "potency": 240}, 30.0, 30.0)
 
         self.assertEqual(state.meditation_stacks, 2)
         self.assertEqual(state.kenki, 20)
+
+    def test_sam_75_potencies_kenki_and_ready_states(self):
+        resolver = SkillResolver("SAM", "7.5")
+        if resolver.provider is None:
+            self.skipTest("AMAS skill provider is unavailable")
+
+        self.assertEqual(resolver.get("Gekko")["base_potency"], 210)
+        self.assertEqual(resolver.get("Tendo Goken")["potency"], 410)
+        self.assertEqual(resolver.get("Tendo Kaeshi Goken")["potency"], 410)
+
+        state = SamJobState()
+
+        def use(name, current_time):
+            skill = resolver.get(name)
+            state.set_event_context({})
+            press_state = state.on_press(name, skill, current_time, current_time)
+            payload = {"tid": 1, "targets": 1, "is_gcd": skill.get("is_gcd"), **press_state}
+            state.on_press_confirmed(name, skill, current_time, payload)
+            potency, is_combo = state.resolve_potency(name, skill, current_time, payload)
+            state.on_damage_resolved(name, skill, current_time, is_combo, payload)
+            return potency
+
+        state.kenki = 100
+        use("Hissatsu: Shinten", 0.0)
+        use("Hissatsu: Kyuten", 0.1)
+        self.assertEqual(state.kenki, 50)
+
+        state.combo_action = "Gyofu"
+        state.combo_time = 0.0
+        use("Yukikaze", 1.0)
+        use("Enpi", 2.0)
+        self.assertEqual(state.kenki, 75)
+
+        state.kenki = 0
+        state.sen = {"setsu", "getsu", "ka"}
+        use("Hagakure", 3.0)
+        use("Pop Tengentsu", 3.1)
+        self.assertEqual(state.kenki, 40)
+        self.assertEqual(state.sen, set())
+
+        use("Ikishoten", 4.0)
+        use("Ogi Namikiri", 4.1)
+        use("Zanshin", 4.2)
+        self.assertEqual(state.kenki, 40)
+
+        use("Meikyo Shisui", 5.0)
+        state.sen = {"setsu", "getsu"}
+        use("Tendo Goken", 5.1)
+        use("Tendo Kaeshi Goken", 5.2)
+        self.assertFalse(state.get_resource_warnings())
+
+    def test_sam_fuka_reduces_implicit_cast_time(self):
+        resolver = SkillResolver("SAM", "7.5")
+        if resolver.provider is None:
+            self.skipTest("AMAS skill provider is unavailable")
+
+        stats = dict(BASE_STATS, job="SAM")
+        sim = DpsSimulator(stats, [], iterations=1)
+        midare = resolver.get("Midare Setsugekka")
+        speed_cast = sim.effective_cast_time(midare, {})
+        state = SamJobState()
+        state.shifu_until = 30.0
+
+        self.assertEqual(speed_cast, 1.28)
+        self.assertAlmostEqual(
+            state.effective_cast_time("Midare Setsugekka", midare, {}, 1.0, speed_cast),
+            1.1136,
+        )
+        self.assertEqual(
+            state.effective_cast_time("Midare Setsugekka", midare, {"cast_time": 1.3}, 1.0, 1.3),
+            1.3,
+        )
 
     def test_generic_combo_state_ignores_ogcd_damage(self):
         state = JobState("TEST")
@@ -409,8 +486,8 @@ class AllJobStateTests(unittest.TestCase):
             "DNC": [row(0.0, "Standard Finish", 112)],
             "BLM": [row(0.0, "Fire IV", 113)],
             "SMN": [row(0.0, "Ruby Rite", 114), row(2.5, "Necrotize", 115)],
-            "RDM": [row(0.0, "Enchanted Riposte", 116), row(2.5, "Enchanted Zwerchhau", 117), row(5.0, "Enchanted Redoublement", 118)],
-            "PCT": [row(0.0, "Pom Muse", 119)],
+            "RDM": [row(0.0, "Prefulgence", 116)],
+            "PCT": [row(0.0, "Fanged Muse", 119)],
         }
         for job, timeline in cases.items():
             with self.subTest(job=job):

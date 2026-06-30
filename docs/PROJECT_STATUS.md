@@ -1,6 +1,6 @@
 # FFXIV SIM Project Status
 
-Updated: 2026-06-29
+Updated: 2026-06-30
 
 This document is the active development status and evidence map for the FFXIV SIM workspace. It consolidates the former roadmap, calibration matrix, Task I audit pointer, SAM regression audit pointer, filename migration notes, and the original Chinese user-facing draft into one readable control surface.
 
@@ -31,6 +31,8 @@ The original long implementation plan is archived at `docs/archive/all_dps_nd_si
 - Task K is closed: the maintained GUI entrypoint, report header, evidence levels, Markdown export, CSV detail export, and resource-warning surfacing are wired.
 - Task L is closed: source self-test, packaged simulator self-test, release packaging, and GitHub sync have been completed in prior release commits.
 - Task M remains future work: external party-buff timelines, teammate contribution accounting, and FFLogs-like strict nDPS are not part of the current MVP.
+- 2026-06-30 all-job regression gate passed for the current framework: 113 unit tests, skill coverage scan, xivintheshell comparison/audit regeneration, damage-formula smoke, and `git diff --check` completed without blocking errors. Remaining comparison rows are documented sample/export/timing boundaries rather than unmodeled skill-coverage gaps.
+- 2026-06-30 repository hygiene pass moved BLM-owned M10S samples out of the SAM archive, retired reproducible test outputs and unreferenced performance dumps, and made `artifacts/specs/` the only tracked `artifacts/` surface.
 
 ## Evidence Levels
 
@@ -51,15 +53,15 @@ Use these terms conservatively in code, docs, and reports:
 | NIN | `examples/skill_lines/nin_m12s_p2/nin_830.csv` | `mechanic_calibrated` | Seek real-log or independently audited numerical validation; the retained axis still has two intentional Ninki-overcap warnings. |
 | RPR | `examples/skill_lines/rpr_enuo/reaper.csv` | Historical long-axis import smoke | Compare Enshroud, Lemure/Void chains, Communio, Plentiful Harvest, and target attribution. |
 | PCT | `examples/skill_lines/pct_fru/23_desaturation.csv` | Historical FRU long-axis import smoke | Compare motif, muse, hammer, comet, creature follow-ups, and multi-target phases. |
-| BLM | `examples/skill_lines/sam_m9_m12s/sam_misc/suiyue_jiyu_9s.csv` | Historical long-axis import smoke | Move or alias BLM-owned samples, then compare Astral/Umbral state, Thunder ticks, and target counts. |
-| MNK | `examples/skill_lines/mnk_xivintheshell_long/mnk_xivintheshell_long.csv` | `xivintheshell_damage_compared` | Revisit Blitz/Fire's Reply attribution and auto-attack count drift with stronger evidence. |
+| BLM | `examples/skill_lines/blm_m10s/m10s_1b3.csv` | Historical long-axis import smoke | Compare Astral/Umbral state, Thunder ticks, cast timing, and target counts against an external damage export. |
+| MNK | `examples/skill_lines/mnk_xivintheshell_long/mnk_xivintheshell_long.csv` | `official_7_5_mechanics_checked`; `xivintheshell_damage_compared` | Form/Fury, Chakra, Perfect Balance/Beast Chakra/Nadi/Blitz, replies, and auto-attack haste are modeled; auto attacks now match 94/94. The retained manual axis still contains one expired Fire's Reply and one unready Masterful Blitz, both warning-only. |
 | DRG | `examples/skill_lines/drg_xivintheshell_long/drg_xivintheshell_long.csv` | `xivintheshell_damage_compared` | Revisit Life of the Dragon, jump follow-ups, Wyrmwind, and Chaotic Spring. |
-| VPR | `examples/skill_lines/vpr_xivintheshell_long/vpr_xivintheshell_long.csv` | `xivintheshell_damage_compared` | Revisit Generation/Legacy chains, Reawaken, and Serpent Offering flow. |
-| BRD | `examples/skill_lines/brd_xivintheshell_long/brd_xivintheshell_long.csv` | `xivintheshell_damage_compared` | Revisit song state, Repertoire, DoT snapshot/Iron Jaws, and Radiant Finale timing. |
-| MCH | `examples/skill_lines/mch_xivintheshell_long/mch_xivintheshell_long.csv` | `xivintheshell_damage_compared` | Keep Heat Blast marked as xivintheshell export gap until a positive-potency export exists. |
-| DNC | `examples/skill_lines/dnc_xivintheshell_long/dnc_xivintheshell_long.csv` | `xivintheshell_damage_compared` | Revisit dance resolution, Esprit, Flourish replacements, and dance-partner boundary. |
-| SMN | `examples/skill_lines/smn_xivintheshell_long/smn_xivintheshell_long.csv` | `xivintheshell_damage_compared` | Replace or support the mechanically loose manual axis; warning rows identify suspect summon/gem segments. |
-| RDM | `examples/skill_lines/rdm_xivintheshell_long/rdm_xivintheshell_long.csv` | `xivintheshell_damage_compared` | Revisit melee-combo mana spend, Verflare/Verholy chain, Embolden timing, and auto-attack windows. |
+| VPR | `examples/skill_lines/vpr_xivintheshell_long/vpr_xivintheshell_long.csv` | `official_7_5_mechanics_checked`; `xivintheshell_damage_compared` | Honed/venom potency, single-target and AoE combos, all three dualblade follow-up chains, Rattling Coil, Serpent Offering, Reawaken/Generation/Legacy/Ouroboros, Hunter's Instinct, Swiftscaled, positionals, and 7.5 falloff are modeled; seek real-log numerical validation next. |
+| BRD | `examples/skill_lines/brd_xivintheshell_long/brd_xivintheshell_long.csv` | `official_7_5_mechanics_checked`; `xivintheshell_damage_compared` | Songs and song buffs, Coda/Radiant Finale/Radiant Encore, Repertoire/Pitch Perfect, Barrage/Refulgent/Shadowbite, Soul Voice/Apex/Blast Arrow, Resonant Arrow, Army's Paeon haste, double DoT snapshotting, and Iron Jaws refresh behavior are modeled. Trigger/resource actions present in the axis are treated as already ready where the CSV lacks the hidden proc/resource detail. The retained long axis still has three expired-Iron-Jaws warnings plus Apex/Radiant Encore and auto-attack count boundaries from the external export. |
+| MCH | `examples/skill_lines/mch_xivintheshell_long/mch_xivintheshell_long.csv` | `official_7_5_mechanics_checked`; `xivintheshell_damage_compared` | Heat/Battery generation, Reassemble allowlist, Hypercharged, 5-stack Overheated with +20 single-target weaponskill potency, Barrel Stabilizer's Hypercharged + Full Metal Machinist grants, Excavator Ready, Full Metal Field CDH behavior, Wildfire counting with Detonator early resolution, Flamethrower's channeled physical-DoT ticks/cancel boundary, and Battery-scaled Queen follow-ups including Roller Dash are modeled. Retained xivintheshell comparison still marks Heat Blast/Roller Dash export-attribution gaps, one official-Detonator Wildfire count boundary in the retained axis, and auto-attack count drift. |
+| DNC | `examples/skill_lines/dnc_xivintheshell_long/dnc_xivintheshell_long.csv` | `official_7_5_mechanics_checked`; `xivintheshell_damage_compared` | Standard/Technical Finish potency and buff scaling, default full four-step Technical Finish, Devilment/Starfall, Flourish/Finishing Move/Fan Dance ready handling, Last Dance, Tillana +50 Esprit, Dance of the Dawn/Saber Dance spend behavior, self Esprit gain under dance buffs, and trigger skills present in an axis as already-ready actions are modeled. Retained xivintheshell comparison still has Finishing Move export attribution, Fan Dance/Last Dance/Starfall count deltas, and one auto-attack timing boundary; teammate dance-partner contribution remains Task M scope. |
+| SMN | `examples/skill_lines/smn_xivintheshell_long/smn_xivintheshell_long.csv` | `official_7_5_mechanics_checked`; `xivintheshell_damage_compared` | Demi cycle/actions/autos, elemental arcanum/attunement/favors, Aetherflow/Further Ruin, Searing Flash/Refulgent Lux, pet application timing, AoE falloff, snapshots, and the effective 0.8 pet coefficient are modeled. The retained manual axis has 15 warning-only invalid summon/gem rows; seek a mechanically valid real-log axis for final numerical validation. |
+| RDM | `examples/skill_lines/rdm_xivintheshell_long/rdm_xivintheshell_long.csv` | `official_7_5_mechanics_checked`; `xivintheshell_damage_compared` | Dualcast/Swiftcast/Acceleration cast overrides, exact black/white mana gains and costs, Mana Stack finishers, 7.5 Manafication/Magicked Swordplay, Thorned Flourish, Prefulgence Ready, Embolden, and retained caster auto-attack cadence are modeled; seek real-log numerical validation next. |
 
 ## Current Evidence Artifacts
 
@@ -87,8 +89,8 @@ Run the checks that match the layer touched. For documentation-only edits, markd
 ## Folder Policy
 
 - `docs/` keeps only active reading surfaces plus `docs/archive/` for historical reports.
-- `results/` is the canonical place for calibration and reproducible result evidence.
-- `artifacts/` is for specs, local build output, cache, reference checkouts, duplicates, and other non-primary generated material.
+- `results/calibration/` is the canonical tracked result surface. Reproducible test output belongs in ignored `results/test_outputs/`.
+- `artifacts/specs/` is tracked; every other `artifacts/` child is local build, cache, reference, staging, or scratch material and is ignored.
 - `examples/skill_lines/` stores sample axes, target sidecars, translated CSVs, and skill-line or merged timeline files.
 - `releases/windows/` stores user-facing binaries and short release notes.
 

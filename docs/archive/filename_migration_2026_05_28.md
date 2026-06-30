@@ -1,5 +1,7 @@
 # Filename Migration 2026-05-28
 
+This table records the 2026-05-28 intermediate migration. On 2026-06-30, BLM-owned M10S samples moved from `examples/skill_lines/sam_m9_m12s/` to `examples/skill_lines/blm_m10s/`; reproducible `results/test_outputs/` and unreferenced `artifacts/tmp_perf*` dumps were retired.
+
 | Old path | New path |
 | --- | --- |
 | `artifacts/specs/ffxiv_ndps_pyinstaller_spec/FFXIVPersonalNDPS.spec` | `artifacts/specs/ffxiv_ndps_pyinstaller_spec/ffxiv_personal_ndps.spec` |

@@ -67,15 +67,22 @@ def _attach_targets(events: list[dict], target_actions: list[dict], job: str) ->
         raw_name = row.get("raw_name", row["name"])
         target_count = 1
         target_source = "default"
+        target_ids = []
         for index in range(txt_idx, min(txt_idx + search_window, max_txt)):
             txt_item = target_actions[index]
             txt_name = txt_item.get("skillName", "")
             if skill_names_match(raw_name, row["name"], txt_name, job):
-                target_count = len(txt_item.get("targetList", [])) if "targetList" in txt_item else txt_item.get("targetCount", 1)
+                if "targetList" in txt_item:
+                    target_ids = list(txt_item.get("targetList", []))
+                    target_count = len(target_ids)
+                else:
+                    target_count = txt_item.get("targetCount", 1)
                 target_source = "txt"
                 txt_idx = index + 1
                 break
         row["targets"] = int(target_count)
+        if target_ids:
+            row["target_ids"] = target_ids
         row["target_source"] = target_source
         out.append(row)
     return out

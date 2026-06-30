@@ -15,6 +15,8 @@ releases/windows/xiv_shell_tts.exe
 releases/windows/ffxiv_personal_ndps.exe
 ```
 
+Tracked executables are release snapshots. The current development authority is `src/` plus `docs/PROJECT_STATUS.md`; rebuild the executables when publishing a new binary release.
+
 `xiv_shell_tts.exe` converts XIV in the Shell CSV exports into the old `TTS.py` txt format. It can also take an optional fight timeline txt and produce the old `MERGE.PY`-style merged timeline output.
 
 `ffxiv_personal_ndps.exe` opens the personal nDPS simulator GUI. It also supports `--self-test`, which verifies packaged resources, 13 DPS smoke CSVs, historical target-data samples, the formula layer, and the bundled `ama_xiv_combat_sim` dependency.
@@ -29,7 +31,7 @@ Folder layout:
 - `results/calibration/`: canonical calibration and comparison evidence.
 - `releases/windows/`: user-facing portable executables and short usage notes.
 - `docs/`: active manual/status docs plus archived historical reports.
-- `artifacts/specs/`: PyInstaller spec files. Build cache, reference checkouts, duplicates, and legacy binary staging stay under ignored `artifacts/` subfolders.
+- `artifacts/specs/`: the only tracked `artifacts/` surface; local build, cache, reference, and staging contents are ignored.
 
 Rebuild command:
 

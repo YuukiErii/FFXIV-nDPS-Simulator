@@ -1,5 +1,3 @@
 job,row_no,time,skill,code,severity,message
-MNK,16,11.27,The Forbidden Chakra,mnk_chakra_low,warning,The Forbidden Chakra used with Chakra 0; expected 5.
-MNK,20,15.773,The Forbidden Chakra,mnk_chakra_low,warning,The Forbidden Chakra used with Chakra 0; expected 5.
-MNK,23,19.037,The Forbidden Chakra,mnk_chakra_low,warning,The Forbidden Chakra used with Chakra 0; expected 5.
-MNK,41,68.92,The Forbidden Chakra,mnk_chakra_low,warning,The Forbidden Chakra used with Chakra 0; expected 5.
+MNK,52,137.715,Fire's Reply,mnk_fire_reply_not_ready,warning,Fire's Reply used without tracked Fire's Rumination.
+MNK,65,159.073,Masterful Blitz,mnk_blitz_not_ready,warning,Masterful Blitz used without three tracked Beast Chakra.
