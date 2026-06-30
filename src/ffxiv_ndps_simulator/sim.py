@@ -1182,22 +1182,21 @@ class DpsSimulator:
                         # else: 两个都不在，保持 target_id=1，后续逻辑会判定为无效
                     # else: T1 在场，保持 target_id=1 (主目标优先)
 
-                # --- 3. 最终有效性判定 ---
-                # 拿到最终的 target_id 后，再次检查该目标在快照点是否上天
-                # 如果是单模式，检查全局上天
-
                 is_buff_skill = (skill.get('potency', 0) == 0 and skill.get('dot_potency', 0) == 0)
                 is_snapshot_invalid = False
                 if not is_buff_skill and not job_state.can_activate_without_target(name, skill):
                     if self.multi_boss_mode:
-                        if self.is_target_untargetable(snapshot_time, target_id):
-                            is_snapshot_invalid = True
+                        is_snapshot_invalid = self.is_target_untargetable(snapshot_time, target_id)
                     else:
-                        if self.is_global_downtime(snapshot_time):
-                            is_snapshot_invalid = True
+                        is_snapshot_invalid = self.is_global_downtime(snapshot_time)
 
-                # 如果判定无效（没打出去/读条中断），记录日志并跳过
                 if is_snapshot_invalid:
+                    job_state.warn(
+                        "target_untargetable_at_press",
+                        current_time,
+                        name,
+                        f"{name} pressed while T{target_id} is untargetable at {snapshot_time:.3f}s.",
+                    )
                     if is_first_run:
                         combat_log.append({
                             'time': current_time, 'name': name, 'potency': '-',
@@ -1206,7 +1205,6 @@ class DpsSimulator:
                         })
                     continue
 
-                    # --- 4. 技能成功释放 (入队后续事件) ---
                 if is_potion_skill_name(name, self.job):
                     job_state.on_press_confirmed(
                         name,

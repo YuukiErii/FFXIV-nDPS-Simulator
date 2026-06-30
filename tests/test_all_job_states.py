@@ -145,6 +145,57 @@ class AllJobStateTests(unittest.TestCase):
         self.assertAlmostEqual(last_hit, expected_last_hit, places=6)
         self.assertEqual(counts["晓风"], 1)
 
+    def test_target_damage_pressed_during_downtime_warns_and_does_not_resolve(self):
+        stats = dict(BASE_STATS, job="SAM", version="7.5", party_bonus=1.05)
+        skill_name = "\u6653\u98ce"
+        sim = DpsSimulator(
+            stats,
+            [{"time": 0.05, "name": skill_name, "targets": 1}],
+            iterations=1,
+            global_downtime_list=[(0.0, 0.1)],
+        )
+
+        with patch.object(random, "random", return_value=1.0), patch.object(
+                random, "uniform", side_effect=lambda low, high: (low + high) / 2):
+            result = sim.run_one_simulation(is_first_run=True)
+
+        total, _last_hit, damage, counts = result[:4]
+        log = result[8]
+        warnings = result[-1]
+
+        self.assertEqual(total, 0)
+        self.assertEqual(counts[skill_name], 0)
+        self.assertEqual(damage[skill_name], 0)
+        self.assertEqual(log[0]["buffs"], "Interrupted")
+        self.assertEqual(warnings[0]["code"], "target_untargetable_at_press")
+
+    def test_targetless_aoe_pressed_during_downtime_uses_damage_application_time(self):
+        stats = dict(BASE_STATS, job="VPR", version="7.5", party_bonus=1.05)
+        skill_name = "Steel Maw"
+        sim = DpsSimulator(
+            stats,
+            [{"time": 0.05, "name": skill_name, "targets": 1}],
+            iterations=1,
+            global_downtime_list=[(0.0, 0.1)],
+        )
+        skill = sim.get_skill(skill_name)
+
+        with patch.object(random, "random", return_value=1.0), patch.object(
+                random, "uniform", side_effect=lambda low, high: (low + high) / 2):
+            result = sim.run_one_simulation(is_first_run=True)
+
+        total, last_hit, damage, counts = result[:4]
+        log = result[8]
+        warnings = result[-1]
+
+        self.assertAlmostEqual(last_hit, 0.05 + skill["delay"], places=6)
+        self.assertGreater(total, 0)
+        self.assertEqual(counts[skill_name], 1)
+        self.assertGreater(damage[skill_name], 0)
+        self.assertAlmostEqual(log[0]["time"], 0.05 + skill["delay"], places=6)
+        self.assertNotIn("\u514d\u75ab", str(log[0]["dmg"]))
+        self.assertNotIn("target_untargetable_at_press", {warning["code"] for warning in warnings})
+
     def test_all_dps_jobs_have_specific_state_classes(self):
         for job in JOB_SMOKE_TIMELINES:
             with self.subTest(job=job):
@@ -263,7 +314,13 @@ class AllJobStateTests(unittest.TestCase):
     def test_xivintheshell_application_delay_overrides_are_applied(self):
         cases = {
             "SAM": {"Tendo Goken": 0.36, "Tendo Kaeshi Goken": 0.36},
+            "MNK": {"Six-sided Star": 0.62, "The Forbidden Chakra": 1.48},
+            "NIN": {"Huton": 0.98},
+            "VPR": {"Hunter's Sting": 0.89, "Swiftskin's Den": 0.999, "Vicepit": 0.827},
+            "MCH": {"Flamethrower": 0.89, "Full Metal Field": 1.02},
             "DNC": {"Dance of the Dawn": 0.44},
+            "BLM": {"Fire IV": 1.159, "Blizzard IV": 1.156, "Despair": 0.556},
+            "SMN": {"Topaz Rite": 0.62},
             "RDM": {"Riposte": 0.62},
         }
 
