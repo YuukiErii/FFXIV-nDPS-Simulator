@@ -117,6 +117,12 @@ class AllJobStateTests(unittest.TestCase):
         self.assertTrue(result["metadata"]["target_path"].endswith("2.17.txt"))
         self.assertTrue(result["metadata"]["downtime_track_path"].endswith("track_untargetable.txt"))
         self.assertGreater(result["summary"]["expected_dps"], 0)
+        self.assertIn("skill_data_source", result["metadata"])
+        self.assertIn("crit_rate", result["panel"])
+        self.assertGreater(len(result["skills"]), 0)
+        self.assertGreater(len(result["best_run"]), 0)
+        self.assertGreater(len(result["intervals"]), 0)
+        self.assertGreater(len(result["combat_log"]), 0)
 
     def test_all_dps_jobs_have_specific_state_classes(self):
         for job in JOB_SMOKE_TIMELINES:

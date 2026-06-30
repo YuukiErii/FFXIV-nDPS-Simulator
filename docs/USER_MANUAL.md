@@ -81,7 +81,7 @@ In desktop mode, `npm run desktop` builds the UI and opens Electron. Electron ke
 .\scripts\run_ndps_simulation.py
 ```
 
-The desktop bridge sends the selected axis path, optional target path, optional untargetable-track path, selected job, stat fields, and simulation options to Python, then renders the returned summary, timeline, coverage, and warnings.
+The desktop bridge sends the selected axis path, optional target path, optional untargetable-track path, selected job, stat fields, and simulation options to Python, then renders the full report view: evidence boundary, input metadata, panel stats, result extrema, resource warnings, skill DPS, best-run breakdown, interval RD, distribution, coverage, and combat log.
 
 Current boundary: the modern UI is the preferred visual direction, but the packaged `ffxiv_personal_ndps.exe` remains the stable release surface. Treat the modern UI as the polished desktop track while the Python simulator remains the source of calculation truth.
 
@@ -142,7 +142,7 @@ TTS converter outputs are usually written next to the input CSV:
 - TTS skill-line text
 - optional merged timeline text
 
-Modern UI snapshot export writes `ndps-ui-snapshot.json` from the browser. Desktop simulation results are displayed in the UI and are produced by the Python JSON bridge.
+Modern UI snapshot export writes `ndps-ui-snapshot.json` from the browser. Desktop simulation results are displayed in the UI and are produced by the Python JSON bridge. The Report tab mirrors the stable simulator report surfaces for normal inspection without exporting first.
 
 ## Evidence Boundaries
 

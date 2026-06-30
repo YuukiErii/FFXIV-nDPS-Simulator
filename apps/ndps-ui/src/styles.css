@@ -432,7 +432,7 @@ h2 {
 
 .panel-surface {
   min-height: 410px;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .error-banner {
@@ -638,6 +638,109 @@ h2 {
   white-space: nowrap;
 }
 
+.report-view {
+  display: grid;
+  gap: 18px;
+  padding: 16px;
+}
+
+.report-section {
+  display: grid;
+  gap: 12px;
+  border-bottom: 1px solid #302d27;
+  padding-bottom: 18px;
+}
+
+.report-section:last-child {
+  border-bottom: 0;
+}
+
+.report-section h3 {
+  margin: 0;
+  color: #f4f0e8;
+  font-size: 1rem;
+}
+
+.definition-text {
+  max-width: 1100px;
+  margin: 0;
+  color: #bdb5a8;
+  line-height: 1.55;
+}
+
+.kv-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kv-row {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  border-bottom: 1px solid #2b2924;
+  padding: 8px 0;
+}
+
+.kv-row span {
+  color: #9d998f;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.kv-row strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #f4f0e8;
+  font-size: 0.9rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.report-table-wrap {
+  overflow-x: auto;
+}
+
+.report-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  color: #d8d1c5;
+  font-size: 0.84rem;
+}
+
+.report-table th,
+.report-table td {
+  border-bottom: 1px solid #2b2924;
+  padding: 9px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-table th {
+  background: #201f1b;
+  color: #bdb5a8;
+  font-size: 0.73rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.report-table td {
+  max-width: 320px;
+  overflow-wrap: anywhere;
+}
+
+.skills-report-table,
+.combat-report-table,
+.coverage-report-table {
+  min-width: 1100px;
+}
+
+.warnings-report-table {
+  min-width: 900px;
+}
+
 @media (max-width: 1100px) {
   .app-shell {
     grid-template-columns: 1fr;
@@ -652,6 +755,10 @@ h2 {
   .file-strip,
   .results-grid {
     grid-template-columns: 1fr;
+  }
+
+  .kv-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   h2 {
@@ -673,6 +780,10 @@ h2 {
   .tabbar {
     overflow-x: auto;
     padding-bottom: 4px;
+  }
+
+  .kv-grid {
+    grid-template-columns: 1fr;
   }
 
   .table-row,

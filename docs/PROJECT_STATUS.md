@@ -35,6 +35,7 @@ The original long implementation plan is archived at `docs/archive/all_dps_nd_si
 - 2026-06-30 repository hygiene pass moved BLM-owned M10S samples out of the SAM archive, retired reproducible test outputs and unreferenced performance dumps, and made `artifacts/specs/` the only tracked `artifacts/` surface.
 - 2026-06-30 stable and modern Windows packages were rebuilt from the current source. The stable EXE passed its packaged 13-job self-test; the modern package passed packaged-backend simulation and Electron launch smoke checks.
 - 2026-07-01 raid-planner `MarkerTrackIndividual` untargetable TXT files can be imported as global downtime through a dedicated modern UI Track TXT slot, so target metadata and untargetable windows can be submitted together. Source tests, SAM DMU import scan, stable packaged self-test, and packaged modern backend marker-track smoke checks passed.
+- 2026-07-01 modern UI report parity pass added stable-report surfaces to the packaged desktop track: evidence, inputs, panel stats, result extrema, warnings, skill DPS, best run, interval RD, distribution, coverage, and combat log are visible after a run.
 
 ## Evidence Levels
 

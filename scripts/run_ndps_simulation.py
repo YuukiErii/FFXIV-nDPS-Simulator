@@ -10,6 +10,7 @@ import random
 import statistics
 import sys
 from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
 
 
@@ -19,8 +20,10 @@ if str(SIM_SRC) not in sys.path:
     sys.path.insert(0, str(SIM_SRC))
 
 from sim import (  # noqa: E402
+    APP_TITLE,
     DpsSimulator,
     JOB_PROFILES,
+    PERSONAL_NDPS_DEFINITION,
     SkillResolver,
     build_skill_coverage,
     normalize_skill_name_for_job,
@@ -231,6 +234,83 @@ def _skill_rows(stats_pkg: dict, sim: DpsSimulator, iterations: int) -> list[dic
     return rows
 
 
+def _total_skill_row(stats_pkg: dict, mean_dps: float, std_dps: float, iterations: int) -> dict:
+    total_hits = stats_pkg.get("total_hits_list", [])
+    return {
+        "skill": "--- TOTAL ---",
+        "avg_cast_count": round(statistics.mean(total_hits), 3) if total_hits else 0.0,
+        "std_cast_count": round(statistics.stdev(total_hits), 3) if len(total_hits) > 1 else 0.0,
+        "avg_hits_per_cast": 0.0,
+        "avg_dps": round(mean_dps, 6),
+        "std_dps": round(std_dps if iterations > 1 else 0.0, 6),
+        "total_hit_events": int(sum(total_hits)) if total_hits else 0,
+        "crit_percent": 0.0,
+        "direct_hit_percent": 0.0,
+        "crit_direct_percent": 0.0,
+        "known_skill": True,
+    }
+
+
+def _best_run_rows(stats_pkg: dict, sim: DpsSimulator) -> list[dict]:
+    best = stats_pkg.get("best_run") or {}
+    if not best:
+        return []
+    rows = []
+    for skill in sorted(best["dmg"].keys(), key=lambda item: best["dmg"][item], reverse=True):
+        count = best["count"][skill]
+        if count <= 0:
+            continue
+        skill_data = sim.get_skill(skill)
+        is_damage = skill_data is None or skill_data.get("potency", 0) > 0 or skill_data.get("dot_potency", 0) > 0
+        rows.append(
+            {
+                "skill": skill,
+                "count": int(count),
+                "hits": int(best["targets"][skill]),
+                "damage": round(best["dmg"][skill], 3),
+                "crit_percent": round(best["crit"][skill] / count * 100, 3) if is_damage else None,
+                "direct_hit_percent": round(best["dh"][skill] / count * 100, 3) if is_damage else None,
+                "crit_direct_percent": round(best["cdh"][skill] / count * 100, 3) if is_damage else None,
+            }
+        )
+    return rows
+
+
+def _interval_rows(stats_pkg: dict, sim: DpsSimulator) -> list[dict]:
+    rows = []
+    for time_point in sorted((stats_pkg.get("interval_data") or {}).keys()):
+        damages = stats_pkg["interval_data"][time_point]
+        if not damages:
+            continue
+        effective_duration = sim.get_effective_duration(time_point)
+        rds = [damage / effective_duration for damage in damages]
+        mean_rd = statistics.mean(rds)
+        std_rd = statistics.stdev(rds) if len(rds) > 1 else 0.0
+        rows.append(
+            {
+                "time": float(time_point),
+                "effective_duration": round(effective_duration, 6),
+                "mean_rd": round(mean_rd, 6),
+                "std_rd": round(std_rd, 6),
+                "max_rd": round(max(rds), 6),
+                "top_1": round(mean_rd + 2.326 * std_rd, 6),
+                "top_0_1": round(mean_rd + 3.09 * std_rd, 6),
+            }
+        )
+    return rows
+
+
+def _high_run_rows(stats_pkg: dict) -> list[dict]:
+    return [
+        {"run_id": int(run_id), "rd": round(item["rd"], 6), "duration": round(item["dur"], 6)}
+        for run_id, item in sorted(
+            (stats_pkg.get("high_rd_runs") or {}).items(),
+            key=lambda pair: pair[1]["rd"],
+            reverse=True,
+        )
+    ]
+
+
 def _distribution(values: list[float], step: int = 100) -> list[dict]:
     if not values:
         return []
@@ -259,6 +339,38 @@ def _json_safe(value):
     if isinstance(value, dict):
         return {str(key): _json_safe(item) for key, item in value.items()}
     return value
+
+
+def _target_source_label(target_path: Path | None, coverage: dict) -> str:
+    if target_path:
+        return f"{target_path.name} (TXT/JSON target list)"
+    stats = coverage.get("stats", {})
+    default_events = int(stats.get("default_target_events", 0) or 0)
+    total_events = int(stats.get("total_events", 0) or 0)
+    if default_events:
+        return f"default target=1 for {default_events}/{total_events} rows"
+    return "axis target metadata"
+
+
+def _evidence_status(coverage: dict, events: list[dict], csv_path: Path, resource_warnings: list[dict]) -> dict:
+    stats = coverage.get("stats", {})
+    coverage_ok = (
+        int(stats.get("unrecognized_events", 0) or 0) == 0
+        and int(stats.get("needs_state_events", 0) or 0) == 0
+        and int(stats.get("followup_unmodeled_events", 0) or 0) == 0
+    )
+    mechanic = (
+        "partial: xivintheshell damage baseline present"
+        if any(path.name.endswith("_xivintheshell_damage.csv") for path in csv_path.parent.glob("*"))
+        else "not established"
+    )
+    if resource_warnings:
+        mechanic += "; resource warnings need review"
+    return {
+        "import_smoke_passed": "yes" if coverage_ok and events else "no",
+        "mechanic_calibrated": mechanic,
+        "log_validated": "no: requires real log / AMAS / audited external evidence",
+    }
 
 
 def run(payload: dict) -> dict:
@@ -328,24 +440,67 @@ def run(payload: dict) -> dict:
     mean_dps = statistics.mean(dps_list)
     std_dps = statistics.stdev(dps_list) if iterations > 1 else 0.0
     base_gcd, job_gcd = DpsSimulator.calculate_gcd(int(stats["sks"]), job)
+    resource_warnings = stats_pkg.get("resource_warnings", [])
+    evidence = _evidence_status(coverage, events, csv_path, resource_warnings)
+    skill_rows = _skill_rows(stats_pkg, sim, iterations)
+    total_skill_row = _total_skill_row(stats_pkg, mean_dps, std_dps, iterations)
+    high_run_rows = _high_run_rows(stats_pkg)
+    provider = "ama_xiv_combat_sim local provider" if getattr(sim.skill_resolver, "provider", None) else "local fallback skill table"
+    resource_status = (
+        f"{len(resource_warnings)} warning(s); trend-only interpretation"
+        if resource_warnings
+        else "no resource warnings"
+    )
+    mode = "multi-boss intersection" if multi_boss_mode else "single target / manual downtime"
 
     return {
         "metadata": {
+            "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "app": APP_TITLE,
             "job": job,
+            "job_label": f"{sim.job_profile.name} ({sim.job})",
             "csv_path": str(csv_path),
             "target_path": str(target_path) if target_path else "",
             "downtime_track_path": str(downtime_track_path) if downtime_track_path else "",
+            "sample_path": str(csv_path),
+            "target_source": _target_source_label(target_path, coverage),
             "csv_format": csv_meta.get("format", ""),
             "iterations": iterations,
             "seed": seed,
             "game_version": stats["version"],
+            "skill_data_source": provider,
             "weapon_delay": stats["delay"],
             "base_gcd": base_gcd,
             "job_gcd": job_gcd,
             "multi_boss_mode": multi_boss_mode,
+            "mode": mode,
             "global_downtime": global_downtime,
+            "global_downtime_count": len(global_downtime),
             "global_downtime_source": global_downtime_source,
             "downtime_config": downtime_config,
+            "coverage_status": coverage.get("status"),
+            "resource_status": resource_status,
+            **evidence,
+        },
+        "definition": PERSONAL_NDPS_DEFINITION,
+        "panel": {
+            "job": sim.job,
+            "job_name": sim.job_profile.name,
+            "main_stat_name": sim.job_profile.main_stat,
+            "main_stat": sim.base_main,
+            "weapon_damage": int(sim.stats["wd"]),
+            "speed_stat_name": sim.job_profile.speed_stat,
+            "speed": int(sim.stats["sks"]),
+            "crit": int(sim.stats["crt"]),
+            "crit_rate": sim.crit_rate,
+            "crit_damage": sim.crit_dmg,
+            "direct_hit": int(sim.stats["dh"]),
+            "direct_hit_rate": sim.dh_rate,
+            "determination": int(sim.stats["det"]),
+            "party_bonus": float(sim.stats.get("party_bonus", 1.0)),
+            "weapon_delay": float(sim.stats["delay"]),
+            "base_gcd": base_gcd,
+            "job_gcd": job_gcd,
         },
         "summary": {
             "expected_dps": mean_dps,
@@ -356,16 +511,23 @@ def run(payload: dict) -> dict:
             "last_hit": last_hit,
             "top_1": mean_dps + 2.326 * std_dps,
             "top_0_1": mean_dps + 3.09 * std_dps,
+            "top_0_01": mean_dps + 3.719 * std_dps,
+            "bottom_1": mean_dps - 2.326 * std_dps,
+            "high_rd_run_count": len(high_run_rows),
         },
         "coverage": {
             "status": coverage.get("status"),
             "stats": _json_safe(coverage.get("stats")),
             "rows": _json_safe(coverage.get("rows", [])[:500]),
         },
-        "skills": _skill_rows(stats_pkg, sim, iterations),
-        "combat_log": log[:1000],
+        "skills": skill_rows,
+        "skill_total": total_skill_row,
+        "best_run": _best_run_rows(stats_pkg, sim),
+        "intervals": _interval_rows(stats_pkg, sim),
+        "high_rd_runs": high_run_rows,
+        "combat_log": log,
         "distribution": _distribution(dps_list),
-        "resource_warnings": stats_pkg.get("resource_warnings", []),
+        "resource_warnings": resource_warnings,
     }
 
 

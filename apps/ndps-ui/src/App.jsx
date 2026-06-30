@@ -407,7 +407,7 @@ function App() {
       });
       setRunResult(result);
       setStatus("simulated");
-      setActiveTab("results");
+      setActiveTab("report");
     } catch (error) {
       setRunError(error?.message || String(error));
       setStatus("error");
@@ -646,6 +646,7 @@ function App() {
 
         <nav className="tabbar" aria-label="Result views">
           {[
+            ["report", "Report", FileText],
             ["coverage", "Coverage", Table2],
             ["timeline", "Timeline", Timer],
             ["results", "Results", BarChart3],
@@ -665,12 +666,285 @@ function App() {
               <span>{runError}</span>
             </div>
           )}
+          {activeTab === "report" && <ReportPanel runResult={runResult} />}
           {activeTab === "coverage" && <CoverageTable rows={coverageRows} />}
           {activeTab === "timeline" && <TimelineTable rows={rows} />}
           {activeTab === "results" && <ResultsPanel projection={projection} runResult={runResult} />}
-          {activeTab === "log" && <CombatLog rows={rows} projection={projection} />}
+          {activeTab === "log" && <CombatLog rows={rows} projection={projection} runResult={runResult} />}
         </section>
       </main>
+    </div>
+  );
+}
+
+function fmt(value, digits = 2) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return value ?? "-";
+  return number.toLocaleString(undefined, {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  });
+}
+
+function pct(value, digits = 1) {
+  if (value === null || value === undefined) return "-";
+  return `${fmt(value, digits)}%`;
+}
+
+function seconds(value) {
+  return `${fmt(value, 3)}s`;
+}
+
+function KvGrid({ rows }) {
+  return (
+    <div className="kv-grid">
+      {rows.map(([label, value]) => (
+        <div className="kv-row" key={label}>
+          <span>{label}</span>
+          <strong>{value || "-"}</strong>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ReportTable({ columns, rows, className = "" }) {
+  if (!rows?.length) {
+    return <div className="empty-state compact"><span>None.</span></div>;
+  }
+  return (
+    <div className="report-table-wrap">
+      <table className={`report-table ${className}`}>
+        <thead>
+          <tr>
+            {columns.map((column) => <th key={column.key}>{column.label}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, rowIndex) => (
+            <tr key={row.key || rowIndex}>
+              {columns.map((column) => <td key={column.key}>{column.render ? column.render(row) : row[column.key]}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function ReportPanel({ runResult }) {
+  if (!runResult?.summary) {
+    return (
+      <div className="empty-state">
+        <strong>Python simulation has not run.</strong>
+        <span>Use the desktop file picker, then run the simulation to show the full report.</span>
+      </div>
+    );
+  }
+
+  const meta = runResult.metadata || {};
+  const panel = runResult.panel || {};
+  const summary = runResult.summary || {};
+  const coverageStats = runResult.coverage?.stats || {};
+  const skills = [...(runResult.skills || []), runResult.skill_total].filter(Boolean);
+  const combatLog = runResult.combat_log || [];
+
+  return (
+    <div className="report-view">
+      <section className="report-section">
+        <h3>Evidence</h3>
+        <p className="definition-text">{runResult.definition}</p>
+        <KvGrid
+          rows={[
+            ["Generated", meta.generated_at],
+            ["Skill data", meta.skill_data_source],
+            ["Random seed", meta.seed],
+            ["Import smoke", meta.import_smoke_passed],
+            ["Mechanic calibration", meta.mechanic_calibrated],
+            ["Log validation", meta.log_validated],
+            ["Coverage", meta.coverage_status],
+            ["Resource legality", meta.resource_status],
+          ]}
+        />
+      </section>
+
+      <section className="report-section">
+        <h3>Inputs</h3>
+        <KvGrid
+          rows={[
+            ["Job", meta.job_label || meta.job],
+            ["Game version", meta.game_version],
+            ["Axis", meta.csv_path],
+            ["Target", meta.target_path || meta.target_source],
+            ["Track", meta.downtime_track_path || "-"],
+            ["CSV format", meta.csv_format],
+            ["Mode", meta.mode],
+            ["Global downtime", `${meta.global_downtime_count || 0} window(s) from ${meta.global_downtime_source || "none"}`],
+          ]}
+        />
+      </section>
+
+      <section className="report-section">
+        <h3>Panel</h3>
+        <KvGrid
+          rows={[
+            ["Main stat", `${panel.main_stat_name || "main"} ${panel.main_stat ?? "-"}`],
+            ["Weapon damage", panel.weapon_damage],
+            ["Speed", `${panel.speed_stat_name || "speed"} ${panel.speed ?? "-"}`],
+            ["Critical hit", `${panel.crit ?? "-"} -> ${pct((panel.crit_rate || 0) * 100, 3)} x${fmt(panel.crit_damage, 3)}`],
+            ["Direct hit", `${panel.direct_hit ?? "-"} -> ${pct((panel.direct_hit_rate || 0) * 100, 3)}`],
+            ["Determination", panel.determination],
+            ["Party bonus", fmt(panel.party_bonus, 3)],
+            ["GCD", `${seconds(panel.job_gcd)} (base ${seconds(panel.base_gcd)})`],
+          ]}
+        />
+      </section>
+
+      <section className="report-section">
+        <h3>Results</h3>
+        <KvGrid
+          rows={[
+            ["Iterations", meta.iterations],
+            ["Effective duration", seconds(summary.duration)],
+            ["Last hit", seconds(summary.last_hit)],
+            ["Expected DPS/RD", fmt(summary.expected_dps, 2)],
+            ["Std dev", fmt(summary.std_dps, 2)],
+            ["Max DPS", fmt(summary.max_dps, 2)],
+            ["Min DPS", fmt(summary.min_dps, 2)],
+            ["Top 1%", fmt(summary.top_1, 2)],
+            ["Top 0.1%", fmt(summary.top_0_1, 2)],
+            ["Top 0.01%", fmt(summary.top_0_01, 2)],
+            ["Bottom 1%", fmt(summary.bottom_1, 2)],
+            ["High RD runs", summary.high_rd_run_count],
+          ]}
+        />
+      </section>
+
+      <section className="report-section">
+        <h3>Resource Warnings</h3>
+        <ReportTable
+          className="warnings-report-table"
+          columns={[
+            { key: "time", label: "Time", render: (row) => seconds(row.time) },
+            { key: "skill", label: "Skill" },
+            { key: "code", label: "Code" },
+            { key: "severity", label: "Severity" },
+            { key: "message", label: "Message" },
+          ]}
+          rows={runResult.resource_warnings || []}
+        />
+      </section>
+
+      <section className="report-section">
+        <h3>Skill DPS</h3>
+        <ReportTable
+          className="skills-report-table"
+          columns={[
+            { key: "skill", label: "Skill" },
+            { key: "avg_cast_count", label: "Avg Count", render: (row) => fmt(row.avg_cast_count, 3) },
+            { key: "avg_hits_per_cast", label: "Hits/Cast", render: (row) => fmt(row.avg_hits_per_cast, 3) },
+            { key: "avg_dps", label: "Avg DPS", render: (row) => fmt(row.avg_dps, 2) },
+            { key: "std_dps", label: "Std DPS", render: (row) => fmt(row.std_dps, 2) },
+            { key: "total_hit_events", label: "Hits" },
+            { key: "crit_percent", label: "Crit", render: (row) => pct(row.crit_percent) },
+            { key: "direct_hit_percent", label: "DH", render: (row) => pct(row.direct_hit_percent) },
+            { key: "crit_direct_percent", label: "CDH", render: (row) => pct(row.crit_direct_percent) },
+          ]}
+          rows={skills}
+        />
+      </section>
+
+      <section className="report-section">
+        <h3>Best Run</h3>
+        <ReportTable
+          className="best-run-report-table"
+          columns={[
+            { key: "skill", label: "Skill" },
+            { key: "count", label: "Count" },
+            { key: "hits", label: "Hits" },
+            { key: "damage", label: "Damage", render: (row) => fmt(row.damage, 0) },
+            { key: "crit_percent", label: "Crit", render: (row) => pct(row.crit_percent, 0) },
+            { key: "direct_hit_percent", label: "DH", render: (row) => pct(row.direct_hit_percent, 0) },
+            { key: "crit_direct_percent", label: "CDH", render: (row) => pct(row.crit_direct_percent, 0) },
+          ]}
+          rows={runResult.best_run || []}
+        />
+      </section>
+
+      <section className="report-section">
+        <h3>Intervals</h3>
+        <ReportTable
+          className="interval-report-table"
+          columns={[
+            { key: "time", label: "Time", render: (row) => formatTime(row.time) },
+            { key: "mean_rd", label: "Expected RD", render: (row) => `${fmt(row.mean_rd, 2)} +/- ${fmt(row.std_rd, 2)}` },
+            { key: "max_rd", label: "Max", render: (row) => fmt(row.max_rd, 2) },
+            { key: "top_1", label: "Top 1%", render: (row) => fmt(row.top_1, 2) },
+            { key: "top_0_1", label: "Top 0.1%", render: (row) => fmt(row.top_0_1, 2) },
+          ]}
+          rows={runResult.intervals || []}
+        />
+      </section>
+
+      <section className="report-section">
+        <h3>Distribution</h3>
+        <ReportTable
+          className="distribution-report-table"
+          columns={[
+            { key: "range", label: "Range" },
+            { key: "count", label: "Count" },
+            { key: "percent_ge", label: "% >= Range", render: (row) => pct(row.percent_ge, 3) },
+          ]}
+          rows={runResult.distribution || []}
+        />
+      </section>
+
+      <section className="report-section">
+        <h3>Coverage</h3>
+        <KvGrid
+          rows={[
+            ["Total events", coverageStats.total_events],
+            ["Unique skills", coverageStats.unique_skills],
+            ["Unrecognized", coverageStats.unrecognized_events],
+            ["Needs state", coverageStats.needs_state_events],
+            ["Followup gaps", coverageStats.followup_unmodeled_events],
+            ["Default target rows", coverageStats.default_target_events],
+          ]}
+        />
+        <ReportTable
+          className="coverage-report-table"
+          columns={[
+            { key: "raw_name", label: "Raw" },
+            { key: "name", label: "Skill" },
+            { key: "count", label: "Count" },
+            { key: "first_time", label: "First", render: (row) => fmt(row.first_time, 3) },
+            { key: "last_time", label: "Last", render: (row) => fmt(row.last_time, 3) },
+            { key: "max_targets", label: "Targets" },
+            { key: "target_sources_text", label: "Source" },
+            { key: "tags_text", label: "Tags" },
+            { key: "classification", label: "Reason", render: (row) => row.classification?.reason || "-" },
+          ]}
+          rows={runResult.coverage?.rows || []}
+        />
+      </section>
+
+      <section className="report-section">
+        <h3>Combat Log</h3>
+        <ReportTable
+          className="combat-report-table"
+          columns={[
+            { key: "time", label: "Time", render: (row) => seconds(row.time) },
+            { key: "name", label: "Skill" },
+            { key: "potency", label: "Potency" },
+            { key: "buffs", label: "Buffs" },
+            { key: "targets", label: "Targets" },
+            { key: "crit", label: "Crit" },
+            { key: "dh", label: "DH" },
+            { key: "dmg", label: "Damage", render: (row) => (Number.isFinite(Number(row.dmg)) ? fmt(row.dmg, 2) : row.dmg) },
+          ]}
+          rows={combatLog}
+        />
+      </section>
     </div>
   );
 }
@@ -761,8 +1035,13 @@ function ResultsPanel({ projection, runResult }) {
       </div>
       <div className="result-stack">
         <ResultLine label="Expected RD" value={projection.expected} />
-        <ResultLine label="Top 1%" value={projection.high} />
-        <ResultLine label="Top 0.1%" value={projection.peak} />
+        <ResultLine label="Std dev" value={Math.round(runResult.summary.std_dps)} />
+        <ResultLine label="Max RD" value={Math.round(runResult.summary.max_dps)} />
+        <ResultLine label="Min RD" value={Math.round(runResult.summary.min_dps)} />
+        <ResultLine label="Top 1%" value={Math.round(runResult.summary.top_1)} />
+        <ResultLine label="Top 0.1%" value={Math.round(runResult.summary.top_0_1)} />
+        <ResultLine label="Top 0.01%" value={Math.round(runResult.summary.top_0_01)} />
+        <ResultLine label="Bottom 1%" value={Math.round(runResult.summary.bottom_1)} />
         {skillRows.length > 0 && (
           <div className="skill-mini-list">
             {skillRows.map((row) => (
@@ -787,7 +1066,25 @@ function ResultLine({ label, value }) {
   );
 }
 
-function CombatLog({ rows, projection }) {
+function CombatLog({ rows, projection, runResult }) {
+  if (runResult?.combat_log?.length) {
+    return (
+      <ReportTable
+        className="combat-report-table standalone"
+        columns={[
+          { key: "time", label: "Time", render: (row) => seconds(row.time) },
+          { key: "name", label: "Skill" },
+          { key: "potency", label: "Potency" },
+          { key: "buffs", label: "Buffs" },
+          { key: "targets", label: "Targets" },
+          { key: "crit", label: "Crit" },
+          { key: "dh", label: "DH" },
+          { key: "dmg", label: "Damage", render: (row) => (Number.isFinite(Number(row.dmg)) ? fmt(row.dmg, 2) : row.dmg) },
+        ]}
+        rows={runResult.combat_log}
+      />
+    );
+  }
   return (
     <div className="data-table log-table">
       <div className="table-row table-head">
