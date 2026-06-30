@@ -4,7 +4,7 @@ This manual is the unified entry point for the tools in this repository. It cove
 
 ## Tool Overview
 
-Use `releases\windows\ffxiv_personal_ndps.exe` for the stable packaged personal nDPS simulator. It opens a GUI, imports an axis CSV, can attach target metadata, runs the simulator, and exports Markdown or CSV evidence.
+Use `releases\windows\ffxiv_personal_ndps.exe` for the stable packaged personal nDPS simulator. It opens a GUI, imports an axis CSV, can attach target metadata and untargetable-track downtime separately, runs the simulator, and exports Markdown or CSV evidence.
 
 Use `apps\ndps-ui` for the newer high-ceiling UI track. It is a React/Vite dashboard with an Electron desktop shell. It keeps the validated simulator core in Python and calls it through `scripts\run_ndps_simulation.py`.
 
@@ -57,7 +57,7 @@ TTS conversion:
 6. Optionally import a raid-planner `MarkerTrackIndividual` untargetable-track TXT. Its `time + duration` markers are converted to global downtime and can be used alongside the target file.
 7. Configure DoT target rules, downtime, multi-boss behavior, and report thresholds if the fight needs them.
 8. Run the simulation.
-9. Read the result tab, coverage summary, target-source status, and resource warnings.
+9. Read the result tab, coverage summary, target-source status, downtime-source status, and resource warnings.
 10. Export a Markdown report or CSV detail bundle when you need a durable record.
 
 The simulator report can export:
@@ -128,7 +128,7 @@ Target JSON or TXT files should contain action records. Useful fields include:
 
 When no target metadata is available, simulator rows default to target count `1`. The report labels this as default target data so the result can be interpreted correctly.
 
-Raid-planner untargetable-track TXT files are loaded through the separate Track TXT input. They are JSON records with `fileType: MarkerTrackIndividual` and a `markers` list. Markers whose description contains `不可选中`, `上天`, or `untargetable` are parsed as global downtime windows using `time` as the start and `time + duration` as the end.
+Raid-planner untargetable-track TXT files are loaded through the separate Track TXT / 上天轨道 TXT input. They are JSON records with `fileType: MarkerTrackIndividual` and a `markers` list. Markers whose description contains `不可选中`, `上天`, or `untargetable` are parsed as global downtime windows using `time` as the start and `time + duration` as the end.
 
 Timeline text files for TTS merging may contain an optional leading `#` and a numeric timestamp. Merge output reads the fight timeline first, then the skill-line text, parses the first numeric timestamp on each non-empty line, and stable-sorts all parsed lines by timestamp.
 

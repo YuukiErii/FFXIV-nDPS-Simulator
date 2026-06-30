@@ -1829,6 +1829,7 @@ class DpsSimulatorApp:
 
         self.csv_path = None;
         self.txt_path = None
+        self.downtime_track_path = None
         self.txt_downtime_windows = []
         self.auto_downtime_path = None
         self.user_dot_config = {};
@@ -1836,7 +1837,8 @@ class DpsSimulatorApp:
 
         ttk.Button(b_box, text="1. 导入轴 (CSV)", command=self.load_csv).pack(side=tk.LEFT)
         ttk.Button(b_box, text="2. 导入目标 (TXT)", command=self.load_txt).pack(side=tk.LEFT, padx=5)
-        ttk.Button(b_box, text="3. 配置 DoT与上天", command=self.open_dot_config).pack(side=tk.LEFT, padx=5)
+        ttk.Button(b_box, text="3. 导入上天轨道 (TXT)", command=self.load_downtime_track).pack(side=tk.LEFT, padx=5)
+        ttk.Button(b_box, text="4. 配置 DoT与上天", command=self.open_dot_config).pack(side=tk.LEFT, padx=5)
         self.lbl_st = ttk.Label(b_box, text="等待导入...", foreground="#aaaaaa");
         self.lbl_st.pack(side=tk.LEFT, padx=10)
 
@@ -2169,6 +2171,12 @@ class DpsSimulatorApp:
         p = filedialog.askopenfilename(filetypes=[("Text/JSON", "*.txt *.json"), ("Text Files", "*.txt"), ("JSON Files", "*.json")])
         if not p: return
         self.txt_path = p
+        self.process_files()
+
+    def load_downtime_track(self):
+        p = filedialog.askopenfilename(filetypes=[("上天轨道 TXT/JSON", "*.txt *.json"), ("Text Files", "*.txt"), ("JSON Files", "*.json")])
+        if not p: return
+        self.downtime_track_path = p
         self.auto_downtime_path = None
         self.process_files()
 
@@ -2184,6 +2192,7 @@ class DpsSimulatorApp:
     def process_files(self):
         csv_name = os.path.basename(self.csv_path) if self.csv_path else "未加载"
         txt_name = os.path.basename(self.txt_path) if self.txt_path else "未加载"
+        track_name = os.path.basename(self.downtime_track_path) if self.downtime_track_path else "未导入"
 
         if not self.csv_path:
             self.lbl_st.config(text="等待导入...", foreground="#aaaaaa")
@@ -2208,17 +2217,25 @@ class DpsSimulatorApp:
                 try:
                     log_data = json.loads(txt_text)
                     txt_skills = [x for x in log_data.get('actions', []) if x.get('type') == 'Skill']
-                    self.txt_downtime_windows = parse_marker_track_downtime_windows(log_data)
                 except json.JSONDecodeError:
-                    self.txt_downtime_windows = parse_downtime_windows(txt_text)
+                    txt_skills = []
 
-                if self.txt_downtime_windows and self.auto_downtime_path != self.txt_path:
+            if self.downtime_track_path:
+                with open(self.downtime_track_path, 'r', encoding='utf-8-sig') as f:
+                    track_text = f.read()
+                try:
+                    track_data = json.loads(track_text)
+                    self.txt_downtime_windows = parse_marker_track_downtime_windows(track_data)
+                except json.JSONDecodeError:
+                    self.txt_downtime_windows = parse_downtime_windows(track_text)
+
+                if self.txt_downtime_windows and self.auto_downtime_path != self.downtime_track_path:
                     self.txt_dt.delete("1.0", tk.END)
                     self.txt_dt.insert(
                         tk.END,
                         "\n".join(f"{start:g}-{end:g}" for start, end in self.txt_downtime_windows) + "\n",
                     )
-                    self.auto_downtime_path = self.txt_path
+                    self.auto_downtime_path = self.downtime_track_path
 
             final_loaded = []
             txt_idx = 0;
@@ -2262,11 +2279,12 @@ class DpsSimulatorApp:
             self.coverage_report = build_skill_coverage(final_loaded, resolver, csv_meta=csv_meta)
             self.update_coverage_tab()
             self.update_preview_tab(csv_meta)
+            target_mode = txt_name if self.txt_path else "单目标模式"
             if self.txt_downtime_windows:
-                target_mode = f"{txt_name} ({len(self.txt_downtime_windows)} 段全局上天)"
+                track_mode = f"{track_name} ({len(self.txt_downtime_windows)} 段全局上天)"
             else:
-                target_mode = txt_name if self.txt_path else "单目标模式"
-            color = "#98c379" if self.txt_path else "#e5c07b"
+                track_mode = track_name
+            color = "#98c379" if (self.txt_path or self.downtime_track_path) else "#e5c07b"
             flags = []
             if csv_meta.get("has_cast_time"):
                 flags.append("castTime")
@@ -2277,7 +2295,7 @@ class DpsSimulatorApp:
             stats = self.coverage_report["stats"]
             coverage_text = f" | 覆盖: 未识别 {stats.get('unrecognized_events', 0)}, 状态: {self.coverage_report['status']}"
             self.lbl_st.config(
-                text=f"CSV: {csv_name} ({csv_meta['format']}, {len(final_loaded)} 技能{flag_text}{skipped_text}) | TXT: {target_mode}{coverage_text}",
+                text=f"CSV: {csv_name} ({csv_meta['format']}, {len(final_loaded)} 技能{flag_text}{skipped_text}) | 目标 TXT: {target_mode} | 上天轨道 TXT: {track_mode}{coverage_text}",
                 foreground=color
             )
             self.nb.select(self.tab_coverage)
@@ -2533,8 +2551,6 @@ class DpsSimulatorApp:
         return any(name.endswith("_xivintheshell_damage.csv") for name in os.listdir(directory))
 
     def target_source_label(self):
-        if self.txt_downtime_windows:
-            return f"{os.path.basename(self.txt_path)} ({len(self.txt_downtime_windows)} untargetable windows)"
         if self.txt_path:
             return f"{os.path.basename(self.txt_path)} (TXT/JSON target list)"
         if not self.coverage_report:
@@ -2545,6 +2561,17 @@ class DpsSimulatorApp:
         if default_events:
             return f"default target=1 for {default_events}/{total_events} rows"
         return "axis target metadata"
+
+    def downtime_source_label(self, global_downtime_list=None):
+        windows = global_downtime_list if global_downtime_list is not None else self.get_main_page_dt()
+        count = len(windows or [])
+        if self.var_multi_boss.get():
+            return f"multi-boss intersection ({count} windows)"
+        if self.downtime_track_path and self.txt_downtime_windows:
+            return f"{os.path.basename(self.downtime_track_path)} ({len(self.txt_downtime_windows)} untargetable windows)"
+        if count:
+            return f"manual global downtime ({count} windows)"
+        return "none"
 
     def evidence_status(self, resource_warnings=None):
         resource_warnings = resource_warnings or []
@@ -2577,6 +2604,7 @@ class DpsSimulatorApp:
             "skill_data_source": provider,
             "sample_path": self.csv_path or "-",
             "target_source": self.target_source_label(),
+            "downtime_source": self.downtime_source_label(getattr(sim, "global_downtime_list", [])),
             "csv_format": self.csv_meta.get("format", "-"),
             "coverage_status": (self.coverage_report or {}).get("status", "-"),
             "resource_status": (
@@ -2601,6 +2629,7 @@ class DpsSimulatorApp:
         text_widget.insert(tk.END, f"模拟随机种子: {metadata['random_seed']}\n")
         text_widget.insert(tk.END, f"样本路径: {metadata['sample_path']}\n")
         text_widget.insert(tk.END, f"目标数来源: {metadata['target_source']} | CSV 格式: {metadata['csv_format']}\n")
+        text_widget.insert(tk.END, f"上天时间来源: {metadata['downtime_source']}\n")
         text_widget.insert(
             tk.END,
             "可信等级: "
@@ -2710,6 +2739,7 @@ class DpsSimulatorApp:
             f"- Random seed: {metadata['random_seed']}",
             f"- Sample path: `{metadata['sample_path']}`",
             f"- Target source: {metadata['target_source']}",
+            f"- Downtime source: {metadata['downtime_source']}",
             f"- CSV format: {metadata['csv_format']}",
             "",
             "## Results",
@@ -2826,7 +2856,7 @@ class DpsSimulatorApp:
             [metadata],
             [
                 "generated_at", "app", "job", "game_version", "skill_data_source",
-                "sample_path", "target_source", "csv_format", "coverage_status",
+                "sample_path", "target_source", "downtime_source", "csv_format", "coverage_status",
                 "resource_status", "import_smoke_passed", "mechanic_calibrated",
                 "log_validated", "iterations", "random_seed", "duration", "last_hit",
                 "expected_dps", "std_dps",

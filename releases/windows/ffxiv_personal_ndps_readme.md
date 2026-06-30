@@ -26,12 +26,14 @@ Double-click `ffxiv_personal_ndps.exe` to open the GUI. A console window may app
 1. Choose the job.
 2. Import a timeline CSV exported from xivintheshell / the raid planner.
 3. Optionally import a matching JSON/TXT target file to preserve multi-target counts.
-4. Run the simulation and export Markdown or CSV evidence bundles when needed.
+4. Optionally import a raid-planner untargetable-track TXT to fill global downtime without replacing the target file.
+5. Run the simulation and export Markdown or CSV evidence bundles when needed.
 
 ## Inputs
 
 - Required: timeline CSV with `time` and `action` columns, or a compatible positional/TTS skillline CSV.
 - Optional: matching `.json` or `.txt` target data with `actions`, `skillName`, and either `targetList` or `targetCount`.
+- Optional: raid-planner `MarkerTrackIndividual` untargetable-track `.txt`/`.json`; markers containing `不可选中`, `上天`, or `untargetable` become global downtime windows.
 
 ## nDPS Boundary
 
