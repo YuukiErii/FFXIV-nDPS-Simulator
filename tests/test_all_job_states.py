@@ -125,6 +125,8 @@ class AllJobStateTests(unittest.TestCase):
         self.assertGreater(len(result["intervals"]), 0)
         self.assertGreater(len(result["combat_log"]), 0)
         self.assertIn("invalid_skill_events", result)
+        self.assertIn("dot_details", result)
+        self.assertIsInstance(result["dot_details"], list)
         self.assertEqual(result["preview"]["total"], result["coverage"]["stats"]["total_events"])
         self.assertIn("row_no", result["preview"]["rows"][0])
 

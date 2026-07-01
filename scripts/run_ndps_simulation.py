@@ -534,6 +534,7 @@ def run(payload: dict) -> dict:
         "intervals": _interval_rows(stats_pkg, sim),
         "high_rd_runs": high_run_rows,
         "combat_log": log,
+        "dot_details": _json_safe(stats_pkg.get("dot_details", [])),
         "distribution": _distribution(dps_list),
         "resource_warnings": resource_warnings,
         "invalid_skill_events": invalid_skill_events,

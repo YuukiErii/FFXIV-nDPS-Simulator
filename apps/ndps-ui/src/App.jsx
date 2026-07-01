@@ -45,6 +45,7 @@ const TABS = [
   ["overview", "模拟报告 (概览)", FileText],
   ["warnings", "资源警告", AlertTriangle],
   ["log", "战斗日志 (表格)", Activity],
+  ["dots", "DoT 明细", Timer],
   ["skills", "技能详情 (平均)", Zap],
   ["best", "极值详情 (Max DPS)", Sparkles],
   ["intervals", "阶段 RD 分析", Timer],
@@ -56,6 +57,8 @@ const MONO_COLUMNS = new Set([
   "potency", "crit", "dh", "dmg", "avg_cast_count", "avg_hits_per_cast", "avg_dps",
   "crit_percent", "direct_hit_percent", "crit_direct_percent", "damage", "mean_rd", "max_rd",
   "top_1", "top_0_1", "run_id", "rd", "duration", "range", "percent_ge",
+  "dot_id", "apply_time", "target_id", "expire_time", "tick_events", "ticks",
+  "missed_tick_events", "missed_ticks", "last_tick_time",
 ]);
 const SERIF_COLUMNS = new Set(["message", "reason"]);
 
@@ -364,6 +367,7 @@ function App() {
           {activeTab === "overview" && <OverviewTab result={runResult} />}
           {activeTab === "warnings" && <WarningsTab result={runResult} />}
           {activeTab === "log" && <CombatLogTab result={runResult} />}
+          {activeTab === "dots" && <DotDetailsTab result={runResult} />}
           {activeTab === "skills" && <SkillDetailsTab result={runResult} />}
           {activeTab === "best" && <BestRunTab result={runResult} />}
           {activeTab === "intervals" && <IntervalsTab result={runResult} />}
@@ -497,6 +501,23 @@ function CombatLogTab({ result }) {
     { key: "potency", label: "Potency" }, { key: "buffs", label: "Active Buffs" }, { key: "targets", label: "Targets" },
     { key: "crit", label: "Crit" }, { key: "dh", label: "DH" }, { key: "dmg", label: "Damage", render: (row) => Number.isFinite(Number(row.dmg)) ? fmt(row.dmg, 2) : row.dmg },
   ]} rows={result.combat_log || []} />;
+}
+
+function DotDetailsTab({ result }) {
+  if (!result?.summary) return <EmptyState needsRun />;
+  return <ReportTable columns={[
+    { key: "dot_id", label: "ID" },
+    { key: "apply_time", label: "挂载时间", render: (row) => fmt(row.apply_time, 3) },
+    { key: "source_name", label: "来源技能" },
+    { key: "name", label: "DoT" },
+    { key: "target_id", label: "目标", render: (row) => row.target_id ? `T${row.target_id}` : "-" },
+    { key: "potency", label: "Potency" },
+    { key: "ticks", label: "命中跳数" },
+    { key: "missed_ticks", label: "丢失跳数" },
+    { key: "damage", label: "总伤害", render: (row) => fmt(row.damage, 2) },
+    { key: "last_tick_time", label: "最后一跳", render: (row) => row.last_tick_time === null || row.last_tick_time === undefined ? "-" : fmt(row.last_tick_time, 3) },
+    { key: "buffs_text", label: "快照 Buff" },
+  ]} rows={result.dot_details || []} />;
 }
 
 function SkillDetailsTab({ result }) {

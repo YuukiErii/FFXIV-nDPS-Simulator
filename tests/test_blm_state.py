@@ -197,6 +197,12 @@ class BlmJobStateTests(unittest.TestCase):
 
         self.assertEqual(result[9]["High Thunder"], 22)
         self.assertIn("DoT(T2)", {row["targets"] for row in result[8]})
+        details = sim.last_dot_details
+        self.assertEqual(len(details), 2)
+        self.assertEqual({row["target_id"] for row in details}, {1, 2})
+        self.assertEqual(sum(row["ticks"] for row in details), 20)
+        self.assertEqual(sum(row["missed_ticks"] for row in details), 0)
+        self.assertTrue(all(row["damage"] > 0 for row in details))
 
     def test_high_thunder_ii_dot_ticks_respect_secondary_target_downtime(self):
         skills = {

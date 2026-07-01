@@ -1112,6 +1112,7 @@ class DpsSimulator:
         return int(1000 * (math.floor(time_ms * (1000 + speed_term) / 10000) / 100)) / 1000.0
 
     def run_one_simulation(self, is_first_run=False):
+        self.last_dot_details = []
         pq = []
         tie_breaker = count()
         for item in self.timeline_data:
@@ -1172,6 +1173,8 @@ class DpsSimulator:
         # 我们在这里维护一个 "准备按下的计数器" 用来查找 Config
         skill_attempt_counter = Counter()
         combat_log = []
+        dot_details = []
+        dot_detail_counter = count(1)
 
         while pq:
             t, _, ev_type, _, payload = heapq.heappop(pq)
@@ -1447,10 +1450,10 @@ class DpsSimulator:
                 # 之后的 tick 事件会负责判断每一跳是否有伤害
                 for dot_application in job_state.dot_applications(
                         name, skill, current_time, target_count, target_id, active_buffs, has_potion):
+                    dot_application = dict(dot_application)
                     dot_key = dot_application.get('dot_key', dot_application.get('source_name', dot_application['name']))
                     target_aware_dot = self.multi_boss_mode or bool(payload.get('target_ids'))
                     if target_aware_dot:
-                        dot_application = dict(dot_application)
                         dot_application['target_explicit'] = bool(payload.get('target_ids'))
                         active_dots = [
                             d for d in active_dots
@@ -1462,6 +1465,31 @@ class DpsSimulator:
                             d for d in active_dots
                             if d.get('dot_key', d.get('source_name', d['name'])) != dot_key
                         ]
+                    if is_first_run:
+                        b_list = job_state.format_buffs(dot_application.get('buffs', {}), dot_application.get('has_potion', False))
+                        detail = {
+                            'dot_id': next(dot_detail_counter),
+                            'apply_time': current_time,
+                            'source_name': dot_application.get('source_name') or name,
+                            'name': dot_application.get('name', name),
+                            'target_id': dot_application.get('tid', target_id),
+                            'targets': int(dot_application.get('targets', 1) or 1),
+                            'potency': dot_application.get('potency', 0),
+                            'expire_time': dot_application.get('expire', current_time),
+                            'buffs_text': "+".join(b_list) if b_list else "-",
+                            'has_potion': bool(dot_application.get('has_potion', False)),
+                            'tick_events': 0,
+                            'ticks': 0,
+                            'missed_tick_events': 0,
+                            'missed_ticks': 0,
+                            'damage': 0.0,
+                            'crit_ticks': 0,
+                            'dh_ticks': 0,
+                            'last_tick_time': None,
+                            'row_no': payload.get('row_no'),
+                        }
+                        dot_application['detail'] = detail
+                        dot_details.append(detail)
                     active_dots.append(dot_application)
 
                 if is_first_run and potency > 0:
@@ -1645,12 +1673,20 @@ class DpsSimulator:
                     if dot['expire'] < current_time: continue
                     if not job_state.is_dot_active(dot, current_time): continue
                     temp_active_dots.append(dot)
+                    is_tick_blocked = False
                     if self.multi_boss_mode:
-                        if self.is_target_untargetable(current_time, dot['tid']): continue
+                        is_tick_blocked = self.is_target_untargetable(current_time, dot['tid'])
                     else:
-                        if self.is_global_downtime(current_time): continue
+                        is_tick_blocked = self.is_global_downtime(current_time)
+                    if is_tick_blocked:
+                        detail = dot.get('detail')
+                        if detail is not None:
+                            missed_targets = int(dot.get('targets', 1) or 1)
+                            detail['missed_tick_events'] += 1
+                            detail['missed_ticks'] += missed_targets
+                        continue
 
-                    tick_targets = dot.get('targets', 1)
+                    tick_targets = int(dot.get('targets', 1) or 1)
                     tick_damage = 0.0
                     first_c = False
                     first_d = False
@@ -1673,6 +1709,14 @@ class DpsSimulator:
                     if first_c: skill_crit_map[dot_source_name] += 1
                     if first_d: skill_dh_map[dot_source_name] += 1
                     if first_c and first_d: skill_cdh_map[dot_source_name] += 1
+                    detail = dot.get('detail')
+                    if detail is not None:
+                        detail['tick_events'] += 1
+                        detail['ticks'] += tick_targets
+                        detail['damage'] += tick_damage
+                        if first_c: detail['crit_ticks'] += 1
+                        if first_d: detail['dh_ticks'] += 1
+                        detail['last_tick_time'] = current_time
                     if is_first_run:
                         b_list = job_state.format_buffs(dot['buffs'], dot['has_potion'])
                         t_lbl = f"DoT(T{dot['tid']})" if (self.multi_boss_mode or dot.get('target_explicit')) else "DoT"
@@ -1682,6 +1726,7 @@ class DpsSimulator:
                 active_dots = temp_active_dots
                 push_sim_event(pq, current_time + 3.0, SimEventType.DOT_TICK, tie_breaker, None)
 
+        self.last_dot_details = dot_details
         return (total_damage, last_skill_hit_time, skill_dmg_map, skill_count_map, skill_crit_map, skill_dh_map,
                 skill_cdh_map, total_hits_in_run, combat_log, skill_target_sum_map, run_snapshots, history_snapshots,
                 job_state.get_resource_warnings())
@@ -1700,6 +1745,7 @@ class DpsSimulator:
         total_hits_list = [];
         first_log = [];
         first_resource_warnings = []
+        first_dot_details = []
         sim_dur = 0;
         last_hit = 0
 
@@ -1720,6 +1766,7 @@ class DpsSimulator:
                 if is_first:
                     first_log = log
                     first_resource_warnings = resource_warnings
+                    first_dot_details = list(getattr(self, 'last_dot_details', []))
                     self.target_stats_snapshot = s_targets
 
                 for st, sd in r_snaps.items():
@@ -1770,6 +1817,7 @@ class DpsSimulator:
             'best_run': best_run_stats,
             'interval_data': agg_snapshots,
             'high_rd_runs': high_rd_runs,
+            'dot_details': first_dot_details,
             'resource_warnings': first_resource_warnings,
             'invalid_skill_events': build_invalid_skill_events(original_timeline, self.skill_resolver, first_resource_warnings),
         }
@@ -2015,6 +2063,31 @@ class DpsSimulatorApp:
         self.tree_log.configure(yscroll=sb_log.set)
         self.tree_log.pack(side=tk.LEFT, fill=tk.BOTH, expand=True);
         sb_log.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.tab_dot_details = ttk.Frame(self.nb);
+        self.nb.add(self.tab_dot_details, text="DoT 明细")
+        cols_dot = ("id", "apply", "source", "dot", "target", "pot", "ticks", "missed", "dmg", "last", "buffs")
+        self.tree_dot_details = ttk.Treeview(self.tab_dot_details, columns=cols_dot, show="headings", height=20)
+        dot_defs = [
+            ("id", "ID", 55, "center"),
+            ("apply", "挂载时间", 90, "center"),
+            ("source", "来源技能", 150, "w"),
+            ("dot", "DoT", 150, "w"),
+            ("target", "目标", 70, "center"),
+            ("pot", "Potency", 75, "center"),
+            ("ticks", "命中跳数", 80, "center"),
+            ("missed", "丢失跳数", 80, "center"),
+            ("dmg", "总伤害", 110, "e"),
+            ("last", "最后一跳", 90, "center"),
+            ("buffs", "快照 Buff", 180, "w"),
+        ]
+        for key, label, width, anchor in dot_defs:
+            self.tree_dot_details.heading(key, text=label)
+            self.tree_dot_details.column(key, width=width, anchor=anchor)
+        sb_dot = ttk.Scrollbar(self.tab_dot_details, orient="vertical", command=self.tree_dot_details.yview)
+        self.tree_dot_details.configure(yscroll=sb_dot.set)
+        self.tree_dot_details.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(5, 0), pady=5)
+        sb_dot.pack(side=tk.RIGHT, fill=tk.Y, padx=(0, 5), pady=5)
 
         self.tab_stats = ttk.Frame(self.nb);
         self.nb.add(self.tab_stats, text="技能详情 (平均)")
@@ -2511,6 +2584,7 @@ class DpsSimulatorApp:
         self.progress_var.set(0)
         self.txt_res.delete("1.0", tk.END)
         for i in self.tree_log.get_children(): self.tree_log.delete(i)
+        for i in self.tree_dot_details.get_children(): self.tree_dot_details.delete(i)
         for i in self.tree_stats.get_children(): self.tree_stats.delete(i)
         for i in self.tree_best.get_children(): self.tree_best.delete(i)
         for i in self.tree_dist.get_children(): self.tree_dist.delete(i)
@@ -2767,6 +2841,7 @@ class DpsSimulatorApp:
         )
         resource_warnings = data["stats_pkg"].get("resource_warnings", [])
         invalid_skill_events = data["stats_pkg"].get("invalid_skill_events", [])
+        dot_details = data["stats_pkg"].get("dot_details", [])
         lines = [
             f"# {APP_TITLE} Report",
             "",
@@ -2826,6 +2901,28 @@ class DpsSimulatorApp:
                 lines.append(
                     f"- {row}{item.get('time', '-') }s `{item.get('skill', '-')}`: "
                     f"`{item.get('kind', '-')}` - {item.get('reason', '')}"
+                )
+        else:
+            lines.append("- None.")
+        lines.extend([
+            "",
+            "## DoT Details",
+            "",
+        ])
+        if dot_details:
+            lines.extend([
+                "| ID | Apply | Source | DoT | Target | Potency | Ticks | Missed | Damage | Last Tick | Buffs |",
+                "| ---: | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
+            ])
+            for item in sorted(dot_details, key=lambda row: (row.get("apply_time", 0), row.get("dot_id", 0))):
+                last_tick_time = item.get("last_tick_time")
+                last_tick_text = "-" if last_tick_time is None else f"{float(last_tick_time):.3f}"
+                lines.append(
+                    f"| {item.get('dot_id', '-')} | {float(item.get('apply_time', 0.0)):.3f} | "
+                    f"{item.get('source_name', '-')} | {item.get('name', '-')} | "
+                    f"T{item.get('target_id', '-')} | {item.get('potency', '-')} | "
+                    f"{item.get('ticks', 0)} | {item.get('missed_ticks', 0)} | "
+                    f"{float(item.get('damage', 0.0)):,.2f} | {last_tick_text} | {item.get('buffs_text', '-')} |"
                 )
         else:
             lines.append("- None.")
@@ -2895,6 +2992,16 @@ class DpsSimulatorApp:
             os.path.join(out_dir, f"{prefix}_combat_log.csv"),
             log_rows,
             ["time", "skill", "potency", "buffs", "targets", "crit", "direct_hit", "damage"],
+        )
+        self.write_csv(
+            os.path.join(out_dir, f"{prefix}_dot_details.csv"),
+            data["stats_pkg"].get("dot_details", []),
+            [
+                "dot_id", "row_no", "apply_time", "source_name", "name", "target_id",
+                "targets", "potency", "expire_time", "buffs_text", "has_potion",
+                "tick_events", "ticks", "missed_tick_events", "missed_ticks",
+                "damage", "crit_ticks", "dh_ticks", "last_tick_time",
+            ],
         )
         self.write_csv(
             os.path.join(out_dir, f"{prefix}_skill_aggregate.csv"),
@@ -3009,6 +3116,26 @@ class DpsSimulatorApp:
             self.tree_log.insert("", tk.END,
                                  values=(f"{r['time']:.3f}", r['name'], r['potency'], r['buffs'], r['targets'],
                                          r['crit'], r['dh'], d_str))
+
+        for detail in sorted(stats_pkg.get('dot_details', []), key=lambda row: (row.get('apply_time', 0), row.get('dot_id', 0))):
+            last_tick_time = detail.get('last_tick_time')
+            last_tick_text = "-" if last_tick_time is None else f"{float(last_tick_time):.3f}"
+            damage_text = f"{float(detail.get('damage', 0.0)):,.2f}"
+            target_id = detail.get('target_id', "-")
+            target_text = f"T{target_id}" if target_id != "-" else "-"
+            self.tree_dot_details.insert("", tk.END, values=(
+                detail.get('dot_id', "-"),
+                f"{float(detail.get('apply_time', 0.0)):.3f}",
+                detail.get('source_name', "-"),
+                detail.get('name', "-"),
+                target_text,
+                detail.get('potency', "-"),
+                detail.get('ticks', 0),
+                detail.get('missed_ticks', 0),
+                damage_text,
+                last_tick_text,
+                detail.get('buffs_text', "-"),
+            ))
 
         s_dps = stats_pkg['dps'];
         s_cnt = stats_pkg['count']
