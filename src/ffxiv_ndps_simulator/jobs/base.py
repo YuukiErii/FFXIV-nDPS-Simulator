@@ -1,10 +1,18 @@
 class JobState:
+    MAX_MP = 10000
+    MP_TICK_INTERVAL = 3.0
+    BASE_MP_TICK = 200
+    LUCID_DREAMING_MP_TICK = 550
+    LUCID_DREAMING_DURATION = 21.0
+
     def __init__(self, job):
         self.job = job
         self.combo_action = None
         self.combo_time = -1.0
         self.resource_warnings = []
         self._event_context = {}
+        self.next_mana_tick_at = None
+        self.lucid_dreaming_until = -1.0
 
     def set_event_context(self, payload):
         self._event_context = dict(payload or {})
@@ -27,6 +35,28 @@ class JobState:
     def get_resource_warnings(self):
         return list(self.resource_warnings)
 
+    def configure_mana_ticks(self, first_tick):
+        self.next_mana_tick_at = None if first_tick is None else float(first_tick)
+
+    def advance_time(self, current_time):
+        while self.next_mana_tick_at is not None and self.next_mana_tick_at <= current_time + 1e-9:
+            self.on_mana_tick(self.next_mana_tick_at)
+            self.next_mana_tick_at += self.MP_TICK_INTERVAL
+
+    def gain_mp(self, amount):
+        if hasattr(self, "mp"):
+            self.mp = min(self.MAX_MP, self.mp + int(amount))
+
+    def on_mana_tick(self, tick_time):
+        self.gain_mp(self.BASE_MP_TICK)
+        if self.lucid_dreaming_until >= tick_time - 1e-9:
+            self.gain_mp(self.LUCID_DREAMING_MP_TICK)
+
+    def on_common_action_confirmed(self, name, skill, current_time):
+        canonical = (skill or {}).get("amas_name") or (skill or {}).get("canonical_name") or name
+        if canonical in {"Lucid Dreaming", "醒梦"}:
+            self.lucid_dreaming_until = max(self.lucid_dreaming_until, current_time + self.LUCID_DREAMING_DURATION)
+
     def on_press(self, name, skill, current_time, snapshot_time):
         return {}
 
@@ -34,6 +64,7 @@ class JobState:
         return None
 
     def on_press_confirmed(self, name, skill, current_time, payload):
+        self.on_common_action_confirmed(name, skill, current_time)
         return self.on_press_complete(name, current_time)
 
     def handles_skill_buff(self, name, skill):

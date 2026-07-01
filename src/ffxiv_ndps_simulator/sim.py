@@ -1166,6 +1166,7 @@ class DpsSimulator:
         potion_active_until = -1.0
         aa_running = False;
         next_aa_timestamp = 0.0
+        job_state.configure_mana_ticks(self.stats.get('time_till_first_mana_tick'))
 
         # 技能计数移到外面，确保 press 和 damage 共享
         # 但为了避免 press 失败导致计数错乱，我们采用 "尝试计数" 和 "成功计数"
@@ -1200,6 +1201,7 @@ class DpsSimulator:
                     target_count = max(target_count, len(explicit_target_ids))
                 skill = self.get_skill(name)
                 if not skill: continue
+                job_state.advance_time(current_time)
 
                 # --- 1. 准备工作：计数器与快照时间计算 ---
                 current_attempt_idx = skill_attempt_counter[name]
@@ -1278,6 +1280,7 @@ class DpsSimulator:
                             'targets': target_count,
                         },
                     )
+                    job_state.on_common_action_confirmed(name, skill, current_time)
                     potion_active_until = current_time + TINCTURE_DELAY + 30.0
                     if is_first_run:
                         combat_log.append(
@@ -1358,6 +1361,7 @@ class DpsSimulator:
                         'multi_boss_mode': self.multi_boss_mode,
                     },
                 )
+                job_state.on_common_action_confirmed(name, skill, current_time)
 
             elif ev_type == SimEventType.DAMAGE:
                 name = payload['name'];
@@ -1931,6 +1935,7 @@ class DpsSimulatorApp:
         self.txt_path = None
         self.downtime_track_path = None
         self.txt_downtime_windows = []
+        self.txt_record_config = {}
         self.auto_downtime_path = None
         self.user_dot_config = {};
         self.user_downtime_config = defaultdict(list)
@@ -2335,12 +2340,14 @@ class DpsSimulatorApp:
             self.csv_meta = csv_meta
 
             txt_skills = []
+            self.txt_record_config = {}
             self.txt_downtime_windows = []
             if self.txt_path:
                 with open(self.txt_path, 'r', encoding='utf-8-sig') as f:
                     txt_text = f.read()
                 try:
                     log_data = json.loads(txt_text)
+                    self.txt_record_config = log_data.get("config", {}) or {}
                     txt_skills = [x for x in log_data.get('actions', []) if x.get('type') == 'Skill']
                 except json.JSONDecodeError:
                     txt_skills = []
@@ -2613,6 +2620,9 @@ class DpsSimulatorApp:
             st['delay'] = float(st['攻击间隔']);
             st['version'] = f"{st['游戏版本']:g}"
             st['party_bonus'] = float(st['队伍加成']) if st.get('队伍加成') else profile.party_bonus
+            mana_tick = (self.txt_record_config or {}).get("timeTillFirstManaTick")
+            if mana_tick is not None:
+                st['time_till_first_mana_tick'] = float(mana_tick)
             iters = int(st['模拟次数'])
             target_threshold = float(st.get('RD筛选阈值', 0.0))
 

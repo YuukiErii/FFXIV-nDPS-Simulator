@@ -371,6 +371,18 @@ class BlmJobStateTests(unittest.TestCase):
         self.assertEqual(flare.mp, 3333)
         self.assertEqual(flare.umbral_hearts, 0)
 
+    def test_lucid_dreaming_uses_server_mana_ticks(self):
+        state = BlmJobState()
+        state.configure_mana_ticks(1.0)
+        state.mp = 0
+        skill = {"amas_name": "Lucid Dreaming", "cast": 0.0, "potency": 0}
+
+        state.on_press("Lucid Dreaming", skill, 0.0, 0.0)
+        state.on_press_confirmed("Lucid Dreaming", skill, 0.0, {})
+        state.advance_time(7.0)
+
+        self.assertEqual(state.mp, 2250)
+
     def test_sample_blm_skills_are_not_marked_as_state_gaps(self):
         resolver = SkillResolver("BLM")
         if resolver.provider is None:

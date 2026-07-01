@@ -406,6 +406,10 @@ def run(payload: dict) -> dict:
     events, csv_meta = parse_axis_csv(csv_path, normalize_name=lambda raw_name: normalize_skill_name_for_job(raw_name, job))
     target_record = _target_record(target_path)
     downtime_track_record = _target_record(downtime_track_path)
+    if "time_till_first_mana_tick" in payload:
+        stats["time_till_first_mana_tick"] = float(payload["time_till_first_mana_tick"])
+    elif (mana_tick := target_record.get("config", {}).get("timeTillFirstManaTick")) is not None:
+        stats["time_till_first_mana_tick"] = float(mana_tick)
     events = _attach_targets(
         events,
         [item for item in target_record.get("actions", []) if item.get("type") == "Skill"],

@@ -64,7 +64,8 @@ class BlmJobState(JobState):
     def _has_enochian(self, current_time):
         return self.enochian_until > current_time and (self.astral_fire > 0 or self.umbral_ice > 0)
 
-    def _advance_time(self, current_time):
+    def advance_time(self, current_time):
+        super().advance_time(current_time)
         if not self._has_enochian(current_time):
             if self.enochian_until <= current_time:
                 self.astral_fire = 0
@@ -156,7 +157,7 @@ class BlmJobState(JobState):
         return bool(skill.get("buff"))
 
     def on_press(self, name, skill, current_time, snapshot_time):
-        self._advance_time(current_time)
+        self.advance_time(current_time)
         canonical = self._canonical(name, skill)
         self._pending_canonical = canonical
         if canonical in {"Fire IV", "Despair", "Flare", "Flare Star"} and self.astral_fire <= 0:
@@ -181,7 +182,7 @@ class BlmJobState(JobState):
         return {}
 
     def on_press_complete(self, name, current_time):
-        self._advance_time(current_time)
+        self.advance_time(current_time)
         canonical = self._pending_canonical or name
         self._pending_canonical = None
         self._apply_action(canonical, current_time)
