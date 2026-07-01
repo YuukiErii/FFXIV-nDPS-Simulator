@@ -213,6 +213,7 @@ class RdmJobState(JobState):
             "rdm_manafication": swordplay,
             "rdm_dualcast": self.dualcast_until > t,
             "damage_mult": damage_mult,
+            "damage_factors": [("鼓励", 1.10)] if self.embolden_until > t else [],
             "auto_damage_mult": 1.0,
         }
 

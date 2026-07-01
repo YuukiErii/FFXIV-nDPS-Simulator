@@ -202,6 +202,7 @@ def _buff_spec_to_dict(spec, name):
         return None
     return {
         "key": f"buff:{name}",
+        "name": name,
         "duration": duration_ms / 1000.0,
         "damage_mult": float(getattr(spec, "damage_mult", 1.0) or 1.0),
         "crit_rate_add": float(getattr(spec, "crit_rate_add", 0.0) or 0.0),

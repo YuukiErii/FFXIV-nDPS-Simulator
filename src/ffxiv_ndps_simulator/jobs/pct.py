@@ -313,6 +313,7 @@ class PctJobState(JobState):
         return {
             "pct_starry_muse": is_starry,
             "damage_mult": 1.05 if is_starry else 1.0,
+            "damage_factors": [("星空构想", 1.05)] if is_starry else [],
         }
 
     def format_buffs(self, active_buffs, has_potion=False):

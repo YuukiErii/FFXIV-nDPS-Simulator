@@ -328,10 +328,13 @@ class MnkJobState(JobState):
 
     def active_damage_buffs(self, t, target_id=None):
         damage_mult = 1.0
+        damage_factors = []
         if self.riddle_fire_until > t:
             damage_mult *= 1.15
+            damage_factors.append(("红莲", 1.15))
         if self.brotherhood_until > t:
             damage_mult *= 1.05
+            damage_factors.append(("义结", 1.05))
         return {
             "mnk_riddle_fire": self.riddle_fire_until > t,
             "mnk_brotherhood": self.brotherhood_until > t,
@@ -339,6 +342,7 @@ class MnkJobState(JobState):
             "mnk_form": self.form if self.form_until > t else None,
             "mnk_formless": self.formless_until > t,
             "damage_mult": damage_mult,
+            "damage_factors": damage_factors,
         }
 
     def auto_attack_interval_multiplier(self, t):

@@ -120,6 +120,7 @@ class DrgJobState(JobState):
             "drg_battle_litany": self.battle_litany_until > t,
             "drg_life": self.life_of_the_dragon_until > t,
             "damage_mult": 1.10 if self.lance_charge_until > t else 1.0,
+            "damage_factors": [("猛枪", 1.10)] if self.lance_charge_until > t else [],
             "crit_rate_add": 0.10 if self.battle_litany_until > t else 0.0,
         }
         return active

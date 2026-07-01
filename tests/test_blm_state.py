@@ -43,6 +43,43 @@ class BlmJobStateTests(unittest.TestCase):
         potency, _ = state.resolve_potency("Fire 4", {"amas_name": "Fire IV", "potency": 300}, 0.1, {})
         self.assertAlmostEqual(potency, 540.0)
 
+    def test_aspect_granting_spells_snapshot_old_state(self):
+        fire = BlmJobState()
+        fire.astral_fire = 1
+        fire._refresh_enochian(0.0)
+        fire_state = fire.on_press(
+            "Fire III", {"amas_name": "Fire III", "cast": 3.5, "potency": 290}, 1.0, 1.0
+        )
+        self.assertAlmostEqual(fire_state["snapshot_potency"], 290 * 1.4)
+
+        ice = BlmJobState()
+        ice.umbral_ice = 1
+        ice.mp = 0
+        ice._refresh_enochian(0.0)
+        ice.on_press(
+            "Blizzard III", {"amas_name": "Blizzard III", "cast": 3.5, "potency": 290}, 1.0, 1.0
+        )
+        ice.on_press_complete("Blizzard III", 1.0)
+        self.assertEqual(ice.umbral_ice, 3)
+        self.assertEqual(ice.mp, 2500)
+
+    def test_prepull_fire_three_hits_at_zero_without_self_granted_buffs(self):
+        sim = DpsSimulator(
+            dict(BASE_STATS),
+            [{"time": -4.232, "name": "Fire 3", "targets": 1, "cast_time": 3.44}],
+            iterations=1,
+        )
+        if sim.get_skill("Fire 3") is None:
+            self.skipTest("AMAS skill provider is unavailable")
+
+        result = sim.run_one_simulation(is_first_run=True)
+        fire3 = next(row for row in result[8] if row["name"] == "Fire 3")
+
+        self.assertAlmostEqual(fire3["time"], 0.0, places=6)
+        self.assertEqual(fire3["potency"], 290)
+        self.assertEqual(fire3["buffs"], "-")
+        self.assertEqual(fire3["potency_formula"], "290 = 290.00")
+
     def test_transpose_switches_aspect_without_applying_cast_speed(self):
         state = BlmJobState()
         state.on_press("Fire 3", {"amas_name": "Fire III", "potency": 290}, 0.0, 0.0)
@@ -342,8 +379,11 @@ class BlmJobStateTests(unittest.TestCase):
         self.assertEqual(state.mp, 0)
 
         self._use(state, "Blizzard III", 12.0, {"amas_name": "Blizzard III", "cast": 3.5, "potency": 290})
-        self.assertEqual(state.mp, 10000)
+        self.assertEqual(state.mp, 0)
         self.assertEqual(state.umbral_ice, 3)
+
+        self._use(state, "Blizzard IV", 14.0, {"amas_name": "Blizzard IV", "cast": 2.0, "potency": 300})
+        self.assertEqual(state.mp, 10000)
 
         self._use(state, "Fire III", 15.0, fire3)
         self.assertEqual(state.mp, 10000)

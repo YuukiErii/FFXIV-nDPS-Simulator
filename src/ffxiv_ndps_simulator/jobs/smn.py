@@ -299,6 +299,7 @@ class SmnJobState(JobState):
             "smn_demi": self._active_demi(t),
             "smn_gem": self.gem if self.gem_charges > 0 else None,
             "damage_mult": 1.05 if searing else 1.0,
+            "damage_factors": [("灼热", 1.05)] if searing else [],
         }
 
     def format_buffs(self, active_buffs, has_potion=False):

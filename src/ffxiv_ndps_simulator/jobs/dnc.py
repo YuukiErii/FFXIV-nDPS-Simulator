@@ -146,15 +146,19 @@ class DncJobState(JobState):
 
     def active_damage_buffs(self, t, target_id=None):
         damage_mult = 1.0
+        damage_factors = []
         if self.standard_until > t:
             damage_mult *= self.standard_mult
+            damage_factors.append(("标准舞", self.standard_mult))
         if self.technical_until > t:
             damage_mult *= self.technical_mult
+            damage_factors.append(("技巧舞", self.technical_mult))
         return {
             "dnc_standard": self.standard_until > t,
             "dnc_technical": self.technical_until > t,
             "dnc_devilment": self.devilment_until > t,
             "damage_mult": damage_mult,
+            "damage_factors": damage_factors,
             "crit_rate_add": 0.20 if self.devilment_until > t else 0.0,
             "dh_rate_add": 0.20 if self.devilment_until > t else 0.0,
         }

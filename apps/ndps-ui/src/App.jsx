@@ -46,7 +46,7 @@ const TABS = [
   ["warnings", "资源警告", AlertTriangle],
   ["log", "战斗日志 (表格)", Activity],
   ["dots", "DoT 明细", Timer],
-  ["skills", "技能详情 (平均)", Zap],
+  ["skills", "技能详情", Zap],
   ["best", "极值详情 (Max DPS)", Sparkles],
   ["intervals", "阶段 RD 分析", Timer],
   ["distribution", "DPS 分布分析", BarChart3],
@@ -523,14 +523,28 @@ function DotDetailsTab({ result }) {
 function SkillDetailsTab({ result }) {
   if (!result?.summary) return <EmptyState needsRun />;
   const rows = [...(result.skills || []), result.skill_total].filter(Boolean);
-  return <ReportTable columns={[
-    { key: "skill", label: "Skill Name" }, { key: "avg_cast_count", label: "Count", render: (row) => row.skill === "--- TOTAL ---" ? `${fmt(row.avg_cast_count, 1)} ± ${fmt(row.std_cast_count, 1)}` : fmt(row.avg_cast_count, 1) },
-    { key: "avg_hits_per_cast", label: "Avg Hits", render: (row) => row.skill === "--- TOTAL ---" ? "-" : fmt(row.avg_hits_per_cast, 1) },
-    { key: "avg_dps", label: "DPS (μ ± σ)", render: (row) => `${fmt(row.avg_dps, 2)} ± ${fmt(row.std_dps, 2)}` },
-    { key: "crit_percent", label: "Crit %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.crit_percent) },
-    { key: "direct_hit_percent", label: "DH %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.direct_hit_percent) },
-    { key: "crit_direct_percent", label: "CDH %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.crit_direct_percent) },
-  ]} rowClassName={(row) => row.skill === "--- TOTAL ---" ? "total-row blue" : ""} rows={rows} />;
+  return <div className="view-stack">
+    <OverviewSection title="技能情景明细">
+      <ReportTable columns={[
+        { key: "skill", label: "技能" },
+        { key: "targets", label: "目标数" },
+        { key: "buffs", label: "Buff" },
+        { key: "effective_potency", label: "实际威力", render: (row) => fmt(row.effective_potency, 2) },
+        { key: "count", label: "数量" },
+        { key: "potency_formula", label: "威力计算" },
+      ]} rows={result.skill_variants || []} />
+    </OverviewSection>
+    <OverviewSection title="技能统计 (平均)">
+      <ReportTable columns={[
+        { key: "skill", label: "Skill Name" }, { key: "avg_cast_count", label: "Count", render: (row) => row.skill === "--- TOTAL ---" ? `${fmt(row.avg_cast_count, 1)} ± ${fmt(row.std_cast_count, 1)}` : fmt(row.avg_cast_count, 1) },
+        { key: "avg_hits_per_cast", label: "Avg Hits", render: (row) => row.skill === "--- TOTAL ---" ? "-" : fmt(row.avg_hits_per_cast, 1) },
+        { key: "avg_dps", label: "DPS (μ ± σ)", render: (row) => `${fmt(row.avg_dps, 2)} ± ${fmt(row.std_dps, 2)}` },
+        { key: "crit_percent", label: "Crit %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.crit_percent) },
+        { key: "direct_hit_percent", label: "DH %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.direct_hit_percent) },
+        { key: "crit_direct_percent", label: "CDH %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.crit_direct_percent) },
+      ]} rowClassName={(row) => row.skill === "--- TOTAL ---" ? "total-row blue" : ""} rows={rows} />
+    </OverviewSection>
+  </div>;
 }
 
 function BestRunTab({ result }) {

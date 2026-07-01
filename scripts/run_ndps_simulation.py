@@ -533,6 +533,7 @@ def run(payload: dict) -> dict:
             "total": len(events),
         },
         "skills": skill_rows,
+        "skill_variants": _json_safe(stats_pkg.get("skill_variants", [])),
         "skill_total": total_skill_row,
         "best_run": _best_run_rows(stats_pkg, sim),
         "intervals": _interval_rows(stats_pkg, sim),

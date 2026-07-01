@@ -441,6 +441,7 @@ class VprJobState(JobState):
             "vpr_swift": swift,
             "vpr_reawaken": self._active(self.reawaken_until, t) and self.reawaken_stacks > 0,
             "damage_mult": 1.10 if hunters else 1.0,
+            "damage_factors": [("猎手", 1.10)] if hunters else [],
         }
 
     def auto_attack_interval_multiplier(self, t):

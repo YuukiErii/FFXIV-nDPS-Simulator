@@ -258,6 +258,7 @@ class SamJobState(JobState):
         return {
             "sam_fugetsu": is_fugetsu,
             "damage_mult": 1.13 if is_fugetsu else 1.0,
+            "damage_factors": [("风月", 1.13)] if is_fugetsu else [],
         }
 
     def auto_attack_interval_multiplier(self, t):

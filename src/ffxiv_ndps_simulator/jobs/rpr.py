@@ -198,6 +198,7 @@ class RprJobState(JobState):
         return {
             "rpr_deaths_design": is_deaths_design,
             "damage_mult": 1.10 if is_deaths_design else 1.0,
+            "damage_factors": [("死亡烙印", 1.10)] if is_deaths_design else [],
         }
 
     def on_press_confirmed(self, name, skill, current_time, payload):

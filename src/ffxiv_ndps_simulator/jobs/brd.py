@@ -157,15 +157,19 @@ class BrdJobState(JobState):
 
     def active_damage_buffs(self, t, target_id=None):
         damage_mult = 1.0
+        damage_factors = []
         crit_rate_add = 0.0
         dh_rate_add = 0.0
         if self.raging_until > t:
             damage_mult *= 1.15
+            damage_factors.append(("猛者强击", 1.15))
         if self.radiant_until > t:
             damage_mult *= self.radiant_mult
+            damage_factors.append(("光明神", self.radiant_mult))
         if self.song_until > t:
             if self.song == "Mage's Ballad":
                 damage_mult *= 1.01
+                damage_factors.append(("贤者歌", 1.01))
             elif self.song == "Army's Paeon":
                 dh_rate_add += 0.03
             elif self.song == "The Wanderer's Minuet":
@@ -178,6 +182,7 @@ class BrdJobState(JobState):
             "brd_radiant": self.radiant_until > t,
             "brd_song": self.song if self.song_until > t else None,
             "damage_mult": damage_mult,
+            "damage_factors": damage_factors,
             "crit_rate_add": crit_rate_add,
             "dh_rate_add": dh_rate_add,
         }

@@ -121,6 +121,8 @@ class AllJobStateTests(unittest.TestCase):
         self.assertIn("skill_data_source", result["metadata"])
         self.assertIn("crit_rate", result["panel"])
         self.assertGreater(len(result["skills"]), 0)
+        self.assertGreater(len(result["skill_variants"]), 0)
+        self.assertIn("potency_formula", result["skill_variants"][0])
         self.assertGreater(len(result["best_run"]), 0)
         self.assertGreater(len(result["intervals"]), 0)
         self.assertGreater(len(result["combat_log"]), 0)

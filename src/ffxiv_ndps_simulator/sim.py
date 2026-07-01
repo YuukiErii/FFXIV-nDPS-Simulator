@@ -685,6 +685,37 @@ def build_invalid_skill_events(events, resolver, resource_warnings=None):
     return rows
 
 
+def build_skill_variant_rows(combat_log):
+    variants = {}
+    for row in combat_log:
+        effective = row.get("effective_potency")
+        if not isinstance(effective, (int, float)):
+            continue
+        skill = str(row.get("name", "")).replace(" (Tick)", " (DoT)")
+        targets = int(row.get("target_count", row.get("targets", 1)) or 1)
+        key = (
+            skill,
+            targets,
+            str(row.get("potency_buffs") or "-"),
+            round(float(row.get("base_potency", row.get("potency", 0)) or 0), 6),
+            round(float(effective), 6),
+            str(row.get("potency_formula") or ""),
+        )
+        if key not in variants:
+            variants[key] = {
+                "skill": skill,
+                "targets": targets,
+                "buffs": key[2],
+                "base_potency": key[3],
+                "effective_potency": key[4],
+                "potency_formula": key[5],
+                "count": 0,
+                "first_time": float(row.get("time", 0.0) or 0.0),
+            }
+        variants[key]["count"] += 1
+    return sorted(variants.values(), key=lambda row: (row["skill"], row["first_time"], row["targets"]))
+
+
 def format_coverage_summary(report):
     stats = report.get("stats", {})
     csv_meta = report.get("csv_meta", {})
@@ -1088,18 +1119,48 @@ class DpsSimulator:
         damage_mult = active.get('damage_mult', 1.0)
         crit_rate_add = active.get('crit_rate_add', 0.0)
         dh_rate_add = active.get('dh_rate_add', 0.0)
+        damage_factors = list(active.get('damage_factors', []))
         for key, buff in buffs.items():
             if not isinstance(buff, dict):
                 continue
             if buff.get('until', -1.0) <= t:
                 continue
-            damage_mult *= buff.get('damage_mult', 1.0)
+            factor = buff.get('damage_mult', 1.0)
+            damage_mult *= factor
+            if abs(factor - 1.0) > 1e-9:
+                damage_factors.append((buff.get('name') or str(key).removeprefix('buff:'), factor))
             crit_rate_add += buff.get('crit_rate_add', 0.0)
             dh_rate_add += buff.get('dh_rate_add', 0.0)
         active['damage_mult'] = damage_mult
         active['crit_rate_add'] = crit_rate_add
         active['dh_rate_add'] = dh_rate_add
+        active['damage_factors'] = damage_factors
         return active
+
+    @staticmethod
+    def potency_breakdown(base_potency, resolved_potency, active_buffs, target_count=1,
+                          is_aoe=False, decay_rate=0.0, state_label="技能状态"):
+        base_potency = float(base_potency or resolved_potency or 0.0)
+        resolved_potency = float(resolved_potency or 0.0)
+        factors = []
+        if base_potency > 0 and abs(resolved_potency - base_potency) > 1e-9:
+            factors.append((state_label, resolved_potency / base_potency))
+        damage_factors = list(active_buffs.get('damage_factors', []))
+        factors.extend(damage_factors)
+        known_mult = math.prod(float(factor) for _label, factor in damage_factors) if damage_factors else 1.0
+        damage_mult = float(active_buffs.get('damage_mult', 1.0) or 1.0)
+        if abs(damage_mult - known_mult) > 1e-9:
+            factors.append(("增伤合计", damage_mult / known_mult))
+        target_factor = 1.0
+        if target_count > 1:
+            target_factor = 1.0 + (target_count - 1) * (1.0 - decay_rate if is_aoe else 1.0)
+            factors.append((f"{target_count}目标", target_factor))
+        effective = base_potency * math.prod(float(factor) for _label, factor in factors)
+        expression = f"{base_potency:g}"
+        for label, factor in factors:
+            expression += f" × {float(factor):g} ({label})"
+        potency_buffs = "+".join(label for label, _factor in factors if not label.endswith("目标")) or "-"
+        return effective, f"{expression} = {effective:.2f}", potency_buffs
 
     def effective_cast_time(self, skill, event):
         if event and event.get('cast_time') is not None:
@@ -1127,7 +1188,8 @@ class DpsSimulator:
             s = self.get_skill(name)
             if s:
                 cast, delay = self.effective_cast_time(s, event), s.get('delay', 0.5)
-                hit_time = event['time'] + cast + delay
+                confirmation_delay = max(0.0, cast - SLIDECAST_WINDOW) if cast > 0 else 0.0
+                hit_time = event['time'] + confirmation_delay + delay
                 keys = _classification_keys(name, self.job)
                 emits_followup_damage = bool(keys & FOLLOWUP_RISK_SKILL_KEYS.get(self.job, set()))
                 if s.get('potency', 0) > 0 or s.get('dot_potency', 0) > 0 or emits_followup_damage:
@@ -1163,7 +1225,7 @@ class DpsSimulator:
         job_state = create_job_state(self.job, self.stats.get('version', '7.5'))
         active_dots = [];
         casting_state = (-1, -1, -1);
-        potion_active_until = -1.0
+        potion_active_until = float("-inf")
         aa_running = False;
         next_aa_timestamp = 0.0
         job_state.configure_mana_ticks(self.stats.get('time_till_first_mana_tick'))
@@ -1288,6 +1350,13 @@ class DpsSimulator:
                              'crit': '-', 'dh': '-', 'dmg': '-', 'targets': 1})
                     continue
 
+                snapshot_active_buffs = self.get_active_damage_buffs(
+                    buffs,
+                    snapshot_time,
+                    job_state=job_state,
+                    target_id=target_id,
+                )
+
                 if (job_state.allows_auto_attacks(self.job_profile)
                         and job_state.allows_auto_attack_at(current_time)
                         and job_state.should_start_auto_attacks(name, skill, current_time)
@@ -1299,6 +1368,7 @@ class DpsSimulator:
                 skill_buff = skill.get('buff')
                 if skill_buff and not skill.get('grants') and not job_state.handles_skill_buff(name, skill):
                     buffs[skill_buff['key']] = {
+                        'name': skill_buff.get('name', name),
                         'until': current_time + skill_buff['duration'],
                         'damage_mult': skill_buff.get('damage_mult', 1.0),
                         'crit_rate_add': skill_buff.get('crit_rate_add', 0.0),
@@ -1312,7 +1382,7 @@ class DpsSimulator:
                         })
 
                 cast, delay = cast_time, skill.get('delay', 0.5)
-                hit_time = current_time + cast + delay
+                hit_time = snapshot_time + delay
                 check_time = current_time
 
                 if cast > 0:
@@ -1344,23 +1414,33 @@ class DpsSimulator:
                     'row_no': payload.get('row_no'),
                     'is_gcd': payload.get('is_gcd'),
                     'multi_boss_mode': self.multi_boss_mode,
+                    'snapshot_active_buffs': snapshot_active_buffs,
                     **press_state,
                 })
 
-                job_state.on_press_confirmed(
-                    name,
-                    skill,
-                    current_time,
-                    {
-                        **payload,
-                        **press_state,
-                        'meikyo': is_meikyo_proc,
-                        'tid': target_id,
-                        'targets': target_count,
-                        'target_ids': explicit_target_ids,
-                        'multi_boss_mode': self.multi_boss_mode,
-                    },
-                )
+                confirmation_payload = {
+                    **payload,
+                    **press_state,
+                    'name': name,
+                    'meikyo': is_meikyo_proc,
+                    'tid': target_id,
+                    'targets': target_count,
+                    'target_ids': explicit_target_ids,
+                    'multi_boss_mode': self.multi_boss_mode,
+                }
+                if cast > 0 and job_state.confirms_at_snapshot(name, skill):
+                    push_sim_event(
+                        pq, snapshot_time, SimEventType.CONFIRM, tie_breaker, confirmation_payload
+                    )
+                else:
+                    job_state.on_press_confirmed(name, skill, current_time, confirmation_payload)
+                    job_state.on_common_action_confirmed(name, skill, current_time)
+
+            elif ev_type == SimEventType.CONFIRM:
+                name = payload['name']
+                skill = self.get_skill(name)
+                job_state.set_event_context(payload)
+                job_state.on_press_confirmed(name, skill, current_time, payload)
                 job_state.on_common_action_confirmed(name, skill, current_time)
 
             elif ev_type == SimEventType.DAMAGE:
@@ -1400,12 +1480,14 @@ class DpsSimulator:
                 main_dh = False
                 crit_count = 0
 
-                active_buffs = self.get_active_damage_buffs(
-                    buffs,
-                    current_time,
-                    job_state=job_state,
-                    target_id=target_id,
-                )
+                active_buffs = payload.get('snapshot_active_buffs')
+                if active_buffs is None:
+                    active_buffs = self.get_active_damage_buffs(
+                        buffs,
+                        current_time,
+                        job_state=job_state,
+                        target_id=target_id,
+                    )
                 potency, is_combo = job_state.resolve_potency(name, skill, current_time, payload)
                 is_aoe_skill = skill.get('is_aoe', False);
                 decay_rate = skill.get('decay', 0.0)
@@ -1498,6 +1580,21 @@ class DpsSimulator:
 
                 if is_first_run and potency > 0:
                     b_list = job_state.format_buffs(active_buffs, has_potion)
+                    base_potency = skill.get('potency', potency)
+                    state_label = "技能状态"
+                    if self.job == "BLM":
+                        af = active_buffs.get("blm_astral_fire", 0)
+                        ui = active_buffs.get("blm_umbral_ice", 0)
+                        state_label = f"星火{af}" if af else (f"灵冰{ui}" if ui else state_label)
+                    effective_potency, potency_formula, potency_buffs = self.potency_breakdown(
+                        base_potency,
+                        potency,
+                        active_buffs,
+                        target_count,
+                        is_aoe_skill,
+                        decay_rate,
+                        state_label,
+                    )
 
                     dmg_str = f"{step_total_damage:,.0f}"
                     if is_damage_immune: dmg_str += " (免疫)"
@@ -1511,9 +1608,13 @@ class DpsSimulator:
 
                     combat_log.append({
                         'time': current_time, 'name': name, 'potency': potency,
+                        'base_potency': base_potency,
+                        'effective_potency': effective_potency,
+                        'potency_formula': potency_formula,
+                        'potency_buffs': potency_buffs,
                         'buffs': "+".join(b_list) if b_list else "-",
                         'crit': c_str, 'dh': d_str,
-                        'dmg': dmg_str, 'targets': target_count
+                        'dmg': dmg_str, 'targets': target_count, 'target_count': target_count,
                     })
 
                 job_state.on_damage_resolved(name, skill, current_time, is_combo, payload)
@@ -1606,16 +1707,24 @@ class DpsSimulator:
 
                 if is_first_run and potency > 0:
                     b_list = job_state.format_buffs(active_buffs, has_potion)
+                    effective_potency, potency_formula, potency_buffs = self.potency_breakdown(
+                        potency, potency, active_buffs, target_count, is_aoe, decay_rate
+                    )
                     dmg_str = f"{step_total_damage:,.0f}"
                     if is_damage_immune:
                         dmg_str += " (免疫)"
                     combat_log.append({
                         'time': current_time, 'name': name, 'potency': potency,
+                        'base_potency': potency,
+                        'effective_potency': effective_potency,
+                        'potency_formula': potency_formula,
+                        'potency_buffs': potency_buffs,
                         'buffs': "+".join(b_list) if b_list else "-",
                         'crit': "✔" if main_crit else "",
                         'dh': "✔" if main_dh else "",
                         'dmg': dmg_str,
                         'targets': target_count,
+                        'target_count': target_count,
                     })
 
             elif ev_type == SimEventType.AUTO_ATTACK_CHECK:
@@ -1666,10 +1775,17 @@ class DpsSimulator:
                     if is_d: skill_dh_map['Auto Attack'] += 1
                     if is_c and is_d: skill_cdh_map['Auto Attack'] += 1
                     if is_first_run:
-                        b_list = job_state.format_buffs(d.get('active_buffs', {}), d['has_potion'])
+                        active_buffs = d.get('active_buffs', {})
+                        b_list = job_state.format_buffs(active_buffs, d['has_potion'])
+                        effective_potency, potency_formula, potency_buffs = self.potency_breakdown(
+                            AA_POTENCY, AA_POTENCY, active_buffs
+                        )
                         combat_log.append({'time': current_time, 'name': 'Auto Attack', 'potency': AA_POTENCY,
+                                           'base_potency': AA_POTENCY, 'effective_potency': effective_potency,
+                                           'potency_formula': potency_formula,
+                                           'potency_buffs': potency_buffs,
                                            'buffs': "+".join(b_list) if b_list else "-", 'crit': "✔" if is_c else "",
-                                           'dh': "✔" if is_d else "", 'dmg': dmg, 'targets': 1})
+                                           'dh': "✔" if is_d else "", 'dmg': dmg, 'targets': 1, 'target_count': 1})
 
             elif ev_type == SimEventType.DOT_TICK:
                 temp_active_dots = []
@@ -1724,9 +1840,16 @@ class DpsSimulator:
                     if is_first_run:
                         b_list = job_state.format_buffs(dot['buffs'], dot['has_potion'])
                         t_lbl = f"DoT(T{dot['tid']})" if (self.multi_boss_mode or dot.get('target_explicit')) else "DoT"
+                        effective_potency, potency_formula, potency_buffs = self.potency_breakdown(
+                            dot['potency'], dot['potency'], dot['buffs'], dot.get('targets', 1)
+                        )
                         combat_log.append({'time': current_time, 'name': f"{dot['name']} (Tick)", 'potency': dot['potency'],
+                                           'base_potency': dot['potency'], 'effective_potency': effective_potency,
+                                           'potency_formula': potency_formula,
+                                           'potency_buffs': potency_buffs,
                                            'buffs': "+".join(b_list) if b_list else "-", 'crit': "✔" if first_c else "",
-                                           'dh': "✔" if first_d else "", 'dmg': tick_damage, 'targets': t_lbl})
+                                           'dh': "✔" if first_d else "", 'dmg': tick_damage, 'targets': t_lbl,
+                                           'target_count': int(dot.get('targets', 1) or 1)})
                 active_dots = temp_active_dots
                 push_sim_event(pq, current_time + 3.0, SimEventType.DOT_TICK, tie_breaker, None)
 
@@ -1824,6 +1947,7 @@ class DpsSimulator:
             'dot_details': first_dot_details,
             'resource_warnings': first_resource_warnings,
             'invalid_skill_events': build_invalid_skill_events(original_timeline, self.skill_resolver, first_resource_warnings),
+            'skill_variants': build_skill_variant_rows(first_log),
         }
         return dps_list, sim_dur, last_hit, stats_pkg, first_log
 
@@ -2095,7 +2219,7 @@ class DpsSimulatorApp:
         sb_dot.pack(side=tk.RIGHT, fill=tk.Y, padx=(0, 5), pady=5)
 
         self.tab_stats = ttk.Frame(self.nb);
-        self.nb.add(self.tab_stats, text="技能详情 (平均)")
+        self.nb.add(self.tab_stats, text="技能统计 (平均)")
         cols_stats = ("skill", "count", "avg_t", "dps", "crit", "dh", "cdh")
         self.tree_stats = ttk.Treeview(self.tab_stats, columns=cols_stats, show="headings")
         self.tree_stats.heading("skill", text="Skill Name");
@@ -2116,6 +2240,30 @@ class DpsSimulatorApp:
         self.tree_stats.configure(yscroll=sb_stats.set)
         self.tree_stats.pack(side=tk.LEFT, fill=tk.BOTH, expand=True);
         sb_stats.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.tab_skill_variants = ttk.Frame(self.nb)
+        self.nb.add(self.tab_skill_variants, text="技能详情 (Buff/目标)")
+        cols_variants = ("skill", "targets", "buffs", "effective", "count", "formula")
+        self.tree_skill_variants = ttk.Treeview(
+            self.tab_skill_variants, columns=cols_variants, show="headings", height=20
+        )
+        variant_defs = [
+            ("skill", "技能", 160, "w"),
+            ("targets", "目标数", 65, "center"),
+            ("buffs", "Buff", 180, "w"),
+            ("effective", "实际威力", 90, "e"),
+            ("count", "数量", 60, "center"),
+            ("formula", "威力计算", 380, "w"),
+        ]
+        for key, label, width, anchor in variant_defs:
+            self.tree_skill_variants.heading(key, text=label)
+            self.tree_skill_variants.column(key, width=width, anchor=anchor)
+        sb_variants = ttk.Scrollbar(
+            self.tab_skill_variants, orient="vertical", command=self.tree_skill_variants.yview
+        )
+        self.tree_skill_variants.configure(yscroll=sb_variants.set)
+        self.tree_skill_variants.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        sb_variants.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.tab_best = ttk.Frame(self.nb);
         self.nb.add(self.tab_best, text="极值详情 (Max DPS)")
@@ -2593,6 +2741,7 @@ class DpsSimulatorApp:
         for i in self.tree_log.get_children(): self.tree_log.delete(i)
         for i in self.tree_dot_details.get_children(): self.tree_dot_details.delete(i)
         for i in self.tree_stats.get_children(): self.tree_stats.delete(i)
+        for i in self.tree_skill_variants.get_children(): self.tree_skill_variants.delete(i)
         for i in self.tree_best.get_children(): self.tree_best.delete(i)
         for i in self.tree_dist.get_children(): self.tree_dist.delete(i)
         for i in self.tree_intervals.get_children(): self.tree_intervals.delete(i)
@@ -3145,6 +3294,16 @@ class DpsSimulatorApp:
                 damage_text,
                 last_tick_text,
                 detail.get('buffs_text', "-"),
+            ))
+
+        for row in stats_pkg.get("skill_variants", []):
+            self.tree_skill_variants.insert("", tk.END, values=(
+                row.get("skill", "-"),
+                row.get("targets", 1),
+                row.get("buffs", "-"),
+                f"{float(row.get('effective_potency', 0.0)):.2f}",
+                row.get("count", 0),
+                row.get("potency_formula", "-"),
             ))
 
         s_dps = stats_pkg['dps'];

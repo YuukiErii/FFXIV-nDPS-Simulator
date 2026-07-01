@@ -5,6 +5,7 @@ import re
 
 class SimEventType:
     PRESS = "press"
+    CONFIRM = "confirm"
     DAMAGE = "damage"
     FOLLOWUP_DAMAGE = "followup_damage"
     DOT_TICK = "dot_tick"
@@ -16,6 +17,7 @@ class SimEventType:
 
 SIM_EVENT_PRIORITY = {
     SimEventType.PRESS: 0,
+    SimEventType.CONFIRM: -1,
     SimEventType.AUTO_ATTACK_CHECK: 1,
     SimEventType.DOT_TICK: 2,
     SimEventType.AUTO_ATTACK_DAMAGE: 3,

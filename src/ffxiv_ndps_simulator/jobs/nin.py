@@ -603,17 +603,22 @@ class NinJobState(JobState):
         has_kunai = debuffs["Kunai's Bane"] > t
         has_trick = debuffs["Trick Attack"] > t
         damage_mult = 1.0
+        damage_factors = []
         if has_dokumori:
             damage_mult *= 1.05
+            damage_factors.append(("介毒", 1.05))
         if has_kunai:
             damage_mult *= 1.10
+            damage_factors.append(("百雷铳", 1.10))
         if has_trick:
             damage_mult *= 1.10
+            damage_factors.append(("攻其不备", 1.10))
         return {
             "nin_dokumori": has_dokumori,
             "nin_kunai": has_kunai,
             "nin_trick": has_trick,
             "damage_mult": damage_mult,
+            "damage_factors": damage_factors,
         }
 
     def auto_attack_interval_multiplier(self, t):

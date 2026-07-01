@@ -42,14 +42,15 @@ class BlmJobState(JobState):
         self.thunderhead = 0
         self.firestarter = 0
         self.mp = 10000
-        self.enochian_until = -1.0
-        self.ley_lines_until = -1.0
-        self.swiftcast_until = -1.0
+        self.enochian_until = float("-inf")
+        self.ley_lines_until = float("-inf")
+        self.swiftcast_until = float("-inf")
         self.triplecast_stacks = 0
-        self.triplecast_until = -1.0
-        self.next_polyglot_at = -1.0
+        self.triplecast_until = float("-inf")
+        self.next_polyglot_at = float("-inf")
         self._pending_canonical = None
         self._pending_mp_spend = (0, 0, False, False)
+        self._pending_umbral_restore = 0
 
     def _canonical(self, name, skill=None):
         if skill:
@@ -140,9 +141,6 @@ class BlmJobState(JobState):
                 spend = base_cost * 2
         return spend, spend, consumes_heart, False
 
-    def _restore_mp_for_umbral_ice(self):
-        self.mp = min(10000, self.mp + self.UI_MP_RESTORE.get(self.umbral_ice, 0))
-
     def _apply_pending_mp_spend(self):
         _required, spend, consumes_heart, all_mp = self._pending_mp_spend
         self._pending_mp_spend = (0, 0, False, False)
@@ -155,6 +153,9 @@ class BlmJobState(JobState):
 
     def handles_skill_buff(self, name, skill):
         return bool(skill.get("buff"))
+
+    def confirms_at_snapshot(self, name, skill):
+        return True
 
     def on_press(self, name, skill, current_time, snapshot_time):
         self.advance_time(current_time)
@@ -173,13 +174,20 @@ class BlmJobState(JobState):
             self.warn("blm_astral_soul_low", current_time, name,
                       f"Flare Star used with Astral Soul {self.astral_soul}; expected 6.")
         self._pending_mp_spend = self._mp_spend_for(canonical)
+        self._pending_umbral_restore = (
+            self.UI_MP_RESTORE.get(self.umbral_ice, 0)
+            if canonical in self.ICE_ASPECT or canonical == "Umbral Soul"
+            else 0
+        )
         mp_required = self._pending_mp_spend[0]
         if mp_required and self.mp < mp_required:
             self.warn("blm_mp_low", current_time, name,
                       f"{canonical} used with MP {self.mp}; expected at least {mp_required}.")
         if skill.get("cast", 0) or canonical in self.FIRE_ASPECT or canonical in self.ICE_ASPECT:
             self._consume_instant_cast_status(canonical, current_time)
-        return {}
+        return {
+            "snapshot_potency": skill.get("potency", 0) * self._aspect_multiplier(canonical),
+        }
 
     def on_press_complete(self, name, current_time):
         self.advance_time(current_time)
@@ -235,6 +243,8 @@ class BlmJobState(JobState):
         return 1.0
 
     def resolve_potency(self, name, skill, current_time, payload):
+        if "snapshot_potency" in payload:
+            return payload["snapshot_potency"], False
         canonical = self._canonical(name, skill)
         potency = skill.get("potency", 0)
         return potency * self._aspect_multiplier(canonical), False
@@ -308,10 +318,9 @@ class BlmJobState(JobState):
             self.triplecast_until = current_time + 15.0
 
         self._apply_pending_mp_spend()
-        if canonical in self.ICE_ASPECT:
-            self._restore_mp_for_umbral_ice()
-        elif canonical == "Umbral Soul" and self.umbral_ice > 0:
-            self._restore_mp_for_umbral_ice()
+        if self._pending_umbral_restore:
+            self.gain_mp(self._pending_umbral_restore)
+        self._pending_umbral_restore = 0
 
     def on_damage_resolved(self, name, skill, current_time, is_combo, payload):
         return None
@@ -374,6 +383,7 @@ class BlmJobState(JobState):
             "blm_umbral_ice": self.umbral_ice if self.umbral_ice and self.enochian_until > t else 0,
             "blm_ley_lines": self.ley_lines_until > t,
             "damage_mult": self.ENOCHIAN_MULT if enochian else 1.0,
+            "damage_factors": [("天语", self.ENOCHIAN_MULT)] if enochian else [],
         }
 
     def format_buffs(self, active_buffs, has_potion=False):

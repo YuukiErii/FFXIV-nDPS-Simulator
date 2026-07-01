@@ -67,6 +67,9 @@ class JobState:
         self.on_common_action_confirmed(name, skill, current_time)
         return self.on_press_complete(name, current_time)
 
+    def confirms_at_snapshot(self, name, skill):
+        return False
+
     def handles_skill_buff(self, name, skill):
         return False
 
