@@ -302,9 +302,22 @@ def _interval_rows(stats_pkg: dict, sim: DpsSimulator) -> list[dict]:
     return rows
 
 
-def _high_run_rows(stats_pkg: dict) -> list[dict]:
+def _high_run_rows(stats_pkg: dict, sim: DpsSimulator) -> list[dict]:
     return [
-        {"run_id": int(run_id), "rd": round(item["rd"], 6), "duration": round(item["dur"], 6)}
+        {
+            "run_id": int(run_id),
+            "rd": round(item["rd"], 6),
+            "duration": round(item["dur"], 6),
+            "history": [
+                {
+                    "time": round(float(time_point), 6),
+                    "damage": round(float(damage), 6),
+                    "rd": round(float(damage) / effective_duration, 6),
+                }
+                for time_point, damage in sorted((item.get("history") or {}).items())
+                if (effective_duration := sim.get_effective_duration(float(time_point))) > 0
+            ],
+        }
         for run_id, item in sorted(
             (stats_pkg.get("high_rd_runs") or {}).items(),
             key=lambda pair: pair[1]["rd"],
@@ -451,7 +464,7 @@ def run(payload: dict) -> dict:
     evidence = _evidence_status(coverage, events, csv_path, resource_warnings)
     skill_rows = _skill_rows(stats_pkg, sim, iterations)
     total_skill_row = _total_skill_row(stats_pkg, mean_dps, std_dps, iterations)
-    high_run_rows = _high_run_rows(stats_pkg)
+    high_run_rows = _high_run_rows(stats_pkg, sim)
     provider = "ama_xiv_combat_sim local provider" if getattr(sim.skill_resolver, "provider", None) else "local fallback skill table"
     resource_status = (
         f"{len(resource_warnings)} warning(s); trend-only interpretation"

@@ -8,7 +8,8 @@ $ArtifactDir = Join-Path $Root "artifacts"
 $BackendBuildDir = Join-Path $ArtifactDir "build\ndps_ui_backend_build"
 $BackendDistDir = Join-Path $ArtifactDir "build\ndps_ui_backend_dist"
 $SpecDir = Join-Path $ArtifactDir "specs\ndps_ui_backend_spec"
-$BackendExe = Join-Path $BackendDistDir "ndps_backend.exe"
+$BackendOutputDir = Join-Path $BackendDistDir "ndps_backend"
+$BackendExe = Join-Path $BackendOutputDir "ndps_backend.exe"
 $NodeExeCandidates = @(
   (Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe"),
   "node.exe"
@@ -49,7 +50,6 @@ if ($Running) {
 }
 
 $SkillMapPath = Join-Path $Root "data\ff14_job_skill_en_cn_map.json"
-$SkillLineDir = Join-Path $Root "examples\skill_lines"
 $GameTxt = Join-Path $Root "src\ffxiv_ndps_simulator\game.txt"
 $StatFnsTxt = Join-Path $Root "src\ffxiv_ndps_simulator\stat_fns.txt"
 $DamageCalTxt = Join-Path $Root "src\ffxiv_ndps_simulator\damage_cal.txt"
@@ -57,7 +57,6 @@ $DamageCalTxt = Join-Path $Root "src\ffxiv_ndps_simulator\damage_cal.txt"
 .\.venv\Scripts\python.exe -m PyInstaller `
   --noconfirm `
   --clean `
-  --onefile `
   --console `
   --name ndps_backend `
   --distpath $BackendDistDir `
@@ -66,7 +65,6 @@ $DamageCalTxt = Join-Path $Root "src\ffxiv_ndps_simulator\damage_cal.txt"
   --paths ".\src\ffxiv_ndps_simulator" `
   --collect-submodules ama_xiv_combat_sim `
   --add-data "$SkillMapPath;data" `
-  --add-data "$SkillLineDir;examples\skill_lines" `
   --add-data "$GameTxt;ffxiv_ndps_simulator" `
   --add-data "$StatFnsTxt;ffxiv_ndps_simulator" `
   --add-data "$DamageCalTxt;ffxiv_ndps_simulator" `
@@ -119,7 +117,7 @@ New-Item -ItemType Directory -Force -Path $AppPackageDir, $BackendPackageDir | O
 
 Copy-Item -Path (Join-Path $AppRoot "dist") -Destination (Join-Path $AppPackageDir "dist") -Recurse
 Copy-Item -Path (Join-Path $AppRoot "electron") -Destination (Join-Path $AppPackageDir "electron") -Recurse
-Copy-Item -Path $BackendExe -Destination (Join-Path $BackendPackageDir "ndps_backend.exe") -Force
+Copy-Item -Path (Join-Path $BackendOutputDir "*") -Destination $BackendPackageDir -Recurse -Force
 Copy-Item -Path (Join-Path $AppRoot "public\favicon.svg") -Destination (Join-Path $AppPackageDir "favicon.svg") -Force
 
 $PackageJson = @{

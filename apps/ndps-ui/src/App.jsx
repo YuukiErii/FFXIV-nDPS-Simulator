@@ -48,6 +48,7 @@ const TABS = [
   ["dots", "DoT 明细", Timer],
   ["skills", "技能详情", Zap],
   ["best", "极值详情 (Max DPS)", Sparkles],
+  ["history", "RD 历史曲线", Activity],
   ["intervals", "阶段 RD 分析", Timer],
   ["distribution", "DPS 分布分析", BarChart3],
   ["distributionTable", "DPS分布表格", Table2],
@@ -370,6 +371,7 @@ function App() {
           {activeTab === "dots" && <DotDetailsTab result={runResult} />}
           {activeTab === "skills" && <SkillDetailsTab result={runResult} />}
           {activeTab === "best" && <BestRunTab result={runResult} />}
+          {activeTab === "history" && <HistoryTab result={runResult} />}
           {activeTab === "intervals" && <IntervalsTab result={runResult} />}
           {activeTab === "distribution" && <DistributionTab result={runResult} />}
           {activeTab === "distributionTable" && <DistributionTableTab result={runResult} />}
@@ -569,6 +571,49 @@ function IntervalsTab({ result }) {
     { key: "top_1", label: "Top 1% (Z=2.326)", render: (row) => fmt(row.top_1, 2) },
     { key: "top_0_1", label: "Top 0.1% (Z=3.090)", render: (row) => fmt(row.top_0_1, 2) },
   ]} rows={result.intervals || []} />;
+}
+
+function HistoryTab({ result }) {
+  const [selectedRunId, setSelectedRunId] = useState("");
+  if (!result?.summary) return <EmptyState needsRun />;
+  const runs = result.high_rd_runs || [];
+  const selectedRun = runs.find((run) => String(run.run_id) === selectedRunId) || runs[0];
+  const points = selectedRun?.history || [];
+  if (!runs.length) return <div className="empty-state"><Activity size={28} /><strong>没有高 RD run</strong><span>降低 RD 阈值后重新模拟即可记录曲线。</span></div>;
+  if (!points.length) return <EmptyState />;
+
+  const width = 960;
+  const plot = { left: 72, right: 930, top: 42, bottom: 340 };
+  const maxTime = Math.max(...points.map((point) => Number(point.time)), 1);
+  const rdValues = points.map((point) => Number(point.rd));
+  const yMinRaw = Math.min(...rdValues);
+  const yMaxRaw = Math.max(...rdValues, Number(selectedRun.rd));
+  const yPad = Math.max(10, (yMaxRaw - yMinRaw) * 0.08);
+  const yMin = Math.max(0, Math.floor((yMinRaw - yPad) / 100) * 100);
+  const yMax = Math.max(yMin + 100, Math.ceil((yMaxRaw + yPad) / 100) * 100);
+  const x = (value) => plot.left + value / maxTime * (plot.right - plot.left);
+  const y = (value) => plot.bottom - (value - yMin) / (yMax - yMin) * (plot.bottom - plot.top);
+  const xTicks = Array.from({ length: 6 }, (_, index) => maxTime / 5 * index);
+  const yTicks = Array.from({ length: 6 }, (_, index) => yMin + (yMax - yMin) / 5 * index);
+  const curvePath = points.map((point, index) => `${index ? "L" : "M"}${x(Number(point.time)).toFixed(2)},${y(Number(point.rd)).toFixed(2)}`).join(" ");
+
+  return <div className="history-view">
+    <div className="history-toolbar">
+      <div><span>高 RD 历史曲线</span><strong>Run #{selectedRun.run_id} / {fmt(selectedRun.rd, 2)} RD</strong></div>
+      <label><span>选择 run</span><select value={String(selectedRun.run_id)} onChange={(event) => setSelectedRunId(event.target.value)}>{runs.map((run) => <option key={run.run_id} value={run.run_id}>#{run.run_id} · {fmt(run.rd, 0)} RD</option>)}</select></label>
+    </div>
+    <svg className="history-chart" role="img" aria-label="高 RD 模拟历史曲线" viewBox={`0 0 ${width} 420`}>
+      {yTicks.map((tick) => <g key={tick}><line className="chart-grid" x1={plot.left} x2={plot.right} y1={y(tick)} y2={y(tick)} /><text className="chart-label" textAnchor="end" x={plot.left - 10} y={y(tick) + 4}>{fmt(tick, 0)}</text></g>)}
+      {xTicks.map((tick) => <g key={tick}><line className="chart-axis" x1={x(tick)} x2={x(tick)} y1={plot.bottom} y2={plot.bottom + 5} /><text className="chart-label" textAnchor="middle" x={x(tick)} y={plot.bottom + 22}>{formatTime(tick)}</text></g>)}
+      <line className="chart-axis" x1={plot.left} x2={plot.right} y1={plot.bottom} y2={plot.bottom} />
+      <line className="chart-axis" x1={plot.left} x2={plot.left} y1={plot.top} y2={plot.bottom} />
+      <line className="history-final-line" x1={plot.left} x2={plot.right} y1={y(Number(selectedRun.rd))} y2={y(Number(selectedRun.rd))} />
+      <path className="history-curve" d={curvePath} />
+      <text className="chart-title-label" x={plot.left} y="22">Cumulative RD</text>
+      <text className="chart-title-label" textAnchor="end" x={plot.right} y="404">Time</text>
+      <text className="history-final-label" textAnchor="end" x={plot.right - 8} y={y(Number(selectedRun.rd)) - 8}>Final {fmt(selectedRun.rd, 0)}</text>
+    </svg>
+  </div>;
 }
 
 function DistributionTab({ result }) {
