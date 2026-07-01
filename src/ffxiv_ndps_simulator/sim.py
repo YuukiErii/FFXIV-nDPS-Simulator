@@ -645,6 +645,46 @@ def build_skill_coverage(events, resolver, csv_meta=None):
     }
 
 
+def build_invalid_skill_events(events, resolver, resource_warnings=None):
+    rows = []
+    for event in events:
+        entry = timeline_entry(event)
+        name = entry.get("name", "")
+        classification = resolver.classify_skill(name)
+        category = classification.get("category")
+        if category not in {"zero_damage", "unrecognized"}:
+            continue
+        rows.append({
+            "row_no": entry.get("row_no"),
+            "time": entry.get("time", 0.0),
+            "skill": name,
+            "kind": "未识别/不出伤" if category == "unrecognized" else classification.get("category_label", "0伤害"),
+            "code": category,
+            "source": "import",
+            "reason": classification.get("reason", ""),
+        })
+
+    for warning in resource_warnings or []:
+        if warning.get("code") != "target_untargetable_at_press":
+            continue
+        rows.append({
+            "row_no": warning.get("row_no"),
+            "time": warning.get("time", 0.0),
+            "skill": warning.get("skill", ""),
+            "kind": "上天按不出",
+            "code": warning.get("code"),
+            "source": "runtime",
+            "reason": warning.get("message", ""),
+        })
+
+    rows.sort(key=lambda row: (
+        float(row.get("time") or 0.0),
+        row.get("row_no") if row.get("row_no") is not None else 10**9,
+        row.get("skill", ""),
+    ))
+    return rows
+
+
 def format_coverage_summary(report):
     stats = report.get("stats", {})
     csv_meta = report.get("csv_meta", {})
@@ -1028,6 +1068,21 @@ class DpsSimulator:
     def get_skill(self, name):
         return self.skill_resolver.get(name)
 
+    @staticmethod
+    def _target_ids_from_payload(payload):
+        raw_ids = (payload or {}).get('target_ids') or []
+        if not isinstance(raw_ids, (list, tuple)):
+            return []
+        target_ids = []
+        for raw_id in raw_ids:
+            try:
+                target_id = int(raw_id)
+            except (TypeError, ValueError):
+                continue
+            if target_id > 0 and target_id not in target_ids:
+                target_ids.append(target_id)
+        return target_ids
+
     def get_active_damage_buffs(self, buffs, t, job_state=None, target_id=None):
         active = job_state.active_damage_buffs(t, target_id=target_id) if job_state else {}
         damage_mult = active.get('damage_mult', 1.0)
@@ -1137,6 +1192,9 @@ class DpsSimulator:
             if ev_type == SimEventType.PRESS:
                 name = payload['name'];
                 target_count = int(payload.get('targets', 1))
+                explicit_target_ids = self._target_ids_from_payload(payload)
+                if explicit_target_ids:
+                    target_count = max(target_count, len(explicit_target_ids))
                 skill = self.get_skill(name)
                 if not skill: continue
 
@@ -1155,7 +1213,7 @@ class DpsSimulator:
                     if snapshot_time < current_time: snapshot_time = current_time
 
                 # --- 2. 确定 Target ID (智能索敌逻辑) ---
-                target_id = 1  # 默认打 Target 1
+                target_id = explicit_target_ids[0] if explicit_target_ids else 1
                 is_manual_target = False
 
                 job_state.set_event_context(payload)
@@ -1275,7 +1333,7 @@ class DpsSimulator:
                     'meikyo': is_meikyo_proc,
                     'has_potion': is_potion,
                     'targets': target_count,
-                    'target_ids': payload.get('target_ids'),
+                    'target_ids': explicit_target_ids,
                     'tid': target_id,
                     'row_no': payload.get('row_no'),
                     'is_gcd': payload.get('is_gcd'),
@@ -1293,7 +1351,7 @@ class DpsSimulator:
                         'meikyo': is_meikyo_proc,
                         'tid': target_id,
                         'targets': target_count,
-                        'target_ids': payload.get('target_ids'),
+                        'target_ids': explicit_target_ids,
                         'multi_boss_mode': self.multi_boss_mode,
                     },
                 )
@@ -1390,7 +1448,10 @@ class DpsSimulator:
                 for dot_application in job_state.dot_applications(
                         name, skill, current_time, target_count, target_id, active_buffs, has_potion):
                     dot_key = dot_application.get('dot_key', dot_application.get('source_name', dot_application['name']))
-                    if self.multi_boss_mode:
+                    target_aware_dot = self.multi_boss_mode or bool(payload.get('target_ids'))
+                    if target_aware_dot:
+                        dot_application = dict(dot_application)
+                        dot_application['target_explicit'] = bool(payload.get('target_ids'))
                         active_dots = [
                             d for d in active_dots
                             if not (d.get('dot_key', d.get('source_name', d['name'])) == dot_key
@@ -1614,7 +1675,7 @@ class DpsSimulator:
                     if first_c and first_d: skill_cdh_map[dot_source_name] += 1
                     if is_first_run:
                         b_list = job_state.format_buffs(dot['buffs'], dot['has_potion'])
-                        t_lbl = f"DoT(T{dot['tid']})" if self.multi_boss_mode else "DoT"
+                        t_lbl = f"DoT(T{dot['tid']})" if (self.multi_boss_mode or dot.get('target_explicit')) else "DoT"
                         combat_log.append({'time': current_time, 'name': f"{dot['name']} (Tick)", 'potency': dot['potency'],
                                            'buffs': "+".join(b_list) if b_list else "-", 'crit': "✔" if first_c else "",
                                            'dh': "✔" if first_d else "", 'dmg': tick_damage, 'targets': t_lbl})
@@ -1710,6 +1771,7 @@ class DpsSimulator:
             'interval_data': agg_snapshots,
             'high_rd_runs': high_rd_runs,
             'resource_warnings': first_resource_warnings,
+            'invalid_skill_events': build_invalid_skill_events(original_timeline, self.skill_resolver, first_resource_warnings),
         }
         return dps_list, sim_dur, last_hit, stats_pkg, first_log
 
@@ -2704,6 +2766,7 @@ class DpsSimulatorApp:
             data["m_dps"], data["sd_dps"], data["iters"], data.get("random_seed")
         )
         resource_warnings = data["stats_pkg"].get("resource_warnings", [])
+        invalid_skill_events = data["stats_pkg"].get("invalid_skill_events", [])
         lines = [
             f"# {APP_TITLE} Report",
             "",
@@ -2749,6 +2812,20 @@ class DpsSimulatorApp:
                 lines.append(
                     f"- {row}{warning.get('time', '-') }s `{warning.get('skill', '-')}`: "
                     f"`{warning.get('code', 'warning')}` - {warning.get('message', '')}"
+                )
+        else:
+            lines.append("- None.")
+        lines.extend([
+            "",
+            "## Invalid Skill Events",
+            "",
+        ])
+        if invalid_skill_events:
+            for item in invalid_skill_events:
+                row = f"row {item.get('row_no')} " if item.get("row_no") is not None else ""
+                lines.append(
+                    f"- {row}{item.get('time', '-') }s `{item.get('skill', '-')}`: "
+                    f"`{item.get('kind', '-')}` - {item.get('reason', '')}"
                 )
         else:
             lines.append("- None.")
@@ -2842,6 +2919,11 @@ class DpsSimulatorApp:
             ["job", "row_no", "time", "skill", "code", "severity", "message"],
         )
         self.write_csv(
+            os.path.join(out_dir, f"{prefix}_invalid_skill_events.csv"),
+            data["stats_pkg"].get("invalid_skill_events", []),
+            ["row_no", "time", "skill", "kind", "code", "source", "reason"],
+        )
+        self.write_csv(
             os.path.join(out_dir, f"{prefix}_report_metadata.csv"),
             [metadata],
             [
@@ -2888,6 +2970,19 @@ class DpsSimulatorApp:
                 t.insert(tk.END, f"  - ... 另有 {len(resource_warnings) - 12} 条\n")
         else:
             t.insert(tk.END, "资源合法性: 未发现 warning\n")
+        invalid_skill_events = stats_pkg.get("invalid_skill_events", [])
+        if invalid_skill_events:
+            t.insert(tk.END, f"无效技能: {len(invalid_skill_events)} 条不出伤/上天按不出记录\n")
+            for item in invalid_skill_events[:12]:
+                row_text = f"row {item['row_no']} " if item.get("row_no") is not None else ""
+                t.insert(
+                    tk.END,
+                    f"  - {row_text}{float(item.get('time', 0.0)):.3f}s {item.get('skill', '-')}: {item.get('kind', '-')}\n"
+                )
+            if len(invalid_skill_events) > 12:
+                t.insert(tk.END, f"  - ... 另有 {len(invalid_skill_events) - 12} 条\n")
+        else:
+            t.insert(tk.END, "无效技能: 未发现不出伤/上天按不出记录\n")
         t.insert(tk.END, f"最后技能出伤时间: {last_h:.3f}s\n")
         t.insert(tk.END, f"有效战斗时长: {dur:.3f}s\n")
         t.insert(tk.END, "-" * 50 + "\n")

@@ -158,6 +158,46 @@ class BlmJobStateTests(unittest.TestCase):
         self.assertEqual([dot["tid"] for dot in dots], [1, 2])
         self.assertEqual([dot["targets"] for dot in dots], [1, 1])
 
+    def test_target_txt_ids_keep_single_target_thunder_dots_without_multi_mode(self):
+        skills = {
+            "High Thunder": {
+                "amas_name": "High Thunder",
+                "cast": 0,
+                "delay": 0.5,
+                "potency": 150,
+                "base_potency": 150,
+                "dot_potency": 60,
+                "dot_duration": 30.0,
+                "dot_primary_only": True,
+                "is_aoe": False,
+                "decay": 0,
+                "combo_prev": [],
+            },
+            "Scathe": {
+                "amas_name": "Scathe",
+                "cast": 0,
+                "delay": 0.5,
+                "potency": 1,
+                "base_potency": 1,
+                "is_aoe": False,
+                "decay": 0,
+                "combo_prev": [],
+            },
+        }
+        timeline = [
+            {"time": 0.0, "name": "High Thunder", "targets": 1, "target_ids": [1]},
+            {"time": 3.0, "name": "High Thunder", "targets": 1, "target_ids": [2]},
+            {"time": 35.0, "name": "Scathe", "targets": 1},
+        ]
+        sim = DpsSimulator(dict(BASE_STATS), timeline, iterations=1)
+        sim.get_skill = types.MethodType(lambda self, name: skills.get(name), sim)
+
+        random.seed(1)
+        result = sim.run_one_simulation(is_first_run=True)
+
+        self.assertEqual(result[9]["High Thunder"], 22)
+        self.assertIn("DoT(T2)", {row["targets"] for row in result[8]})
+
     def test_high_thunder_ii_dot_ticks_respect_secondary_target_downtime(self):
         skills = {
             "Blizzard III": {
@@ -218,6 +258,8 @@ class BlmJobStateTests(unittest.TestCase):
         fire4 = sim.get_skill("Fire IV")
         fire3 = sim.get_skill("Fire III")
         blizzard3 = sim.get_skill("Blizzard III")
+        if fire4 is None or fire3 is None or blizzard3 is None:
+            self.skipTest("AMAS skill provider is unavailable")
 
         speed_cast = sim.effective_cast_time(fire4, {})
         self.assertEqual(speed_cast, 1.97)

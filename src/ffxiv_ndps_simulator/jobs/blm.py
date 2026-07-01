@@ -342,7 +342,7 @@ class BlmJobState(JobState):
         if (
             canonical not in {"Thunder IV", "High Thunder II"}
             or skill.get("dot_primary_only", True)
-            or not self._event_context.get("multi_boss_mode")
+            or not (self._event_context.get("multi_boss_mode") or self._event_context.get("target_ids"))
         ):
             return super().dot_applications(
                 name, skill, current_time, target_count, target_id, active_buffs, has_potion

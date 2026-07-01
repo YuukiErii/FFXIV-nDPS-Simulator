@@ -43,6 +43,7 @@ const TABS = [
   ["coverage", "导入覆盖", FileSearch],
   ["preview", "导入预览", Eye],
   ["overview", "模拟报告 (概览)", FileText],
+  ["warnings", "资源警告", AlertTriangle],
   ["log", "战斗日志 (表格)", Activity],
   ["skills", "技能详情 (平均)", Zap],
   ["best", "极值详情 (Max DPS)", Sparkles],
@@ -361,6 +362,7 @@ function App() {
           {activeTab === "coverage" && <CoverageTab result={runResult} rows={runResult?.coverage?.rows || localCoverage} />}
           {activeTab === "preview" && <PreviewTab result={runResult} rows={rows} />}
           {activeTab === "overview" && <OverviewTab result={runResult} />}
+          {activeTab === "warnings" && <WarningsTab result={runResult} />}
           {activeTab === "log" && <CombatLogTab result={runResult} />}
           {activeTab === "skills" && <SkillDetailsTab result={runResult} />}
           {activeTab === "best" && <BestRunTab result={runResult} />}
@@ -472,6 +474,21 @@ function OverviewTab({ result }) {
 
 function Metric({ label, value, accent, tone = "" }) { return <div className={`metric-card ${accent ? "accent" : ""} ${tone}`}><span>{label}</span><strong>{value}</strong></div>; }
 function OverviewSection({ title, children }) { return <section className="overview-section"><h3>{title}</h3>{children}</section>; }
+
+function WarningsTab({ result }) {
+  if (!result?.summary) return <EmptyState needsRun />;
+  return <div className="view-stack">
+    <OverviewSection title={`资源合法性警告 (${result.resource_warnings?.length || 0})`}><ReportTable columns={[
+      { key: "row_no", label: "CSV行" }, { key: "time", label: "时间", render: (row) => seconds(row.time) }, { key: "skill", label: "技能" },
+      { key: "code", label: "代码" }, { key: "severity", label: "级别" }, { key: "message", label: "说明" },
+    ]} rows={result.resource_warnings || []} /></OverviewSection>
+    <OverviewSection title={`无效技能 (${result.invalid_skill_events?.length || 0})`}><ReportTable columns={[
+      { key: "row_no", label: "CSV行" }, { key: "time", label: "时间", render: (row) => seconds(row.time) },
+      { key: "skill", label: "技能" }, { key: "kind", label: "类型" }, { key: "code", label: "代码" },
+      { key: "source", label: "来源" }, { key: "reason", label: "说明" },
+    ]} rowClassName={(row) => row.code === "target_untargetable_at_press" ? "danger-row" : ""} rows={result.invalid_skill_events || []} /></OverviewSection>
+  </div>;
+}
 
 function CombatLogTab({ result }) {
   if (!result?.summary) return <EmptyState needsRun />;

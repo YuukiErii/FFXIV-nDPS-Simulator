@@ -25,6 +25,7 @@ from sim import (  # noqa: E402
     JOB_PROFILES,
     PERSONAL_NDPS_DEFINITION,
     SkillResolver,
+    build_invalid_skill_events,
     build_skill_coverage,
     normalize_skill_name_for_job,
     parse_axis_csv,
@@ -442,6 +443,7 @@ def run(payload: dict) -> dict:
     std_dps = statistics.stdev(dps_list) if iterations > 1 else 0.0
     base_gcd, job_gcd = DpsSimulator.calculate_gcd(int(stats["sks"]), job)
     resource_warnings = stats_pkg.get("resource_warnings", [])
+    invalid_skill_events = build_invalid_skill_events(events, sim.skill_resolver, resource_warnings)
     evidence = _evidence_status(coverage, events, csv_path, resource_warnings)
     skill_rows = _skill_rows(stats_pkg, sim, iterations)
     total_skill_row = _total_skill_row(stats_pkg, mean_dps, std_dps, iterations)
@@ -534,6 +536,7 @@ def run(payload: dict) -> dict:
         "combat_log": log,
         "distribution": _distribution(dps_list),
         "resource_warnings": resource_warnings,
+        "invalid_skill_events": invalid_skill_events,
     }
 
 

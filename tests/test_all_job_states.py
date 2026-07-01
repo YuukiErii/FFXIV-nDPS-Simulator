@@ -124,6 +124,7 @@ class AllJobStateTests(unittest.TestCase):
         self.assertGreater(len(result["best_run"]), 0)
         self.assertGreater(len(result["intervals"]), 0)
         self.assertGreater(len(result["combat_log"]), 0)
+        self.assertIn("invalid_skill_events", result)
         self.assertEqual(result["preview"]["total"], result["coverage"]["stats"]["total_events"])
         self.assertIn("row_no", result["preview"]["rows"][0])
 
@@ -168,6 +169,28 @@ class AllJobStateTests(unittest.TestCase):
         self.assertEqual(damage[skill_name], 0)
         self.assertEqual(log[0]["buffs"], "Interrupted")
         self.assertEqual(warnings[0]["code"], "target_untargetable_at_press")
+
+    def test_invalid_skill_events_include_zero_damage_and_downtime_press(self):
+        stats = dict(BASE_STATS, job="SAM", version="7.5", party_bonus=1.05)
+        skill_name = "\u6653\u98ce"
+        sim = DpsSimulator(
+            stats,
+            [
+                {"time": 0.0, "name": "Sprint", "targets": 1, "row_no": 1},
+                {"time": 0.05, "name": skill_name, "targets": 1, "row_no": 2},
+            ],
+            iterations=1,
+            global_downtime_list=[(0.0, 0.1)],
+        )
+
+        with patch.object(random, "random", return_value=1.0), patch.object(
+                random, "uniform", side_effect=lambda low, high: (low + high) / 2):
+            _dps, _duration, _last_hit, stats_pkg, _log = sim.run_batch()
+
+        invalid = stats_pkg["invalid_skill_events"]
+        self.assertIn("zero_damage", {item["code"] for item in invalid})
+        self.assertIn("target_untargetable_at_press", {item["code"] for item in invalid})
+        self.assertEqual([item["row_no"] for item in invalid], [1, 2])
 
     def test_targetless_aoe_pressed_during_downtime_uses_damage_application_time(self):
         stats = dict(BASE_STATS, job="VPR", version="7.5", party_bonus=1.05)
