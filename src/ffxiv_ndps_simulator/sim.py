@@ -772,7 +772,11 @@ def _window_resource_rows(resource_timeline, start):
             remaining = max(0.0, float(value) - start)
             if remaining <= 0:
                 continue
-            rows.append({"resource": key.removesuffix("_until"), "value": round(remaining, 3), "unit": "s remaining"})
+            rows.append({
+                "resource": key.removesuffix("_until"),
+                "value": "∞" if math.isinf(remaining) else round(remaining, 3),
+                "unit": "" if math.isinf(remaining) else "s remaining",
+            })
             continue
         if key == "next_mana_tick_at" and isinstance(value, (int, float)):
             value = round(max(0.0, float(value) - start), 3)
@@ -780,7 +784,7 @@ def _window_resource_rows(resource_timeline, start):
         else:
             unit = ""
             if isinstance(value, float):
-                value = round(value, 3)
+                value = ("∞" if value > 0 else "-∞") if not math.isfinite(value) else round(value, 3)
             elif isinstance(value, (list, dict)):
                 value = json.dumps(value, ensure_ascii=False, sort_keys=True)
         rows.append({"resource": key, "value": value, "unit": unit})

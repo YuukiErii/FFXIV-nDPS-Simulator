@@ -1,5 +1,6 @@
 import pathlib
 import random
+import json
 import sys
 import unittest
 from unittest.mock import patch
@@ -20,7 +21,7 @@ from jobs.drg import DrgJobState  # noqa: E402
 from jobs.mch import MchJobState  # noqa: E402
 from jobs.sam import SamJobState  # noqa: E402
 from scan_skill_coverage import is_known_non_axis_csv  # noqa: E402
-from run_ndps_simulation import _target_record, _target_record_downtime, run as run_backend_simulation  # noqa: E402
+from run_ndps_simulation import _json_safe, _target_record, _target_record_downtime, run as run_backend_simulation  # noqa: E402
 from sim import (  # noqa: E402
     DpsSimulator,
     SkillResolver,
@@ -94,6 +95,8 @@ class AllJobStateTests(unittest.TestCase):
             iterations=3,
         )
         _dps, _duration, last_hit, stats_pkg, _log = sim.run_batch()
+        for checkpoint in stats_pkg["window_data"]["resource_timeline"]:
+            checkpoint["state"]["permanent_until"] = float("inf")
 
         with patch.object(sim, "run_one_simulation", side_effect=AssertionError("must not re-simulate")):
             report = build_window_report(stats_pkg["window_data"], 1.0, min(4.0, last_hit))
@@ -104,6 +107,8 @@ class AllJobStateTests(unittest.TestCase):
         self.assertEqual({row["skill"] for row in report["skills"]}, {"Jinpu", "Auto Attack"})
         resources = {row["resource"]: row["value"] for row in report["resources"]}
         self.assertGreater(resources["kenki"], 0)
+        self.assertEqual(resources["permanent"], "∞")
+        json.dumps(_json_safe({"report": report, "fallback": float("inf")}), allow_nan=False)
 
     def test_global_downtime_accepts_multiple_windows(self):
         windows = parse_downtime_windows("(10, 20)\n30-35; 40，45")

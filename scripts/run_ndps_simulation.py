@@ -347,6 +347,8 @@ def _distribution(values: list[float], step: int = 100) -> list[dict]:
 
 
 def _json_safe(value):
+    if isinstance(value, float) and not math.isfinite(value):
+        return "Infinity" if value > 0 else "-Infinity"
     if isinstance(value, set):
         return sorted(_json_safe(item) for item in value)
     if isinstance(value, tuple):
@@ -587,7 +589,7 @@ def main() -> int:
         if args.window_data_output:
             with Path(args.window_data_output).open("wb") as handle:
                 pickle.dump(window_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    text = json.dumps(result, ensure_ascii=True, indent=2)
+    text = json.dumps(_json_safe(result), ensure_ascii=True, indent=2, allow_nan=False)
     if args.output:
         Path(args.output).write_text(text + "\n", encoding="utf-8")
     else:
