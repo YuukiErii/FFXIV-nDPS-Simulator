@@ -94,7 +94,7 @@ class SmnJobState(JobState):
 
     @staticmethod
     def _active(until, current_time):
-        return until > current_time
+        return until != -1.0 and until > current_time
 
     def _active_demi(self, current_time):
         return self.demi if self._active(self.demi_until, current_time) else None

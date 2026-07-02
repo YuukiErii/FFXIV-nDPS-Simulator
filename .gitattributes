@@ -7,4 +7,5 @@
 *.gif binary
 *.pdf binary
 releases/windows/ffxiv_personal_ndps_modern/ffxiv_personal_ndps_modern.exe filter=lfs diff=lfs merge=lfs -text
+releases/windows/ffxiv_personal_ndps_modern/ffxiv_personal_ndps_v2.exe filter=lfs diff=lfs merge=lfs -text
 releases/windows/ffxiv_personal_ndps_modern/resources/backend/_internal/** binary

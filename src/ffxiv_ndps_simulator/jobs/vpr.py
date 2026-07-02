@@ -74,7 +74,7 @@ class VprJobState(JobState):
 
     @staticmethod
     def _active(until, current_time):
-        return until > current_time
+        return JobState._active_until(until, current_time)
 
     def _expire(self, current_time):
         if not self._active(self.reawaken_until, current_time):

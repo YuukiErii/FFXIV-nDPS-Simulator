@@ -90,7 +90,7 @@ class MnkJobState(JobState):
             return False
         return bool(
             (payload or {}).get("meikyo")
-            or (self.form == required and self.form_until > current_time)
+            or (self.form == required and self._active_until(self.form_until, current_time))
         )
 
     def _expected_blitz(self):
@@ -106,7 +106,7 @@ class MnkJobState(JobState):
         return "Rising Phoenix"
 
     def _gain_chakra(self, amount, current_time, cap=None):
-        cap = cap if cap is not None else (10 if self.brotherhood_until > current_time else 5)
+        cap = cap if cap is not None else (10 if self._active_until(self.brotherhood_until, current_time) else 5)
         if self.chakra < cap:
             self.chakra = min(cap, self.chakra + max(0, int(amount)))
 
@@ -141,9 +141,9 @@ class MnkJobState(JobState):
 
         perfect_balance = (
             self.perfect_balance_stacks > 0
-            and self.perfect_balance_until > current_time
+            and self._active_until(self.perfect_balance_until, current_time)
         )
-        formless = self.formless_until > current_time
+        formless = self._active_until(self.formless_until, current_time)
         if perfect_balance:
             self.perfect_balance_stacks -= 1
             self.beast_chakra.append(self.FORM_SKILLS[canonical])
@@ -158,12 +158,12 @@ class MnkJobState(JobState):
         required_form = self.FORM_SKILLS.get(canonical)
         perfect_balance = (
             self.perfect_balance_stacks > 0
-            and self.perfect_balance_until > snapshot_time
+            and self._active_until(self.perfect_balance_until, snapshot_time)
         )
-        formless = self.formless_until > snapshot_time
+        formless = self._active_until(self.formless_until, snapshot_time)
 
         if required_form in {"raptor", "coeurl"}:
-            natural_form = self.form == required_form and self.form_until > snapshot_time
+            natural_form = self.form == required_form and self._active_until(self.form_until, snapshot_time)
             if not (natural_form or perfect_balance or formless):
                 self.warn(
                     "mnk_form_mismatch",
@@ -174,7 +174,7 @@ class MnkJobState(JobState):
                 )
 
         if canonical in {"The Forbidden Chakra", "Enlightenment"}:
-            if self.chakra < 5 and self.brotherhood_until <= snapshot_time:
+            if self.chakra < 5 and not self._active_until(self.brotherhood_until, snapshot_time):
                 self.warn(
                     "mnk_chakra_low",
                     current_time,
@@ -199,14 +199,14 @@ class MnkJobState(JobState):
                     f"{canonical} used while tracked Beast Chakra resolve to {expected}.",
                 )
 
-        if canonical == "Wind's Reply" and self.wind_rumination_until <= snapshot_time:
+        if canonical == "Wind's Reply" and not self._active_until(self.wind_rumination_until, snapshot_time):
             self.warn(
                 "mnk_wind_reply_not_ready",
                 current_time,
                 name,
                 "Wind's Reply used without tracked Wind's Rumination.",
             )
-        if canonical == "Fire's Reply" and self.fire_rumination_until <= snapshot_time:
+        if canonical == "Fire's Reply" and not self._active_until(self.fire_rumination_until, snapshot_time):
             self.warn(
                 "mnk_fire_reply_not_ready",
                 current_time,
@@ -321,7 +321,7 @@ class MnkJobState(JobState):
         if landed:
             self.in_combat = True
         if landed and canonical in self.WEAPONSKILLS:
-            if self.brotherhood_until > current_time:
+            if self._active_until(self.brotherhood_until, current_time):
                 self._gain_chakra(1, current_time)
             if canonical != "Six-sided Star":
                 self._gain_chakra(payload.get("source_crit_count", int(bool(payload.get("source_crit")))), current_time)
@@ -329,24 +329,29 @@ class MnkJobState(JobState):
     def active_damage_buffs(self, t, target_id=None):
         damage_mult = 1.0
         damage_factors = []
-        if self.riddle_fire_until > t:
+        riddle_fire = self._active_until(self.riddle_fire_until, t)
+        brotherhood = self._active_until(self.brotherhood_until, t)
+        riddle_wind = self._active_until(self.riddle_wind_until, t)
+        form_active = self._active_until(self.form_until, t)
+        formless = self._active_until(self.formless_until, t)
+        if riddle_fire:
             damage_mult *= 1.15
             damage_factors.append(("红莲", 1.15))
-        if self.brotherhood_until > t:
+        if brotherhood:
             damage_mult *= 1.05
             damage_factors.append(("义结", 1.05))
         return {
-            "mnk_riddle_fire": self.riddle_fire_until > t,
-            "mnk_brotherhood": self.brotherhood_until > t,
-            "mnk_riddle_wind": self.riddle_wind_until > t,
-            "mnk_form": self.form if self.form_until > t else None,
-            "mnk_formless": self.formless_until > t,
+            "mnk_riddle_fire": riddle_fire,
+            "mnk_brotherhood": brotherhood,
+            "mnk_riddle_wind": riddle_wind,
+            "mnk_form": self.form if form_active else None,
+            "mnk_formless": formless,
             "damage_mult": damage_mult,
             "damage_factors": damage_factors,
         }
 
     def auto_attack_interval_multiplier(self, t):
-        return 0.4 if self.riddle_wind_until > t else 0.8
+        return 0.4 if self._active_until(self.riddle_wind_until, t) else 0.8
 
     def format_buffs(self, active_buffs, has_potion=False):
         labels = []

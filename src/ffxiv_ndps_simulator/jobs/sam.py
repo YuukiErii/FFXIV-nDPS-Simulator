@@ -55,7 +55,7 @@ class SamJobState(JobState):
 
     @staticmethod
     def _active(until, current_time):
-        return until > current_time
+        return JobState._active_until(until, current_time)
 
     def _sync_meditate(self, current_time):
         if self.meditate_started_at is None:
@@ -114,7 +114,7 @@ class SamJobState(JobState):
             self.enhanced_enpi_until = current_time + 15.0
 
         enhanced_enpi = False
-        if canonical == "Enpi" and self.enhanced_enpi_until > snapshot_time:
+        if canonical == "Enpi" and self._active(self.enhanced_enpi_until, snapshot_time):
             enhanced_enpi = True
             self.enhanced_enpi_until = -1.0
         return {"enhanced": enhanced_enpi}
@@ -152,7 +152,7 @@ class SamJobState(JobState):
         self.on_press_complete(name, current_time)
         is_combo = bool(payload.get("meikyo")) or self.is_combo(name, skill, current_time, {}) or (
             self.meikyo_stacks > 0
-            and self.meikyo_until > current_time
+            and self._active(self.meikyo_until, current_time)
             and bool(skill.get("combo_prev") or canonical in {"Gyofu", "Hakaze"})
         )
         if canonical in {"Gyofu", "Hakaze", "Fuga"}:
@@ -196,7 +196,7 @@ class SamJobState(JobState):
             self.zanshin_ready_until = -1.0
 
     def consume_combo_override(self, name, skill, current_time):
-        if self.meikyo_stacks <= 0 or self.meikyo_until <= current_time:
+        if self.meikyo_stacks <= 0 or not self._active(self.meikyo_until, current_time):
             return False
         if skill.get("combo_prev") or name in ["雪风", "月光", "花车", "晓风"]:
             self.meikyo_stacks -= 1
@@ -206,7 +206,7 @@ class SamJobState(JobState):
     def effective_cast_time(self, name, skill, event, current_time, default_cast_time):
         if event and event.get("cast_time") is not None:
             return default_cast_time
-        if default_cast_time > 0 and self.shifu_until > current_time:
+        if default_cast_time > 0 and self._active(self.shifu_until, current_time):
             return default_cast_time * 0.87
         return default_cast_time
 
@@ -254,7 +254,7 @@ class SamJobState(JobState):
             self.combo_time = current_time
 
     def active_damage_buffs(self, t, target_id=None):
-        is_fugetsu = self.fugetsu_until > t
+        is_fugetsu = self._active(self.fugetsu_until, t)
         return {
             "sam_fugetsu": is_fugetsu,
             "damage_mult": 1.13 if is_fugetsu else 1.0,
@@ -262,7 +262,7 @@ class SamJobState(JobState):
         }
 
     def auto_attack_interval_multiplier(self, t):
-        return 0.87 if self.shifu_until > t else 1.0
+        return 0.87 if self._active(self.shifu_until, t) else 1.0
 
     def format_buffs(self, active_buffs, has_potion=False):
         labels = []

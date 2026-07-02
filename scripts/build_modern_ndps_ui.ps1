@@ -41,10 +41,28 @@ function Remove-DirectoryInside {
   Remove-Item -LiteralPath $ResolvedPath -Recurse -Force
 }
 
+function Copy-ExecutableReplacingMappedFile {
+  param(
+    [string]$Source,
+    [string]$Destination
+  )
+  if (Test-Path $Destination) {
+    try {
+      Remove-Item -LiteralPath $Destination -Force -ErrorAction Stop
+    } catch {
+      $Backup = "$Destination.replaced"
+      Remove-Item -LiteralPath $Backup -Force -ErrorAction SilentlyContinue
+      Rename-Item -LiteralPath $Destination -NewName (Split-Path $Backup -Leaf) -Force -ErrorAction Stop
+      Remove-Item -LiteralPath $Backup -Force -ErrorAction SilentlyContinue
+    }
+  }
+  Copy-Item -LiteralPath $Source -Destination $Destination -Force
+}
+
 Set-Location $Root
 New-Item -ItemType Directory -Force -Path $ReleaseRoot, $ArtifactDir, $BackendBuildDir, $BackendDistDir, $SpecDir | Out-Null
 
-$Running = Get-Process -Name "ffxiv_personal_ndps_modern" -ErrorAction SilentlyContinue
+$Running = Get-Process -Name "ffxiv_personal_ndps_modern", "ffxiv_personal_ndps_v2" -ErrorAction SilentlyContinue
 if ($Running) {
   $Running | Stop-Process -Force
 }
@@ -53,6 +71,7 @@ $SkillMapPath = Join-Path $Root "data\ff14_job_skill_en_cn_map.json"
 $GameTxt = Join-Path $Root "src\ffxiv_ndps_simulator\game.txt"
 $StatFnsTxt = Join-Path $Root "src\ffxiv_ndps_simulator\stat_fns.txt"
 $DamageCalTxt = Join-Path $Root "src\ffxiv_ndps_simulator\damage_cal.txt"
+$AppIcon = Join-Path $Root "src\ffxiv_ndps_simulator\ffxiv_ndps.ico"
 
 .\.venv\Scripts\python.exe -m PyInstaller `
   --noconfirm `
@@ -88,13 +107,19 @@ if ($LASTEXITCODE -ne 0) {
 Set-Location $Root
 
 $ElectronDist = Join-Path $AppRoot "node_modules\electron\dist"
+$LauncherExeName = "ffxiv_personal_ndps_v2.exe"
+$LauncherExe = Join-Path $ModernReleaseDir $LauncherExeName
+$LegacyLauncherExe = Join-Path $ModernReleaseDir "ffxiv_personal_ndps_modern.exe"
 if (-not (Test-Path (Join-Path $ElectronDist "electron.exe"))) {
   throw "Electron runtime is missing. Run dependency installation for apps\ndps-ui first."
+}
+if (-not (Test-Path $AppIcon)) {
+  throw "Application icon is missing: $AppIcon"
 }
 
 if (-not (Test-Path $ModernReleaseDir)) {
   Copy-Item -Path $ElectronDist -Destination $ModernReleaseDir -Recurse
-  Rename-Item -LiteralPath (Join-Path $ModernReleaseDir "electron.exe") -NewName "ffxiv_personal_ndps_modern.exe"
+  Rename-Item -LiteralPath (Join-Path $ModernReleaseDir "electron.exe") -NewName $LauncherExeName
 } else {
   Get-ChildItem -LiteralPath $ElectronDist | Where-Object { $_.Name -ne "resources" -and $_.Name -ne "electron.exe" } | ForEach-Object {
     $Destination = Join-Path $ModernReleaseDir $_.Name
@@ -103,9 +128,24 @@ if (-not (Test-Path $ModernReleaseDir)) {
     }
     Copy-Item -LiteralPath $_.FullName -Destination $Destination -Recurse -Force
   }
-  if (-not (Test-Path (Join-Path $ModernReleaseDir "ffxiv_personal_ndps_modern.exe"))) {
-    Copy-Item -LiteralPath (Join-Path $ElectronDist "electron.exe") -Destination (Join-Path $ModernReleaseDir "ffxiv_personal_ndps_modern.exe") -Force
+  Copy-ExecutableReplacingMappedFile -Source (Join-Path $ElectronDist "electron.exe") -Destination $LauncherExe
+  if (Test-Path $LegacyLauncherExe) {
+    Remove-Item -LiteralPath $LegacyLauncherExe -Force
   }
+}
+
+$RceditScript = @'
+import { rcedit } from "rcedit";
+await rcedit(process.argv[2], { icon: process.argv[3] });
+'@
+Push-Location $AppRoot
+try {
+  $RceditScript | & $NodeExe --input-type=module - $LauncherExe $AppIcon
+  if ($LASTEXITCODE -ne 0) {
+    throw "rcedit failed with exit code $LASTEXITCODE"
+  }
+} finally {
+  Pop-Location
 }
 
 $ResourcesDir = Join-Path $ModernReleaseDir "resources"
@@ -119,6 +159,7 @@ Copy-Item -Path (Join-Path $AppRoot "dist") -Destination (Join-Path $AppPackageD
 Copy-Item -Path (Join-Path $AppRoot "electron") -Destination (Join-Path $AppPackageDir "electron") -Recurse
 Copy-Item -Path (Join-Path $BackendOutputDir "*") -Destination $BackendPackageDir -Recurse -Force
 Copy-Item -Path (Join-Path $AppRoot "public\favicon.svg") -Destination (Join-Path $AppPackageDir "favicon.svg") -Force
+Copy-Item -Path $AppIcon -Destination (Join-Path $AppPackageDir "ffxiv_ndps.ico") -Force
 
 $PackageJson = @{
   name = "ffxiv-ndps-modern"
@@ -131,7 +172,7 @@ $PackageJson | Set-Content -Path (Join-Path $AppPackageDir "package.json") -Enco
 $ReleaseNote = @'
 # FFXIV Personal nDPS Modern UI
 
-Run `ffxiv_personal_ndps_modern.exe` to open the React/Electron desktop UI.
+Run `ffxiv_personal_ndps_v2.exe` to open the React/Electron desktop UI.
 
 This package includes:
 
@@ -149,4 +190,4 @@ Use the legacy stable simulator GUI at `..\ffxiv_personal_ndps.exe` if you need 
 )
 
 Write-Host "Built modern UI package: $ModernReleaseDir"
-Write-Host "Run: $ModernReleaseDir\ffxiv_personal_ndps_modern.exe"
+Write-Host "Run: $LauncherExe"

@@ -30,4 +30,4 @@ The current UI loads axis CSV files in-browser and renders the new dashboard, pa
 
 After a run, `时间窗口 nDPS` reads the compact completed-hit archive and recomputes phase statistics for any `[start, end)` range without executing the simulator again.
 
-The release package is written to `..\..\releases\windows\ffxiv_personal_ndps_modern\`. It includes the Electron runtime, the built Vite app, and a bundled `ndps_backend.exe` JSON bridge so end users do not need a local Python virtual environment.
+The release package is written to `..\..\releases\windows\ffxiv_personal_ndps_modern\`. Launch it with `ffxiv_personal_ndps_v2.exe`; the folder includes the Electron runtime, the built Vite app, and a bundled `ndps_backend.exe` JSON bridge so end users do not need a local Python virtual environment.

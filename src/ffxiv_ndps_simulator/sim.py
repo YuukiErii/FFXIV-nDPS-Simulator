@@ -1753,6 +1753,8 @@ class DpsSimulator:
                 potency, is_combo = job_state.resolve_potency(name, skill, current_time, payload)
                 is_aoe_skill = skill.get('is_aoe', False);
                 decay_rate = skill.get('decay', 0.0)
+                forced_crit = skill.get('guaranteed_crit', False) or payload.get('guaranteed_crit', False)
+                forced_dh = skill.get('guaranteed_dh', False) or payload.get('guaranteed_dh', False)
                 payload['damage_immune'] = is_damage_immune
 
                 # 如果没上天，计算伤害
@@ -1762,14 +1764,8 @@ class DpsSimulator:
                         if is_aoe_skill and i > 0: modifier = 1.0 - decay_rate
                         dmg_val, is_c, is_d = self.calculate_damage_val(potency, is_auto=False,
                                                                         active_buffs=active_buffs,
-                                                                        guaranteed_crit=(
-                                                                            skill.get('guaranteed_crit', False)
-                                                                            or payload.get('guaranteed_crit', False)
-                                                                        ),
-                                                                        guaranteed_dh=(
-                                                                            skill.get('guaranteed_dh', False)
-                                                                            or payload.get('guaranteed_dh', False)
-                                                                        ),
+                                                                        guaranteed_crit=forced_crit,
+                                                                        guaranteed_dh=forced_dh,
                                                                         has_potion=has_potion,
                                                                         force_no_crit=payload.get('force_no_crit', False),
                                                                         force_no_dh=payload.get('force_no_dh', False),
@@ -1864,6 +1860,9 @@ class DpsSimulator:
                         decay_rate,
                         state_label,
                     )
+                    if forced_crit or forced_dh:
+                        forced_label = "必直暴" if forced_crit and forced_dh else ("必暴" if forced_crit else "必直")
+                        potency_buffs = forced_label if potency_buffs == "-" else f"{potency_buffs}+{forced_label}"
 
                     dmg_str = f"{step_total_damage:,.0f}"
                     if is_damage_immune: dmg_str += " (免疫)"
@@ -3627,7 +3626,7 @@ class DpsSimulatorApp:
             self.tree_window_resources.insert("", tk.END, values=(row["resource"], row["value"], row["unit"]))
         for row in report["skills"]:
             self.tree_window_skills.insert("", tk.END, values=(
-                row["skill"], f"{row['avg_cast_count']:.2f}", f"{row['avg_hits_per_cast']:.2f}",
+                row["skill"], f"{row['avg_cast_count']:.2f}", f"{row['avg_hits_per_cast']:.3f}",
                 f"{row['avg_dps']:.2f} ± {row['std_dps']:.2f}", f"{row['crit_percent']:.1f}%",
                 f"{row['direct_hit_percent']:.1f}%", f"{row['crit_direct_percent']:.1f}%",
             ))
@@ -3794,7 +3793,7 @@ class DpsSimulatorApp:
             else:
                 crit_rate = dh_rate = cdh_rate = 0.0
             self.tree_stats.insert("", tk.END, values=(
-                k, f"{ac:.1f}", f"{avg_t:.1f}", f"{ad:.2f} ± {sd:.2f}",
+                k, f"{ac:.1f}", f"{avg_t:.3f}", f"{ad:.2f} ± {sd:.2f}",
                 crit_str, dh_str, cdh_str
             ))
 

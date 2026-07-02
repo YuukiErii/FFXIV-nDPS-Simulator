@@ -1,6 +1,6 @@
 # Xivintheshell Long-Axis Skill Comparisons
 
-Generated: 2026-06-30
+Generated: 2026-07-03
 
 These tables compare the local simulator's imported long-axis samples against xivintheshell action and damage exports. They are not real FFLogs validation; they are a reproducible external-detail baseline for Task I.
 

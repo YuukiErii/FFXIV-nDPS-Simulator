@@ -14,6 +14,9 @@ class DncJobState(JobState):
         "Cascade", "Fountain", "Reverse Cascade", "Fountainfall",
         "Windmill", "Bladeshower", "Rising Windmill", "Bloodshower",
     }
+    ENHANCED_ESPRIT_GCDS = {
+        "Reverse Cascade", "Fountainfall", "Rising Windmill", "Bloodshower",
+    }
 
     def __init__(self):
         super().__init__("DNC")
@@ -127,8 +130,8 @@ class DncJobState(JobState):
             self.fan3_ready = max(self.fan3_ready, 1)
             self.fan4_ready = max(self.fan4_ready, 1)
             self.finishing_ready_until = current_time + 30.0
-        elif canonical in self.ESPRIT_GAUGE_GCDS and self.esprit_self_until > current_time:
-            self.esprit = min(100, self.esprit + 5)
+        elif canonical in self.ESPRIT_GAUGE_GCDS and self._active_until(self.esprit_self_until, current_time):
+            self.esprit = min(100, self.esprit + (10 if canonical in self.ENHANCED_ESPRIT_GCDS else 5))
         elif canonical in {"Saber Dance", "Dance of the Dawn"}:
             self._spend_esprit(50)
             if canonical == "Dance of the Dawn":
@@ -147,20 +150,23 @@ class DncJobState(JobState):
     def active_damage_buffs(self, t, target_id=None):
         damage_mult = 1.0
         damage_factors = []
-        if self.standard_until > t:
+        standard = self._active_until(self.standard_until, t)
+        technical = self._active_until(self.technical_until, t)
+        devilment = self._active_until(self.devilment_until, t)
+        if standard:
             damage_mult *= self.standard_mult
             damage_factors.append(("标准舞", self.standard_mult))
-        if self.technical_until > t:
+        if technical:
             damage_mult *= self.technical_mult
             damage_factors.append(("技巧舞", self.technical_mult))
         return {
-            "dnc_standard": self.standard_until > t,
-            "dnc_technical": self.technical_until > t,
-            "dnc_devilment": self.devilment_until > t,
+            "dnc_standard": standard,
+            "dnc_technical": technical,
+            "dnc_devilment": devilment,
             "damage_mult": damage_mult,
             "damage_factors": damage_factors,
-            "crit_rate_add": 0.20 if self.devilment_until > t else 0.0,
-            "dh_rate_add": 0.20 if self.devilment_until > t else 0.0,
+            "crit_rate_add": 0.20 if devilment else 0.0,
+            "dh_rate_add": 0.20 if devilment else 0.0,
         }
 
     def format_buffs(self, active_buffs, has_potion=False):

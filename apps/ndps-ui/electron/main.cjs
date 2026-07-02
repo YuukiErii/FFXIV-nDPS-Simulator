@@ -8,6 +8,9 @@ const appRoot = app.isPackaged ? app.getAppPath() : path.resolve(__dirname, ".."
 const repoRoot = app.isPackaged ? null : path.resolve(appRoot, "..", "..");
 const bridgeScript = repoRoot ? path.join(repoRoot, "scripts", "run_ndps_simulation.py") : null;
 const pythonExe = repoRoot ? path.join(repoRoot, ".venv", "Scripts", "python.exe") : null;
+const appIcon = app.isPackaged
+  ? path.join(appRoot, "ffxiv_ndps.ico")
+  : path.join(repoRoot, "src", "ffxiv_ndps_simulator", "ffxiv_ndps.ico");
 const packagedBackendExe = app.isPackaged
   ? path.join(process.resourcesPath, "backend", "ndps_backend.exe")
   : null;
@@ -20,6 +23,7 @@ function createWindow() {
     minWidth: 1180,
     minHeight: 800,
     title: "FFXIV Personal nDPS",
+    icon: appIcon,
     backgroundColor: "#11100e",
     autoHideMenuBar: true,
     webPreferences: {

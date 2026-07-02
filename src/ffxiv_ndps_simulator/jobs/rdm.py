@@ -77,7 +77,7 @@ class RdmJobState(JobState):
         }
 
     def _active(self, until, current_time):
-        return until > current_time
+        return until != -1.0 and until > current_time
 
     def _has_swordplay(self, current_time):
         if not self._active(self.magicked_swordplay_until, current_time):
@@ -215,15 +215,17 @@ class RdmJobState(JobState):
 
     def active_damage_buffs(self, t, target_id=None):
         damage_mult = 1.0
-        if self.embolden_until > t:
+        embolden = self._active(self.embolden_until, t)
+        dualcast = self._active(self.dualcast_until, t)
+        if embolden:
             damage_mult *= 1.10
         swordplay = self._has_swordplay(t)
         return {
-            "rdm_embolden": self.embolden_until > t,
+            "rdm_embolden": embolden,
             "rdm_manafication": swordplay,
-            "rdm_dualcast": self.dualcast_until > t,
+            "rdm_dualcast": dualcast,
             "damage_mult": damage_mult,
-            "damage_factors": [("鼓励", 1.10)] if self.embolden_until > t else [],
+            "damage_factors": [("鼓励", 1.10)] if embolden else [],
             "auto_damage_mult": 1.0,
         }
 

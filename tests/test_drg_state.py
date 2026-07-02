@@ -8,7 +8,7 @@ if str(SIMULATOR_DIR) not in sys.path:
     sys.path.insert(0, str(SIMULATOR_DIR))
 
 from jobs.drg import DrgJobState  # noqa: E402
-from sim import SkillResolver  # noqa: E402
+from sim import DpsSimulator, SkillResolver  # noqa: E402
 
 
 def skill(name, potency=0, is_gcd=False):
@@ -76,6 +76,42 @@ class DrgJobStateTests(unittest.TestCase):
         use(state, "Starcross", 9.0, 1000)
         self.assertLess(state.starcross_ready_until, 0.0)
         self.assertFalse(state.get_resource_warnings())
+
+    def test_life_of_the_dragon_is_not_double_counted(self):
+        state = DrgJobState()
+        use(state, "Geirskogul", 0.0, 280)
+
+        sim = DpsSimulator(
+            {
+                "job": "DRG",
+                "wd": 158,
+                "main_stat": 6490,
+                "crt": 3605,
+                "det": 2527,
+                "dh": 1961,
+                "sks": 420,
+            },
+            [(0.0, "Geirskogul", 1), (1.0, "Nastrond", 1)],
+            iterations=1,
+        )
+        buffs = sim.get_active_damage_buffs(
+            {
+                "buff:Life of the Dragon": {
+                    "name": "Life of the Dragon",
+                    "until": 20.0,
+                    "damage_mult": 1.15,
+                }
+            },
+            1.0,
+            job_state=state,
+        )
+
+        self.assertAlmostEqual(buffs["damage_mult"], 1.15)
+        self.assertEqual(
+            [factor for _label, factor in buffs["damage_factors"]].count(1.15),
+            1,
+        )
+        self.assertTrue(buffs["drg_life"])
 
     def test_life_surge_targets_next_damage_gcd(self):
         state = DrgJobState()

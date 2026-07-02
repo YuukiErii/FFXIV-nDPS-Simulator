@@ -58,17 +58,19 @@ class BlmJobState(JobState):
         return name
 
     def _refresh_enochian(self, current_time):
-        if self.enochian_until <= current_time or self.next_polyglot_at < 0:
+        if not self._active_until(self.enochian_until, current_time) or self.next_polyglot_at < 0:
             self.next_polyglot_at = current_time + self.POLYGLOT_INTERVAL
         self.enochian_until = current_time + self.ELEMENT_TIMEOUT
 
     def _has_enochian(self, current_time):
-        return self.enochian_until > current_time and (self.astral_fire > 0 or self.umbral_ice > 0)
+        return self._active_until(self.enochian_until, current_time) and (
+            self.astral_fire > 0 or self.umbral_ice > 0
+        )
 
     def advance_time(self, current_time):
         super().advance_time(current_time)
         if not self._has_enochian(current_time):
-            if self.enochian_until <= current_time:
+            if not self._active_until(self.enochian_until, current_time):
                 self.astral_fire = 0
                 self.umbral_ice = 0
                 self.astral_soul = 0
@@ -105,11 +107,11 @@ class BlmJobState(JobState):
             return
         if canonical in {"Despair", "Foul", "Xenoglossy", "Paradox", "Umbral Soul"}:
             return
-        if self.swiftcast_until > current_time:
+        if self._active_until(self.swiftcast_until, current_time):
             self.swiftcast_until = -1.0
             return
         self.swiftcast_until = -1.0
-        if self.triplecast_until <= current_time:
+        if not self._active_until(self.triplecast_until, current_time):
             self.triplecast_stacks = 0
         elif self.triplecast_stacks > 0:
             self.triplecast_stacks -= 1
@@ -205,9 +207,9 @@ class BlmJobState(JobState):
             return 0.0
         if canonical in {"Despair", "Foul", "Xenoglossy", "Paradox", "Umbral Soul"}:
             return 0.0
-        if self.swiftcast_until > current_time:
+        if self._active_until(self.swiftcast_until, current_time):
             return 0.0
-        if self.triplecast_stacks > 0 and self.triplecast_until > current_time:
+        if self.triplecast_stacks > 0 and self._active_until(self.triplecast_until, current_time):
             return 0.0
         cast_time = default_cast_time
         if cast_time > 0:
@@ -215,7 +217,7 @@ class BlmJobState(JobState):
                 cast_time *= 0.5
             elif canonical in self.FIRE_ASPECT and self.umbral_ice >= 3:
                 cast_time *= 0.5
-            if self.ley_lines_until > current_time:
+            if self._active_until(self.ley_lines_until, current_time):
                 cast_time *= 0.85
         return cast_time
 
@@ -379,9 +381,9 @@ class BlmJobState(JobState):
         enochian = self._has_enochian(t)
         return {
             "blm_enochian": enochian,
-            "blm_astral_fire": self.astral_fire if self.astral_fire and self.enochian_until > t else 0,
-            "blm_umbral_ice": self.umbral_ice if self.umbral_ice and self.enochian_until > t else 0,
-            "blm_ley_lines": self.ley_lines_until > t,
+            "blm_astral_fire": self.astral_fire if self.astral_fire and self._active_until(self.enochian_until, t) else 0,
+            "blm_umbral_ice": self.umbral_ice if self.umbral_ice and self._active_until(self.enochian_until, t) else 0,
+            "blm_ley_lines": self._active_until(self.ley_lines_until, t),
             "damage_mult": self.ENOCHIAN_MULT if enochian else 1.0,
             "damage_factors": [("天语", self.ENOCHIAN_MULT)] if enochian else [],
         }

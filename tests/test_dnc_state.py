@@ -76,6 +76,14 @@ class DncJobStateTests(unittest.TestCase):
         self.use(state, "Dance of the Dawn", 2.5)
         self.assertEqual(state.esprit, 0)
 
+    def test_enhanced_esprit_gcds_gain_ten(self):
+        state = DncJobState()
+        self.use(state, "Standard Finish", 0.0)
+        self.use(state, "Cascade", 2.5)
+        self.assertEqual(state.esprit, 5)
+        self.use(state, "Reverse Cascade", 5.0)
+        self.assertEqual(state.esprit, 15)
+
     def test_dnc_long_axis_has_tracked_resources(self):
         path = REPO_ROOT / "examples" / "skill_lines" / "dnc_xivintheshell_long" / "dnc_xivintheshell_long.csv"
         events, _meta = parse_axis_csv(

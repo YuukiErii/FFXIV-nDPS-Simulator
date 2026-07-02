@@ -77,6 +77,10 @@ class JobState:
         if canonical in {"Lucid Dreaming", "醒梦"}:
             self.lucid_dreaming_until = max(self.lucid_dreaming_until, current_time + self.LUCID_DREAMING_DURATION)
 
+    @staticmethod
+    def _active_until(until, current_time):
+        return until != -1.0 and until > current_time
+
     def on_press(self, name, skill, current_time, snapshot_time):
         return {}
 

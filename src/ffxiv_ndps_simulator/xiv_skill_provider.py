@@ -343,6 +343,8 @@ class AmasSkillProvider:
         if job == "PCT" and name in {"Blizzard in Cyan", "Blizzard II in Cyan"}:
             out["is_aoe"] = name.endswith("II in Cyan")
             out["decay"] = 0.0
+        if job == "PCT" and Decimal(str(self.version)) >= Decimal("7.5") and name == "Comet in Black":
+            out["decay"] = 0.6
         if job == "BLM" and name in {"Thunder III", "Thunder IV", "High Thunder", "High Thunder II"}:
             out["cast"] = 0.0
         if job == "BLM" and name == "Scathe":

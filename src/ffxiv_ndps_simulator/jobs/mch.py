@@ -56,7 +56,7 @@ class MchJobState(JobState):
 
     @staticmethod
     def _active(until, current_time):
-        return until > current_time
+        return JobState._active_until(until, current_time)
 
     def _has_overheat(self, current_time):
         if not self._active(self.overheated_until, current_time):
@@ -85,10 +85,10 @@ class MchJobState(JobState):
         elif canonical in {"Automaton Queen", "Queen Overdrive"} and self.battery < 50:
             self.warn("mch_battery_low", current_time, name,
                       f"Automaton Queen used with Battery Gauge {self.battery}; expected at least 50.")
-        elif canonical == "Detonator" and self.wildfire_until <= snapshot_time:
+        elif canonical == "Detonator" and not self._active(self.wildfire_until, snapshot_time):
             self.warn("mch_detonator_without_wildfire", current_time, name,
                       "Detonator used without an active Wildfire window.")
-        if self.reassemble_ready and self.reassemble_until > snapshot_time and canonical in self.REASSEMBLE_ALLOWLIST:
+        if self.reassemble_ready and self._active(self.reassemble_until, snapshot_time) and canonical in self.REASSEMBLE_ALLOWLIST:
             out["guaranteed_crit"] = True
             out["guaranteed_dh"] = True
             self.reassemble_ready = False
@@ -116,7 +116,7 @@ class MchJobState(JobState):
         if canonical == "Flamethrower":
             return 0, False
         if canonical == "Wildfire":
-            if self.wildfire_until <= 0:
+            if self.wildfire_until == -1.0 or current_time > self.wildfire_until + 1e-9:
                 return 0, False
             return min(self.wildfire_hits, 6) * 240, False
         if canonical in {"Automaton Queen", "Queen Overdrive"}:
@@ -129,7 +129,7 @@ class MchJobState(JobState):
     def should_resolve_damage(self, name, skill, current_time, payload):
         canonical = self._canonical(name, skill)
         if canonical == "Wildfire":
-            return self.wildfire_until >= current_time - 1e-9
+            return self.wildfire_until != -1.0 and self.wildfire_until >= current_time - 1e-9
         return True
 
     def on_damage_resolved(self, name, skill, current_time, is_combo, payload):
@@ -149,7 +149,7 @@ class MchJobState(JobState):
             self.wildfire_until = -1.0
             self.wildfire_hits = 0
         elif canonical == "Detonator":
-            if self.wildfire_until > current_time:
+            if self._active(self.wildfire_until, current_time):
                 self._pending_wildfire_detonation = min(self.wildfire_hits, 6) * 240
                 self.wildfire_until = -1.0
                 self.wildfire_hits = 0
@@ -185,7 +185,7 @@ class MchJobState(JobState):
         elif canonical in {"Automaton Queen", "Queen Overdrive"}:
             self.battery = 0
 
-        if self.wildfire_until > current_time and canonical in self.WILDFIRE_WEAPONSKILLS:
+        if self._active(self.wildfire_until, current_time) and canonical in self.WILDFIRE_WEAPONSKILLS:
             self.wildfire_hits = min(6, self.wildfire_hits + 1)
 
     @staticmethod
@@ -252,8 +252,8 @@ class MchJobState(JobState):
 
     def active_damage_buffs(self, t, target_id=None):
         return {
-            "mch_overheated": self.overheated_until > t,
-            "mch_wildfire": self.wildfire_until > t,
+            "mch_overheated": self._active(self.overheated_until, t),
+            "mch_wildfire": self._active(self.wildfire_until, t),
             "damage_mult": 1.0,
         }
 

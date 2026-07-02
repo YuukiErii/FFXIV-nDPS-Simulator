@@ -53,6 +53,21 @@ class PctJobStateTests(unittest.TestCase):
 
         self.assertFalse(state.get_resource_warnings())
 
+    def test_inactive_subtractive_spectrum_is_not_free_before_pull(self):
+        state = PctJobState()
+        state.palette_gauge = 50
+
+        self._use(state, "Subtractive Palette", -2.0)
+
+        self.assertEqual(state.palette_gauge, 0)
+        self.assertFalse(state.get_resource_warnings())
+
+        empty = PctJobState()
+        self._use(empty, "Subtractive Palette", -2.0)
+
+        codes = [warning["code"] for warning in empty.get_resource_warnings()]
+        self.assertIn("pct_palette_low", codes)
+
     def test_pct_fru_representative_axes_have_no_resource_warnings(self):
         for relative in [
             "examples/skill_lines/pct_fru/23_desaturation.csv",
@@ -97,7 +112,7 @@ class PctJobStateTests(unittest.TestCase):
             "Stone in Yellow": (900, False, 0.0), "Thunder in Magenta": (940, False, 0.0),
             "Blizzard II in Cyan": (360, True, 0.0), "Stone II in Yellow": (380, True, 0.0),
             "Thunder II in Magenta": (400, True, 0.0), "Holy in White": (570, True, 0.65),
-            "Comet in Black": (940, True, 0.65), "Rainbow Drip": (1000, True, 0.85),
+            "Comet in Black": (940, True, 0.6), "Rainbow Drip": (1000, True, 0.85),
             "Star Prism": (1100, True, 0.7),
         }
         resolver = SkillResolver("PCT", "7.5")
@@ -114,6 +129,36 @@ class PctJobStateTests(unittest.TestCase):
 
         self.assertEqual(skill["cast"], 4.0)
         self.assertEqual(skill["delay"], 1.24)
+
+    def test_hammer_skill_variant_displays_forced_cdh(self):
+        sim = DpsSimulator(dict(BASE_STATS), [
+            {"time": 0.0, "name": "Striking Muse", "targets": 1, "is_gcd": False, "cast_time": 0.0},
+            {"time": 0.5, "name": "Hammer Stamp", "targets": 1, "is_gcd": True, "cast_time": 0.0},
+        ], iterations=1)
+        random.seed(1)
+        _, _, _, stats_pkg, _ = sim.run_batch()
+
+        self.assertIn("必直暴", {
+            row["buffs"] for row in stats_pkg["skill_variants"] if row["skill"] == "Hammer Stamp"
+        })
+
+    def test_prepull_cast_snapshot_does_not_see_future_starry_muse(self):
+        sim = DpsSimulator(dict(BASE_STATS), [
+            {"time": -4.75, "name": "Rainbow Drip", "targets": 1, "is_gcd": True, "cast_time": 4.0},
+            {"time": 0.59, "name": "Starry Muse", "targets": 1, "is_gcd": False, "cast_time": 0.0},
+        ], iterations=1)
+        random.seed(1)
+        _, _, _, stats_pkg, log = sim.run_batch()
+
+        rainbow_rows = [
+            row for row in stats_pkg["skill_variants"]
+            if row["skill"] == "Rainbow Drip" and row["targets"] == 1
+        ]
+        self.assertEqual(len(rainbow_rows), 1)
+        self.assertEqual(rainbow_rows[0]["buffs"], "-")
+        self.assertEqual(rainbow_rows[0]["effective_potency"], 1000.0)
+        rainbow_log = next(row for row in log if row["name"] == "Rainbow Drip")
+        self.assertEqual(rainbow_log["buffs"], "-")
 
     def test_subtractive_palette_only_converts_existing_white_paint(self):
         state = PctJobState()

@@ -147,6 +147,15 @@ class RdmStateTests(unittest.TestCase):
         self.assertEqual(rows["Fleche"]["buffs"], "-")
         self.assertIn("鼓励", rows["Jolt III"]["buffs"])
 
+    def test_inactive_embolden_is_not_active_before_pull(self):
+        state = RdmJobState()
+        buffs = state.active_damage_buffs(-2.0)
+
+        self.assertFalse(buffs["rdm_embolden"])
+        self.assertFalse(buffs["rdm_dualcast"])
+        self.assertEqual(buffs["damage_factors"], [])
+        self.assertAlmostEqual(buffs["damage_mult"], 1.0)
+
     def test_acceleration_potency_label_matches_planner(self):
         sim = DpsSimulator(
             dict(BASE_STATS),

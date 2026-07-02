@@ -85,7 +85,7 @@ class PctJobState(JobState):
 
     @staticmethod
     def _active(until, current_time):
-        return until > current_time
+        return JobState._active_until(until, current_time)
 
     def _expire_timed_state(self, current_time):
         if self.aetherhues and not self._active(self.aetherhues_until, current_time):
@@ -132,7 +132,7 @@ class PctJobState(JobState):
             if self.subtractive_stacks > 0:
                 self.warn("pct_subtractive_palette_active", current_time, name,
                           "Subtractive Palette used while its prior stacks were still active.")
-            if self.subtractive_spectrum_until <= current_time and self.palette_gauge < 50:
+            if not self._active(self.subtractive_spectrum_until, current_time) and self.palette_gauge < 50:
                 self.warn("pct_palette_low", current_time, name,
                           f"Subtractive Palette used with Palette Gauge {self.palette_gauge}; expected at least 50.")
         required_hue = self.NORMAL_HUE_REQUIREMENTS.get(canonical)
@@ -244,7 +244,7 @@ class PctJobState(JobState):
         elif canonical == "Retribution of the Madeen":
             self.madeen_portrait = False
         elif canonical == "Subtractive Palette":
-            if self.subtractive_spectrum_until > current_time:
+            if self._active(self.subtractive_spectrum_until, current_time):
                 self.subtractive_spectrum_until = -1.0
             else:
                 self.palette_gauge = max(0, self.palette_gauge - 50)
@@ -282,7 +282,7 @@ class PctJobState(JobState):
             self.black_paint = max(0, self.black_paint - 1)
         elif canonical == "Rainbow Drip":
             self.white_paint = min(5, self.white_paint + 1)
-            if self.rainbow_bright_until > current_time:
+            if self._active(self.rainbow_bright_until, current_time):
                 self.rainbow_bright_until = -1.0
         elif canonical == "Star Prism":
             self.starstruck_until = -1.0
@@ -309,7 +309,7 @@ class PctJobState(JobState):
         return default_cast_time
 
     def active_damage_buffs(self, t, target_id=None):
-        is_starry = self.starry_muse_until > t
+        is_starry = self._active(self.starry_muse_until, t)
         return {
             "pct_starry_muse": is_starry,
             "damage_mult": 1.05 if is_starry else 1.0,

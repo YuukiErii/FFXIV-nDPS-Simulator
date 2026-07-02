@@ -69,7 +69,7 @@ class RprJobState(JobState):
 
     @staticmethod
     def _active(until, current_time):
-        return until > current_time
+        return JobState._active_until(until, current_time)
 
     def _exit_enshroud(self):
         self.enshrouded_until = -1.0
@@ -194,7 +194,7 @@ class RprJobState(JobState):
 
     def active_damage_buffs(self, t, target_id=None):
         target_id = target_id or 1
-        is_deaths_design = self.deaths_design_until[target_id] > t
+        is_deaths_design = self._active(self.deaths_design_until[target_id], t)
         return {
             "rpr_deaths_design": is_deaths_design,
             "damage_mult": 1.10 if is_deaths_design else 1.0,

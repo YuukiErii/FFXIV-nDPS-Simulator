@@ -94,6 +94,14 @@ class SmnJobStateTests(unittest.TestCase):
         state.on_press("Ruby Rite", ruby, 1.0, 1.0)
         self.assertEqual(state.swiftcast_until, -1.0)
 
+    def test_inactive_searing_is_not_active_before_pull(self):
+        state = SmnJobState()
+        buffs = state.active_damage_buffs(-2.0)
+
+        self.assertFalse(buffs["smn_searing"])
+        self.assertEqual(buffs["damage_factors"], [])
+        self.assertAlmostEqual(buffs["damage_mult"], 1.0)
+
     def test_7_5_provider_values_and_demi_source_delay(self):
         provider = get_amas_provider("7.5", 100)
         if provider is None:

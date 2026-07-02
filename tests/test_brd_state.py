@@ -103,6 +103,18 @@ class BrdJobStateTests(unittest.TestCase):
         self.use(state, "Blast Arrow", 4.0)
         self.assertEqual(state.blast_arrow_until, -1.0)
 
+    def test_armys_paeon_grants_muse_haste_to_next_song(self):
+        state = BrdJobState()
+
+        self.use(state, "Army's Paeon", 0.0)
+        for t in [1.0, 2.0, 3.0, 4.0]:
+            self.use(state, "Empyreal Arrow", t)
+        self.assertAlmostEqual(state.auto_attack_interval_multiplier(5.0), 0.84)
+        self.use(state, "Mage's Ballad", 10.0)
+
+        self.assertAlmostEqual(state.auto_attack_interval_multiplier(11.0), 0.88)
+        self.assertAlmostEqual(state.auto_attack_interval_multiplier(21.0), 1.0)
+
     def test_triggered_actions_in_axis_are_treated_as_ready(self):
         state = BrdJobState()
 

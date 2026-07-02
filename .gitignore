@@ -11,6 +11,7 @@ artifacts/*
 !artifacts/specs/
 !artifacts/specs/**
 results/test_outputs/
+profile_output/
 *.log
 
 # Frontend workspaces

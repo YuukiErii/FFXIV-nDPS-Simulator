@@ -544,7 +544,7 @@ function WindowReportTab({ result }) {
       ]} rows={report.resources || []} /></OverviewSection>
       <OverviewSection title="窗口技能统计"><ReportTable columns={[
         { key: "skill", label: "技能" }, { key: "avg_cast_count", label: "平均次数", render: (row) => fmt(row.avg_cast_count, 2) },
-        { key: "avg_hits_per_cast", label: "平均目标", render: (row) => row.skill === "--- TOTAL ---" ? "-" : fmt(row.avg_hits_per_cast, 2) },
+        { key: "avg_hits_per_cast", label: "平均目标", render: (row) => row.skill === "--- TOTAL ---" ? "-" : fmt(row.avg_hits_per_cast, 3) },
         { key: "avg_dps", label: "nDPS μ ± σ", render: (row) => `${fmt(row.avg_dps, 2)} ± ${fmt(row.std_dps, 2)}` },
         { key: "crit_percent", label: "暴击", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.crit_percent) },
         { key: "direct_hit_percent", label: "直击", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.direct_hit_percent) },
@@ -643,7 +643,7 @@ function SkillDetailsTab({ result }) {
     <OverviewSection title="技能统计 (平均)">
       <ReportTable columns={[
         { key: "skill", label: "Skill Name" }, { key: "avg_cast_count", label: "Count", render: (row) => row.skill === "--- TOTAL ---" ? `${fmt(row.avg_cast_count, 1)} ± ${fmt(row.std_cast_count, 1)}` : fmt(row.avg_cast_count, 1) },
-        { key: "avg_hits_per_cast", label: "Avg Hits", render: (row) => row.skill === "--- TOTAL ---" ? "-" : fmt(row.avg_hits_per_cast, 1) },
+        { key: "avg_hits_per_cast", label: "Avg Hits", render: (row) => row.skill === "--- TOTAL ---" ? "-" : fmt(row.avg_hits_per_cast, 3) },
         { key: "avg_dps", label: "DPS (μ ± σ)", render: (row) => `${fmt(row.avg_dps, 2)} ± ${fmt(row.std_dps, 2)}` },
         { key: "crit_percent", label: "Crit %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.crit_percent) },
         { key: "direct_hit_percent", label: "DH %", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.direct_hit_percent) },

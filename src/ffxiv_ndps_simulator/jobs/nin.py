@@ -99,7 +99,7 @@ class NinJobState(JobState):
 
     @staticmethod
     def _active(until, current_time):
-        return until > current_time
+        return JobState._active_until(until, current_time)
 
     @staticmethod
     def _affected_target_ids(payload):
@@ -176,7 +176,7 @@ class NinJobState(JobState):
                 )
             return True
 
-        if self.mudra_until <= snapshot_time:
+        if not self._active(self.mudra_until, snapshot_time):
             self.mudra_sequence = []
             self.mudra_bunny = False
         if not self.mudra_sequence:
@@ -213,7 +213,7 @@ class NinJobState(JobState):
                     "Ten Chi Jin expects the resolved actions such as Fuma Shuriken (Ten), not raw Mudra rows.",
                 )
                 return {}
-            if self.mudra_until <= snapshot_time:
+            if not self._active(self.mudra_until, snapshot_time):
                 self.mudra_sequence = []
                 self.mudra_bunny = False
             if not self.mudra_sequence:

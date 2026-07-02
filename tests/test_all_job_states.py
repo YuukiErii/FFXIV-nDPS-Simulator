@@ -88,6 +88,20 @@ SAM_DMU_TARGET = REPO_ROOT / "examples/skill_lines" / "sam_dmu" / "2.17.txt"
 
 
 class AllJobStateTests(unittest.TestCase):
+    def test_inactive_until_sentinel_does_not_create_prepull_buffs(self):
+        for job in JOB_SMOKE_TIMELINES:
+            with self.subTest(job=job):
+                buffs = create_job_state(job).active_damage_buffs(-2.0, target_id=1)
+                self.assertAlmostEqual(float(buffs.get("damage_mult", 1.0)), 1.0)
+                self.assertAlmostEqual(float(buffs.get("auto_damage_mult", 1.0)), 1.0)
+                self.assertEqual(buffs.get("damage_factors", []), [])
+                self.assertEqual(float(buffs.get("crit_rate_add", 0.0)), 0.0)
+                self.assertEqual(float(buffs.get("dh_rate_add", 0.0)), 0.0)
+                for key, value in buffs.items():
+                    if key in {"damage_mult", "auto_damage_mult", "damage_factors", "crit_rate_add", "dh_rate_add"}:
+                        continue
+                    self.assertFalse(value, key)
+
     def test_window_report_reuses_completed_hits_and_start_resources(self):
         sim = DpsSimulator(
             dict(BASE_STATS, job="SAM"),

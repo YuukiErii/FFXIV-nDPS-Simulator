@@ -33,7 +33,7 @@ class DrgJobState(JobState):
 
     @staticmethod
     def _active(until, current_time):
-        return until > current_time
+        return JobState._active_until(until, current_time)
 
     def _can_life_surge(self, canonical, skill):
         return bool(skill.get("potency", 0) > 0 and (skill.get("is_gcd") or canonical in self.MELEE_WEAPONSKILLS))
@@ -65,7 +65,7 @@ class DrgJobState(JobState):
         if canonical == "Wyrmwind Thrust" and self.firstminds_focus < 2:
             self.warn("drg_firstminds_low", current_time, name,
                       f"Wyrmwind Thrust used with Firstminds' Focus {self.firstminds_focus}; expected 2.")
-        if self.life_surge_ready and self.life_surge_until > snapshot_time and self._can_life_surge(canonical, skill):
+        if self.life_surge_ready and self._active(self.life_surge_until, snapshot_time) and self._can_life_surge(canonical, skill):
             out["guaranteed_crit"] = True
             self.life_surge_ready = False
             self.life_surge_until = -1.0
@@ -100,7 +100,7 @@ class DrgJobState(JobState):
         elif canonical == "Rise of the Dragon":
             self.dragons_flight_until = -1.0
         elif canonical == "Stardiver":
-            if self.life_of_the_dragon_until > current_time:
+            if self._active(self.life_of_the_dragon_until, current_time):
                 self.starcross_ready_until = min(current_time + 20.0, self.life_of_the_dragon_until)
         elif canonical == "Starcross":
             self.starcross_ready_until = -1.0
@@ -115,13 +115,20 @@ class DrgJobState(JobState):
             self.firstminds_focus = 0
 
     def active_damage_buffs(self, t, target_id=None):
+        lance_charge = self._active(self.lance_charge_until, t)
+        battle_litany = self._active(self.battle_litany_until, t)
+        damage_mult = 1.0
+        damage_factors = []
+        if lance_charge:
+            damage_mult *= 1.10
+            damage_factors.append(("猛枪", 1.10))
         active = {
-            "drg_lance_charge": self.lance_charge_until > t,
-            "drg_battle_litany": self.battle_litany_until > t,
-            "drg_life": self.life_of_the_dragon_until > t,
-            "damage_mult": 1.10 if self.lance_charge_until > t else 1.0,
-            "damage_factors": [("猛枪", 1.10)] if self.lance_charge_until > t else [],
-            "crit_rate_add": 0.10 if self.battle_litany_until > t else 0.0,
+            "drg_lance_charge": lance_charge,
+            "drg_battle_litany": battle_litany,
+            "drg_life": self._active(self.life_of_the_dragon_until, t),
+            "damage_mult": damage_mult,
+            "damage_factors": damage_factors,
+            "crit_rate_add": 0.10 if battle_litany else 0.0,
         }
         return active
 
