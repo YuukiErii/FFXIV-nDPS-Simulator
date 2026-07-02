@@ -28,4 +28,6 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build_modern_ndps_ui.ps1
 
 The current UI loads axis CSV files in-browser and renders the new dashboard, parameter surface, timeline preview, coverage-style classification, and result visualization shell. In Electron, the file picker keeps native paths and `Run Simulation` calls `scripts/run_ndps_simulation.py` through the preload bridge.
 
+After a run, `时间窗口 nDPS` reads the compact completed-hit archive and recomputes phase statistics for any `[start, end)` range without executing the simulator again.
+
 The release package is written to `..\..\releases\windows\ffxiv_personal_ndps_modern\`. It includes the Electron runtime, the built Vite app, and a bundled `ndps_backend.exe` JSON bridge so end users do not need a local Python virtual environment.

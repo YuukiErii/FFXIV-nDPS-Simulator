@@ -17,7 +17,7 @@ import {
   Upload,
   Zap,
 } from "lucide-react";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 const JOBS = ["SAM", "VPR", "MNK", "DRG", "NIN", "RPR", "BRD", "MCH", "DNC", "BLM", "SMN", "RDM", "PCT"];
 const WEAPON_DELAYS = {
@@ -43,6 +43,7 @@ const TABS = [
   ["coverage", "导入覆盖", FileSearch],
   ["preview", "导入预览", Eye],
   ["overview", "模拟报告 (概览)", FileText],
+  ["window", "时间窗口 nDPS", Timer],
   ["warnings", "资源警告", AlertTriangle],
   ["log", "战斗日志 (表格)", Activity],
   ["dots", "DoT 明细", Timer],
@@ -366,6 +367,7 @@ function App() {
           {activeTab === "coverage" && <CoverageTab result={runResult} rows={runResult?.coverage?.rows || localCoverage} />}
           {activeTab === "preview" && <PreviewTab result={runResult} rows={rows} />}
           {activeTab === "overview" && <OverviewTab result={runResult} />}
+          {activeTab === "window" && <WindowReportTab result={runResult} />}
           {activeTab === "warnings" && <WarningsTab result={runResult} />}
           {activeTab === "log" && <CombatLogTab result={runResult} />}
           {activeTab === "dots" && <DotDetailsTab result={runResult} />}
@@ -475,6 +477,108 @@ function OverviewTab({ result }) {
     <OverviewSection title={`高 RD 模拟 (${result.high_rd_runs?.length || 0})`}><ReportTable columns={[
       { key: "run_id", label: "模拟序号" }, { key: "rd", label: "RD", render: (row) => fmt(row.rd, 2) }, { key: "duration", label: "有效时长", render: (row) => seconds(row.duration) },
     ]} rows={result.high_rd_runs || []} /></OverviewSection>
+  </div>;
+}
+
+function WindowReportTab({ result }) {
+  const lastHit = Number(result?.summary?.last_hit) || 0;
+  const [start, setStart] = useState(0);
+  const [end, setEnd] = useState(lastHit);
+  const [report, setReport] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function analyze(nextStart = start, nextEnd = end) {
+    if (!window.ndps?.analyzeWindow || !(nextStart >= 0 && nextEnd > nextStart && nextEnd <= lastHit + 1e-6)) {
+      setError(`请输入 0 ≤ 起点 < 终点 ≤ ${lastHit.toFixed(3)}。`);
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try { setReport(await window.ndps.analyzeWindow(nextStart, nextEnd)); }
+    catch (reason) { setError(reason?.message || String(reason)); }
+    finally { setLoading(false); }
+  }
+
+  useEffect(() => {
+    setStart(0);
+    setEnd(lastHit);
+    setReport(null);
+    if (lastHit > 0) analyze(0, lastHit);
+  }, [result]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!result?.summary) return <EmptyState needsRun />;
+  const summary = report?.summary;
+  const meta = report?.metadata;
+  const skillRows = report ? [...(report.skills || []), report.skill_total].filter(Boolean) : [];
+  return <div className="view-stack window-report-view">
+    <section className="window-toolbar">
+      <div className="window-fields">
+        <label><span>起点 (s)</span><input max={Math.max(0, end - 0.001)} min="0" step="0.001" type="number" value={start} onChange={(event) => setStart(Number(event.target.value))} /></label>
+        <label><span>终点 (s)</span><input max={lastHit} min={start + 0.001} step="0.001" type="number" value={end} onChange={(event) => setEnd(Number(event.target.value))} /></label>
+        <button className="primary-action window-apply" disabled={loading} onClick={() => analyze()} type="button">{loading ? "归并中..." : "应用窗口（不重新模拟）"}</button>
+      </div>
+      <div className="window-sliders">
+        <input aria-label="窗口起点" max={Math.max(0, end - 0.001)} min="0" step="0.1" type="range" value={start} onChange={(event) => setStart(Number(event.target.value))} />
+        <input aria-label="窗口终点" max={lastHit} min={Math.min(lastHit, start + 0.001)} step="0.1" type="range" value={end} onChange={(event) => setEnd(Number(event.target.value))} />
+      </div>
+      <p>区间采用 [起点, 终点)，伤害按实际出伤时刻归属；这里只归并刚才完成模拟的命中档案。</p>
+    </section>
+    {error && <div className="error-banner"><AlertTriangle size={17} /><span>{error}</span></div>}
+    {!summary ? <EmptyState /> : <>
+      <div className="metric-grid">
+        <Metric label="窗口期望 nDPS" value={fmt(summary.expected_dps, 2)} accent />
+        <Metric label="标准差 σ" value={fmt(summary.std_dps, 2)} />
+        <Metric label="最高 nDPS" value={fmt(summary.max_dps, 2)} tone="green" />
+        <Metric label="最低 nDPS" value={fmt(summary.min_dps, 2)} tone="orange" />
+        <Metric label="Top 1%" value={fmt(summary.top_1, 2)} />
+        <Metric label="Bottom 1%" value={fmt(summary.bottom_1, 2)} />
+      </div>
+      <OverviewSection title="窗口口径"><KvGrid rows={[
+        ["起点", seconds(meta.start)], ["终点", seconds(meta.end)], ["区间边界", meta.boundary],
+        ["窗口长度", seconds(meta.end - meta.start)], ["上天重叠", seconds(meta.downtime_overlap)],
+        ["有效战斗时长", seconds(meta.effective_duration)], ["原模拟次数", meta.iterations],
+      ]} /></OverviewSection>
+      <OverviewSection title="窗口起点资源与状态"><ReportTable columns={[
+        { key: "resource", label: "资源/状态" }, { key: "value", label: "数值" }, { key: "unit", label: "单位" },
+      ]} rows={report.resources || []} /></OverviewSection>
+      <OverviewSection title="窗口技能统计"><ReportTable columns={[
+        { key: "skill", label: "技能" }, { key: "avg_cast_count", label: "平均次数", render: (row) => fmt(row.avg_cast_count, 2) },
+        { key: "avg_hits_per_cast", label: "平均目标", render: (row) => row.skill === "--- TOTAL ---" ? "-" : fmt(row.avg_hits_per_cast, 2) },
+        { key: "avg_dps", label: "nDPS μ ± σ", render: (row) => `${fmt(row.avg_dps, 2)} ± ${fmt(row.std_dps, 2)}` },
+        { key: "crit_percent", label: "暴击", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.crit_percent) },
+        { key: "direct_hit_percent", label: "直击", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.direct_hit_percent) },
+        { key: "crit_direct_percent", label: "暴直", render: (row) => row.skill === "--- TOTAL ---" ? "-" : pct(row.crit_direct_percent) },
+      ]} rowClassName={(row) => row.skill === "--- TOTAL ---" ? "total-row blue" : ""} rows={skillRows} /></OverviewSection>
+      <OverviewSection title="窗口首轮战斗日志"><ReportTable className="combat-table" columns={[
+        { key: "time", label: "绝对时间", render: (row) => fmt(row.time, 3) }, { key: "relative_time", label: "窗口内时间", render: (row) => `+${fmt(row.relative_time, 3)}` },
+        { key: "name", label: "技能" }, { key: "potency", label: "威力" }, { key: "buffs", label: "Buff" },
+        { key: "targets", label: "目标" }, { key: "crit", label: "暴击" }, { key: "dh", label: "直击" },
+        { key: "dmg", label: "伤害", render: (row) => Number.isFinite(Number(row.dmg)) ? fmt(row.dmg, 2) : row.dmg },
+      ]} rows={report.combat_log || []} /></OverviewSection>
+      <OverviewSection title="窗口 DoT 出伤"><ReportTable columns={[
+        { key: "time", label: "出伤时间", render: (row) => fmt(row.time, 3) }, { key: "name", label: "DoT" },
+        { key: "potency", label: "威力" }, { key: "targets", label: "目标" }, { key: "buffs", label: "快照 Buff" },
+        { key: "dmg", label: "伤害", render: (row) => Number.isFinite(Number(row.dmg)) ? fmt(row.dmg, 2) : row.dmg },
+      ]} rows={report.dot_events || []} /></OverviewSection>
+      <OverviewSection title="窗口技能情景"><ReportTable columns={[
+        { key: "skill", label: "技能" }, { key: "targets", label: "目标" }, { key: "buffs", label: "Buff" },
+        { key: "effective_potency", label: "实际威力", render: (row) => fmt(row.effective_potency, 2) },
+        { key: "count", label: "数量" }, { key: "potency_formula", label: "威力计算" },
+      ]} rows={report.skill_variants || []} /></OverviewSection>
+      <OverviewSection title="窗口 Max Run"><ReportTable columns={[
+        { key: "skill", label: "技能" }, { key: "count", label: "次数" }, { key: "hits", label: "目标" },
+        { key: "damage", label: "伤害", render: (row) => fmt(row.damage, 0) },
+        { key: "crit_percent", label: "暴击", render: (row) => pct(row.crit_percent) },
+        { key: "direct_hit_percent", label: "直击", render: (row) => pct(row.direct_hit_percent) },
+        { key: "crit_direct_percent", label: "暴直", render: (row) => pct(row.crit_direct_percent) },
+      ]} rows={report.best_run || []} /></OverviewSection>
+      <OverviewSection title="窗口 nDPS 分布"><ReportTable columns={[
+        { key: "range", label: "nDPS 区间" }, { key: "count", label: "频次" },
+        { key: "percent_ge", label: "上位占比", render: (row) => pct(row.percent_ge, 2) },
+      ]} rows={report.distribution || []} /></OverviewSection>
+      <WarningsTab result={report} />
+    </>}
   </div>;
 }
 

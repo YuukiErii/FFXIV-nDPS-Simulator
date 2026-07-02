@@ -5,4 +5,5 @@ contextBridge.exposeInMainWorld("ndps", {
   openTarget: () => ipcRenderer.invoke("ndps:open-target"),
   openTrack: () => ipcRenderer.invoke("ndps:open-track"),
   runSimulation: (payload) => ipcRenderer.invoke("ndps:run", payload),
+  analyzeWindow: (start, end) => ipcRenderer.invoke("ndps:analyze-window", { start, end }),
 });

@@ -5,6 +5,7 @@ except ImportError:
 
 
 class RdmJobState(JobState):
+    EMBOLDEN_DURATION = 20.95
     MANA_GAINS = {
         "Jolt III": (2, 2),
         "Impact": (3, 3),
@@ -46,6 +47,9 @@ class RdmJobState(JobState):
         "Enchanted Moulinet Deux": "moulinet_deux",
         "Enchanted Moulinet Trois": "moulinet_trois",
     }
+    EMBOLDEN_MAGICAL_DAMAGE_SKILLS = (
+        set(MANA_GAINS) | set(ENCHANTED_COSTS) | {"Vice of Thorns", "Prefulgence"}
+    )
 
     def __init__(self):
         super().__init__("RDM")
@@ -109,6 +113,8 @@ class RdmJobState(JobState):
             self.warn("rdm_mana_low", current_time, name,
                       f"{canonical} used with mana B/W={self.black_mana}/{self.white_mana}; expected {cost[0]}/{cost[1]}.")
         expected = self.MELEE_COMBO_PREV.get(canonical)
+        if expected:
+            state["rdm_melee_combo"] = self.melee_combo_step == expected
         if expected and self.melee_combo_step != expected:
             self.warn("rdm_melee_combo_order", current_time, name,
                       f"{canonical} used while the tracked melee combo expected {expected}.")
@@ -133,7 +139,7 @@ class RdmJobState(JobState):
             self.acceleration_until = current_time + 20.0
             self.grand_impact_ready_until = current_time + 30.0
         elif canonical == "Embolden":
-            self.embolden_until = current_time + 20.0
+            self.embolden_until = current_time + self.EMBOLDEN_DURATION
             self.thorned_flourish_until = current_time + 30.0
         elif canonical == "Manafication":
             self.magicked_swordplay_stacks = 3
@@ -164,7 +170,11 @@ class RdmJobState(JobState):
 
     def resolve_potency(self, name, skill, current_time, payload):
         potency, is_combo = super().resolve_potency(name, skill, current_time, payload)
-        if self._canonical(name, skill) == "Impact" and payload.get("rdm_acceleration"):
+        canonical = self._canonical(name, skill)
+        if canonical in self.MELEE_COMBO_PREV and "rdm_melee_combo" in payload:
+            is_combo = bool(payload.get("rdm_melee_combo"))
+            potency = skill.get("potency" if is_combo else "base_potency", potency)
+        if canonical == "Impact" and payload.get("rdm_acceleration"):
             potency += 50
         return potency, is_combo
 
@@ -216,6 +226,19 @@ class RdmJobState(JobState):
             "damage_factors": [("鼓励", 1.10)] if self.embolden_until > t else [],
             "auto_damage_mult": 1.0,
         }
+
+    def filter_active_damage_buffs(self, name, skill, active_buffs):
+        if not active_buffs.get("rdm_embolden"):
+            return active_buffs
+        if self._canonical(name, skill) in self.EMBOLDEN_MAGICAL_DAMAGE_SKILLS:
+            return active_buffs
+        filtered = dict(active_buffs)
+        filtered["rdm_embolden"] = False
+        filtered["damage_mult"] = filtered.get("damage_mult", 1.0) / 1.10
+        filtered["damage_factors"] = [
+            factor for factor in filtered.get("damage_factors", []) if factor[0] != "鼓励"
+        ]
+        return filtered
 
     def allows_auto_attacks(self, job_profile):
         return True

@@ -58,7 +58,10 @@ TTS conversion:
 7. Configure DoT target rules, downtime, multi-boss behavior, and report thresholds if the fight needs them.
 8. Run the simulation.
 9. Read the result tab, coverage summary, target-source status, downtime-source status, and resource warnings.
-10. Export a Markdown report or CSV detail bundle when you need a durable record.
+10. Open `时间窗口 nDPS`, set the phase start and end, and apply the window. This only re-aggregates the completed simulation; it does not rerun random rolls.
+11. Export a Markdown report or CSV detail bundle when you need a durable record.
+
+Time-window reports use `[start, end)` boundaries so adjacent phases do not double-count an event at the boundary. Direct skills, follow-ups, pets, DoTs, and auto-attacks are assigned by their actual damage timestamp. The window overview, start-resource state, skill statistics, first-run combat/DoT rows, skill variants, max run, distribution, resource warnings, and invalid-skill rows are all filtered or recomputed for that window. Global downtime overlapping the window is removed from the nDPS denominator.
 
 The simulator report can export:
 
@@ -81,7 +84,7 @@ In desktop mode, `npm run desktop` builds the UI and opens Electron. Electron ke
 .\scripts\run_ndps_simulation.py
 ```
 
-The desktop bridge sends the selected axis path, optional target path, optional untargetable-track path, selected job, stat fields, and simulation options to Python. The modern shell follows the stable GUI's nine report columns: import coverage, import preview, overview, combat log, average skill detail, max-DPS detail, interval RD, DPS distribution chart, and DPS distribution table. The chart retains probability and DPS axes, normal-distribution curve, and the Top 1%, 0.1%, and 0.01% markers. Its bundled Claude-style font roles use Anthropic Serif plus Noto Serif SC for report prose, Anthropic Sans plus Noto Sans SC for UI labels, and Anthropic Mono plus Source Han Sans SC for numeric and code-like data.
+The desktop bridge sends the selected axis path, optional target path, optional untargetable-track path, selected job, stat fields, and simulation options to Python. It also stores a compact completed-hit archive beside the temporary report, allowing the `时间窗口 nDPS` tab to analyze phases without re-simulating. The modern shell mirrors the stable report surfaces for import coverage, preview, overview, warnings, combat/DoT logs, skill details, max-DPS detail, interval RD, DPS distribution, and time-window analysis. The chart retains probability and DPS axes, normal-distribution curve, and the Top 1%, 0.1%, and 0.01% markers. Its bundled Claude-style font roles use Anthropic Serif plus Noto Serif SC for report prose, Anthropic Sans plus Noto Sans SC for UI labels, and Anthropic Mono plus Source Han Sans SC for numeric and code-like data.
 
 Current boundary: the modern UI is the preferred visual direction, but the packaged `ffxiv_personal_ndps.exe` remains the stable release surface. Treat the modern UI as the polished desktop track while the Python simulator remains the source of calculation truth.
 

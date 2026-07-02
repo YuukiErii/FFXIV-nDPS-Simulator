@@ -13,6 +13,7 @@ Main executables:
 ```text
 releases/windows/xiv_shell_tts.exe
 releases/windows/ffxiv_personal_ndps.exe
+releases/windows/ffxiv_personal_ndps_modern/ffxiv_personal_ndps_modern.exe
 ```
 
 Tracked executables are release snapshots. The current development authority is `src/` plus `docs/PROJECT_STATUS.md`; rebuild the executables when publishing a new binary release.
@@ -20,6 +21,8 @@ Tracked executables are release snapshots. The current development authority is 
 `xiv_shell_tts.exe` converts XIV in the Shell CSV exports into the old `TTS.py` txt format. It can also take an optional fight timeline txt and produce the old `MERGE.PY`-style merged timeline output.
 
 `ffxiv_personal_ndps.exe` opens the personal nDPS simulator GUI. It also supports `--self-test`, which verifies packaged resources, 13 DPS smoke CSVs, historical target-data samples, the formula layer, and the bundled `ama_xiv_combat_sim` dependency.
+
+After a simulation, both stable and modern UIs can re-slice the completed run into an arbitrary `[start, end)` time window. The window report reuses recorded hit rolls, attributes every skill/DoT/auto-attack by actual damage time, restores the phase-start resource snapshot, and does not run the simulation again.
 
 Folder layout:
 

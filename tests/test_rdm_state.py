@@ -95,6 +95,8 @@ class RdmStateTests(unittest.TestCase):
 
         self.use(state, "Embolden", 20.0)
         self.assertAlmostEqual(state.active_damage_buffs(21.0)["damage_mult"], 1.10)
+        self.assertTrue(state.active_damage_buffs(40.94)["rdm_embolden"])
+        self.assertFalse(state.active_damage_buffs(40.96)["rdm_embolden"])
         self.use(state, "Vice of Thorns", 21.0)
         self.assertEqual(state.thorned_flourish_until, -1.0)
 
@@ -109,6 +111,67 @@ class RdmStateTests(unittest.TestCase):
         verthunder = self.resolver.get("Verthunder III")
         self.assertEqual(sim.effective_cast_time(verthunder, {}), 4.97)
         self.assertEqual(sim.effective_cast_time(verthunder, {"cast_time": 5.0}), 5.0)
+
+    def test_embolden_only_buffs_rdm_magical_damage(self):
+        state = RdmJobState()
+        self.use(state, "Embolden", 20.0)
+        buffs = state.active_damage_buffs(21.0)
+
+        physical = state.filter_active_damage_buffs("Fleche", self.resolver.get("Fleche"), buffs)
+        self.assertFalse(physical["rdm_embolden"])
+        self.assertAlmostEqual(physical["damage_mult"], 1.0)
+        self.assertEqual(physical["damage_factors"], [])
+
+        displacement = state.filter_active_damage_buffs("Displacement", self.resolver.get("Displacement"), buffs)
+        self.assertFalse(displacement["rdm_embolden"])
+        self.assertAlmostEqual(displacement["damage_mult"], 1.0)
+
+        enchanted = state.filter_active_damage_buffs(
+            "Enchanted Riposte", self.resolver.get("Enchanted Riposte"), buffs
+        )
+        self.assertTrue(enchanted["rdm_embolden"])
+        self.assertAlmostEqual(enchanted["damage_mult"], 1.10)
+
+        auto = state.filter_active_damage_buffs("Auto Attack", {"potency": 90}, buffs)
+        self.assertFalse(auto["rdm_embolden"])
+        self.assertAlmostEqual(auto["damage_mult"], 1.0)
+
+    def test_sim_log_removes_embolden_from_physical_rdm_skills(self):
+        sim = DpsSimulator(
+            dict(BASE_STATS),
+            [(0.0, "Embolden", 1), (1.0, "Fleche", 1), (2.0, "Jolt III", 1)],
+            iterations=1,
+        )
+        _dps_list, _sim_dur, _last_hit, _stats_pkg, log = sim.run_batch()
+        rows = {row["name"]: row for row in log}
+        self.assertEqual(rows["Fleche"]["buffs"], "-")
+        self.assertIn("鼓励", rows["Jolt III"]["buffs"])
+
+    def test_acceleration_potency_label_matches_planner(self):
+        sim = DpsSimulator(
+            dict(BASE_STATS),
+            [(0.0, "Acceleration", 1), (1.0, "Impact", 2)],
+            iterations=1,
+        )
+        _dps_list, _sim_dur, _last_hit, _stats_pkg, log = sim.run_batch()
+        impact = [row for row in log if row["name"] == "Impact"][0]
+        self.assertEqual(impact["potency_buffs"], "促进")
+
+    def test_melee_combo_is_snapshotted_before_interleaved_manafication(self):
+        sim = DpsSimulator(
+            dict(BASE_STATS),
+            [
+                (0.0, "Enchanted Riposte", 1),
+                (1.5, "Enchanted Zwerchhau", 1),
+                (3.0, "Enchanted Redoublement", 1),
+                (3.1, "Manafication", 1),
+            ],
+            iterations=1,
+        )
+        _dps_list, _sim_dur, _last_hit, _stats_pkg, log = sim.run_batch()
+        redoublement = [row for row in log if row["name"] == "Enchanted Redoublement"][0]
+        self.assertEqual(redoublement["potency"], 560)
+        self.assertNotIn("技能状态", redoublement["potency_buffs"])
 
 
 if __name__ == "__main__":

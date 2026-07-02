@@ -191,6 +191,15 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
 .metric-card.orange strong { color: var(--orange); }
 .overview-section { min-width: 0; padding-top: 20px; border-top: 1px solid var(--line); }
 .overview-section h3 { margin: 0 0 15px; font-family: var(--font-serif); font-size: 17px; font-weight: 700; }
+.window-toolbar { display: grid; gap: 13px; padding: 17px 19px; border: 1px solid #3d5c57; border-radius: 7px; background: #172320; }
+.window-fields { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
+.window-fields label { display: grid; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 700; }
+.window-fields input { width: 145px; height: 38px; padding: 0 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--bg); color: var(--text); font-family: var(--font-mono); }
+.window-apply { flex: 0 0 220px; height: 38px; }
+.window-sliders { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.window-sliders input { width: 100%; accent-color: var(--blue); }
+.window-toolbar p { margin: 0; color: #c3bcaf; font-family: var(--font-serif); font-size: 14px; }
+.window-report-view > .error-banner { margin: 0; }
 .kv-grid { display: grid; grid-template-columns: repeat(3, minmax(200px, 1fr)); border: 1px solid var(--line); border-radius: 6px; background: var(--surface); overflow: hidden; }
 .kv-row { display: grid; min-width: 0; gap: 6px; padding: 13px 15px; border-right: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
 .kv-row span { color: var(--muted); font-size: 11px; font-weight: 700; }

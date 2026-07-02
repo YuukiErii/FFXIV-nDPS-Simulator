@@ -11,6 +11,7 @@ const pythonExe = repoRoot ? path.join(repoRoot, ".venv", "Scripts", "python.exe
 const packagedBackendExe = app.isPackaged
   ? path.join(process.resourcesPath, "backend", "ndps_backend.exe")
   : null;
+let completedWindowDataPath = null;
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -75,14 +76,15 @@ ipcMain.handle("ndps:run", async (_event, payload) => {
   const workDir = await fs.mkdtemp(path.join(os.tmpdir(), "ndps-ui-"));
   const inputPath = path.join(workDir, "input.json");
   const outputPath = path.join(workDir, "output.json");
+  const windowDataPath = path.join(workDir, "window-data.bin");
   await fs.writeFile(inputPath, JSON.stringify(payload, null, 2), "utf8");
 
   await new Promise((resolve, reject) => {
     let stderr = "";
     const command = packagedBackendExe || pythonExe;
     const args = packagedBackendExe
-      ? ["--input", inputPath, "--output", outputPath]
-      : [bridgeScript, "--input", inputPath, "--output", outputPath];
+      ? ["--input", inputPath, "--output", outputPath, "--window-data-output", windowDataPath]
+      : [bridgeScript, "--input", inputPath, "--output", outputPath, "--window-data-output", windowDataPath];
     const child = spawn(command, args, {
       cwd: repoRoot || path.dirname(packagedBackendExe),
       windowsHide: true,
@@ -100,6 +102,29 @@ ipcMain.handle("ndps:run", async (_event, payload) => {
     });
   });
 
+  completedWindowDataPath = windowDataPath;
+  return JSON.parse(await fs.readFile(outputPath, "utf8"));
+});
+
+ipcMain.handle("ndps:analyze-window", async (_event, { start, end }) => {
+  if (!completedWindowDataPath) throw new Error("Run a simulation before analyzing a time window.");
+  const outputPath = path.join(path.dirname(completedWindowDataPath), "window-report.json");
+  await new Promise((resolve, reject) => {
+    let stderr = "";
+    const command = packagedBackendExe || pythonExe;
+    const commonArgs = [
+      "--window-data-input", completedWindowDataPath,
+      "--window-start", String(start), "--window-end", String(end), "--output", outputPath,
+    ];
+    const args = packagedBackendExe ? commonArgs : [bridgeScript, ...commonArgs];
+    const child = spawn(command, args, {
+      cwd: repoRoot || path.dirname(packagedBackendExe),
+      windowsHide: true,
+    });
+    child.stderr.on("data", (chunk) => { stderr += chunk.toString(); });
+    child.on("error", reject);
+    child.on("close", (code) => code === 0 ? resolve() : reject(new Error(stderr || `Window analyzer exited with code ${code}`)));
+  });
   return JSON.parse(await fs.readFile(outputPath, "utf8"));
 });
 

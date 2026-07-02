@@ -13,6 +13,7 @@ from functools import lru_cache
 import os
 import sys
 import json
+import struct
 from itertools import count
 from datetime import datetime
 
@@ -75,6 +76,7 @@ PERSONAL_NDPS_DEFINITION = (
     "个人 nDPS/RD: 只统计本职业归属的技能、DoT、普攻、宠物/召唤物和自身增益；"
     "当前 MVP 不扣除外部团辅收益，也不把团辅贡献分摊给队友。"
 )
+WINDOW_EVENT_STRUCT = struct.Struct("<fHdBB")
 
 SKILL_DB = {
     "晓风": {"cast": 0, "delay": 0.85, "potency": 240, "base_potency": 240},
@@ -716,6 +718,215 @@ def build_skill_variant_rows(combat_log):
     return sorted(variants.values(), key=lambda row: (row["skill"], row["first_time"], row["targets"]))
 
 
+def _window_distribution(values, step=100):
+    if not values:
+        return []
+    low = math.floor(min(values) / step) * step
+    high = math.floor(max(values) / step) * step
+    counts = Counter(math.floor(value / step) * step for value in values)
+    total = len(values)
+    return [
+        {
+            "range": f"{edge}-{edge + step}",
+            "count": counts[edge],
+            "percent_ge": round(sum(count for start, count in counts.items() if start >= edge) / total * 100, 6),
+        }
+        for edge in range(low, high + step, step)
+    ]
+
+
+def _window_resource_rows(resource_timeline, start):
+    checkpoints = [item for item in resource_timeline if float(item.get("time", 0.0)) <= start + 1e-9]
+    checkpoint = checkpoints[-1] if checkpoints else {"time": 0.0, "state": {}}
+    state = dict(checkpoint.get("state") or {})
+
+    if isinstance(state.get("mp"), (int, float)) and isinstance(state.get("next_mana_tick_at"), (int, float)):
+        tick = float(state["next_mana_tick_at"])
+        mp = int(state["mp"])
+        lucid_until = float(state.get("lucid_dreaming_until", -1.0) or -1.0)
+        while tick <= start + 1e-9:
+            mp = min(10000, mp + 200 + (550 if lucid_until >= tick - 1e-9 else 0))
+            tick += 3.0
+        state["mp"] = mp
+        state["next_mana_tick_at"] = tick
+
+    rows = []
+    for key, value in state.items():
+        if key == "job" or key.endswith("_time"):
+            continue
+        if key == "active_buffs" and isinstance(value, dict):
+            value = {
+                name: round(max(0.0, float(until) - start), 3)
+                for name, until in value.items() if float(until) > start
+            }
+        elif key == "active_dots" and isinstance(value, list):
+            value = [
+                {
+                    "name": item.get("name", "DoT"),
+                    "target": item.get("target", 1),
+                    "remaining": round(max(0.0, float(item.get("expire", 0.0)) - start), 3),
+                }
+                for item in value if float(item.get("expire", 0.0)) > start
+            ]
+        if key.endswith("_until") and isinstance(value, (int, float)):
+            remaining = max(0.0, float(value) - start)
+            if remaining <= 0:
+                continue
+            rows.append({"resource": key.removesuffix("_until"), "value": round(remaining, 3), "unit": "s remaining"})
+            continue
+        if key == "next_mana_tick_at" and isinstance(value, (int, float)):
+            value = round(max(0.0, float(value) - start), 3)
+            unit = "s until tick"
+        else:
+            unit = ""
+            if isinstance(value, float):
+                value = round(value, 3)
+            elif isinstance(value, (list, dict)):
+                value = json.dumps(value, ensure_ascii=False, sort_keys=True)
+        rows.append({"resource": key, "value": value, "unit": unit})
+    return rows
+
+
+def build_window_report(window_data, start, end):
+    """Re-aggregate one completed simulation without consuming new randomness."""
+    start = float(start)
+    end = float(end)
+    last_hit = float(window_data.get("last_hit", 0.0))
+    if start < 0 or end <= start or end > last_hit + 1e-6:
+        raise ValueError(f"window must satisfy 0 <= start < end <= {last_hit:.3f}")
+
+    downtime = window_data.get("downtime", [])
+    downtime_overlap = total_window_overlap(downtime, end) - total_window_overlap(downtime, start)
+    effective_duration = max(0.0, end - start - downtime_overlap)
+    names = list(window_data.get("skill_names", []))
+    runs = list(window_data.get("runs", []))
+    run_rows = []
+    all_skills = set()
+
+    for packed in runs:
+        damage = defaultdict(float)
+        count_map = Counter()
+        hits = Counter()
+        crit = Counter()
+        dh = Counter()
+        cdh = Counter()
+        for time_value, skill_id, amount, flags, targets in WINDOW_EVENT_STRUCT.iter_unpack(packed):
+            if time_value + 1e-6 < start or time_value >= end - 1e-6:
+                continue
+            skill = names[skill_id]
+            all_skills.add(skill)
+            damage[skill] += amount
+            count_map[skill] += 1
+            hits[skill] += targets
+            if flags & 1:
+                crit[skill] += 1
+            if flags & 2:
+                dh[skill] += 1
+            if flags & 3 == 3:
+                cdh[skill] += 1
+        total = sum(damage.values())
+        run_rows.append({
+            "damage": damage,
+            "count": count_map,
+            "hits": hits,
+            "crit": crit,
+            "dh": dh,
+            "cdh": cdh,
+            "total": total,
+            "dps": total / effective_duration if effective_duration > 0 else 0.0,
+        })
+
+    dps_values = [row["dps"] for row in run_rows] or [0.0]
+    mean_dps = statistics.fmean(dps_values)
+    std_dps = statistics.stdev(dps_values) if len(dps_values) > 1 else 0.0
+    skills = []
+    for skill in all_skills:
+        damages = [row["damage"][skill] / effective_duration if effective_duration > 0 else 0.0 for row in run_rows]
+        counts = [row["count"][skill] for row in run_rows]
+        hit_total = sum(row["hits"][skill] for row in run_rows)
+        event_total = sum(counts)
+        crit_total = sum(row["crit"][skill] for row in run_rows)
+        dh_total = sum(row["dh"][skill] for row in run_rows)
+        cdh_total = sum(row["cdh"][skill] for row in run_rows)
+        avg_count = statistics.fmean(counts) if counts else 0.0
+        skills.append({
+            "skill": skill,
+            "avg_cast_count": round(avg_count, 6),
+            "avg_hits_per_cast": round(hit_total / event_total if event_total else 0.0, 6),
+            "avg_dps": round(statistics.fmean(damages) if damages else 0.0, 6),
+            "std_dps": round(statistics.stdev(damages) if len(damages) > 1 else 0.0, 6),
+            "total_hit_events": event_total,
+            "crit_percent": round(crit_total / event_total * 100 if event_total else 0.0, 6),
+            "direct_hit_percent": round(dh_total / event_total * 100 if event_total else 0.0, 6),
+            "crit_direct_percent": round(cdh_total / event_total * 100 if event_total else 0.0, 6),
+        })
+    skills.sort(key=lambda row: row["avg_dps"], reverse=True)
+
+    best = max(run_rows, key=lambda row: row["dps"], default=None)
+    best_rows = []
+    if best:
+        for skill in sorted(best["damage"], key=best["damage"].get, reverse=True):
+            events = best["count"][skill]
+            best_rows.append({
+                "skill": skill,
+                "count": events,
+                "hits": best["hits"][skill],
+                "damage": round(best["damage"][skill], 6),
+                "crit_percent": round(best["crit"][skill] / events * 100 if events else 0.0, 6),
+                "direct_hit_percent": round(best["dh"][skill] / events * 100 if events else 0.0, 6),
+                "crit_direct_percent": round(best["cdh"][skill] / events * 100 if events else 0.0, 6),
+            })
+
+    def in_window(row):
+        value = float(row.get("time", row.get("apply_time", 0.0)) or 0.0)
+        return start - 1e-9 <= value < end - 1e-9
+
+    combat_log = [dict(row, relative_time=round(float(row.get("time", 0.0)) - start, 6))
+                  for row in window_data.get("first_log", []) if in_window(row)]
+    warnings = [row for row in window_data.get("resource_warnings", []) if in_window(row)]
+    invalid = [row for row in window_data.get("invalid_skill_events", []) if in_window(row)]
+    total_counts = [sum(row["count"].values()) for row in run_rows]
+    return {
+        "metadata": {
+            "start": start,
+            "end": end,
+            "boundary": "[start, end)",
+            "iterations": len(runs),
+            "effective_duration": effective_duration,
+            "downtime_overlap": downtime_overlap,
+        },
+        "summary": {
+            "expected_dps": mean_dps,
+            "std_dps": std_dps,
+            "max_dps": max(dps_values),
+            "min_dps": min(dps_values),
+            "duration": effective_duration,
+            "last_hit": end,
+            "top_1": mean_dps + 2.326 * std_dps,
+            "top_0_1": mean_dps + 3.09 * std_dps,
+            "top_0_01": mean_dps + 3.719 * std_dps,
+            "bottom_1": mean_dps - 2.326 * std_dps,
+        },
+        "resources": _window_resource_rows(window_data.get("resource_timeline", []), start),
+        "skills": skills,
+        "skill_total": {
+            "skill": "--- TOTAL ---",
+            "avg_cast_count": statistics.fmean(total_counts) if total_counts else 0.0,
+            "std_cast_count": statistics.stdev(total_counts) if len(total_counts) > 1 else 0.0,
+            "avg_hits_per_cast": 0.0,
+            "avg_dps": mean_dps,
+            "std_dps": std_dps,
+        },
+        "best_run": best_rows,
+        "combat_log": combat_log,
+        "dot_events": [row for row in combat_log if str(row.get("name", "")).endswith("(Tick)")],
+        "skill_variants": build_skill_variant_rows(combat_log),
+        "distribution": _window_distribution(dps_values),
+        "resource_warnings": warnings,
+        "invalid_skill_events": invalid,
+    }
+
+
 def format_coverage_summary(report):
     stats = report.get("stats", {})
     csv_meta = report.get("csv_meta", {})
@@ -1220,6 +1431,22 @@ class DpsSimulator:
         skill_cdh_map = Counter()
         skill_target_sum_map = Counter();
         total_hits_in_run = 0
+        window_events = bytearray()
+        resource_timeline = []
+        if not hasattr(self, "_window_skill_ids"):
+            self._window_skill_ids = {}
+            self._window_skill_names = []
+
+        def record_damage(time_value, skill_name, amount, is_crit, is_dh, targets):
+            skill_id = self._window_skill_ids.get(skill_name)
+            if skill_id is None:
+                skill_id = len(self._window_skill_names)
+                self._window_skill_ids[skill_name] = skill_id
+                self._window_skill_names.append(skill_name)
+            flags = (1 if is_crit else 0) | (2 if is_dh else 0)
+            window_events.extend(WINDOW_EVENT_STRUCT.pack(
+                float(time_value), skill_id, float(amount), flags, max(0, min(255, int(targets)))
+            ))
 
         buffs = {}
         job_state = create_job_state(self.job, self.stats.get('version', '7.5'))
@@ -1238,6 +1465,32 @@ class DpsSimulator:
         combat_log = []
         dot_details = []
         dot_detail_counter = count(1)
+
+        def record_resources(time_value):
+            if not is_first_run:
+                return
+            state = job_state.resource_state()
+            state["active_buffs"] = {
+                str(key): float(value.get("until", 0.0))
+                for key, value in buffs.items()
+                if isinstance(value, dict) and float(value.get("until", 0.0)) > float(time_value)
+            }
+            state["active_dots"] = [
+                {
+                    "name": dot.get("name", "DoT"),
+                    "target": dot.get("tid", 1),
+                    "expire": float(dot.get("expire", 0.0)),
+                }
+                for dot in active_dots if float(dot.get("expire", 0.0)) > float(time_value)
+            ]
+            state["potion_until"] = potion_active_until
+            item = {"time": round(float(time_value), 6), "state": state}
+            if resource_timeline and abs(resource_timeline[-1]["time"] - item["time"]) < 1e-9:
+                resource_timeline[-1] = item
+            else:
+                resource_timeline.append(item)
+
+        record_resources(0.0)
 
         while pq:
             t, _, ev_type, _, payload = heapq.heappop(pq)
@@ -1328,6 +1581,7 @@ class DpsSimulator:
                             'buffs': 'Interrupted', 'crit': '-', 'dh': '-',
                             'dmg': f'0 (T{target_id}不在场)', 'targets': '-'
                         })
+                    record_resources(current_time)
                     continue
 
                 if is_potion_skill_name(name, self.job):
@@ -1348,6 +1602,7 @@ class DpsSimulator:
                         combat_log.append(
                             {'time': current_time, 'name': '[爆发药]', 'potency': '-', 'buffs': '(Dur 30s)',
                              'crit': '-', 'dh': '-', 'dmg': '-', 'targets': 1})
+                    record_resources(current_time)
                     continue
 
                 snapshot_active_buffs = self.get_active_damage_buffs(
@@ -1435,6 +1690,7 @@ class DpsSimulator:
                 else:
                     job_state.on_press_confirmed(name, skill, current_time, confirmation_payload)
                     job_state.on_common_action_confirmed(name, skill, current_time)
+                record_resources(current_time)
 
             elif ev_type == SimEventType.CONFIRM:
                 name = payload['name']
@@ -1442,6 +1698,7 @@ class DpsSimulator:
                 job_state.set_event_context(payload)
                 job_state.on_press_confirmed(name, skill, current_time, payload)
                 job_state.on_common_action_confirmed(name, skill, current_time)
+                record_resources(current_time)
 
             elif ev_type == SimEventType.DAMAGE:
                 name = payload['name'];
@@ -1488,6 +1745,7 @@ class DpsSimulator:
                         job_state=job_state,
                         target_id=target_id,
                     )
+                active_buffs = job_state.filter_active_damage_buffs(name, skill, active_buffs)
                 potency, is_combo = job_state.resolve_potency(name, skill, current_time, payload)
                 is_aoe_skill = skill.get('is_aoe', False);
                 decay_rate = skill.get('decay', 0.0)
@@ -1525,6 +1783,11 @@ class DpsSimulator:
                 if main_crit: skill_crit_map[name] += 1
                 if main_dh: skill_dh_map[name] += 1
                 if main_crit and main_dh: skill_cdh_map[name] += 1
+                if potency > 0:
+                    record_damage(
+                        current_time, name, step_total_damage, main_crit, main_dh,
+                        0 if is_damage_immune else target_count,
+                    )
                 payload['source_roll_available'] = bool(potency > 0 and not is_damage_immune)
                 payload['source_crit'] = main_crit
                 payload['source_crit_count'] = crit_count
@@ -1586,6 +1849,8 @@ class DpsSimulator:
                         af = active_buffs.get("blm_astral_fire", 0)
                         ui = active_buffs.get("blm_umbral_ice", 0)
                         state_label = f"星火{af}" if af else (f"灵冰{ui}" if ui else state_label)
+                    elif self.job == "RDM" and payload.get("rdm_acceleration"):
+                        state_label = "促进"
                     effective_potency, potency_formula, potency_buffs = self.potency_breakdown(
                         base_potency,
                         potency,
@@ -1640,6 +1905,7 @@ class DpsSimulator:
                         tie_breaker,
                         followup_payload,
                     )
+                record_resources(current_time)
 
             elif ev_type == SimEventType.FOLLOWUP_DAMAGE:
                 if not job_state.is_followup_active(payload, current_time):
@@ -1671,6 +1937,7 @@ class DpsSimulator:
                     job_state=job_state,
                     target_id=target_id,
                 )
+                active_buffs = job_state.filter_active_damage_buffs(name, payload, active_buffs)
                 if "smn_searing_snapshot" in payload:
                     snap = bool(payload["smn_searing_snapshot"])
                     current = bool(active_buffs.get("smn_searing"))
@@ -1704,6 +1971,11 @@ class DpsSimulator:
                 if main_crit: skill_crit_map[name] += 1
                 if main_dh: skill_dh_map[name] += 1
                 if main_crit and main_dh: skill_cdh_map[name] += 1
+                if potency > 0:
+                    record_damage(
+                        current_time, name, step_total_damage, main_crit, main_dh,
+                        0 if is_damage_immune else target_count,
+                    )
 
                 if is_first_run and potency > 0:
                     b_list = job_state.format_buffs(active_buffs, has_potion)
@@ -1739,6 +2011,7 @@ class DpsSimulator:
 
                 is_potion = (potion_active_until > current_time)
                 aa_buffs = self.get_active_damage_buffs(buffs, current_time, job_state=job_state, target_id=1)
+                aa_buffs = job_state.filter_active_damage_buffs("Auto Attack", {"potency": AA_POTENCY}, aa_buffs)
                 if "auto_damage_mult" in aa_buffs:
                     aa_buffs["damage_mult"] = aa_buffs["auto_damage_mult"]
                 push_sim_event(
@@ -1769,11 +2042,15 @@ class DpsSimulator:
                     dmg, is_c, is_d = self.calculate_damage_val(AA_POTENCY, is_auto=True,
                                                                 active_buffs=d.get('active_buffs', {}),
                                                                 has_potion=d['has_potion'])
+                    if self.job in {"RDM", "BLM"}:
+                        # ponytail: caster weapon autos still roll/log crit-DH, but their game damage is fixed at 1.
+                        dmg = 1.0
                     total_damage += dmg
                     skill_dmg_map['Auto Attack'] += dmg
                     if is_c: skill_crit_map['Auto Attack'] += 1
                     if is_d: skill_dh_map['Auto Attack'] += 1
                     if is_c and is_d: skill_cdh_map['Auto Attack'] += 1
+                    record_damage(current_time, 'Auto Attack', dmg, is_c, is_d, 1)
                     if is_first_run:
                         active_buffs = d.get('active_buffs', {})
                         b_list = job_state.format_buffs(active_buffs, d['has_potion'])
@@ -1829,6 +2106,7 @@ class DpsSimulator:
                     if first_c: skill_crit_map[dot_source_name] += 1
                     if first_d: skill_dh_map[dot_source_name] += 1
                     if first_c and first_d: skill_cdh_map[dot_source_name] += 1
+                    record_damage(current_time, dot_source_name, tick_damage, first_c, first_d, tick_targets)
                     detail = dot.get('detail')
                     if detail is not None:
                         detail['tick_events'] += 1
@@ -1853,7 +2131,10 @@ class DpsSimulator:
                 active_dots = temp_active_dots
                 push_sim_event(pq, current_time + 3.0, SimEventType.DOT_TICK, tie_breaker, None)
 
+        record_resources(last_skill_hit_time)
         self.last_dot_details = dot_details
+        self.last_window_events = bytes(window_events)
+        self.last_resource_timeline = resource_timeline
         return (total_damage, last_skill_hit_time, skill_dmg_map, skill_count_map, skill_crit_map, skill_dh_map,
                 skill_cdh_map, total_hits_in_run, combat_log, skill_target_sum_map, run_snapshots, history_snapshots,
                 job_state.get_resource_warnings())
@@ -1873,6 +2154,10 @@ class DpsSimulator:
         first_log = [];
         first_resource_warnings = []
         first_dot_details = []
+        first_resource_timeline = []
+        window_runs = []
+        self._window_skill_ids = {}
+        self._window_skill_names = []
         sim_dur = 0;
         last_hit = 0
 
@@ -1890,10 +2175,12 @@ class DpsSimulator:
                 is_first = (i == 0)
                 (dmg, lh, s_dmg, s_cnt, s_crit, s_dh, s_cdh, tot_hits, log, s_targets,
                  r_snaps, h_snaps, resource_warnings) = self.run_one_simulation(is_first)
+                window_runs.append(self.last_window_events)
                 if is_first:
                     first_log = log
                     first_resource_warnings = resource_warnings
                     first_dot_details = list(getattr(self, 'last_dot_details', []))
+                    first_resource_timeline = self.last_resource_timeline
                     self.target_stats_snapshot = s_targets
 
                 for st, sd in r_snaps.items():
@@ -1948,6 +2235,18 @@ class DpsSimulator:
             'resource_warnings': first_resource_warnings,
             'invalid_skill_events': build_invalid_skill_events(original_timeline, self.skill_resolver, first_resource_warnings),
             'skill_variants': build_skill_variant_rows(first_log),
+            'window_data': {
+                'last_hit': last_hit,
+                'downtime': list(self.global_downtime_list),
+                'skill_names': list(self._window_skill_names),
+                'runs': window_runs,
+                'first_log': first_log,
+                'resource_timeline': first_resource_timeline,
+                'resource_warnings': first_resource_warnings,
+                'invalid_skill_events': build_invalid_skill_events(
+                    original_timeline, self.skill_resolver, first_resource_warnings
+                ),
+            },
         }
         return dps_list, sim_dur, last_hit, stats_pkg, first_log
 
@@ -2167,6 +2466,69 @@ class DpsSimulatorApp:
         self.txt_res.pack(fill=tk.BOTH, expand=True)
         self.txt_res.tag_config("h1", foreground="#4a90e2", font=("Consolas", 12, "bold"))
         self.txt_res.tag_config("h2", foreground="#e5c07b", font=("Consolas", 11, "bold"))
+
+        self.tab_window = ttk.Frame(self.nb)
+        self.nb.add(self.tab_window, text="时间窗口 nDPS")
+        window_controls = ttk.Frame(self.tab_window)
+        window_controls.pack(fill=tk.X, padx=8, pady=8)
+        self.window_start_var = tk.StringVar(value="0")
+        self.window_end_var = tk.StringVar(value="0")
+        ttk.Label(window_controls, text="起点 (s)").pack(side=tk.LEFT)
+        ttk.Entry(window_controls, textvariable=self.window_start_var, width=12).pack(side=tk.LEFT, padx=(4, 12))
+        ttk.Label(window_controls, text="终点 (s)").pack(side=tk.LEFT)
+        ttk.Entry(window_controls, textvariable=self.window_end_var, width=12).pack(side=tk.LEFT, padx=(4, 12))
+        ttk.Button(window_controls, text="应用窗口（不重新模拟）", command=self.apply_window_report).pack(side=tk.LEFT)
+        ttk.Label(window_controls, text="区间口径：[起点, 终点)，伤害按实际出伤时刻归属").pack(side=tk.LEFT, padx=12)
+
+        self.window_nb = ttk.Notebook(self.tab_window)
+        self.window_nb.pack(fill=tk.BOTH, expand=True)
+        window_overview = ttk.Frame(self.window_nb)
+        self.window_nb.add(window_overview, text="概览")
+        self.txt_window_overview = scrolledtext.ScrolledText(
+            window_overview, bg=self.colors["text_bg"], fg="white", font=("Consolas", 11), relief="flat"
+        )
+        self.txt_window_overview.pack(fill=tk.BOTH, expand=True)
+
+        def window_tree(title, columns):
+            frame = ttk.Frame(self.window_nb)
+            self.window_nb.add(frame, text=title)
+            tree = ttk.Treeview(frame, columns=tuple(key for key, _label, _width in columns), show="headings")
+            for key, label, width in columns:
+                tree.heading(key, text=label)
+                tree.column(key, width=width, anchor="w" if key in {"skill", "resource", "buffs"} else "center")
+            scrollbar = ttk.Scrollbar(frame, orient="vertical", command=tree.yview)
+            tree.configure(yscroll=scrollbar.set)
+            tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+            scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            return tree
+
+        self.tree_window_resources = window_tree("起点资源", [
+            ("resource", "资源/状态", 260), ("value", "数值", 420), ("unit", "单位", 120),
+        ])
+        self.tree_window_skills = window_tree("技能统计", [
+            ("skill", "技能", 180), ("count", "平均次数", 90), ("hits", "平均目标", 90),
+            ("dps", "DPS μ ± σ", 190), ("crit", "暴击", 80), ("dh", "直击", 80), ("cdh", "暴直", 80),
+        ])
+        self.tree_window_log = window_tree("首轮战斗日志", [
+            ("time", "绝对/相对时间", 150), ("skill", "技能", 180), ("pot", "威力", 70),
+            ("buffs", "Buff", 180), ("targets", "目标", 80), ("crit", "暴击", 60),
+            ("dh", "直击", 60), ("dmg", "伤害", 120),
+        ])
+        self.tree_window_dots = window_tree("DoT 出伤", [
+            ("time", "绝对/相对时间", 150), ("skill", "DoT", 200), ("pot", "威力", 70),
+            ("buffs", "快照 Buff", 200), ("targets", "目标", 90), ("dmg", "伤害", 130),
+        ])
+        self.tree_window_variants = window_tree("技能情景", [
+            ("skill", "技能", 180), ("targets", "目标", 70), ("buffs", "Buff", 180),
+            ("effective", "实际威力", 100), ("count", "数量", 70), ("formula", "威力计算", 380),
+        ])
+        self.tree_window_best = window_tree("窗口极值", [
+            ("skill", "技能", 180), ("count", "次数", 80), ("hits", "目标", 80),
+            ("dmg", "伤害", 130), ("crit", "暴击", 80), ("dh", "直击", 80), ("cdh", "暴直", 80),
+        ])
+        self.tree_window_dist = window_tree("窗口分布", [
+            ("range", "DPS 区间", 180), ("count", "频次", 100), ("percent", "上位占比", 120),
+        ])
 
         self.tab_log = ttk.Frame(self.nb);
         self.nb.add(self.tab_log, text="战斗日志 (表格)")
@@ -2745,6 +3107,12 @@ class DpsSimulatorApp:
         for i in self.tree_best.get_children(): self.tree_best.delete(i)
         for i in self.tree_dist.get_children(): self.tree_dist.delete(i)
         for i in self.tree_intervals.get_children(): self.tree_intervals.delete(i)
+        for tree in (
+            self.tree_window_resources, self.tree_window_skills, self.tree_window_log,
+            self.tree_window_dots, self.tree_window_variants, self.tree_window_best, self.tree_window_dist,
+        ):
+            for item in tree.get_children(): tree.delete(item)
+        self.txt_window_overview.delete("1.0", tk.END)
         if HAS_MATPLOTLIB:
             for widget in self.frame_plot.winfo_children(): widget.destroy()
         t = threading.Thread(target=self.run_logic)
@@ -3202,6 +3570,89 @@ class DpsSimulatorApp:
         )
         messagebox.showinfo("导出完成", f"CSV 明细已导出到:\n{out_dir}")
 
+    def apply_window_report(self):
+        if not self.last_result_data:
+            messagebox.showwarning("尚无报告", "请先运行一次模拟。")
+            return
+        try:
+            report = build_window_report(
+                self.last_result_data["stats_pkg"]["window_data"],
+                float(self.window_start_var.get()),
+                float(self.window_end_var.get()),
+            )
+        except (TypeError, ValueError) as exc:
+            messagebox.showerror("时间窗口无效", str(exc))
+            return
+
+        for tree in (
+            self.tree_window_resources, self.tree_window_skills, self.tree_window_log,
+            self.tree_window_dots, self.tree_window_variants, self.tree_window_best, self.tree_window_dist,
+        ):
+            for item in tree.get_children():
+                tree.delete(item)
+
+        meta = report["metadata"]
+        summary = report["summary"]
+        self.txt_window_overview.delete("1.0", tk.END)
+        self.txt_window_overview.insert(
+            tk.END,
+            f"【时间窗口 nDPS】 {meta['start']:.3f}s → {meta['end']:.3f}s {meta['boundary']}\n"
+            f"窗口总长: {meta['end'] - meta['start']:.3f}s | 上天重叠: {meta['downtime_overlap']:.3f}s | "
+            f"有效时长: {meta['effective_duration']:.3f}s\n"
+            f"期望 nDPS: {summary['expected_dps']:,.2f} (σ={summary['std_dps']:,.2f})\n"
+            f"最高/最低: {summary['max_dps']:,.2f} / {summary['min_dps']:,.2f}\n"
+            f"Top 1%: {summary['top_1']:,.2f} | Top 0.1%: {summary['top_0_1']:,.2f} | "
+            f"Bottom 1%: {summary['bottom_1']:,.2f}\n"
+            f"起点资源快照: {len(report['resources'])} 项 | 窗口技能: {len(report['skills'])} 项 | "
+            f"首轮出伤/状态日志: {len(report['combat_log'])} 条\n"
+            f"窗口资源警告: {len(report['resource_warnings'])} 条 | 无效技能: {len(report['invalid_skill_events'])} 条\n\n"
+            "本页只归并刚才已完成模拟的逐轮命中结果，不会重新模拟。\n"
+        )
+        for warning in report["resource_warnings"]:
+            self.txt_window_overview.insert(
+                tk.END,
+                f"WARNING {float(warning.get('time', 0)):.3f}s {warning.get('skill', '-')}: {warning.get('message', '-')}\n",
+            )
+        for item in report["invalid_skill_events"]:
+            self.txt_window_overview.insert(
+                tk.END,
+                f"INVALID {float(item.get('time', 0)):.3f}s {item.get('skill', '-')}: {item.get('reason', '-')}\n",
+            )
+
+        for row in report["resources"]:
+            self.tree_window_resources.insert("", tk.END, values=(row["resource"], row["value"], row["unit"]))
+        for row in report["skills"]:
+            self.tree_window_skills.insert("", tk.END, values=(
+                row["skill"], f"{row['avg_cast_count']:.2f}", f"{row['avg_hits_per_cast']:.2f}",
+                f"{row['avg_dps']:.2f} ± {row['std_dps']:.2f}", f"{row['crit_percent']:.1f}%",
+                f"{row['direct_hit_percent']:.1f}%", f"{row['crit_direct_percent']:.1f}%",
+            ))
+        for row in report["combat_log"]:
+            self.tree_window_log.insert("", tk.END, values=(
+                f"{float(row.get('time', 0)):.3f} / +{float(row.get('relative_time', 0)):.3f}",
+                row.get("name", "-"), row.get("potency", "-"), row.get("buffs", "-"),
+                row.get("targets", "-"), row.get("crit", "-"), row.get("dh", "-"), row.get("dmg", "-"),
+            ))
+        for row in report["dot_events"]:
+            self.tree_window_dots.insert("", tk.END, values=(
+                f"{float(row.get('time', 0)):.3f} / +{float(row.get('relative_time', 0)):.3f}",
+                row.get("name", "-"), row.get("potency", "-"), row.get("buffs", "-"),
+                row.get("targets", "-"), row.get("dmg", "-"),
+            ))
+        for row in report["skill_variants"]:
+            self.tree_window_variants.insert("", tk.END, values=(
+                row.get("skill", "-"), row.get("targets", "-"), row.get("buffs", "-"),
+                f"{float(row.get('effective_potency', 0)):.2f}", row.get("count", 0), row.get("potency_formula", "-"),
+            ))
+        for row in report["best_run"]:
+            self.tree_window_best.insert("", tk.END, values=(
+                row["skill"], row["count"], row["hits"], f"{row['damage']:,.0f}",
+                f"{row['crit_percent']:.1f}%", f"{row['direct_hit_percent']:.1f}%",
+                f"{row['crit_direct_percent']:.1f}%",
+            ))
+        for row in report["distribution"]:
+            self.tree_window_dist.insert("", tk.END, values=(row["range"], row["count"], f"{row['percent_ge']:.2f}%"))
+
     def finish_ui(self, data):
         m_dps, sd_dps = data['m_dps'], data['sd_dps']
         dur, last_h = data['dur'], data['last_h']
@@ -3212,6 +3663,8 @@ class DpsSimulatorApp:
         self.last_report_metadata = self.build_report_metadata(
             sim, stats_pkg, dur, last_h, m_dps, sd_dps, iters, data.get("random_seed")
         )
+        self.window_start_var.set("0")
+        self.window_end_var.set(f"{last_h:.6f}")
 
         t = self.txt_res
         self.insert_report_header(t, self.last_report_metadata)
@@ -3439,6 +3892,7 @@ class DpsSimulatorApp:
                     self.tree_dist.insert("", tk.END, values=(f"{b}-{b + step}", count, f"{pct_ge:.2f}%"))
 
         if HAS_MATPLOTLIB: self.draw_plot(dps_l, m_dps, sd_dps)
+        self.apply_window_report()
         self.btn_run.config(state="normal", text="▶ 运行模拟");
         messagebox.showinfo("模拟完成噜", "看看这把roll得怎么样！")
 

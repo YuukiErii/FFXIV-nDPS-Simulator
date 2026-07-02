@@ -35,6 +35,26 @@ class JobState:
     def get_resource_warnings(self):
         return list(self.resource_warnings)
 
+    def resource_state(self):
+        """Return the serializable job state needed by post-run window reports."""
+        hidden = {"resource_warnings", "_event_context"}
+
+        def clean(value):
+            if isinstance(value, (str, int, float, bool)) or value is None:
+                return value
+            if isinstance(value, dict):
+                return {str(key): clean(item) for key, item in value.items()}
+            if isinstance(value, (list, tuple, set)):
+                return [clean(item) for item in value]
+            return str(value)
+
+        state = {}
+        for key, value in vars(self).items():
+            if key in hidden or key.startswith("_"):
+                continue
+            state[key] = clean(value)
+        return state
+
     def configure_mana_ticks(self, first_tick):
         self.next_mana_tick_at = None if first_tick is None else float(first_tick)
 
@@ -133,6 +153,9 @@ class JobState:
 
     def active_damage_buffs(self, t, target_id=None):
         return {}
+
+    def filter_active_damage_buffs(self, name, skill, active_buffs):
+        return active_buffs
 
     def auto_attack_interval_multiplier(self, t):
         return 1.0

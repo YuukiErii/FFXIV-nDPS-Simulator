@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import pickle
 import random
 import statistics
 import sys
@@ -27,6 +28,7 @@ from sim import (  # noqa: E402
     SkillResolver,
     build_invalid_skill_events,
     build_skill_coverage,
+    build_window_report,
     normalize_skill_name_for_job,
     parse_axis_csv,
     skill_names_match,
@@ -456,6 +458,7 @@ def run(payload: dict) -> dict:
         custom_snaps=[float(value) for value in payload.get("custom_snaps", [])],
     )
     dps_list, duration, last_hit, stats_pkg, log = sim.run_batch(threshold=threshold)
+    window_data = stats_pkg.pop("window_data")
     mean_dps = statistics.mean(dps_list)
     std_dps = statistics.stdev(dps_list) if iterations > 1 else 0.0
     base_gcd, job_gcd = DpsSimulator.calculate_gcd(int(stats["sks"]), job)
@@ -556,17 +559,34 @@ def run(payload: dict) -> dict:
         "distribution": _distribution(dps_list),
         "resource_warnings": resource_warnings,
         "invalid_skill_events": invalid_skill_events,
+        "_window_data": window_data,
     }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", required=True, help="JSON payload path")
+    parser.add_argument("--input", help="JSON payload path")
     parser.add_argument("--output", help="optional JSON output path")
+    parser.add_argument("--window-data-output", help="write compact completed-run data for later window analysis")
+    parser.add_argument("--window-data-input", help="analyze compact completed-run data without re-simulating")
+    parser.add_argument("--window-start", type=float)
+    parser.add_argument("--window-end", type=float)
     args = parser.parse_args()
 
-    payload = _load_json(Path(args.input))
-    result = run(payload)
+    if args.window_data_input:
+        if args.window_start is None or args.window_end is None:
+            parser.error("--window-start and --window-end are required with --window-data-input")
+        with Path(args.window_data_input).open("rb") as handle:
+            result = build_window_report(pickle.load(handle), args.window_start, args.window_end)
+    else:
+        if not args.input:
+            parser.error("--input is required for simulation")
+        payload = _load_json(Path(args.input))
+        result = run(payload)
+        window_data = result.pop("_window_data")
+        if args.window_data_output:
+            with Path(args.window_data_output).open("wb") as handle:
+                pickle.dump(window_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
     text = json.dumps(result, ensure_ascii=True, indent=2)
     if args.output:
         Path(args.output).write_text(text + "\n", encoding="utf-8")

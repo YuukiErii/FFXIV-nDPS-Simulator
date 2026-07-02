@@ -13,6 +13,7 @@ SCRIPTS_DIR = REPO_ROOT / "scripts"
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
+import sim as sim_module  # noqa: E402
 from jobs import MODELED_JOB_STATE_SKILLS, create_job_state  # noqa: E402
 from jobs.base import JobState  # noqa: E402
 from jobs.drg import DrgJobState  # noqa: E402
@@ -24,6 +25,7 @@ from sim import (  # noqa: E402
     DpsSimulator,
     SkillResolver,
     build_skill_coverage,
+    build_window_report,
     normalize_skill_name_for_job,
 )
 from xiv_axis_csv import parse_axis_csv  # noqa: E402
@@ -85,6 +87,24 @@ SAM_DMU_TARGET = REPO_ROOT / "examples/skill_lines" / "sam_dmu" / "2.17.txt"
 
 
 class AllJobStateTests(unittest.TestCase):
+    def test_window_report_reuses_completed_hits_and_start_resources(self):
+        sim = DpsSimulator(
+            dict(BASE_STATS, job="SAM"),
+            [(0.0, "Gyofu", 1), (2.14, "Jinpu", 1), (4.28, "Gekko", 1)],
+            iterations=3,
+        )
+        _dps, _duration, last_hit, stats_pkg, _log = sim.run_batch()
+
+        with patch.object(sim, "run_one_simulation", side_effect=AssertionError("must not re-simulate")):
+            report = build_window_report(stats_pkg["window_data"], 1.0, min(4.0, last_hit))
+
+        self.assertEqual(report["metadata"]["iterations"], 3)
+        self.assertEqual(report["metadata"]["boundary"], "[start, end)")
+        self.assertGreater(report["summary"]["expected_dps"], 0)
+        self.assertEqual({row["skill"] for row in report["skills"]}, {"Jinpu", "Auto Attack"})
+        resources = {row["resource"]: row["value"] for row in report["resources"]}
+        self.assertGreater(resources["kenki"], 0)
+
     def test_global_downtime_accepts_multiple_windows(self):
         windows = parse_downtime_windows("(10, 20)\n30-35; 40，45")
         self.assertEqual(windows, [(10.0, 20.0), (30.0, 35.0), (40.0, 45.0)])
@@ -630,6 +650,47 @@ class AllJobStateTests(unittest.TestCase):
 
         self.assertGreater(total, 0)
         self.assertGreater(counts.get("Auto Attack", 0), 0)
+
+    def test_rdm_and_blm_auto_attacks_are_fixed_one_damage(self):
+        class BlmAutoState(JobState):
+            def __init__(self):
+                super().__init__("BLM")
+
+            def allows_auto_attacks(self, job_profile):
+                return True
+
+        skills = {
+            "Enchanted Riposte": {"amas_name": "Enchanted Riposte", "potency": 300, "is_gcd": True, "delay": 0.62},
+            "Jolt III": {"amas_name": "Jolt III", "potency": 360, "is_gcd": True, "delay": 0.5},
+            "Fire": {"amas_name": "Fire", "potency": 180, "is_gcd": True, "delay": 0.5},
+        }
+        cases = {
+            "RDM": [(0.0, "Enchanted Riposte", 1), (10.0, "Jolt III", 1)],
+            "BLM": [(0.0, "Fire", 1), (10.0, "Fire", 1)],
+        }
+
+        def fake_create_job_state(job, version="7.5"):
+            return BlmAutoState() if job == "BLM" else create_job_state(job, version)
+
+        for job, timeline in cases.items():
+            with self.subTest(job=job), \
+                    patch.object(sim_module, "create_job_state", side_effect=fake_create_job_state), \
+                    patch.object(random, "random", return_value=0.0), \
+                    patch.object(random, "uniform", return_value=1.0):
+                stats = dict(BASE_STATS)
+                stats["job"] = job
+                sim = DpsSimulator(stats, timeline, iterations=1)
+                sim.get_skill = lambda name: dict(skills[name])
+                result = sim.run_one_simulation(is_first_run=True)
+
+            auto_count = result[3]["Auto Attack"]
+            auto_rows = [row for row in result[8] if row["name"] == "Auto Attack"]
+            self.assertGreater(auto_count, 0)
+            self.assertEqual(result[2]["Auto Attack"], auto_count)
+            self.assertEqual(result[4]["Auto Attack"], auto_count)
+            self.assertEqual(result[5]["Auto Attack"], auto_count)
+            self.assertTrue(all(row["dmg"] == 1.0 for row in auto_rows))
+            self.assertTrue(all(row["crit"] == "✔" and row["dh"] == "✔" for row in auto_rows))
 
     def test_resource_warnings_are_non_blocking(self):
         def row(time, name, row_no, targets=1):

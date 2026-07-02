@@ -1,6 +1,6 @@
 # FFXIV SIM Project Status
 
-Updated: 2026-07-01
+Updated: 2026-07-02
 
 This document is the active development status and evidence map for the FFXIV SIM workspace. It consolidates the former roadmap, calibration matrix, Task I audit pointer, SAM regression audit pointer, filename migration notes, and the original Chinese user-facing draft into one readable control surface.
 
@@ -39,6 +39,7 @@ The original long implementation plan is archived at `docs/archive/all_dps_nd_si
 - 2026-07-01 modern UI report parity pass added stable-report surfaces to the packaged desktop track: evidence, inputs, panel stats, result extrema, warnings, skill DPS, best run, interval RD, distribution, coverage, and combat log are visible after a run.
 - 2026-07-01 modern UI structure now mirrors the stable GUI's nine report columns. Stable table fields, totals, distribution axes/curve/percentile markers, and normalized import preview are retained while the desktop shell uses the warm-black, teal, and gold visual palette with a bundled Claude-theme font stack.
 - 2026-07-01 modern UI typography now follows the complete Claude font-role split: Serif for report prose, Sans for interface labels, and Mono for numeric/code-like data, each with its intended Chinese fallback. The interface and default desktop window were enlarged while preserving the nine-column report content.
+- 2026-07-02 stable and modern UIs added post-run `[start, end)` time-window nDPS reports. The completed simulation now retains compact per-run damage events plus a first-run resource timeline; changing the window re-aggregates actual hit-time damage, phase-start resources, skill/DoT/auto-attack rows, extrema, warnings, and distributions without running the simulator again. The 130-test suite, stable packaged self-test/launch, modern packaged backend simulation-to-window smoke, and Electron launch smoke passed before release refresh.
 
 ## Evidence Levels
 
