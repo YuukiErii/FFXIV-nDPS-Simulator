@@ -1,6 +1,7 @@
 # FFXIV Personal nDPS Modern UI
 
-Run `ffxiv_personal_ndps_v2.exe` to open the React/Electron desktop UI.
+Run `ffxiv_personal_ndps_v2.exe` from this folder to open the React/Electron desktop UI.
+Do not move or distribute only the exe; it needs the adjacent Electron runtime files and `resources` folder.
 
 This package includes:
 
