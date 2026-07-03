@@ -113,16 +113,19 @@ class MnkJobStateTests(unittest.TestCase):
         state = MnkJobState()
         use(state, "Brotherhood", current_time=0.0)
 
-        state.on_press("Dragon Kick", skill("Dragon Kick", 320), 0.39, 0.39)
+        self.assertFalse(state.active_damage_buffs(0.75)["mnk_brotherhood"])
+        self.assertTrue(state.active_damage_buffs(0.76)["mnk_brotherhood"])
+
+        state.on_press("Dragon Kick", skill("Dragon Kick", 320), 1.15, 1.15)
         self.assertEqual(state.chakra, 0)
-        state.on_press("Dragon Kick", skill("Dragon Kick", 320), 0.40, 0.40)
+        state.on_press("Dragon Kick", skill("Dragon Kick", 320), 1.16, 1.16)
         self.assertEqual(state.chakra, 1)
-        state.on_press("Dragon Kick", skill("Dragon Kick", 320), 2.00, 2.00)
+        state.on_press("Dragon Kick", skill("Dragon Kick", 320), 2.76, 2.76)
         self.assertEqual(state.chakra, 5)
 
-        state.on_press("Dragon Kick", skill("Dragon Kick", 320), 4.00, 4.00)
+        state.on_press("Dragon Kick", skill("Dragon Kick", 320), 4.76, 4.76)
         self.assertEqual(state.chakra, 10)
-        use(state, "The Forbidden Chakra", 400, 4.1)
+        use(state, "The Forbidden Chakra", 400, 4.9)
         self.assertEqual(state.chakra, 5)
 
     def test_replies_and_auto_attack_haste(self):

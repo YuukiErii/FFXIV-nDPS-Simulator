@@ -69,6 +69,7 @@ class MnkJobState(JobState):
         self.blitz_ready = False
         self.riddle_fire_until = -1.0
         self.fire_rumination_until = -1.0
+        self.brotherhood_start = -1.0
         self.brotherhood_until = -1.0
         self.riddle_wind_until = -1.0
         self.wind_rumination_until = -1.0
@@ -106,9 +107,12 @@ class MnkJobState(JobState):
         return "Rising Phoenix"
 
     def _gain_chakra(self, amount, current_time, cap=None):
-        cap = cap if cap is not None else (10 if self._active_until(self.brotherhood_until, current_time) else 5)
+        cap = cap if cap is not None else (10 if self._brotherhood_active(current_time) else 5)
         if self.chakra < cap:
             self.chakra = min(cap, self.chakra + max(0, int(amount)))
+
+    def _brotherhood_active(self, current_time):
+        return self._active_window(self.brotherhood_start, self.brotherhood_until, current_time)
 
     def _sync_teammate_chakra(self, current_time):
         if self.teammate_chakra_started_at is None:
@@ -174,7 +178,7 @@ class MnkJobState(JobState):
                 )
 
         if canonical in {"The Forbidden Chakra", "Enlightenment"}:
-            if self.chakra < 5 and not self._active_until(self.brotherhood_until, snapshot_time):
+            if self.chakra < 5 and not self._brotherhood_active(snapshot_time):
                 self.warn(
                     "mnk_chakra_low",
                     current_time,
@@ -221,6 +225,23 @@ class MnkJobState(JobState):
             out["mnk_blitz"] = self._expected_blitz()
         return out
 
+    def on_press_confirmed(self, name, skill, current_time, payload):
+        canonical = self._canonical(name, skill)
+        if canonical == "Riddle of Fire":
+            duration = (skill.get("buff") or {}).get("duration", 20.72)
+            self.riddle_fire_until = current_time + duration
+            self.fire_rumination_until = current_time + duration
+        elif canonical == "Brotherhood":
+            self.brotherhood_start, self.brotherhood_until = self.party_buff_window(
+                canonical, skill, current_time, 20.0
+            )
+            self.teammate_chakra_started_at = self.brotherhood_start
+            self.teammate_chakra_applied = 0
+        elif canonical == "Riddle of Wind":
+            duration = (skill.get("buff") or {}).get("duration", 15.78)
+            self.riddle_wind_until = current_time + duration
+            self.wind_rumination_until = current_time + duration
+
     def resolve_potency(self, name, skill, current_time, payload):
         canonical = self._canonical(name, skill)
         potency = skill.get("potency", 0)
@@ -247,6 +268,8 @@ class MnkJobState(JobState):
         self._sync_teammate_chakra(current_time)
         super().on_damage_resolved(name, skill, current_time, is_combo, payload)
         canonical = self._canonical(name, skill)
+        if payload.get("press_time") is not None and canonical in {"Riddle of Fire", "Brotherhood", "Riddle of Wind"}:
+            return
 
         if canonical == "Perfect Balance":
             self.perfect_balance_stacks = 3
@@ -262,9 +285,10 @@ class MnkJobState(JobState):
             self.riddle_fire_until = current_time + duration
             self.fire_rumination_until = current_time + duration
         elif canonical == "Brotherhood":
-            duration = (skill.get("buff") or {}).get("duration", 20.0)
-            self.brotherhood_until = current_time + duration
-            self.teammate_chakra_started_at = current_time
+            self.brotherhood_start, self.brotherhood_until = self.party_buff_window(
+                canonical, skill, current_time, 20.0
+            )
+            self.teammate_chakra_started_at = self.brotherhood_start
             self.teammate_chakra_applied = 0
         elif canonical == "Riddle of Wind":
             duration = (skill.get("buff") or {}).get("duration", 15.0)
@@ -321,7 +345,7 @@ class MnkJobState(JobState):
         if landed:
             self.in_combat = True
         if landed and canonical in self.WEAPONSKILLS:
-            if self._active_until(self.brotherhood_until, current_time):
+            if self._brotherhood_active(current_time):
                 self._gain_chakra(1, current_time)
             if canonical != "Six-sided Star":
                 self._gain_chakra(payload.get("source_crit_count", int(bool(payload.get("source_crit")))), current_time)
@@ -330,7 +354,7 @@ class MnkJobState(JobState):
         damage_mult = 1.0
         damage_factors = []
         riddle_fire = self._active_until(self.riddle_fire_until, t)
-        brotherhood = self._active_until(self.brotherhood_until, t)
+        brotherhood = self._brotherhood_active(t)
         riddle_wind = self._active_until(self.riddle_wind_until, t)
         form_active = self._active_until(self.form_until, t)
         formless = self._active_until(self.formless_until, t)

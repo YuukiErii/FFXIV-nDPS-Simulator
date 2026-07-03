@@ -5,7 +5,7 @@ except ImportError:
 
 
 class RdmJobState(JobState):
-    EMBOLDEN_DURATION = 20.95
+    EMBOLDEN_DURATION = 20.0
     MANA_GAINS = {
         "Jolt III": (2, 2),
         "Impact": (3, 3),
@@ -60,6 +60,7 @@ class RdmJobState(JobState):
         self.swiftcast_until = -1.0
         self.acceleration_until = -1.0
         self.acceleration_stacks = 0
+        self.embolden_start = -1.0
         self.embolden_until = -1.0
         self.thorned_flourish_until = -1.0
         self.magicked_swordplay_until = -1.0
@@ -133,13 +134,18 @@ class RdmJobState(JobState):
         return state
 
     def on_press_complete(self, name, current_time):
+        self._apply_press_complete(name, current_time, None)
+
+    def _apply_press_complete(self, name, current_time, skill):
         canonical = self._canonical(name)
         if canonical == "Acceleration":
             self.acceleration_stacks = 1
             self.acceleration_until = current_time + 20.0
             self.grand_impact_ready_until = current_time + 30.0
         elif canonical == "Embolden":
-            self.embolden_until = current_time + self.EMBOLDEN_DURATION
+            self.embolden_start, self.embolden_until = self.party_buff_window(
+                canonical, skill, current_time, self.EMBOLDEN_DURATION
+            )
             self.thorned_flourish_until = current_time + 30.0
         elif canonical == "Manafication":
             self.magicked_swordplay_stacks = 3
@@ -151,7 +157,7 @@ class RdmJobState(JobState):
             self.swiftcast_until = current_time + 10.0
 
     def on_press_confirmed(self, name, skill, current_time, payload):
-        self.on_press_complete(self._canonical(name, skill), current_time)
+        self._apply_press_complete(self._canonical(name, skill), current_time, skill)
 
     def effective_cast_time(self, name, skill, event, current_time, default_cast_time):
         if event and event.get("cast_time") is not None:
@@ -215,7 +221,7 @@ class RdmJobState(JobState):
 
     def active_damage_buffs(self, t, target_id=None):
         damage_mult = 1.0
-        embolden = self._active(self.embolden_until, t)
+        embolden = self._active_window(self.embolden_start, self.embolden_until, t)
         dualcast = self._active(self.dualcast_until, t)
         if embolden:
             damage_mult *= 1.10

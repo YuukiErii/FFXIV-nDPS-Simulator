@@ -55,6 +55,8 @@ class BrdJobStateTests(unittest.TestCase):
 
         self.use(state, "Radiant Finale", 1.0)
         self.assertEqual(state.coda, set())
+        self.assertFalse(state.active_damage_buffs(1.61)["brd_radiant"])
+        self.assertTrue(state.active_damage_buffs(1.62)["brd_radiant"])
         self.assertAlmostEqual(state.active_damage_buffs(2.0)["damage_mult"], 1.02)
         self.assertEqual(self.use(state, "Radiant Encore", 2.0)[1], 700)
 

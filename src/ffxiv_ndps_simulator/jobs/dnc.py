@@ -113,9 +113,9 @@ class DncJobState(JobState):
             self.dance_mode = None
         elif "Technical Finish" in canonical:
             steps = self._finish_steps(canonical, 4)
-            self.technical_until = current_time + 20.45
+            self.technical_until = current_time + 20.5
             self.technical_mult = self.TECHNICAL_MULT[steps]
-            self.esprit_self_until = max(self.esprit_self_until, current_time + 20.45)
+            self.esprit_self_until = max(self.esprit_self_until, current_time + 20.5)
             self.flourishing_finish_until = current_time + 30.0
             self.dawn_ready_until = current_time + 30.0
             self.dance_mode = None

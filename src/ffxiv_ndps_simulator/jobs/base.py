@@ -4,6 +4,20 @@ class JobState:
     BASE_MP_TICK = 200
     LUCID_DREAMING_MP_TICK = 550
     LUCID_DREAMING_DURATION = 21.0
+    PARTY_BUFF_APPLICATION_DELAYS = {
+        "RPR": {"Arcane Circle": 0.60},
+        "RDM": {"Embolden": 0.62},
+        "DRG": {"Battle Litany": 0.62},
+        "MNK": {"Brotherhood": 0.76},
+        "BRD": {"Battle Voice": 0.62, "Radiant Finale": 0.62},
+    }
+    PARTY_BUFF_DURATIONS = {
+        "RPR": {"Arcane Circle": 20.0},
+        "RDM": {"Embolden": 20.0},
+        "DRG": {"Battle Litany": 20.0},
+        "MNK": {"Brotherhood": 20.0},
+        "BRD": {"Battle Voice": 20.0, "Radiant Finale": 20.0},
+    }
 
     def __init__(self, job):
         self.job = job
@@ -80,6 +94,27 @@ class JobState:
     @staticmethod
     def _active_until(until, current_time):
         return until != -1.0 and until > current_time
+
+    @staticmethod
+    def _active_window(start, until, current_time):
+        return until != -1.0 and current_time + 1e-9 >= start and until > current_time + 1e-9
+
+    @staticmethod
+    def _buff_duration(skill, default):
+        return float(((skill or {}).get("buff") or {}).get("duration", default) or default)
+
+    def party_buff_application_delay(self, name, skill):
+        canonical = (skill or {}).get("amas_name") or (skill or {}).get("canonical_name") or name
+        return float(self.PARTY_BUFF_APPLICATION_DELAYS.get(self.job, {}).get(canonical, 0.0))
+
+    def party_buff_duration(self, name, skill, default_duration):
+        canonical = (skill or {}).get("amas_name") or (skill or {}).get("canonical_name") or name
+        default = self._buff_duration(skill, default_duration)
+        return float(self.PARTY_BUFF_DURATIONS.get(self.job, {}).get(canonical, default))
+
+    def party_buff_window(self, name, skill, current_time, default_duration):
+        start = current_time + self.party_buff_application_delay(name, skill)
+        return start, start + self.party_buff_duration(name, skill, default_duration)
 
     def on_press(self, name, skill, current_time, snapshot_time):
         return {}

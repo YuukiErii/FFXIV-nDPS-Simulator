@@ -94,9 +94,10 @@ class RdmStateTests(unittest.TestCase):
         self.assertEqual((state.black_mana, state.white_mana), (69, 58))
 
         self.use(state, "Embolden", 20.0)
-        self.assertAlmostEqual(state.active_damage_buffs(21.0)["damage_mult"], 1.10)
-        self.assertTrue(state.active_damage_buffs(40.94)["rdm_embolden"])
-        self.assertFalse(state.active_damage_buffs(40.96)["rdm_embolden"])
+        self.assertFalse(state.active_damage_buffs(20.61)["rdm_embolden"])
+        self.assertAlmostEqual(state.active_damage_buffs(20.62)["damage_mult"], 1.10)
+        self.assertTrue(state.active_damage_buffs(40.61)["rdm_embolden"])
+        self.assertFalse(state.active_damage_buffs(40.62)["rdm_embolden"])
         self.use(state, "Vice of Thorns", 21.0)
         self.assertEqual(state.thorned_flourish_until, -1.0)
 

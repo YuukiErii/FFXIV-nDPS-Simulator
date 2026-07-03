@@ -18,7 +18,9 @@ class BrdJobState(JobState):
     def __init__(self):
         super().__init__("BRD")
         self.raging_until = -1.0
+        self.battle_voice_start = -1.0
         self.battle_voice_until = -1.0
+        self.radiant_start = -1.0
         self.radiant_until = -1.0
         self.radiant_mult = 1.0
         self.radiant_encore_coda = 3
@@ -61,6 +63,34 @@ class BrdJobState(JobState):
         self.army_ethos_until = -1.0
         self.army_ethos_stacks = 0
 
+    def on_press_confirmed(self, name, skill, current_time, payload):
+        canonical = self._canonical(name, skill)
+        if canonical == "Raging Strikes":
+            self.raging_until = current_time + 20.0
+            payload["brd_buff_confirmed"] = canonical
+        elif canonical == "Battle Voice":
+            self.battle_voice_start, self.battle_voice_until = self.party_buff_window(
+                canonical, skill, current_time, 20.0
+            )
+            payload["brd_buff_confirmed"] = canonical
+        elif canonical == "Radiant Finale":
+            coda_count = max(1, min(3, len(self.coda)))
+            self.radiant_mult = self.RADIANT_MULT[coda_count]
+            self.radiant_start, self.radiant_until = self.party_buff_window(
+                canonical, skill, current_time, 20.0
+            )
+            self.radiant_encore_coda = coda_count
+            self.radiant_encore_until = current_time + 30.0
+            self.coda.clear()
+            payload["brd_buff_confirmed"] = canonical
+        elif canonical in self.SONGS:
+            self._begin_song(canonical, current_time)
+            payload["brd_buff_confirmed"] = canonical
+        elif canonical == "Barrage":
+            self.barrage_until = current_time + 10.0
+            self.resonant_arrow_until = current_time + 30.0
+            payload["brd_buff_confirmed"] = canonical
+
     def resolve_potency(self, name, skill, current_time, payload):
         canonical = self._canonical(name, skill)
         if canonical == "Apex Arrow":
@@ -82,28 +112,28 @@ class BrdJobState(JobState):
         self._sync_army_ethos(current_time)
         super().on_damage_resolved(name, skill, current_time, is_combo, payload)
         canonical = self._canonical(name, skill)
+        if (payload.get("press_time") is not None or payload.get("brd_buff_confirmed") == canonical) and canonical in {
+            "Raging Strikes", "Battle Voice", "Radiant Finale",
+            "Mage's Ballad", "Army's Paeon", "The Wanderer's Minuet", "Barrage",
+        }:
+            return
         if canonical == "Raging Strikes":
             self.raging_until = current_time + 20.0
         elif canonical == "Battle Voice":
-            self.battle_voice_until = current_time + 20.0
+            self.battle_voice_start, self.battle_voice_until = self.party_buff_window(
+                canonical, skill, current_time, 20.0
+            )
         elif canonical == "Radiant Finale":
             coda_count = max(1, min(3, len(self.coda)))
             self.radiant_mult = self.RADIANT_MULT[coda_count]
-            self.radiant_until = current_time + 20.0
+            self.radiant_start, self.radiant_until = self.party_buff_window(
+                canonical, skill, current_time, 20.0
+            )
             self.radiant_encore_coda = coda_count
             self.radiant_encore_until = current_time + 30.0
             self.coda.clear()
         elif canonical in self.SONGS:
-            if canonical in {"Mage's Ballad", "The Wanderer's Minuet"}:
-                if self.song == "Army's Paeon" and self._active_until(self.song_until, current_time) and self.army_stacks > 0:
-                    self._grant_army_muse(current_time, self.army_stacks)
-                elif self._active_until(self.army_ethos_until, current_time):
-                    self._grant_army_muse(current_time, self.army_ethos_stacks)
-            self.song = canonical
-            self.song_until = current_time + 45.0
-            self.coda.add(self.SONGS[canonical])
-            self.pitch_stacks = 0
-            self.army_stacks = 0
+            self._begin_song(canonical, current_time)
         elif canonical == "Barrage":
             self.barrage_until = current_time + 10.0
             self.resonant_arrow_until = current_time + 30.0
@@ -140,6 +170,18 @@ class BrdJobState(JobState):
                 self.storm_until = current_time + duration
         if canonical in {"Refulgent Arrow", "Shadowbite"}:
             self.barrage_until = -1.0
+
+    def _begin_song(self, canonical, current_time):
+        if canonical in {"Mage's Ballad", "The Wanderer's Minuet"}:
+            if self.song == "Army's Paeon" and self._active_until(self.song_until, current_time) and self.army_stacks > 0:
+                self._grant_army_muse(current_time, self.army_stacks)
+            elif self._active_until(self.army_ethos_until, current_time):
+                self._grant_army_muse(current_time, self.army_ethos_stacks)
+        self.song = canonical
+        self.song_until = current_time + 45.0
+        self.coda.add(self.SONGS[canonical])
+        self.pitch_stacks = 0
+        self.army_stacks = 0
 
     def _dot_payload(self, source_name, dot_name, dot_key, potency, current_time, target_count,
                      target_id, active_buffs, has_potion, duration=45.0):
@@ -187,9 +229,9 @@ class BrdJobState(JobState):
         crit_rate_add = 0.0
         dh_rate_add = 0.0
         raging = self._active_until(self.raging_until, t)
-        radiant = self._active_until(self.radiant_until, t)
+        radiant = self._active_window(self.radiant_start, self.radiant_until, t)
         song_active = self._active_until(self.song_until, t)
-        battle_voice = self._active_until(self.battle_voice_until, t)
+        battle_voice = self._active_window(self.battle_voice_start, self.battle_voice_until, t)
         if raging:
             damage_mult *= 1.15
             damage_factors.append(("猛者强击", 1.15))

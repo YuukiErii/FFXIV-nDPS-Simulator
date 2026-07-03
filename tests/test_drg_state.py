@@ -125,6 +125,17 @@ class DrgJobStateTests(unittest.TestCase):
         )
         self.assertFalse(state.life_surge_ready)
 
+    def test_self_and_party_buff_start_times_are_separate(self):
+        state = DrgJobState()
+        use(state, "Lance Charge", 10.0)
+        self.assertTrue(state.active_damage_buffs(10.0)["drg_lance_charge"])
+
+        use(state, "Battle Litany", 20.0)
+        self.assertFalse(state.active_damage_buffs(20.61)["drg_battle_litany"])
+        self.assertTrue(state.active_damage_buffs(20.62)["drg_battle_litany"])
+        self.assertTrue(state.active_damage_buffs(40.61)["drg_battle_litany"])
+        self.assertFalse(state.active_damage_buffs(40.62)["drg_battle_litany"])
+
     def test_starcross_uses_75_potency(self):
         resolver = SkillResolver("DRG", "7.5")
         if resolver.provider is None:

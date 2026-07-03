@@ -19,6 +19,7 @@ class DrgJobState(JobState):
         self.life_surge_until = -1.0
         self.life_surge_ready = False
         self.lance_charge_until = -1.0
+        self.battle_litany_start = -1.0
         self.battle_litany_until = -1.0
         self.life_of_the_dragon_until = -1.0
         self.nastrond_ready_until = -1.0
@@ -75,12 +76,6 @@ class DrgJobState(JobState):
         return None
 
     def on_press_confirmed(self, name, skill, current_time, payload):
-        if self._canonical(name, skill) == "Dragonfire Dive":
-            self.dragons_flight_until = current_time + 30.0
-        return None
-
-    def on_damage_resolved(self, name, skill, current_time, is_combo, payload):
-        super().on_damage_resolved(name, skill, current_time, is_combo, payload)
         canonical = self._canonical(name, skill)
         if canonical == "Life Surge":
             self.life_surge_ready = True
@@ -88,7 +83,27 @@ class DrgJobState(JobState):
         elif canonical == "Lance Charge":
             self.lance_charge_until = current_time + 20.0
         elif canonical == "Battle Litany":
-            self.battle_litany_until = current_time + 20.0
+            self.battle_litany_start, self.battle_litany_until = self.party_buff_window(
+                canonical, skill, current_time, 20.0
+            )
+        elif canonical == "Dragonfire Dive":
+            self.dragons_flight_until = current_time + 30.0
+        return None
+
+    def on_damage_resolved(self, name, skill, current_time, is_combo, payload):
+        super().on_damage_resolved(name, skill, current_time, is_combo, payload)
+        canonical = self._canonical(name, skill)
+        if payload.get("press_time") is not None and canonical in {"Life Surge", "Lance Charge", "Battle Litany"}:
+            return
+        if canonical == "Life Surge":
+            self.life_surge_ready = True
+            self.life_surge_until = current_time + 5.0
+        elif canonical == "Lance Charge":
+            self.lance_charge_until = current_time + 20.0
+        elif canonical == "Battle Litany":
+            self.battle_litany_start, self.battle_litany_until = self.party_buff_window(
+                canonical, skill, current_time, 20.0
+            )
         elif canonical == "Geirskogul":
             self.life_of_the_dragon_until = current_time + 20.0
             self.nastrond_ready_until = current_time + 20.0
@@ -116,7 +131,7 @@ class DrgJobState(JobState):
 
     def active_damage_buffs(self, t, target_id=None):
         lance_charge = self._active(self.lance_charge_until, t)
-        battle_litany = self._active(self.battle_litany_until, t)
+        battle_litany = self._active_window(self.battle_litany_start, self.battle_litany_until, t)
         damage_mult = 1.0
         damage_factors = []
         if lance_charge:

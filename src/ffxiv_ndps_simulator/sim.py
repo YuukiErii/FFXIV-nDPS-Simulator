@@ -1338,6 +1338,8 @@ class DpsSimulator:
         for key, buff in buffs.items():
             if not isinstance(buff, dict):
                 continue
+            if buff.get('start', float('-inf')) > t:
+                continue
             if buff.get('until', -1.0) <= t:
                 continue
             factor = buff.get('damage_mult', 1.0)
@@ -1477,7 +1479,11 @@ class DpsSimulator:
             state["active_buffs"] = {
                 str(key): float(value.get("until", 0.0))
                 for key, value in buffs.items()
-                if isinstance(value, dict) and float(value.get("until", 0.0)) > float(time_value)
+                if (
+                    isinstance(value, dict)
+                    and float(value.get("start", float("-inf"))) <= float(time_value)
+                    and float(value.get("until", 0.0)) > float(time_value)
+                )
             }
             state["active_dots"] = [
                 {
@@ -1626,9 +1632,13 @@ class DpsSimulator:
 
                 skill_buff = skill.get('buff')
                 if skill_buff and not skill.get('grants') and not job_state.handles_skill_buff(name, skill):
+                    buff_start, buff_until = job_state.party_buff_window(
+                        name, skill, current_time, skill_buff['duration']
+                    )
                     buffs[skill_buff['key']] = {
                         'name': skill_buff.get('name', name),
-                        'until': current_time + skill_buff['duration'],
+                        'start': buff_start,
+                        'until': buff_until,
                         'damage_mult': skill_buff.get('damage_mult', 1.0),
                         'crit_rate_add': skill_buff.get('crit_rate_add', 0.0),
                         'dh_rate_add': skill_buff.get('dh_rate_add', 0.0),
