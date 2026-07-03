@@ -48,6 +48,17 @@ class DncJobStateTests(unittest.TestCase):
         self.assertEqual(state.technical_mult, 1.05)
         self.assertNotIn("dnc_technical_finish_steps_low", {w["code"] for w in state.get_resource_warnings()})
 
+    def test_dance_finish_buffs_start_at_application_delay(self):
+        state = DncJobState()
+        skill = self.resolver.get("Technical Finish")
+        self.use(state, "Technical Finish", 0.0)
+        delay = skill["delay"]
+        self.assertEqual(delay, 0.54)
+        self.assertFalse(state.active_damage_buffs(delay - 0.01)["dnc_technical"])
+        self.assertTrue(state.active_damage_buffs(delay)["dnc_technical"])
+        self.assertTrue(state.active_damage_buffs(delay + 20.5 - 0.01)["dnc_technical"])
+        self.assertFalse(state.active_damage_buffs(delay + 20.5)["dnc_technical"])
+
     def test_explicit_finish_variants_are_state_handled(self):
         state = DncJobState()
         for name, potency, mult in [

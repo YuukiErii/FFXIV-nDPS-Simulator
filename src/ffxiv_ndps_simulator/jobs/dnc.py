@@ -20,11 +20,14 @@ class DncJobState(JobState):
 
     def __init__(self):
         super().__init__("DNC")
+        self.standard_start = -1.0
         self.standard_until = -1.0
         self.standard_mult = 1.0
+        self.technical_start = -1.0
         self.technical_until = -1.0
         self.technical_mult = 1.0
         self.devilment_until = -1.0
+        self.esprit_self_start = -1.0
         self.esprit_self_until = -1.0
         self.last_dance_ready_until = -1.0
         self.finishing_ready_until = -1.0
@@ -98,23 +101,29 @@ class DncJobState(JobState):
             self.steps = min(4 if self.dance_mode == "technical" else 2, self.steps + 1)
         elif "Standard Finish" in canonical:
             steps = self._finish_steps(canonical, 2)
+            self.standard_start = current_time
             self.standard_until = current_time + 60.0
             self.standard_mult = self.STANDARD_MULT[steps]
+            self.esprit_self_start = current_time
             self.esprit_self_until = max(self.esprit_self_until, current_time + 60.0)
             self.last_dance_ready_until = current_time + 30.0
             self.dance_mode = None
             self.steps = 0
         elif canonical == "Finishing Move":
+            self.standard_start = current_time
             self.standard_until = current_time + 60.0
             self.standard_mult = 1.05
+            self.esprit_self_start = current_time
             self.esprit_self_until = max(self.esprit_self_until, current_time + 60.0)
             self.last_dance_ready_until = current_time + 30.0
             self.finishing_ready_until = -1.0
             self.dance_mode = None
         elif "Technical Finish" in canonical:
             steps = self._finish_steps(canonical, 4)
+            self.technical_start = current_time
             self.technical_until = current_time + 20.5
             self.technical_mult = self.TECHNICAL_MULT[steps]
+            self.esprit_self_start = current_time
             self.esprit_self_until = max(self.esprit_self_until, current_time + 20.5)
             self.flourishing_finish_until = current_time + 30.0
             self.dawn_ready_until = current_time + 30.0
@@ -130,7 +139,9 @@ class DncJobState(JobState):
             self.fan3_ready = max(self.fan3_ready, 1)
             self.fan4_ready = max(self.fan4_ready, 1)
             self.finishing_ready_until = current_time + 30.0
-        elif canonical in self.ESPRIT_GAUGE_GCDS and self._active_until(self.esprit_self_until, current_time):
+        elif canonical in self.ESPRIT_GAUGE_GCDS and self._active_window(
+            self.esprit_self_start, self.esprit_self_until, current_time
+        ):
             self.esprit = min(100, self.esprit + (10 if canonical in self.ENHANCED_ESPRIT_GCDS else 5))
         elif canonical in {"Saber Dance", "Dance of the Dawn"}:
             self._spend_esprit(50)
@@ -150,8 +161,8 @@ class DncJobState(JobState):
     def active_damage_buffs(self, t, target_id=None):
         damage_mult = 1.0
         damage_factors = []
-        standard = self._active_until(self.standard_until, t)
-        technical = self._active_until(self.technical_until, t)
+        standard = self._active_window(self.standard_start, self.standard_until, t)
+        technical = self._active_window(self.technical_start, self.technical_until, t)
         devilment = self._active_until(self.devilment_until, t)
         if standard:
             damage_mult *= self.standard_mult
