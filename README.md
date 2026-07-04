@@ -1,6 +1,6 @@
 # FFXIV Personal nDPS Simulator
 
-This repository contains a personal-axis nDPS simulator for Final Fantasy XIV.
+This repository is a personal rotation nDPS simulator for Final Fantasy XIV.
 It imports raid-planner / XIV in the Shell style rotation files and simulates a
 single player's output with Patch 7.5 job mechanics, target counts, untargetable
 windows, DoTs, pets, follow-up hits, auto attacks, and job resources.
@@ -110,7 +110,7 @@ Common input set:
 
 CSV files should at least contain time and skill name fields. Extra fields such
 as `castTime`, `positionalHit`, or target metadata make the simulation closer to
-the original axis. Positionals default to hit; set `positionalHit=false`
+the original rotation. Positionals default to hit; set `positionalHit=false`
 explicitly if you want to model missed positionals.
 
 Track TXT files recognize marker descriptions containing `untargetable`, `上天`,
@@ -123,20 +123,20 @@ Currently modeled:
 - Player direct damage, DoTs, and auto attacks.
 - Pets, summons, shadow/echo/follow-up hits, delayed resolution, and channel ticks.
 - Personal buffs, job resources, combo state, proc-ready actions when present in
-  the axis, cast snapshots, and multi-target falloff.
+  the rotation, cast snapshots, and multi-target falloff.
 - Untargetable windows and the resulting hit / DoT attribution.
 - Post-run window re-aggregation from already generated damage events.
 
 Not currently modeled:
 
-- Strict FFLogs-equivalent nDPS with full party-buff contribution accounting.
+- Strict FFLogs-equivalent rDPS with full party-buff contribution accounting.
   External party timelines and teammate contribution attribution are future Task M.
-- Hidden proc reconstruction from logs. If a proc action appears in the axis, the
+- Hidden proc reconstruction from logs. If a proc action appears in the rotation, the
   simulator treats it as already available.
-- Automatic correction of invalid planner axes. Resource warnings are surfaced
+- Automatic correction of invalid planner rotations. Resource warnings are surfaced
   but do not block simulation.
 
-So the tool is best used for personal-axis comparison, skill-count checking,
+So the tool is best used for personal-rotation comparison, skill-count checking,
 buff coverage, window output, and mechanics modeling. Final log-grade claims
 still need real logs, AMAS output, or equivalent external audit.
 
@@ -160,13 +160,13 @@ real-log or externally audited samples are checked:
 
 | Job | Current caution |
 | --- | --- |
-| NIN | Patch 7.5 official mechanics checked and the retained NIN 830 axis was calibrated. Real-log validation is still recommended for Dokumori, Kunai's Bane, Bunshin, Ninki windows, and final numerical boundaries. |
+| NIN | Patch 7.5 official mechanics checked and the retained M12S-P2 NIN 830 rotation was calibrated. Real-log validation is still recommended for Dokumori, Kunai's Bane, Bunshin, Ninki windows, and final numerical boundaries. |
 | MNK | Official mechanics checked; teammate Chakra is averaged at one stack per 0.4s and Brotherhood raises Chakra cap to 10. Hidden random Chakra / proc details still benefit from real samples. |
-| DRG | Official mechanics checked; Power Surge and Life of the Dragon double-count protection is in place. Real long-axis samples should continue checking jump follow-ups, Life windows, and auto attacks. |
+| DRG | Official mechanics checked; Power Surge and Life of the Dragon double-count protection is in place. Real long-rotation samples should continue checking jump follow-ups, Life windows, and auto attacks. |
 | VPR | Official mechanics checked; combo chains, venoms, Reawaken, Generation / Legacy / Ouroboros, Hunter's Instinct, Swiftscaled, and falloff are modeled. Fixed axes do not auto-rearrange GCDs from haste. |
-| BRD | Official mechanics checked; Army's Muse / Ethos carryover is modeled. Repertoire and proc actions are treated as available when already present in the axis. |
+| BRD | Official mechanics checked; Army's Muse / Ethos carryover is modeled. Repertoire and proc actions are treated as available when already present in the rotations. |
 | MCH | Official mechanics checked; Wildfire, Hypercharge, Reassemble, Full Metal Field, Flamethrower, Queen, and battery scaling are modeled. Some external exports still have Heat Blast / Queen attribution boundaries. |
-| DNC | Official mechanics checked; Technical Finish defaults to four steps, Enhanced Esprit self GCD gains are modeled, and proc actions in the axis are treated as already triggered. Dance partner contribution remains future Task M scope. |
+| DNC | Official mechanics checked; Technical Finish defaults to four steps, Enhanced Esprit self GCD gains are modeled, and proc actions in the rotations are treated as already triggered. Dance partner contribution remains future Task M scope. |
 | SMN | Official mechanics checked; summons use the calibrated effective 0.8 pet coefficient. More valid real-log samples are recommended for final summon timeline validation. |
 
 These eight jobs are not known-broken; their evidence level is simply lower than
