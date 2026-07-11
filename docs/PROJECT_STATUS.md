@@ -1,6 +1,6 @@
 # FFXIV SIM Project Status
 
-Updated: 2026-07-03
+Updated: 2026-07-12
 
 This document is the active development status and evidence map for the FFXIV SIM workspace. It consolidates the former roadmap, calibration matrix, Task I audit pointer, SAM regression audit pointer, filename migration notes, and the original Chinese user-facing draft into one readable control surface.
 
@@ -41,6 +41,9 @@ The original long implementation plan is archived at `docs/archive/all_dps_nd_si
 - 2026-07-01 modern UI typography now follows the complete Claude font-role split: Serif for report prose, Sans for interface labels, and Mono for numeric/code-like data, each with its intended Chinese fallback. The interface and default desktop window were enlarged while preserving the nine-column report content.
 - 2026-07-02 stable and modern UIs added post-run `[start, end)` time-window nDPS reports. The completed simulation now retains compact per-run damage events plus a first-run resource timeline; changing the window re-aggregates actual hit-time damage, phase-start resources, skill/DoT/auto-attack rows, extrema, warnings, and distributions without running the simulator again. The 130-test suite, stable packaged self-test/launch, modern packaged backend simulation-to-window smoke, and Electron launch smoke passed before release refresh.
 - 2026-07-03 official Patch 7.5 mechanics audit covered the remaining eight DPS jobs outside the already-closed SAM/RPR/RDM/PCT/BLM group: MNK, DRG, NIN, VPR, BRD, MCH, DNC, and SMN. The pass closed DNC Enhanced Esprit GCD gains, BRD Army's Muse/Ethos haste inheritance, and DRG Life of the Dragon double-count protection while confirming the NIN, MNK, VPR, MCH, and SMN state paths against official action/trait text. The 139-test suite, damage-formula smoke, and full `examples/skill_lines` coverage scan passed.
+- 2026-07-12 reliability pass rejects non-positive iteration counts at the shared simulator boundary, removes the backend's unreachable downtime-parser copy, and makes the Electron shell clean its private simulation workspaces after failures, replacement runs, and application exit. A source-desktop smoke now verifies simulation, time-window analysis, invalid-input rejection, and cleanup; the local gate passed with 143 unit tests, formula smoke, coverage scan, and the unchanged frontend build.
+- 2026-07-12 reproducible Python dependency files and a minimal GitHub Actions workflow were added. The workflow installs the pinned simulator provider, runs the source tests/formula/coverage gates, and builds the React/Vite frontend; packaged Windows binaries remain a separate local release gate.
+- 2026-07-12 packaging pass stopped collecting every AMAS submodule and keeps Tk only in the stable GUI. The stable EXE fell from 33.91 MB to 24.18 MB, the modern Python backend from 76.46 MB to 48.98 MB, and the whole modern folder from 498.99 MB to 471.51 MB. Both packaged gates passed; the React UI font and style assets were unchanged.
 
 ## Evidence Levels
 
@@ -92,6 +95,9 @@ Run the checks that match the layer touched. For documentation-only edits, markd
 .\.venv\Scripts\python.exe scripts\smoke_damage_formula.py
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 .\releases\windows\ffxiv_personal_ndps.exe --self-test
+npm --prefix apps\ndps-ui run build
+npm --prefix apps\ndps-ui run smoke:desktop
+npm --prefix apps\ndps-ui run smoke:packaged
 ```
 
 ## Folder Policy

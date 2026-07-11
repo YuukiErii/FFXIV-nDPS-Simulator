@@ -31,7 +31,6 @@ if ($Running) {
   --workpath $PyInstallerBuildDir `
   --specpath $SpecDir `
   --paths ".\src\ffxiv_ndps_simulator" `
-  --collect-submodules ama_xiv_combat_sim `
   --add-data "$SkillMapPath;data" `
   --add-data "$SkillLineDir;examples/skill_lines" `
   --add-data "$GameTxt;ffxiv_ndps_simulator" `

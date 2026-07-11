@@ -38,6 +38,8 @@ npm run desktop
 Source simulator GUI:
 
 ```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe .\src\ffxiv_ndps_simulator\sim.py
 ```
 
@@ -195,6 +197,8 @@ Modern UI build:
 ```powershell
 cd .\apps\ndps-ui
 npm run build
+npm run smoke:desktop
+npm run smoke:packaged
 ```
 
 Modern UI Windows package:

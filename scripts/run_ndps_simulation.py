@@ -105,29 +105,6 @@ def _attach_targets(events: list[dict], target_actions: list[dict], job: str) ->
 
 def _parse_windows(value) -> list[tuple[float, float]]:
     return parse_downtime_windows(value)
-    if not value:
-        return []
-    if isinstance(value, (list, tuple)):
-        windows = []
-        for item in value:
-            if isinstance(item, dict):
-                start = item.get("start")
-                end = item.get("end")
-            elif isinstance(item, (list, tuple)) and len(item) >= 2:
-                start, end = item[0], item[1]
-            else:
-                continue
-            windows.append((float(start), float(end)))
-        return windows
-    value = str(value).replace("，", ",")
-    windows = []
-    for chunk in value.replace("，", ",").split(","):
-        text = chunk.strip().replace("(", "").replace(")", "")
-        if not text or "-" not in text:
-            continue
-        start, end = text.split("-", 1)
-        windows.append((float(start), float(end)))
-    return windows
 
 
 def _parse_target_downtime(value) -> dict[int, list[tuple[float, float]]]:

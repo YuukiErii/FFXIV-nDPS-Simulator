@@ -1,8 +1,4 @@
 # -*- mode: python ; coding: utf-8 -*-
-from PyInstaller.utils.hooks import collect_submodules
-
-hiddenimports = []
-hiddenimports += collect_submodules('ama_xiv_combat_sim')
 
 
 a = Analysis(
@@ -10,11 +6,11 @@ a = Analysis(
     pathex=['.\\src\\ffxiv_ndps_simulator'],
     binaries=[],
     datas=[('C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\data\\ff14_job_skill_en_cn_map.json', 'data'), ('C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\src\\ffxiv_ndps_simulator\\game.txt', 'ffxiv_ndps_simulator'), ('C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\src\\ffxiv_ndps_simulator\\stat_fns.txt', 'ffxiv_ndps_simulator'), ('C:\\Users\\Mahiru\\Desktop\\FFXIV\\SIM\\src\\ffxiv_ndps_simulator\\damage_cal.txt', 'ffxiv_ndps_simulator')],
-    hiddenimports=hiddenimports,
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=['tkinter', '_tkinter'],
     noarchive=False,
     optimize=0,
 )
