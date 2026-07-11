@@ -8,6 +8,8 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "desktop": "npm run build && electron electron/main.cjs",
+    "smoke:desktop": "node scripts/smoke-desktop.cjs",
+    "smoke:packaged": "node scripts/smoke-desktop.cjs --packaged",
     "package:win": "powershell -ExecutionPolicy Bypass -File ../../scripts/build_modern_ndps_ui.ps1",
     "preview": "vite preview --host 127.0.0.1"
   },

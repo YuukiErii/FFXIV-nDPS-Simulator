@@ -1,6 +1,6 @@
 # Modern nDPS UI
 
-This is the high-ceiling UI track for `ffxiv_personal_ndps`: a React/Vite frontend that can later be wrapped by Electron or Tauri while keeping the validated Python simulator core intact.
+This is the modern `ffxiv_personal_ndps` desktop track: a React/Vite frontend in an Electron shell that keeps the validated Python simulator core intact.
 
 Full workspace manual: `..\..\docs\USER_MANUAL.md`
 
@@ -29,5 +29,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build_modern_ndps_ui.ps1
 The current UI loads axis CSV files in-browser and renders the new dashboard, parameter surface, timeline preview, coverage-style classification, and result visualization shell. In Electron, the file picker keeps native paths and `Run Simulation` calls `scripts/run_ndps_simulation.py` through the preload bridge.
 
 After a run, `时间窗口 nDPS` reads the compact completed-hit archive and recomputes phase statistics for any `[start, end)` range without executing the simulator again.
+
+After `npm run build`, run `npm run smoke:desktop` to verify the Electron bridge, source backend, window report, invalid-input handling, and temporary-workspace cleanup together. After packaging, `npm run smoke:packaged` runs the same checks against the shipped EXE and backend.
 
 The release package is written to `..\..\releases\windows\ffxiv_personal_ndps_modern\`. Launch it with `ffxiv_personal_ndps_v2.exe`; the folder includes the Electron runtime, the built Vite app, and a bundled `ndps_backend.exe` JSON bridge so end users do not need a local Python virtual environment.

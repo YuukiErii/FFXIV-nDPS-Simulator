@@ -1,5 +1,6 @@
 const { app, BrowserWindow, dialog, ipcMain, shell } = require("electron");
 const { spawn } = require("node:child_process");
+const { rmSync } = require("node:fs");
 const fs = require("node:fs/promises");
 const os = require("node:os");
 const path = require("node:path");
@@ -14,7 +15,18 @@ const appIcon = app.isPackaged
 const packagedBackendExe = app.isPackaged
   ? path.join(process.resourcesPath, "backend", "ndps_backend.exe")
   : null;
+let activeWorkDir = null;
+let completedWorkDir = null;
 let completedWindowDataPath = null;
+
+function cleanupWorkDir(workDir) {
+  if (!workDir) return;
+  try {
+    rmSync(workDir, { recursive: true, force: true });
+  } catch (error) {
+    console.warn(`Could not remove simulator workspace ${workDir}:`, error);
+  }
+}
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -76,38 +88,52 @@ ipcMain.handle("ndps:run", async (_event, payload) => {
   if (!payload?.csv_path) {
     throw new Error("Choose an axis CSV before running simulation.");
   }
+  if (activeWorkDir) {
+    throw new Error("A simulation is already running.");
+  }
 
   const workDir = await fs.mkdtemp(path.join(os.tmpdir(), "ndps-ui-"));
+  activeWorkDir = workDir;
   const inputPath = path.join(workDir, "input.json");
   const outputPath = path.join(workDir, "output.json");
   const windowDataPath = path.join(workDir, "window-data.bin");
-  await fs.writeFile(inputPath, JSON.stringify(payload, null, 2), "utf8");
+  try {
+    await fs.writeFile(inputPath, JSON.stringify(payload, null, 2), "utf8");
 
-  await new Promise((resolve, reject) => {
-    let stderr = "";
-    const command = packagedBackendExe || pythonExe;
-    const args = packagedBackendExe
-      ? ["--input", inputPath, "--output", outputPath, "--window-data-output", windowDataPath]
-      : [bridgeScript, "--input", inputPath, "--output", outputPath, "--window-data-output", windowDataPath];
-    const child = spawn(command, args, {
-      cwd: repoRoot || path.dirname(packagedBackendExe),
-      windowsHide: true,
+    await new Promise((resolve, reject) => {
+      let stderr = "";
+      const command = packagedBackendExe || pythonExe;
+      const args = packagedBackendExe
+        ? ["--input", inputPath, "--output", outputPath, "--window-data-output", windowDataPath]
+        : [bridgeScript, "--input", inputPath, "--output", outputPath, "--window-data-output", windowDataPath];
+      const child = spawn(command, args, {
+        cwd: repoRoot || path.dirname(packagedBackendExe),
+        windowsHide: true,
+      });
+      child.stderr.on("data", (chunk) => {
+        stderr += chunk.toString();
+      });
+      child.on("error", reject);
+      child.on("close", (code) => {
+        if (code === 0) {
+          resolve();
+        } else {
+          reject(new Error(stderr || `Simulation bridge exited with code ${code}`));
+        }
+      });
     });
-    child.stderr.on("data", (chunk) => {
-      stderr += chunk.toString();
-    });
-    child.on("error", reject);
-    child.on("close", (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new Error(stderr || `Simulation bridge exited with code ${code}`));
-      }
-    });
-  });
 
-  completedWindowDataPath = windowDataPath;
-  return JSON.parse(await fs.readFile(outputPath, "utf8"));
+    const result = JSON.parse(await fs.readFile(outputPath, "utf8"));
+    cleanupWorkDir(completedWorkDir);
+    completedWorkDir = workDir;
+    completedWindowDataPath = windowDataPath;
+    activeWorkDir = null;
+    return result;
+  } catch (error) {
+    cleanupWorkDir(workDir);
+    activeWorkDir = null;
+    throw error;
+  }
 });
 
 ipcMain.handle("ndps:analyze-window", async (_event, { start, end }) => {
@@ -139,6 +165,14 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
+});
+
+app.on("before-quit", () => {
+  cleanupWorkDir(activeWorkDir);
+  cleanupWorkDir(completedWorkDir);
+  activeWorkDir = null;
+  completedWorkDir = null;
+  completedWindowDataPath = null;
 });
 
 app.on("window-all-closed", () => {

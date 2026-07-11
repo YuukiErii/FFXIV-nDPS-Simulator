@@ -88,6 +88,11 @@ SAM_DMU_TARGET = REPO_ROOT / "examples/skill_lines" / "sam_dmu" / "2.17.txt"
 
 
 class AllJobStateTests(unittest.TestCase):
+    def test_simulator_rejects_non_positive_iterations(self):
+        for iterations in (0, -1):
+            with self.subTest(iterations=iterations), self.assertRaisesRegex(ValueError, "at least 1"):
+                DpsSimulator(dict(BASE_STATS), [], iterations=iterations)
+
     def test_inactive_until_sentinel_does_not_create_prepull_buffs(self):
         for job in JOB_SMOKE_TIMELINES:
             with self.subTest(job=job):

@@ -1,5 +1,3 @@
-import tkinter as tk
-from tkinter import ttk, scrolledtext, filedialog, messagebox, simpledialog
 import argparse
 import math
 import random
@@ -16,6 +14,12 @@ import json
 import struct
 from itertools import count
 from datetime import datetime
+
+try:
+    import tkinter as tk
+    from tkinter import ttk, scrolledtext, filedialog, messagebox, simpledialog
+except ImportError:
+    tk = ttk = scrolledtext = filedialog = messagebox = simpledialog = None
 
 try:
     from xiv_job_data import DEFAULT_MAIN_STATS, DEFAULT_WEAPON_DELAYS, DPS_JOB_ORDER, JOB_PROFILES
@@ -1222,7 +1226,9 @@ class DpsSimulator:
         self.downtime_config = downtime_config if downtime_config else {}
         self.global_downtime_list = global_downtime_list if global_downtime_list else []
         self.dot_config = dot_config if dot_config else {}
-        self.iterations = iterations
+        self.iterations = int(iterations)
+        if self.iterations < 1:
+            raise ValueError("Simulation iterations must be at least 1.")
 
         self.job_profile = JOB_PROFILES.get(self.job, JOB_PROFILES.get('SAM'))
         self.skill_resolver = SkillResolver(self.job, stats['version'])
@@ -4094,6 +4100,8 @@ def main(argv=None):
 
     if args.self_test:
         return run_self_test()
+    if tk is None:
+        raise RuntimeError("Tkinter is required to launch the stable GUI.")
 
     root = tk.Tk()
     root.configure(bg="#2b2b2b")

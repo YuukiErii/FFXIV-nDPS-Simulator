@@ -1,0 +1,1 @@
+ama-xiv-combat-sim==2026.1.26.1

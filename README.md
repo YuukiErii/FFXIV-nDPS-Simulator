@@ -174,6 +174,13 @@ the five jobs above.
 
 ## Development
 
+Create the Python environment:
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+```
+
 Run the source GUI:
 
 ```powershell
@@ -203,6 +210,9 @@ Common validation commands:
 .\.venv\Scripts\python.exe scripts\smoke_damage_formula.py
 .\.venv\Scripts\python.exe scripts\scan_skill_coverage.py examples\skill_lines --issues-only --show-skills
 .\releases\windows\ffxiv_personal_ndps.exe --self-test
+npm --prefix apps\ndps-ui run build
+npm --prefix apps\ndps-ui run smoke:desktop
+npm --prefix apps\ndps-ui run smoke:packaged
 ```
 
 ## Repository layout

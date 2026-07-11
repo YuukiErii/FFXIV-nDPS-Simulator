@@ -82,7 +82,8 @@ $AppIcon = Join-Path $Root "src\ffxiv_ndps_simulator\ffxiv_ndps.ico"
   --workpath $BackendBuildDir `
   --specpath $SpecDir `
   --paths ".\src\ffxiv_ndps_simulator" `
-  --collect-submodules ama_xiv_combat_sim `
+  --exclude-module tkinter `
+  --exclude-module _tkinter `
   --add-data "$SkillMapPath;data" `
   --add-data "$GameTxt;ffxiv_ndps_simulator" `
   --add-data "$StatFnsTxt;ffxiv_ndps_simulator" `
